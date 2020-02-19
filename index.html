@@ -4,62 +4,134 @@
     <meta charset="utf-8">
     <title>k10s</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+    <style type="text/css">
+      <!--
+      h1 {display: inline; font-size: 100%; }
+      h1:after {content: ' : '; }
+      ul {display: inline; padding-inline-start: 0px; }
+      li {display: inline; }
+      li:after {content: ' / '; }
+      -->
+    </style>
   </head>
   <body>
     <div>
-      #ニュース /
-      <a href="https://www3.nhk.or.jp/news/catnew.html" target="_blank" rel="noopener noreferrer">NHK新着</a> /
-      <a href="https://jp.reuters.com/" target="_blank" rel="noopener noreferrer">ロイター</a> /
-      #天気 /
-      <a href="http://www.jma.go.jp/jp/yoho/319.html" target="_blank" rel="noopener noreferrer">気象庁-東京</a> /
-      <a href="http://www.jma.go.jp/jp/yoho/320.html" target="_blank" rel="noopener noreferrer">気象庁-神奈川</a> /
-      <a href="http://raineye.city.yokohama.lg.jp/pweb/" target="_blank" rel="noopener noreferrer">レインアイよこはま</a> /
-      <a href="https://tokyo-ame.jwa.or.jp/" target="_blank" rel="noopener noreferrer">東京アメッシュ</a> /
-      #書籍 /
-      <a href="https://booth.pm/ja" target="_blank" rel="noopener noreferrer">BOOTH</a> /
-      #SNS /
-      <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">Twitter</a> /
-      <a href="https://web.social-dog.net/dashboard" target="_blank" rel="noopener noreferrer">SocialDog</a> /
-      #チャット /
-      <a href="https://slack.com/intl/ja-jp/signin" target="_blank" rel="noopener noreferrer">Slack</a> /
-      #メール /
-      <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="noopener noreferrer">Gmail</a> /
-      <a href="https://outlook.live.com/owa/" target="_blank" rel="noopener noreferrer">Outlook</a> /
-      #年金 /
-      <a href="https://www3.idpass-net.nenkin.go.jp/neko/Z01/W_Z0101SCR.do" target="_blank" rel="noopener noreferrer">ねんきんネット</a> /
-      #TODO /
-      <a href="https://www.wunderlist.com/#/lists/inbox" target="_blank" rel="noopener noreferrer">Wunderlist</a> /
-      #ブックマーク /
-      <a href="https://pinboard.in/" target="_blank" rel="noopener noreferrer">Pinboard</a> /
-      <a href="https://b.hatena.ne.jp/" target="_blank" rel="noopener noreferrer">B!</a> /
-      #IaaS /
-      <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer">GCP</a> /
-      <a href="https://azure.microsoft.com/ja-jp/" target="_blank" rel="noopener noreferrer">Azure</a> /
-      <a href="https://manage.conoha.jp/Dashboard" target="_blank" rel="noopener noreferrer">ConoHa</a> /
-      <a href="https://aws.amazon.com/jp/console/" target="_blank" rel="noopener noreferrer">AWS</a> /
-      #モニタリング /
-      <a href="https://www.datadoghq.com/" target="_blank" rel="noopener noreferrer">Datadog</a> /
-      #ログ /
-      <a href="https://www.papertrail.com/" target="_blank" rel="noopener noreferrer">Papertrail</a> /
-      #SMS /
-      <a href="https://www.twilio.com/ja/" target="_blank" rel="noopener noreferrer">Twilio</a> /
-      #言語 /
-      <a href="https://translate.google.co.jp/?hl=ja" target="_blank" rel="noopener noreferrer">Google翻訳</a> /
-      #リポジトリ /
-      <a href="https://bitbucket.org" target="_blank" rel="noopener noreferrer">Bitbucket</a> /
-      <a href="https://github.com/kumarstack55" target="_blank" rel="noopener noreferrer">GitHub</a> /
-      <a href="https://about.gitlab.com/" target="_blank" rel="noopener noreferrer">GitLab</a> /
-      #ストレージ /
-      <a href="https://drive.google.com/drive/u/0/my-drive" target="_blank" rel="noopener noreferrer">Google Drive</a> /
-      <a href="https://app.box.com/folder/0" target="_blank" rel="noopener noreferrer">box</a> /
-      <a href="https://www.dropbox.com/h" target="_blank" rel="noopener noreferrer">Dropbox</a> /
-      <a href="https://mega.nz" target="_blank" rel="noopener noreferrer">MEGA</a> /
-      #非公開ドキュメント /
-      <a href="https://docs.google.com/spreadsheets/d/12Sm4c_Uoh1WGolxMe3RXQ6xxvJRJddC0u2U-uC2GX6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">電気・ガス・水道</a> /
-      #公開ドキュメント /
-      <a href="https://qiita.com/kumarstack55" target="_blank" rel="noopener noreferrer">Qiita</a> /
-      #サービス /
-      <a href="http://34.70.69.162/" target="_blank" rel="noopener noreferrer">JSON Formatter</a> /
+      <h1>#天候</h1>
+      <ul>
+        <li><a href="http://www.jma.go.jp/jp/yoho/319.html" target="_blank" rel="noopener noreferrer">気象庁-東京</a></li>
+        <li><a href="http://www.jma.go.jp/jp/yoho/320.html" target="_blank" rel="noopener noreferrer">気象庁-神奈川</a></li>
+        <li><a href="http://raineye.city.yokohama.lg.jp/pweb/" target="_blank" rel="noopener noreferrer">レインアイよこはま</a></li>
+        <li><a href="https://tokyo-ame.jwa.or.jp/" target="_blank" rel="noopener noreferrer">東京アメッシュ</a></li>
+      </ul>
+      <h1>#ニュース</h1>
+      <ul>
+        <li><a href="https://www3.nhk.or.jp/news/catnew.html" target="_blank" rel="noopener noreferrer">NHK新着</a></li>
+        <li><a href="https://jp.reuters.com/" target="_blank" rel="noopener noreferrer">ロイター</a></li>
+      </ul>
+      <h1>#SNS</h1>
+      <ul>
+        <li><a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+        <li><a href="https://web.social-dog.net/dashboard" target="_blank" rel="noopener noreferrer">SocialDog</a></li>
+      </ul>
+      <h1>#年金</h1>
+      <ul>
+        <li><a href="https://www3.idpass-net.nenkin.go.jp/neko/Z01/W_Z0101SCR.do" target="_blank" rel="noopener noreferrer">ねんきんネット</a></li>
+      </ul>
+      <h1>#書籍</h1>
+      <ul>
+        <li><a href="https://booth.pm/ja" target="_blank" rel="noopener noreferrer">BOOTH</a></li>
+      </ul>
+      <h1>#電話</h1>
+      <ul>
+        <li><a href="https://www.iijmio.jp/" target="_blank" rel="noopener noreferrer">IIJmio</a></li>
+      </ul>
+      <h1>#メール</h1>
+      <ul>
+        <li><a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="noopener noreferrer">Gmail</a></li>
+        <li><a href="https://outlook.live.com/owa/" target="_blank" rel="noopener noreferrer">Outlook</a></li>
+      </ul>
+      <h1>#チャット</h1>
+      <ul>
+        <li><a href="https://slack.com/intl/ja-jp/signin" target="_blank" rel="noopener noreferrer">Slack</a></li>
+      </ul>
+      <h1>#TODO</h1>
+      <ul>
+        <li><a href="https://www.wunderlist.com/#/lists/inbox" target="_blank" rel="noopener noreferrer">Wunderlist</a></li>
+      </ul>
+      <h1>#ブックマーク</h1>
+      <ul>
+        <li><a href="https://pinboard.in/" target="_blank" rel="noopener noreferrer">Pinboard</a></li>
+        <li><a href="https://b.hatena.ne.jp/" target="_blank" rel="noopener noreferrer">B!</a></li>
+      </ul>
+      <h1>#Ansible</h1>
+      <ul>
+        <li><a href="https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html">All modules</a></li>
+      </ul>
+      <h1>#IaaS</h1>
+      <ul>
+        <li><a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer">GCP</a></li>
+        <li><a href="https://azure.microsoft.com/ja-jp/" target="_blank" rel="noopener noreferrer">Azure</a></li>
+        <li><a href="https://manage.conoha.jp/Dashboard" target="_blank" rel="noopener noreferrer">ConoHa</a></li>
+        <li><a href="https://aws.amazon.com/jp/console/" target="_blank" rel="noopener noreferrer">AWS</a></li>
+      </ul>
+      <h1>#Docker</h1>
+      <ul>
+        <li><a href="https://github.com/alpinelinux/docker-alpine" target="_blank" rel="noopener noreferrer">docker-alipine</a></li>
+      </ul>
+      <h1>#Bash</h1>
+      <ul>
+        <li><a href="https://www.gnu.org/software/bash/manual/bash.html" target="_blank" rel="noopener noreferrer">RefMan</a></li>
+      </ul>
+      <h1>#Python</h1>
+      <ul>
+        <li><a href="https://docs.python.org/ja/2.7/library/index.html" target="_blank" rel="noopener noreferrer">Python2.7</a></li>
+        <li><a href="https://docs.python.org/ja/3.7/library/index.html" target="_blank" rel="noopener noreferrer">Python3.7</a></li>
+      </ul>
+      <h1>#SSL/TLS</h1>
+      <ul>
+        <li><a href="https://letsencrypt.org/ja/" target="_blank" rel="noopener noreferrer">Let's Encrypt</a></li>
+      </ul>
+      <h1>#ログ</h1>
+      <ul>
+        <li><a href="https://www.papertrail.com/" target="_blank" rel="noopener noreferrer">Papertrail</a></li>
+      </ul>
+      <h1>#モニタリング</h1>
+      <ul>
+        <li><a href="https://www.datadoghq.com/" target="_blank" rel="noopener noreferrer">Datadog</a></li>
+      </ul>
+      <h1>#SMS</h1>
+      <ul>
+        <li><a href="https://www.twilio.com/ja/" target="_blank" rel="noopener noreferrer">Twilio</a></li>
+      </ul>
+      <h1>#言語</h1>
+      <ul>
+        <li><a href="https://translate.google.co.jp/?hl=ja" target="_blank" rel="noopener noreferrer">Google翻訳</a></li>
+      </ul>
+      <h1>#リポジトリ</h1>
+      <ul>
+        <li><a href="https://bitbucket.org" target="_blank" rel="noopener noreferrer">Bitbucket</a></li>
+        <li><a href="https://github.com/kumarstack55" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://about.gitlab.com/" target="_blank" rel="noopener noreferrer">GitLab</a></li>
+      </ul>
+      <h1>#ストレージ</h1>
+      <ul>
+        <li><a href="https://drive.google.com/drive/u/0/my-drive" target="_blank" rel="noopener noreferrer">Google Drive</a></li>
+        <li><a href="https://app.box.com/folder/0" target="_blank" rel="noopener noreferrer">box</a></li>
+        <li><a href="https://www.dropbox.com/h" target="_blank" rel="noopener noreferrer">Dropbox</a></li>
+        <li><a href="https://mega.nz" target="_blank" rel="noopener noreferrer">MEGA</a></li>
+      </ul>
+      <h1>#非公開ドキュメント</h1>
+      <ul>
+        <li><a href="https://docs.google.com/spreadsheets/d/12Sm4c_Uoh1WGolxMe3RXQ6xxvJRJddC0u2U-uC2GX6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">電気・ガス・水道</a></li>
+      </ul>
+      <h1>#公開ドキュメント</h1>
+      <ul>
+        <li><a href="https://qiita.com/kumarstack55" target="_blank" rel="noopener noreferrer">Qiita</a></li>
+      </ul>
+      <h1>#サービス</h1>
+      <ul>
+        <li><a href="http://34.70.69.162/" target="_blank" rel="noopener noreferrer">JSON Formatter</a></li>
+      </ul>
     </div>
   </body>
 </html>
