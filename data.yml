@@ -17,10 +17,12 @@
       url: https://jp.reuters.com/
 - heading: 料理
   list_items:
-    - name: レシピ
-      url: https://app.box.com/integrations/googledss/openGoogleEditor?fileId=621619015352
+    - name: レシピ一覧
+      url: https://app.box.com/file/621619015352
       icons:
         - fas fa-lock
+    - name: レシピ大百科
+      url: https://park.ajinomoto.co.jp/recipe/
 - heading: SNS
   list_items:
     - name: Twitter
