@@ -163,3 +163,5 @@
   list_items:
     - name: JSON Formatter
       url: http://www.zbit.dev/
+    - name: JSON Formatter
+      url: http://34.70.69.162/
