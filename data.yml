@@ -49,6 +49,10 @@
   list_items:
     - name: Slack
       url: https://slack.com/intl/ja-jp/signin
+- heading: ファイル共有
+  list_items:
+    - name: enshared(β)
+      url: https://ensha.red/
 - heading: TODO
   list_items:
     - name: Microsoft To Do
