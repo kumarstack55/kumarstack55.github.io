@@ -147,14 +147,12 @@
       url: https://www.dropbox.com/h
     - name: MEGA
       url: https://mega.nz
-- heading: 非公開ドキュメント
+- heading: ドキュメント
   list_items:
     - name: 電気・ガス・水道
       url: https://docs.google.com/spreadsheets/d/12Sm4c_Uoh1WGolxMe3RXQ6xxvJRJddC0u2U-uC2GX6o/edit?usp=sharing
       icons:
         - fas fa-lock
-- heading: 公開ドキュメント
-  list_items:
     - name: Qiita
       url: https://qiita.com/kumarstack55
 - heading: サービス
