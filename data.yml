@@ -1,0 +1,163 @@
+---
+- heading: 気象
+  list_items:
+    - name: 気象庁-東京
+      url: http://www.jma.go.jp/jp/yoho/319.html
+    - name: 気象庁-神奈川
+      url: http://www.jma.go.jp/jp/yoho/320.html
+    - name: レインアイよこはま
+      url: http://raineye.city.yokohama.lg.jp/pweb/
+    - name: 東京アメッシュ
+      url: https://tokyo-ame.jwa.or.jp/
+- heading: ニュース
+  list_items:
+    - name: NHK新着
+      url: https://www3.nhk.or.jp/news/catnew.html
+    - name: ロイター
+      url: https://jp.reuters.com/
+- heading: SNS
+  list_items:
+    - name: Twitter
+      url: https://twitter.com/
+    - name: SocialDog
+      url: https://web.social-dog.net/dashboard
+- heading: 金融・公的年金
+  list_items:
+    - name: 金融機関
+      url: https://drive.google.com/drive/u/0/folders/11SdjKXxW81mZEHMrYcHidNK6S6wi00IM
+      icons:
+        - fas fa-lock
+    - name: ねんきんネット
+      url: https://www3.idpass-net.nenkin.go.jp/neko/Z01/W_Z0101SCR.do
+- heading: 書籍
+  list_items:
+    - name: BOOTH
+      url: https://booth.pm/ja
+    - name: amazon.co.jp
+      url: https://www.amazon.co.jp/
+- heading: 電話
+  list_items:
+    - name: IIJmio
+      url: https://www.iijmio.jp/
+- heading: メール
+  list_items:
+    - name: Gmail
+      url: https://mail.google.com/mail/u/0/#inbox
+    - name: Outlook
+      url: https://outlook.live.com/owa/
+- heading: チャット
+  list_items:
+    - name: Slack
+      url: https://slack.com/intl/ja-jp/signin
+- heading: TODO
+  list_items:
+    - name: Microsoft To Do
+      url: https://to-do.microsoft.com/tasks/ja-jp/
+    - name: Wunderlist
+      url: https://www.wunderlist.com/#/lists/inbox
+- heading: ブックマーク
+  list_items:
+    - name: Pinboard
+      url: https://pinboard.in/
+    - name: B!
+      url: https://b.hatena.ne.jp/
+- heading: Ansible
+  list_items:
+    - name: All modules
+      url: https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
+- heading: IaaS
+  list_items:
+    - name: GCP
+      url: https://console.cloud.google.com/
+    - name: Azure
+      url: https://azure.microsoft.com/ja-jp/
+    - name: ConoHa
+      url: https://manage.conoha.jp/Dashboard
+    - name: AWS
+      url: https://aws.amazon.com/jp/console/
+- heading: Docker
+  list_items:
+    - name: docker-alipine
+      url: https://github.com/alpinelinux/docker-alpine
+- heading: Bash
+  list_items:
+    - name: Reference Manual
+      url: https://www.gnu.org/software/bash/manual/bash.html
+- heading: Python
+  list_items:
+    - name: 3.7
+      url: https://docs.python.org/ja/3.7/
+    - name: 2.7
+      url: https://docs.python.org/ja/2.7/
+    - name: argparse
+      url: https://docs.python.org/ja/2.7/library/argparse.html
+    - name: re
+      url: https://docs.python.org/ja/2.7/library/re.html
+    - name: unittest
+      url: https://docs.python.org/ja/2.7/library/unittest.html
+- heading: Pythonパッケージ
+  list_items:
+    - name: Jinja2
+      url: https://jinja.palletsprojects.com/
+    - name: six
+      url: https://six.readthedocs.io/
+    - name: PyYAML
+      url: https://pyyaml.org/wiki/PyYAMLDocumentation
+- heading: DNS
+  list_items:
+    - name: Google Domains
+      url: https://domains.google/intl/ja_jp/
+    - name: お名前.com
+      url: https://www.onamae.com/
+- heading: SSL/TLS
+  list_items:
+    - name: Let's Encrypt
+      url: https://letsencrypt.org/ja/
+- heading: ログ
+  list_items:
+    - name: Papertrail
+      url: https://www.papertrail.com/
+- heading: モニタリング
+  list_items:
+    - name: Datadog
+      url: https://www.datadoghq.com/
+- heading: SMS
+  list_items:
+    - name: Twilio
+      url: https://www.twilio.com/ja/
+- heading: 言語
+  list_items:
+    - name: Google翻訳
+      url: https://translate.google.co.jp/?hl=ja
+- heading: リポジトリ
+  list_items:
+    - name: Bitbucket
+      url: https://bitbucket.org
+    - name: GitHub
+      url: https://github.com/kumarstack55
+    - name: GitLab
+      url: https://about.gitlab.com/
+- heading: ストレージ
+  list_items:
+    - name: Google Drive
+      url: https://drive.google.com/drive/u/0/my-drive
+    - name: box
+      url: https://app.box.com/folder/0
+    - name: Dropbox
+      url: https://www.dropbox.com/h
+    - name: MEGA
+      url: https://mega.nz
+- heading: 非公開ドキュメント
+  list_items:
+    - name: 電気・ガス・水道
+      url: https://docs.google.com/spreadsheets/d/12Sm4c_Uoh1WGolxMe3RXQ6xxvJRJddC0u2U-uC2GX6o/edit?usp=sharing
+      icons:
+        - fas fa-lock
+- heading: 公開ドキュメント
+  list_items:
+    - name: Qiita
+      url: https://qiita.com/kumarstack55
+- heading: サービス
+  list_items:
+    - name: JSON Formatter
+      url: http://34.70.69.162/
