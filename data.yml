@@ -79,6 +79,12 @@
       url: https://pinboard.in/
     - name: B!
       url: https://b.hatena.ne.jp/
+- heading: アプリ
+  list_items:
+    - name: Chocolatey
+      url: https://chocolatey.org/
+    - name: Scoop
+      url: https://scoop.sh/
 - heading: Ansible
   list_items:
     - name: All modules
