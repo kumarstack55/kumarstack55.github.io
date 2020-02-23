@@ -23,6 +23,10 @@
         - fas fa-lock
     - name: レシピ大百科
       url: https://park.ajinomoto.co.jp/recipe/
+    - name: きょうの料理
+      url: https://www.kyounoryouri.jp/
+    - name: Cookpad
+      url: https://cookpad.com/
 - heading: SNS
   list_items:
     - name: Twitter
