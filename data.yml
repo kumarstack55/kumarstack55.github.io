@@ -89,12 +89,14 @@
   list_items:
     - name: All modules
       url: https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
-- heading: IaaS
+- heading: Lab
   list_items:
     - name: ラボ
       url: https://docs.google.com/document/d/1ugMSVZH5wKETNKTXn02flIrVfqEUZBLFelhn8RPY328/edit?usp=sharing
       icons:
         - fas fa-lock
+- heading: IaaS
+  list_items:
     - name: GCP
       url: https://console.cloud.google.com/
     - name: Azure
