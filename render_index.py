@@ -25,6 +25,15 @@ if __name__ == '__main__':
     with open(args.data, encoding='utf-8') as f:
         data = yaml.safe_load(f)
 
+    record = dict(heading='索引')
+    list_items = list()
+    for r in data:
+        name = r.get('heading')
+        url = 'https://kumarstack55.github.io/#%s' % (name)
+        list_items.append({'name': name, 'url': url})
+    record.update(list_items=list_items)
+    data.append(record)
+
     html = render(data=data, template=args.template)
 
     with open(args.output, 'w', encoding='utf-8') as f:
