@@ -29,9 +29,9 @@ if __name__ == '__main__':
     list_items = list()
     for r in data:
         name = r.get('heading')
-        list_items.insert(0, {'name': name, 'url': '#%s' % (name)})
+        list_items.append({'name': name, 'url': '#%s' % (name)})
     record.update(list_items=list_items)
-    data.append(record)
+    data.insert(0, record)
 
     html = render(data=data, template=args.template)
 
