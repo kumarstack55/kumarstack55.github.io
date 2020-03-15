@@ -15,6 +15,14 @@
       url: https://www3.nhk.or.jp/news/catnew.html
     - name: ロイター
       url: https://jp.reuters.com/
+- heading: 市場
+  list_items:
+    - name: nikkei225jp
+      url: https://nikkei225jp.com/
+    - name: World
+      url: https://finviz.com/map.ashx?t=geo
+    - name: S&P500
+      url: https://finviz.com/map.ashx
 - heading: 料理
   list_items:
     - name: レシピ一覧
