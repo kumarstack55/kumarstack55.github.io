@@ -29,10 +29,9 @@
     {%- endfor %}
     </ul>
     {%- endfor %}
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
       $("#navMenus").on('click', 'li', function () {
-        console.log($(this).text())
         $("h1.active").removeClass("active");
         $("#" + $(this).text()).addClass("active");
       });
