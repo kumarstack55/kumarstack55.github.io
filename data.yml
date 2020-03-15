@@ -149,6 +149,8 @@
       url: https://wandbox.org/
     - name: RegExr
       url: https://regexr.com/
+    - name: jsfiddle
+      url: https://jsfiddle.net/
 - heading: DNS
   list_items:
     - name: Google Domains

@@ -16,8 +16,17 @@
       li:last-child:after {content: none; }
       /* 2020-02-23 Android+Chrome でアイコン幅50%がアイコン直後の文字と重なるのでpaddingする */
       span.icons {font-size: 0.5rem; padding-left: 0.5rem; padding-right: 0.5rem }
+      .active { background-color: yellow; }
+      #navMenus { cursor:pointer; }
       -->
     </style>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $("#navMenus").on('click', 'li', function () {
+        $("h1.active").removeClass("active");
+        $("#" + $(this).text()).addClass("active");
+      });
+    </script>
   </head>
   <body>
     <h1 id="気象">#気象</h1>
@@ -135,6 +144,7 @@
     <ul>
       <li><a href="https://wandbox.org/" target="_blank" rel="noopener noreferrer">Wandbox</a></li>
       <li><a href="https://regexr.com/" target="_blank" rel="noopener noreferrer">RegExr</a></li>
+      <li><a href="https://jsfiddle.net/" target="_blank" rel="noopener noreferrer">jsfiddle</a></li>
     </ul>
     <h1 id="DNS">#DNS</h1>
     <ul>
@@ -184,39 +194,39 @@
       <li><a href="http://www.zbit.dev/" target="_blank" rel="noopener noreferrer">JSON Formatter</a></li>
     </ul>
     <h1 id="索引">#索引</h1>
-    <ul>
-      <li><a href="https://kumarstack55.github.io/#気象" target="_blank" rel="noopener noreferrer">気象</a></li>
-      <li><a href="https://kumarstack55.github.io/#ニュース" target="_blank" rel="noopener noreferrer">ニュース</a></li>
-      <li><a href="https://kumarstack55.github.io/#SNS" target="_blank" rel="noopener noreferrer">SNS</a></li>
-      <li><a href="https://kumarstack55.github.io/#市場" target="_blank" rel="noopener noreferrer">市場</a></li>
-      <li><a href="https://kumarstack55.github.io/#金融・公的年金" target="_blank" rel="noopener noreferrer">金融・公的年金</a></li>
-      <li><a href="https://kumarstack55.github.io/#料理" target="_blank" rel="noopener noreferrer">料理</a></li>
-      <li><a href="https://kumarstack55.github.io/#書籍" target="_blank" rel="noopener noreferrer">書籍</a></li>
-      <li><a href="https://kumarstack55.github.io/#電話" target="_blank" rel="noopener noreferrer">電話</a></li>
-      <li><a href="https://kumarstack55.github.io/#メール" target="_blank" rel="noopener noreferrer">メール</a></li>
-      <li><a href="https://kumarstack55.github.io/#チャット" target="_blank" rel="noopener noreferrer">チャット</a></li>
-      <li><a href="https://kumarstack55.github.io/#ファイル共有" target="_blank" rel="noopener noreferrer">ファイル共有</a></li>
-      <li><a href="https://kumarstack55.github.io/#TODO" target="_blank" rel="noopener noreferrer">TODO</a></li>
-      <li><a href="https://kumarstack55.github.io/#ブックマーク" target="_blank" rel="noopener noreferrer">ブックマーク</a></li>
-      <li><a href="https://kumarstack55.github.io/#アプリ" target="_blank" rel="noopener noreferrer">アプリ</a></li>
-      <li><a href="https://kumarstack55.github.io/#Ansible" target="_blank" rel="noopener noreferrer">Ansible</a></li>
-      <li><a href="https://kumarstack55.github.io/#Lab" target="_blank" rel="noopener noreferrer">Lab</a></li>
-      <li><a href="https://kumarstack55.github.io/#IaaS" target="_blank" rel="noopener noreferrer">IaaS</a></li>
-      <li><a href="https://kumarstack55.github.io/#Docker" target="_blank" rel="noopener noreferrer">Docker</a></li>
-      <li><a href="https://kumarstack55.github.io/#Bash" target="_blank" rel="noopener noreferrer">Bash</a></li>
-      <li><a href="https://kumarstack55.github.io/#Python" target="_blank" rel="noopener noreferrer">Python</a></li>
-      <li><a href="https://kumarstack55.github.io/#Pythonパッケージ" target="_blank" rel="noopener noreferrer">Pythonパッケージ</a></li>
-      <li><a href="https://kumarstack55.github.io/#機能確認" target="_blank" rel="noopener noreferrer">機能確認</a></li>
-      <li><a href="https://kumarstack55.github.io/#DNS" target="_blank" rel="noopener noreferrer">DNS</a></li>
-      <li><a href="https://kumarstack55.github.io/#SSL/TLS" target="_blank" rel="noopener noreferrer">SSL/TLS</a></li>
-      <li><a href="https://kumarstack55.github.io/#ログ" target="_blank" rel="noopener noreferrer">ログ</a></li>
-      <li><a href="https://kumarstack55.github.io/#モニタリング" target="_blank" rel="noopener noreferrer">モニタリング</a></li>
-      <li><a href="https://kumarstack55.github.io/#SMS" target="_blank" rel="noopener noreferrer">SMS</a></li>
-      <li><a href="https://kumarstack55.github.io/#言語" target="_blank" rel="noopener noreferrer">言語</a></li>
-      <li><a href="https://kumarstack55.github.io/#リポジトリ" target="_blank" rel="noopener noreferrer">リポジトリ</a></li>
-      <li><a href="https://kumarstack55.github.io/#ストレージ" target="_blank" rel="noopener noreferrer">ストレージ</a></li>
-      <li><a href="https://kumarstack55.github.io/#ドキュメント" target="_blank" rel="noopener noreferrer">ドキュメント</a></li>
-      <li><a href="https://kumarstack55.github.io/#サービス" target="_blank" rel="noopener noreferrer">サービス</a></li>
+    <ul id="navMenus">
+      <li>気象</li>
+      <li>ニュース</li>
+      <li>SNS</li>
+      <li>市場</li>
+      <li>金融・公的年金</li>
+      <li>料理</li>
+      <li>書籍</li>
+      <li>電話</li>
+      <li>メール</li>
+      <li>チャット</li>
+      <li>ファイル共有</li>
+      <li>TODO</li>
+      <li>ブックマーク</li>
+      <li>アプリ</li>
+      <li>Ansible</li>
+      <li>Lab</li>
+      <li>IaaS</li>
+      <li>Docker</li>
+      <li>Bash</li>
+      <li>Python</li>
+      <li>Pythonパッケージ</li>
+      <li>機能確認</li>
+      <li>DNS</li>
+      <li>SSL/TLS</li>
+      <li>ログ</li>
+      <li>モニタリング</li>
+      <li>SMS</li>
+      <li>言語</li>
+      <li>リポジトリ</li>
+      <li>ストレージ</li>
+      <li>ドキュメント</li>
+      <li>サービス</li>
     </ul>
   </body>
 </html>

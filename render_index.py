@@ -25,7 +25,7 @@ if __name__ == '__main__':
     with open(args.data, encoding='utf-8') as f:
         data = yaml.safe_load(f)
 
-    record = dict(heading='索引')
+    record = dict(heading='索引', nav_menus=True)
     list_items = list()
     for r in data:
         name = r.get('heading')

@@ -16,15 +16,24 @@
       li:last-child:after {content: none; }
       /* 2020-02-23 Android+Chrome でアイコン幅50%がアイコン直後の文字と重なるのでpaddingする */
       span.icons {font-size: 0.5rem; padding-left: 0.5rem; padding-right: 0.5rem }
+      .active { background-color: yellow; }
+      #navMenus { cursor:pointer; }
       -->
     </style>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $("#navMenus").on('click', 'li', function () {
+        $("h1.active").removeClass("active");
+        $("#" + $(this).text()).addClass("active");
+      });
+    </script>
   </head>
   <body>
     {%- for item in data %}
     <h1 id="{{ item.heading }}">#{{ item.heading }}</h1>
-    <ul>
+    <ul{% if item.nav_menus is defined %} id="navMenus"{% endif %}>
     {%- for li in item.list_items %}
-      <li>{% if li.icons is defined %}<span class="icons">{%- for icon in li.icons %}<i class="{{ icon }}"></i>{% endfor %}</span>{% endif -%}<a href="{{ li.url }}" target="_blank" rel="noopener noreferrer">{{ li.name }}</a></li>
+      <li>{% if li.icons is defined %}<span class="icons">{%- for icon in li.icons %}<i class="{{ icon }}"></i>{% endfor %}</span>{% endif -%}{% if item.nav_menus is not defined %}<a href="{{ li.url }}" target="_blank" rel="noopener noreferrer">{% endif %}{{ li.name }}{% if item.nav_menus is not defined %}</a>{% endif %}</li>
     {%- endfor %}
     </ul>
     {%- endfor %}
