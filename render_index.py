@@ -25,12 +25,11 @@ if __name__ == '__main__':
     with open(args.data, encoding='utf-8') as f:
         data = yaml.safe_load(f)
 
-    record = dict(heading='索引', nav_menus=True)
+    record = dict(heading='目次', nav_menus=True)
     list_items = list()
     for r in data:
         name = r.get('heading')
-        url = '#%s' % (name)
-        list_items.append({'name': name, 'url': url})
+        list_items.insert(0, {'name': name, 'url': '#%s' % (name)})
     record.update(list_items=list_items)
     data.append(record)
 
