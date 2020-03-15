@@ -29,7 +29,7 @@ if __name__ == '__main__':
     list_items = list()
     for r in data:
         name = r.get('heading')
-        url = 'https://kumarstack55.github.io/#%s' % (name)
+        url = '#%s' % (name)
         list_items.append({'name': name, 'url': url})
     record.update(list_items=list_items)
     data.append(record)

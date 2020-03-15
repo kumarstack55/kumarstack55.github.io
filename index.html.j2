@@ -8,7 +8,7 @@
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <style type="text/css">
       <!--
-      h1 {display: inline; font-size: 1.1em; font-weight: normal; }
+      h1 {display: inline; font-size: 1em; font-weight: normal; }
       h1:after {content: ' : '; }
       ul {display: inline; padding-inline-start: 0px; }
       li {display: inline; }
@@ -16,10 +16,20 @@
       li:last-child:after {content: none; }
       /* 2020-02-23 Android+Chrome でアイコン幅50%がアイコン直後の文字と重なるのでpaddingする */
       span.icons {font-size: 0.5rem; padding-left: 0.5rem; padding-right: 0.5rem }
-      .active { background-color: yellow; }
-      #navMenus { cursor:pointer; }
+      .active { background-color: #f5a925; }
+      #navMenus { cursor: pointer; }
       -->
     </style>
+  </head>
+  <body>
+    {%- for item in data %}
+    <h1 id="{{ item.heading }}">#{{ item.heading }}</h1>
+    <ul{% if item.nav_menus is defined %} id="navMenus"{% endif %}>
+    {%- for li in item.list_items %}
+      <li>{% if li.icons is defined %}<span class="icons">{%- for icon in li.icons %}<i class="{{ icon }}"></i>{% endfor %}</span>{% endif -%}<a href="{{ li.url }}"{% if item.nav_menus is not defined %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ li.name }}</a></li>
+    {%- endfor %}
+    </ul>
+    {%- endfor %}
     <script src="js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
       $("#navMenus").on('click', 'li', function () {
@@ -28,15 +38,5 @@
         $("#" + $(this).text()).addClass("active");
       });
     </script>
-  </head>
-  <body>
-    {%- for item in data %}
-    <h1 id="{{ item.heading }}">#{{ item.heading }}</h1>
-    <ul{% if item.nav_menus is defined %} id="navMenus"{% endif %}>
-    {%- for li in item.list_items %}
-      <li>{% if li.icons is defined %}<span class="icons">{%- for icon in li.icons %}<i class="{{ icon }}"></i>{% endfor %}</span>{% endif -%}{% if item.nav_menus is not defined %}<a href="{{ li.url }}" target="_blank" rel="noopener noreferrer">{% endif %}{{ li.name }}{% if item.nav_menus is not defined %}</a>{% endif %}</li>
-    {%- endfor %}
-    </ul>
-    {%- endfor %}
   </body>
 </html>

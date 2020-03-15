@@ -8,7 +8,7 @@
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <style type="text/css">
       <!--
-      h1 {display: inline; font-size: 1.1em; font-weight: normal; }
+      h1 {display: inline; font-size: 1em; font-weight: normal; }
       h1:after {content: ' : '; }
       ul {display: inline; padding-inline-start: 0px; }
       li {display: inline; }
@@ -16,18 +16,10 @@
       li:last-child:after {content: none; }
       /* 2020-02-23 Android+Chrome でアイコン幅50%がアイコン直後の文字と重なるのでpaddingする */
       span.icons {font-size: 0.5rem; padding-left: 0.5rem; padding-right: 0.5rem }
-      .active { background-color: yellow; }
-      #navMenus { cursor:pointer; }
+      .active { background-color: #f5a925; }
+      #navMenus { cursor: pointer; }
       -->
     </style>
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-      $("#navMenus").on('click', 'li', function () {
-        console.log($(this).text())
-        $("h1.active").removeClass("active");
-        $("#" + $(this).text()).addClass("active");
-      });
-    </script>
   </head>
   <body>
     <h1 id="気象">#気象</h1>
@@ -196,38 +188,46 @@
     </ul>
     <h1 id="索引">#索引</h1>
     <ul id="navMenus">
-      <li>気象</li>
-      <li>ニュース</li>
-      <li>SNS</li>
-      <li>市場</li>
-      <li>金融・公的年金</li>
-      <li>料理</li>
-      <li>書籍</li>
-      <li>電話</li>
-      <li>メール</li>
-      <li>チャット</li>
-      <li>ファイル共有</li>
-      <li>TODO</li>
-      <li>ブックマーク</li>
-      <li>アプリ</li>
-      <li>Ansible</li>
-      <li>Lab</li>
-      <li>IaaS</li>
-      <li>Docker</li>
-      <li>Bash</li>
-      <li>Python</li>
-      <li>Pythonパッケージ</li>
-      <li>機能確認</li>
-      <li>DNS</li>
-      <li>SSL/TLS</li>
-      <li>ログ</li>
-      <li>モニタリング</li>
-      <li>SMS</li>
-      <li>言語</li>
-      <li>リポジトリ</li>
-      <li>ストレージ</li>
-      <li>ドキュメント</li>
-      <li>サービス</li>
+      <li><a href="#気象">気象</a></li>
+      <li><a href="#ニュース">ニュース</a></li>
+      <li><a href="#SNS">SNS</a></li>
+      <li><a href="#市場">市場</a></li>
+      <li><a href="#金融・公的年金">金融・公的年金</a></li>
+      <li><a href="#料理">料理</a></li>
+      <li><a href="#書籍">書籍</a></li>
+      <li><a href="#電話">電話</a></li>
+      <li><a href="#メール">メール</a></li>
+      <li><a href="#チャット">チャット</a></li>
+      <li><a href="#ファイル共有">ファイル共有</a></li>
+      <li><a href="#TODO">TODO</a></li>
+      <li><a href="#ブックマーク">ブックマーク</a></li>
+      <li><a href="#アプリ">アプリ</a></li>
+      <li><a href="#Ansible">Ansible</a></li>
+      <li><a href="#Lab">Lab</a></li>
+      <li><a href="#IaaS">IaaS</a></li>
+      <li><a href="#Docker">Docker</a></li>
+      <li><a href="#Bash">Bash</a></li>
+      <li><a href="#Python">Python</a></li>
+      <li><a href="#Pythonパッケージ">Pythonパッケージ</a></li>
+      <li><a href="#機能確認">機能確認</a></li>
+      <li><a href="#DNS">DNS</a></li>
+      <li><a href="#SSL/TLS">SSL/TLS</a></li>
+      <li><a href="#ログ">ログ</a></li>
+      <li><a href="#モニタリング">モニタリング</a></li>
+      <li><a href="#SMS">SMS</a></li>
+      <li><a href="#言語">言語</a></li>
+      <li><a href="#リポジトリ">リポジトリ</a></li>
+      <li><a href="#ストレージ">ストレージ</a></li>
+      <li><a href="#ドキュメント">ドキュメント</a></li>
+      <li><a href="#サービス">サービス</a></li>
     </ul>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $("#navMenus").on('click', 'li', function () {
+        console.log($(this).text())
+        $("h1.active").removeClass("active");
+        $("#" + $(this).text()).addClass("active");
+      });
+    </script>
   </body>
 </html>
