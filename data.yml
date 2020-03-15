@@ -15,6 +15,12 @@
       url: https://www3.nhk.or.jp/news/catnew.html
     - name: ロイター
       url: https://jp.reuters.com/
+- heading: SNS
+  list_items:
+    - name: Twitter
+      url: https://twitter.com/
+    - name: SocialDog
+      url: https://web.social-dog.net/dashboard
 - heading: 市場
   list_items:
     - name: nikkei225jp
@@ -23,6 +29,14 @@
       url: https://finviz.com/map.ashx?t=geo
     - name: S&P500
       url: https://finviz.com/map.ashx
+- heading: 金融・公的年金
+  list_items:
+    - name: 金融機関
+      url: https://docs.google.com/document/d/1QNqxLAe1-sxMroQJVXhx-LIhYp6gMvm-m_-8HyTiN9E
+      icons:
+        - fas fa-lock
+    - name: ねんきんネット
+      url: https://www3.idpass-net.nenkin.go.jp/neko/Z01/W_Z0101SCR.do
 - heading: 料理
   list_items:
     - name: レシピ一覧
@@ -35,20 +49,6 @@
       url: https://www.kyounoryouri.jp/
     - name: Cookpad
       url: https://cookpad.com/
-- heading: SNS
-  list_items:
-    - name: Twitter
-      url: https://twitter.com/
-    - name: SocialDog
-      url: https://web.social-dog.net/dashboard
-- heading: 金融・公的年金
-  list_items:
-    - name: 金融機関
-      url: https://docs.google.com/document/d/1QNqxLAe1-sxMroQJVXhx-LIhYp6gMvm-m_-8HyTiN9E
-      icons:
-        - fas fa-lock
-    - name: ねんきんネット
-      url: https://www3.idpass-net.nenkin.go.jp/neko/Z01/W_Z0101SCR.do
 - heading: 書籍
   list_items:
     - name: BOOTH
