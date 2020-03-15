@@ -21,7 +21,7 @@
   </head>
   <body>
     {%- for item in data %}
-    <h1>#{{ item.heading }}</h1>
+    <h1><a name="{{ item.heading }}">#{{ item.heading }}</a></h1>
     <ul>
     {%- for li in item.list_items %}
       <li>{% if li.icons is defined %}<span class="icons">{%- for icon in li.icons %}<i class="{{ icon }}"></i>{% endfor %}</span>{% endif -%}<a href="{{ li.url }}" target="_blank" rel="noopener noreferrer">{{ li.name }}</a></li>
