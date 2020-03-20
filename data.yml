@@ -9,12 +9,16 @@
       url: http://raineye.city.yokohama.lg.jp/pweb/
     - name: 東京アメッシュ
       url: https://tokyo-ame.jwa.or.jp/
+    - name: Windy
+      url: https://www.windy.com/
 - heading: ニュース
   list_items:
     - name: NHK新着
       url: https://www3.nhk.or.jp/news/catnew.html
     - name: ロイター
       url: https://jp.reuters.com/
+    - name: Bloomberg
+      url: https://www.bloomberg.co.jp/
 - heading: SNS
   list_items:
     - name: Twitter
@@ -147,6 +151,8 @@
   list_items:
     - name: Wandbox
       url: https://wandbox.org/
+    - name: Go Playground
+      url: https://play.golang.org/
     - name: RegExr
       url: https://regexr.com/
     - name: jsfiddle
