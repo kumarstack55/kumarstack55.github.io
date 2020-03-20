@@ -97,10 +97,6 @@
       url: https://chocolatey.org/
     - name: Scoop
       url: https://scoop.sh/
-- heading: Ansible
-  list_items:
-    - name: All modules
-      url: https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
 - heading: Lab
   list_items:
     - name: ラボ
@@ -153,6 +149,10 @@
       url: https://golang.org/pkg/
     - name: Playground
       url: https://play.golang.org/
+- heading: Ansible
+  list_items:
+    - name: All modules
+      url: https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
 - heading: 機能確認
   list_items:
     - name: Wandbox
