@@ -164,7 +164,7 @@
 - heading: DNS
   list_items:
     - name: Google Domains
-      url: https://domains.google/intl/ja_jp/
+      url: https://domains.google.com/registrar
     - name: お名前.com
       url: https://www.onamae.com/
 - heading: SSL/TLS
