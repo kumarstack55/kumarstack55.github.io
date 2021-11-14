@@ -1,0 +1,25 @@
+# bash
+
+## set
+
+* TODO: set -e
+* TODO: set -u
+
+## 単体テスト
+
+* [bats](https://github.com/sstephenson/bats)
+* [bats-core](https://github.com/bats-core/bats-core)
+    * スクリプトのテストなら難なく使える。
+    * ファンクションのテストは、Pythonのようにスクリプト実行かモジュールのようにsourceされたのかを判定するか、あるいは、ファンクションを別ファイルに定義する。
+    * ファンクションの呼び出し回数が期待通りであるか、または、呼び出し回数によって制御を変えるようなモック処理は難しい。
+* [ShellSpec](https://github.com/shellspec/shellspec)
+
+## 未分類
+
+* bash は[stackoverflowの投稿](https://stackoverflow.com/questions/11369522/bash-utility-script-library)通り、基本的に標準的なライブラリは無い。これは執筆時点(2021年)でも変わらない。
+    * [bash-lib](https://github.com/cyberark/bash-lib)などもあるが、広く使われているかというとそうでもない。
+* [Shell and Utilities volume of POSIX.1-2017](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html)に準拠するか。
+* [Google Style Guides - Shell Style Guide](https://google.github.io/styleguide/shellguide.html)が記述範囲が広く、内容も目指すものに近い。
+* コードからドキュメント生成をするツールは、[shellscriptドキュメント作成ツールのリスト WIP](https://qiita.com/Cj-bc/items/dbd5ecd0ca0daf2508ea)に書かれているように、標準的なツールは存在しない。
+* TODO: インストーラー
+* TODO: 引数解析をどうするか。

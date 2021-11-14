@@ -3,13 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="prev" title="Welcome to Untitled Document&#39;s documentation!" href="index.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>&lt;no title&gt; - Untitled Document ドキュメント</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+        <title>bash - Untitled Document ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
 
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Untitled Document  ドキュメント</div></a>
+      <a href="index.html"><div class="brand">Untitled Document  ドキュメント</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -143,20 +143,20 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
   <span class="sidebar-brand-text">Untitled Document  ドキュメント</span>
   
-</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=検索 name="q" aria-label="検索">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../content1.html">content1</a></li>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bash</a></li>
 </ul>
 
 </div>
@@ -177,13 +177,51 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <p>text in include-md.md</p>
+          <section class="tex2jax_ignore mathjax_ignore" id="bash">
+<h1>bash<a class="headerlink" href="#bash" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="set">
+<h2>set<a class="headerlink" href="#set" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>TODO: set -e</p></li>
+<li><p>TODO: set -u</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>単体テスト<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sstephenson/bats">bats</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bats-core/bats-core">bats-core</a></p>
+<ul>
+<li><p>スクリプトのテストなら難なく使える。</p></li>
+<li><p>ファンクションのテストは、Pythonのようにスクリプト実行かモジュールのようにsourceされたのかを判定するか、あるいは、ファンクションを別ファイルに定義する。</p></li>
+<li><p>ファンクションの呼び出し回数が期待通りであるか、または、呼び出し回数によって制御を変えるようなモック処理は難しい。</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/shellspec/shellspec">ShellSpec</a></p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>未分類<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>bash は<a class="reference external" href="https://stackoverflow.com/questions/11369522/bash-utility-script-library">stackoverflowの投稿</a>通り、基本的に標準的なライブラリは無い。これは執筆時点(2021年)でも変わらない。</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/cyberark/bash-lib">bash-lib</a>などもあるが、広く使われているかというとそうでもない。</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html">Shell and Utilities volume of POSIX.1-2017</a>に準拠するか。</p></li>
+<li><p><a class="reference external" href="https://google.github.io/styleguide/shellguide.html">Google Style Guides - Shell Style Guide</a>が記述範囲が広く、内容も目指すものに近い。</p></li>
+<li><p>コードからドキュメント生成をするツールは、<a class="reference external" href="https://qiita.com/Cj-bc/items/dbd5ecd0ca0daf2508ea">shellscriptドキュメント作成ツールのリスト WIP</a>に書かれているように、標準的なツールは存在しない。</p></li>
+<li><p>TODO: インストーラー</p></li>
+<li><p>TODO: 引数解析をどうするか。</p></li>
+</ul>
+</section>
+</section>
 
         </article>
       </div>
@@ -191,7 +229,17 @@
         
         <div class="related-pages">
           
-          
+          <a class="prev-page" href="index.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
         </div>
 
         <div class="related-information">
@@ -200,7 +248,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/snippets/include-md.md.txt"
+            <a class="muted-link" href="_sources/bash.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -208,17 +256,38 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">bash</a><ul>
+<li><a class="reference internal" href="#set">set</a></li>
+<li><a class="reference internal" href="#id1">単体テスト</a></li>
+<li><a class="reference internal" href="#id2">未分類</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/scripts/main.js"></script>
-    <script src="../_static/translations.js"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    <script src="_static/translations.js"></script>
     </body>
 </html>
