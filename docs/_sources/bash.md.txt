@@ -51,9 +51,49 @@ err() {
 
 ```bash
 die() {
-  err "$!"
+  local msg="$1"; shift
+  msg=" ${msg#"${msg%%[![:space:]]*}"}"
+
+  local at=""
+  local stack
+  # shellcheck disable=SC2207
+  if stack=($(caller 0)); then
+    local line="${stack[0]}" file="${stack[2]}"
+    at=" at ${file} line ${line}"
+  fi
+  err "Died${msg}${at}."
   exit 1
 }
+```
+
+```bash
+#!/bin/bash
+
+err() {
+  echo "$1" 1>&2
+}
+
+die() {
+  local msg="$1"; shift
+  msg=" ${msg#"${msg%%[![:space:]]*}"}"
+
+  local at=""
+  local stack
+  # shellcheck disable=SC2207
+  if stack=($(caller 0)); then
+    local line="${stack[0]}" file="${stack[2]}"
+    at=" at ${file} line ${line}"
+  fi
+  err "Died${msg}${at}."
+  exit 1
+}
+
+die "abc"
+```
+
+```console
+$ ./a.sh
+Died abc at ./a.sh line 22.
 ```
 
 ### スタックトレースを出力する。
