@@ -1,0 +1,100 @@
+# bats
+
+https://bats-core.readthedocs.io/en/stable/
+
+## 基礎
+
+### インストールする。
+
+```bash
+git clone https://github.com/bats-core/bats-core.git
+cd bats-core
+./install.sh $HOME
+```
+
+### コマンドをテストする。
+
+```bash
+cat <<'__BATS__' >./a.bats
+@test "test1" {
+  run false
+  [ "$status" -eq 0 ]
+}
+__BATS__
+
+bats a.bats
+```
+
+```console
+$ bats a.bats
+ ✗ test1
+   (in test file a.bats, line 3)
+     `[ "$status" -eq 0 ]' failed
+
+1 test, 1 failure
+```
+
+### ファンクションをテストする。
+
+```bash
+cat <<'__BASH__' >./a.sh
+#!/bin/bash
+f() {
+  false
+}
+__BASH__
+chmod -v +x ./a.sh
+
+cat <<'__BATS__' >./a.bats
+@test "test1" {
+  source ./a.sh
+  run f
+  [ "$status" -eq 0 ]
+}
+__BATS__
+
+bats a.bats
+```
+
+```console
+$ bats a.bats
+ ✗ test1
+   (in test file a.bats, line 4)
+     `[ "$status" -eq 0 ]' failed
+
+1 test, 1 failure
+```
+
+### ファンクションの出力をテストする。
+
+```bash
+cat <<'__BASH__' >./a.sh
+#!/bin/bash
+f() {
+  echo "line1x"
+}
+__BASH__
+chmod -v +x ./a.sh
+
+cat <<'__BATS__' >./a.bats
+@test "test1" {
+  source ./a.sh
+  run f
+  [ "$status" -eq 0 ]
+  [ "$output" == "line1" ]
+}
+__BATS__
+
+bats --print-output-on-failure a.bats
+```
+
+```console
+$ bats --print-output-on-failure a.bats
+ ✗ test1
+   (in test file a.bats, line 5)
+     `[ "$output" == "line1" ]' failed
+   Last output:
+   line1x
+
+1 test, 1 failure
+```

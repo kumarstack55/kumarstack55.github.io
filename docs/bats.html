@@ -2,9 +2,12 @@
 <html class="no-js" lang="ja">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="#" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="prev" title="bash" href="bash.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/><title>検索 - Untitled Document  ドキュメント</title><link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>bats - Untitled Document ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
@@ -131,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -145,16 +148,16 @@
   
   <span class="sidebar-brand-text">Untitled Document  ドキュメント</span>
   
-</a><form class="sidebar-search-container" method="get" action="#" role="search">
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=検索 name="q" aria-label="検索">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="bash.html">bash</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bats</a></li>
 </ul>
 
 </div>
@@ -175,23 +178,111 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          
-<noscript>
-<div class="admonition error">
-  <p class="admonition-title">エラー</p>
-  <p>
-    Please activate JavaScript to enable the search functionality.
-  </p>
+          <section class="tex2jax_ignore mathjax_ignore" id="bats">
+<h1>bats<a class="headerlink" href="#bats" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>https://bats-core.readthedocs.io/en/stable/</p>
+<section id="id1">
+<h2>基礎<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h3>インストールする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/bats-core/bats-core.git
+<span class="nb">cd</span> bats-core
+./install.sh <span class="nv">$HOME</span>
+</pre></div>
 </div>
-</noscript>
+</section>
+<section id="id3">
+<h3>コマンドをテストする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;'__BATS__' &gt;./a.bats</span>
+<span class="s">@test "test1" {</span>
+<span class="s">  run false</span>
+<span class="s">  [ "$status" -eq 0 ]</span>
+<span class="s">}</span>
+<span class="s">__BATS__</span>
 
-<div id="search-results"></div>
+bats a.bats
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>bats a.bats
+<span class="go"> ✗ test1</span>
+<span class="go">   (in test file a.bats, line 3)</span>
+<span class="go">     `[ "$status" -eq 0 ]' failed</span>
+
+<span class="go">1 test, 1 failure</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>ファンクションをテストする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;'__BASH__' &gt;./a.sh</span>
+<span class="s">#!/bin/bash</span>
+<span class="s">f() {</span>
+<span class="s">  false</span>
+<span class="s">}</span>
+<span class="s">__BASH__</span>
+chmod -v +x ./a.sh
+
+cat <span class="s">&lt;&lt;'__BATS__' &gt;./a.bats</span>
+<span class="s">@test "test1" {</span>
+<span class="s">  source ./a.sh</span>
+<span class="s">  run f</span>
+<span class="s">  [ "$status" -eq 0 ]</span>
+<span class="s">}</span>
+<span class="s">__BATS__</span>
+
+bats a.bats
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>bats a.bats
+<span class="go"> ✗ test1</span>
+<span class="go">   (in test file a.bats, line 4)</span>
+<span class="go">     `[ "$status" -eq 0 ]' failed</span>
+
+<span class="go">1 test, 1 failure</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>ファンクションの出力をテストする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;'__BASH__' &gt;./a.sh</span>
+<span class="s">#!/bin/bash</span>
+<span class="s">f() {</span>
+<span class="s">  echo "line1x"</span>
+<span class="s">}</span>
+<span class="s">__BASH__</span>
+chmod -v +x ./a.sh
+
+cat <span class="s">&lt;&lt;'__BATS__' &gt;./a.bats</span>
+<span class="s">@test "test1" {</span>
+<span class="s">  source ./a.sh</span>
+<span class="s">  run f</span>
+<span class="s">  [ "$status" -eq 0 ]</span>
+<span class="s">  [ "$output" == "line1" ]</span>
+<span class="s">}</span>
+<span class="s">__BATS__</span>
+
+bats --print-output-on-failure a.bats
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>bats --print-output-on-failure a.bats
+<span class="go"> ✗ test1</span>
+<span class="go">   (in test file a.bats, line 5)</span>
+<span class="go">     `[ "$output" == "line1" ]' failed</span>
+<span class="go">   Last output:</span>
+<span class="go">   line1x</span>
+
+<span class="go">1 test, 1 failure</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
 
         </article>
       </div>
@@ -199,7 +290,17 @@
         
         <div class="related-pages">
           
-          
+          <a class="prev-page" href="bash.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">bash</div>
+                
+              </div>
+            </a>
         </div>
 
         <div class="related-information">
@@ -207,13 +308,42 @@
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/bats.md.txt"
+               rel="nofollow">
+              ソースコードを表示
+            </a>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">bats</a><ul>
+<li><a class="reference internal" href="#id1">基礎</a><ul>
+<li><a class="reference internal" href="#id2">インストールする。</a></li>
+<li><a class="reference internal" href="#id3">コマンドをテストする。</a></li>
+<li><a class="reference internal" href="#id4">ファンクションをテストする。</a></li>
+<li><a class="reference internal" href="#id5">ファンクションの出力をテストする。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -224,8 +354,5 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/main.js"></script>
     <script src="_static/translations.js"></script>
-    
-<script src="_static/searchtools.js"></script>
-<script src="_static/language_data.js"></script>
-<script src="searchindex.js"></script></body>
+    </body>
 </html>

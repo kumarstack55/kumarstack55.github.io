@@ -6,6 +6,7 @@ Welcome to Untitled Document's documentation!
    :caption: Contents:
 
    bash.md
+   bats.md
 
 Indices and tables
 ==================

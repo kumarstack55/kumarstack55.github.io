@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="prev" title="Welcome to Untitled Document&#39;s documentation!" href="index.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="bats" href="bats.html" /><link rel="prev" title="Welcome to Untitled Document&#39;s documentation!" href="index.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>bash - Untitled Document ドキュメント</title>
@@ -157,6 +157,7 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
 </ul>
 
 </div>
@@ -185,41 +186,135 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="bash">
 <h1>bash<a class="headerlink" href="#bash" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="set">
-<h2>set<a class="headerlink" href="#set" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>TODO: set -e</p></li>
-<li><p>TODO: set -u</p></li>
-</ul>
-</section>
 <section id="id1">
-<h2>単体テスト<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/sstephenson/bats">bats</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bats-core/bats-core">bats-core</a></p>
-<ul>
-<li><p>スクリプトのテストなら難なく使える。</p></li>
-<li><p>ファンクションのテストは、Pythonのようにスクリプト実行かモジュールのようにsourceされたのかを判定するか、あるいは、ファンクションを別ファイルに定義する。</p></li>
-<li><p>ファンクションの呼び出し回数が期待通りであるか、または、呼び出し回数によって制御を変えるようなモック処理は難しい。</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://github.com/shellspec/shellspec">ShellSpec</a></p></li>
-</ul>
-</section>
+<h2>基礎<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="id2">
-<h2>未分類<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>bash は<a class="reference external" href="https://stackoverflow.com/questions/11369522/bash-utility-script-library">stackoverflowの投稿</a>通り、基本的に標準的なライブラリは無い。これは執筆時点(2021年)でも変わらない。</p>
-<ul>
-<li><p><a class="reference external" href="https://github.com/cyberark/bash-lib">bash-lib</a>などもあるが、広く使われているかというとそうでもない。</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html">Shell and Utilities volume of POSIX.1-2017</a>に準拠するか。</p></li>
-<li><p><a class="reference external" href="https://google.github.io/styleguide/shellguide.html">Google Style Guides - Shell Style Guide</a>が記述範囲が広く、内容も目指すものに近い。</p></li>
-<li><p>コードからドキュメント生成をするツールは、<a class="reference external" href="https://qiita.com/Cj-bc/items/dbd5ecd0ca0daf2508ea">shellscriptドキュメント作成ツールのリスト WIP</a>に書かれているように、標準的なツールは存在しない。</p></li>
-<li><p>TODO: インストーラー</p></li>
-<li><p>TODO: 引数解析をどうするか。</p></li>
-</ul>
+<h3>ファンクションを定義する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">true</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>応用<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="shellcheck">
+<h3>ShellCheck をインストールする。<a class="headerlink" href="#shellcheck" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="nv">$HOME</span>
+curl -Lo - https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz <span class="p">|</span> tar -Jxvf -
+ln -s <span class="nv">$HOME</span>/shellcheck-stable/shellcheck ~/bin/shellcheck
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>スクリプトの絶対パスを得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">SCRIPT_PATH</span><span class="o">=</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[</span><span class="si">${#</span><span class="nv">BASH_SOURCE</span><span class="p">[@]</span><span class="si">}</span><span class="p"> - 1]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$SCRIPT_PATH</span><span class="s2">"</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ./a.sh
+/tmp/a.sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">source</span> a.sh
+/tmp/a.sh
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>標準エラーに出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>err<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>異常終了する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>die<span class="o">()</span> <span class="o">{</span>
+  err <span class="s2">"</span><span class="nv">$!</span><span class="s2">"</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>スタックトレースを出力する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>print_stacktrace<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">index</span><span class="o">=</span><span class="m">0</span>
+  <span class="nb">local</span> stack
+  err <span class="s2">"Traceback (most recent call first):"</span>
+  <span class="c1"># shellcheck disable=SC2207</span>
+  <span class="k">while</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="s2">"</span><span class="si">${</span><span class="nv">index</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">sub</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[1]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
+    err <span class="s2">"  </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">, line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">, in </span><span class="si">${</span><span class="nv">sub</span><span class="si">}</span><span class="s2">"</span>
+    <span class="o">((</span>index++<span class="o">))</span>
+  <span class="k">done</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<section id="id8">
+<h4>例: インタラクティブなセッションでスタックトレースを出力する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
+  print_stacktrace
+<span class="o">}</span>
+
+g<span class="o">()</span> <span class="o">{</span>
+  f
+<span class="o">}</span>
+
+g
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>g
+<span class="go">main, line 2, in f</span>
+<span class="go">main, line 2, in g</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h4>例: スクリプト実行でスタックトレースを出力する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+err<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="o">}</span>
+
+print_stacktrace<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">index</span><span class="o">=</span><span class="m">0</span>
+  <span class="nb">local</span> stack
+  err <span class="s2">"Traceback (most recent call first):"</span>
+  <span class="c1"># shellcheck disable=SC2207</span>
+  <span class="k">while</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="s2">"</span><span class="si">${</span><span class="nv">index</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">sub</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[1]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
+    err <span class="s2">"  </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">, line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">, in </span><span class="si">${</span><span class="nv">sub</span><span class="si">}</span><span class="s2">"</span>
+    <span class="o">((</span>index++<span class="o">))</span>
+  <span class="k">done</span>
+<span class="o">}</span>
+
+f<span class="o">()</span> <span class="o">{</span>
+  print_stacktrace
+<span class="o">}</span>
+
+g<span class="o">()</span> <span class="o">{</span>
+  f
+<span class="o">}</span>
+
+g
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
+<span class="go">Traceback (most recent call first):</span>
+<span class="go">  ./a.sh, line 20, in f</span>
+<span class="go">  ./a.sh, line 24, in g</span>
+<span class="go">  ./a.sh, line 27, in main</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 </section>
 
@@ -228,7 +323,15 @@
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="bats.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">bats</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -269,9 +372,22 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">bash</a><ul>
-<li><a class="reference internal" href="#set">set</a></li>
-<li><a class="reference internal" href="#id1">単体テスト</a></li>
-<li><a class="reference internal" href="#id2">未分類</a></li>
+<li><a class="reference internal" href="#id1">基礎</a><ul>
+<li><a class="reference internal" href="#id2">ファンクションを定義する。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">応用</a><ul>
+<li><a class="reference internal" href="#shellcheck">ShellCheck をインストールする。</a></li>
+<li><a class="reference internal" href="#id4">スクリプトの絶対パスを得る。</a></li>
+<li><a class="reference internal" href="#id5">標準エラーに出力する。</a></li>
+<li><a class="reference internal" href="#id6">異常終了する。</a></li>
+<li><a class="reference internal" href="#id7">スタックトレースを出力する。</a><ul>
+<li><a class="reference internal" href="#id8">例: インタラクティブなセッションでスタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id9">例: スクリプト実行でスタックトレースを出力する。</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

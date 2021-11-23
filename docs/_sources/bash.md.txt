@@ -1,25 +1,133 @@
 # bash
 
-## set
+## 基礎
 
-* TODO: set -e
-* TODO: set -u
+### ファンクションを定義する。
 
-## 単体テスト
+```bash
+f() {
+  true
+}
+```
 
-* [bats](https://github.com/sstephenson/bats)
-* [bats-core](https://github.com/bats-core/bats-core)
-    * スクリプトのテストなら難なく使える。
-    * ファンクションのテストは、Pythonのようにスクリプト実行かモジュールのようにsourceされたのかを判定するか、あるいは、ファンクションを別ファイルに定義する。
-    * ファンクションの呼び出し回数が期待通りであるか、または、呼び出し回数によって制御を変えるようなモック処理は難しい。
-* [ShellSpec](https://github.com/shellspec/shellspec)
+## 応用
 
-## 未分類
+### ShellCheck をインストールする。
 
-* bash は[stackoverflowの投稿](https://stackoverflow.com/questions/11369522/bash-utility-script-library)通り、基本的に標準的なライブラリは無い。これは執筆時点(2021年)でも変わらない。
-    * [bash-lib](https://github.com/cyberark/bash-lib)などもあるが、広く使われているかというとそうでもない。
-* [Shell and Utilities volume of POSIX.1-2017](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/contents.html)に準拠するか。
-* [Google Style Guides - Shell Style Guide](https://google.github.io/styleguide/shellguide.html)が記述範囲が広く、内容も目指すものに近い。
-* コードからドキュメント生成をするツールは、[shellscriptドキュメント作成ツールのリスト WIP](https://qiita.com/Cj-bc/items/dbd5ecd0ca0daf2508ea)に書かれているように、標準的なツールは存在しない。
-* TODO: インストーラー
-* TODO: 引数解析をどうするか。
+```bash
+cd $HOME
+curl -Lo - https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz | tar -Jxvf -
+ln -s $HOME/shellcheck-stable/shellcheck ~/bin/shellcheck
+```
+
+### スクリプトの絶対パスを得る。
+
+```bash
+#!/bin/bash
+
+SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
+echo "$SCRIPT_PATH"
+```
+
+```bash
+$ ./a.sh
+/tmp/a.sh
+```
+
+```bash
+$ source a.sh
+/tmp/a.sh
+```
+
+### 標準エラーに出力する。
+
+```bash
+err() {
+  echo "$1" 1>&2
+}
+```
+
+### 異常終了する。
+
+```bash
+die() {
+  err "$!"
+  exit 1
+}
+```
+
+### スタックトレースを出力する。
+
+```bash
+print_stacktrace() {
+  local index=0
+  local stack
+  err "Traceback (most recent call first):"
+  # shellcheck disable=SC2207
+  while stack=($(caller "${index}")); do
+    local line="${stack[0]}" sub="${stack[1]}" file="${stack[2]}"
+    err "  ${file}, line ${line}, in ${sub}"
+    ((index++))
+  done
+}
+```
+
+#### 例: インタラクティブなセッションでスタックトレースを出力する。
+
+```bash
+f() {
+  print_stacktrace
+}
+
+g() {
+  f
+}
+
+g
+```
+
+```console
+$ g
+main, line 2, in f
+main, line 2, in g
+```
+
+#### 例: スクリプト実行でスタックトレースを出力する。
+
+```bash
+#!/bin/bash
+
+err() {
+  echo "$1" 1>&2
+}
+
+print_stacktrace() {
+  local index=0
+  local stack
+  err "Traceback (most recent call first):"
+  # shellcheck disable=SC2207
+  while stack=($(caller "${index}")); do
+    local line="${stack[0]}" sub="${stack[1]}" file="${stack[2]}"
+    err "  ${file}, line ${line}, in ${sub}"
+    ((index++))
+  done
+}
+
+f() {
+  print_stacktrace
+}
+
+g() {
+  f
+}
+
+g
+```
+
+```console
+$ ./a.sh
+Traceback (most recent call first):
+  ./a.sh, line 20, in f
+  ./a.sh, line 24, in g
+  ./a.sh, line 27, in main
+```
