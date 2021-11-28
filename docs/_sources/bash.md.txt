@@ -41,10 +41,12 @@ echo "$SCRIPT_PATH"
 
 ```{eval-rst}
 .. literalinclude:: snippets/lib/die.sh
+   :language: bash
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/demo_die.sh
+   :language: bash
 ```
 
 ```{eval-rst}
@@ -53,15 +55,14 @@ echo "$SCRIPT_PATH"
 
 ### スタックトレースを出力する。
 
-```bash
-```
-
 ```{eval-rst}
 .. literalinclude:: snippets/lib/print_stacktrace.sh
+   :language: bash
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/demo_print_stacktrace.sh
+   :language: bash
 ```
 
 ```{eval-rst}
