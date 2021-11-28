@@ -44,27 +44,21 @@ $ source a.sh
 ### 標準エラーに出力する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/err.sh
+.. literalinclude:: snippets/lib/err.sh
 ```
 
 ### 異常終了する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/die.sh
+.. literalinclude:: snippets/lib/die.sh
 ```
 
-```bash
-#!/bin/bash
-
-SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
-SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
-source "$SCRIPT_DIR/die.sh"
-
-die "abc"
+```{eval-rst}
+.. literalinclude:: snippets/demo_die.sh
 ```
 
-```console
-TODO
+```{eval-rst}
+.. literalinclude:: snippets/demo_die.txt
 ```
 
 ### スタックトレースを出力する。
