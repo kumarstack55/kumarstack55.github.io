@@ -186,6 +186,7 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="bash">
 <h1>bash<a class="headerlink" href="#bash" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>https://www.gnu.org/software/bash/manual/bash.html</p>
 <section id="id1">
 <h2>基礎<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="id2">
@@ -215,67 +216,59 @@ ln -s <span class="nv">$HOME</span>/shellcheck-stable/shellcheck ~/bin/shellchec
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$SCRIPT_PATH</span><span class="s2">"</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ./a.sh
-/tmp/a.sh
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
+<span class="go">/tmp/a.sh</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">source</span> a.sh
-/tmp/a.sh
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span> a.sh
+<span class="go">/tmp/a.sh</span>
 </pre></div>
 </div>
 </section>
 <section id="id5">
 <h3>標準エラーに出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>err<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
-<span class="o">}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="n">err</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">echo</span> <span class="s2">"$1"</span> <span class="mi">1</span><span class="o">&gt;&amp;</span><span class="mi">2</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="id6">
 <h3>異常終了する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>die<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
-  <span class="nv">msg</span><span class="o">=</span><span class="s2">" </span><span class="si">${</span><span class="nv">msg</span><span class="p">#</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">"</span><span class="si">}</span><span class="s2">"</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
 
-  <span class="nb">local</span> <span class="nv">at</span><span class="o">=</span><span class="s2">""</span>
-  <span class="nb">local</span> stack
-  <span class="c1"># shellcheck disable=SC2207</span>
-  <span class="k">if</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="m">0</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
-    <span class="nv">at</span><span class="o">=</span><span class="s2">" at </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">fi</span>
-  err <span class="s2">"Died</span><span class="si">${</span><span class="nv">msg</span><span class="si">}${</span><span class="nv">at</span><span class="si">}</span><span class="s2">."</span>
-  <span class="nb">exit</span> <span class="m">1</span>
-<span class="o">}</span>
+SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+source "$SCRIPT_DIR/err.sh"
+
+die() {
+  local msg="$1"; shift
+  msg="${msg:-Died}"
+
+  local at=""
+  local stack
+  # shellcheck disable=SC2207
+  if stack=($(caller 0)); then
+    local line="${stack[0]}" file="${stack[2]}"
+    at=" at ${file} line ${line}"
+  fi
+  err "${msg}${at}."
+  exit 1
+}
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-err<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
-<span class="o">}</span>
-
-die<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
-  <span class="nv">msg</span><span class="o">=</span><span class="s2">" </span><span class="si">${</span><span class="nv">msg</span><span class="p">#</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">"</span><span class="si">}</span><span class="s2">"</span>
-
-  <span class="nb">local</span> <span class="nv">at</span><span class="o">=</span><span class="s2">""</span>
-  <span class="nb">local</span> stack
-  <span class="c1"># shellcheck disable=SC2207</span>
-  <span class="k">if</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="m">0</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
-    <span class="nv">at</span><span class="o">=</span><span class="s2">" at </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">fi</span>
-  err <span class="s2">"Died</span><span class="si">${</span><span class="nv">msg</span><span class="si">}${</span><span class="nv">at</span><span class="si">}</span><span class="s2">."</span>
-  <span class="nb">exit</span> <span class="m">1</span>
-<span class="o">}</span>
+<span class="nv">SCRIPT_PATH</span><span class="o">=</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[</span><span class="si">${#</span><span class="nv">BASH_SOURCE</span><span class="p">[@]</span><span class="si">}</span><span class="p"> - 1]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span>
+<span class="nv">SCRIPT_DIR</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="nv">$SCRIPT_PATH</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="nv">$SCRIPT_DIR</span><span class="s2">/die.sh"</span>
 
 die <span class="s2">"abc"</span>
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
-<span class="go">Died abc at ./a.sh line 22.</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TODO</span>
 </pre></div>
 </div>
 </section>
@@ -353,6 +346,74 @@ g
 </div>
 </section>
 </section>
+<section id="id10">
+<h3>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ensure<span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> ! <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">then</span> die <span class="s2">"command failed: </span><span class="nv">$*</span><span class="s2">"</span><span class="p">;</span> <span class="k">fi</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+err<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="o">}</span>
+
+die<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
+  <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="k">:-</span><span class="nv">Died</span><span class="si">}</span><span class="s2">"</span>
+
+  <span class="nb">local</span> <span class="nv">at</span><span class="o">=</span><span class="s2">""</span>
+  <span class="nb">local</span> stack
+  <span class="c1"># shellcheck disable=SC2207</span>
+  <span class="k">if</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="m">0</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
+    <span class="nv">at</span><span class="o">=</span><span class="s2">" at </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">fi</span>
+  err <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="si">}${</span><span class="nv">at</span><span class="si">}</span><span class="s2">."</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="o">}</span>
+
+ensure<span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> ! <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">then</span> die <span class="s2">"command failed: </span><span class="nv">$*</span><span class="s2">"</span><span class="p">;</span> <span class="k">fi</span>
+<span class="o">}</span>
+
+ensure <span class="nb">false</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
+<span class="go">command failed: false at ./a.sh line 23.</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ignore<span class="o">()</span> <span class="o">{</span>
+  <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>左端の空白を除去する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">#</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">"</span><span class="si">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+f <span class="s2">"  a b c"</span>
+f <span class="s2">"a b c"</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>f <span class="s2">"  a b c"</span>
+<span class="go">a b c</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>f <span class="s2">"a b c"</span>
+<span class="go">a b c</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -424,6 +485,9 @@ g
 <li><a class="reference internal" href="#id9">例: スクリプト実行でスタックトレースを出力する。</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id10">コマンド実行が失敗したら異常終了する。</a></li>
+<li><a class="reference internal" href="#id11">コマンド実行が失敗しても無視することを明示する。</a></li>
+<li><a class="reference internal" href="#id12">左端の空白を除去する。</a></li>
 </ul>
 </li>
 </ul>

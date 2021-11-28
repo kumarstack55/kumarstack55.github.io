@@ -1,5 +1,7 @@
 # bash
 
+https://www.gnu.org/software/bash/manual/bash.html
+
 ## 基礎
 
 ### ファンクションを定義する。
@@ -29,71 +31,40 @@ SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
 echo "$SCRIPT_PATH"
 ```
 
-```bash
+```console
 $ ./a.sh
 /tmp/a.sh
 ```
 
-```bash
+```console
 $ source a.sh
 /tmp/a.sh
 ```
 
 ### 標準エラーに出力する。
 
-```bash
-err() {
-  echo "$1" 1>&2
-}
+```{eval-rst}
+.. literalinclude:: snippets/err.sh
 ```
 
 ### 異常終了する。
 
-```bash
-die() {
-  local msg="$1"; shift
-  msg=" ${msg#"${msg%%[![:space:]]*}"}"
-
-  local at=""
-  local stack
-  # shellcheck disable=SC2207
-  if stack=($(caller 0)); then
-    local line="${stack[0]}" file="${stack[2]}"
-    at=" at ${file} line ${line}"
-  fi
-  err "Died${msg}${at}."
-  exit 1
-}
+```{eval-rst}
+.. literalinclude:: snippets/die.sh
 ```
 
 ```bash
 #!/bin/bash
 
-err() {
-  echo "$1" 1>&2
-}
-
-die() {
-  local msg="$1"; shift
-  msg=" ${msg#"${msg%%[![:space:]]*}"}"
-
-  local at=""
-  local stack
-  # shellcheck disable=SC2207
-  if stack=($(caller 0)); then
-    local line="${stack[0]}" file="${stack[2]}"
-    at=" at ${file} line ${line}"
-  fi
-  err "Died${msg}${at}."
-  exit 1
-}
+SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+source "$SCRIPT_DIR/die.sh"
 
 die "abc"
 ```
 
 ```console
-$ ./a.sh
-Died abc at ./a.sh line 22.
+TODO
 ```
 
 ### スタックトレースを出力する。
@@ -171,3 +142,76 @@ Traceback (most recent call first):
   ./a.sh, line 24, in g
   ./a.sh, line 27, in main
 ```
+
+### コマンド実行が失敗したら異常終了する。
+
+```bash
+ensure() {
+  if ! "$@"; then die "command failed: $*"; fi
+}
+```
+
+```bash
+#!/bin/bash
+
+err() {
+  echo "$1" 1>&2
+}
+
+die() {
+  local msg="$1"; shift
+  msg="${msg:-Died}"
+
+  local at=""
+  local stack
+  # shellcheck disable=SC2207
+  if stack=($(caller 0)); then
+    local line="${stack[0]}" file="${stack[2]}"
+    at=" at ${file} line ${line}"
+  fi
+  err "${msg}${at}."
+  exit 1
+}
+
+ensure() {
+  if ! "$@"; then die "command failed: $*"; fi
+}
+
+ensure false
+```
+
+```console
+$ ./a.sh
+command failed: false at ./a.sh line 23.
+```
+
+### コマンド実行が失敗しても無視することを明示する。
+
+```bash
+ignore() {
+  "$@"
+}
+```
+
+### 左端の空白を除去する。
+
+```bash
+f() {
+  local msg="$1"; shift
+  echo "${msg#"${msg%%[![:space:]]*}"}"
+}
+
+f "  a b c"
+f "a b c"
+```
+
+```console
+$ f "  a b c"
+a b c
+```
+
+```console
+$ f "a b c"
+a b c
+```
+

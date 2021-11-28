@@ -1,0 +1,31 @@
+# python
+
+## 基礎
+
+### Debian 10 (buster) に Python 3.9.7 をインストールする。
+
+#### Python をインストールする。
+
+```bash
+sudo -i
+
+apt update
+apt install build-essential zlib1g-dev libssl-dev libffi-dev
+
+cd /usr/local/src
+curl -Lo Python-3.9.7.tar.xz https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz
+tar -Jxvf Python-3.9.7.tar.xz
+
+cd /usr/local/src/Python-3.9.7
+./configure --enable-optimizations --prefix=/usr/local/python-3.9.7
+make
+make altinstall
+```
+
+https://docs.python.org/3.9/using/unix.html#on-linux
+
+#### Python3.9 を選択しておく。
+
+```bash
+sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/python-3.9.7/bin/python3.9 10
+```
