@@ -213,16 +213,8 @@ ln -s <span class="nv">$HOME</span>/shellcheck-stable/shellcheck ~/bin/shellchec
 <h3>スクリプトの絶対パスを得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="nv">SCRIPT_PATH</span><span class="o">=</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[</span><span class="si">${#</span><span class="nv">BASH_SOURCE</span><span class="p">[@]</span><span class="si">}</span><span class="p"> - 1]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span>
+<span class="nv">SCRIPT_PATH</span><span class="o">=</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$SCRIPT_PATH</span><span class="s2">"</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
-<span class="go">/tmp/a.sh</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span> a.sh
-<span class="go">/tmp/a.sh</span>
 </pre></div>
 </div>
 </section>
@@ -240,9 +232,8 @@ ln -s <span class="nv">$HOME</span>/shellcheck-stable/shellcheck ~/bin/shellchec
 <h3>異常終了する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
 
-SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
-SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
-source "$SCRIPT_DIR/err.sh"
+# shellcheck source=err.sh
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/err.sh"
 
 die() {
   local msg="$1"; shift
@@ -262,94 +253,52 @@ die() {
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
 
-SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
-SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
-source "$SCRIPT_DIR/die.sh"
+# shellcheck source=lib/die.sh
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/die.sh"
 
-die "abc"
+f() {
+  false
+}
+
+f || die "Failed to execute f()"
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_die.sh
-abc at ./demo_die.sh line 7.
+Failed to execute f() at ./demo_die.sh line 10.
 </pre></div>
 </div>
 </section>
 <section id="id7">
 <h3>スタックトレースを出力する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>print_stacktrace<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">index</span><span class="o">=</span><span class="m">0</span>
-  <span class="nb">local</span> stack
-  err <span class="s2">"Traceback (most recent call first):"</span>
-  <span class="c1"># shellcheck disable=SC2207</span>
-  <span class="k">while</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="s2">"</span><span class="si">${</span><span class="nv">index</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">do</span>
-    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">sub</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[1]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
-    err <span class="s2">"  </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">, line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">, in </span><span class="si">${</span><span class="nv">sub</span><span class="si">}</span><span class="s2">"</span>
-    <span class="o">((</span>index++<span class="o">))</span>
-  <span class="k">done</span>
-<span class="o">}</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+# shellcheck source=lib/die.sh
+source "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/lib/print_stacktrace.sh"
+
+f() {
+  print_stacktrace
+}
+
+g() {
+  f
+}
+
+g
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_print_stacktrace.sh
+Traceback (most recent call first):
+  ./demo_print_stacktrace.sh, line 7, in f
+  ./demo_print_stacktrace.sh, line 11, in g
+  ./demo_print_stacktrace.sh, line 14, in main
+</pre></div>
+</div>
+</section>
 <section id="id8">
-<h4>例: インタラクティブなセッションでスタックトレースを出力する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
-  print_stacktrace
-<span class="o">}</span>
-
-g<span class="o">()</span> <span class="o">{</span>
-  f
-<span class="o">}</span>
-
-g
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>g
-<span class="go">main, line 2, in f</span>
-<span class="go">main, line 2, in g</span>
-</pre></div>
-</div>
-</section>
-<section id="id9">
-<h4>例: スクリプト実行でスタックトレースを出力する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-err<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
-<span class="o">}</span>
-
-print_stacktrace<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">index</span><span class="o">=</span><span class="m">0</span>
-  <span class="nb">local</span> stack
-  err <span class="s2">"Traceback (most recent call first):"</span>
-  <span class="c1"># shellcheck disable=SC2207</span>
-  <span class="k">while</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="s2">"</span><span class="si">${</span><span class="nv">index</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">do</span>
-    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">sub</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[1]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
-    err <span class="s2">"  </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">, line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">, in </span><span class="si">${</span><span class="nv">sub</span><span class="si">}</span><span class="s2">"</span>
-    <span class="o">((</span>index++<span class="o">))</span>
-  <span class="k">done</span>
-<span class="o">}</span>
-
-f<span class="o">()</span> <span class="o">{</span>
-  print_stacktrace
-<span class="o">}</span>
-
-g<span class="o">()</span> <span class="o">{</span>
-  f
-<span class="o">}</span>
-
-g
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
-<span class="go">Traceback (most recent call first):</span>
-<span class="go">  ./a.sh, line 20, in f</span>
-<span class="go">  ./a.sh, line 24, in g</span>
-<span class="go">  ./a.sh, line 27, in main</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="id10">
-<h3>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ensure<span class="o">()</span> <span class="o">{</span>
   <span class="k">if</span> ! <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">then</span> die <span class="s2">"command failed: </span><span class="nv">$*</span><span class="s2">"</span><span class="p">;</span> <span class="k">fi</span>
 <span class="o">}</span>
@@ -388,16 +337,16 @@ ensure <span class="nb">false</span>
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h3>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id9">
+<h3>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ignore<span class="o">()</span> <span class="o">{</span>
   <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h3>左端の空白を除去する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id10">
+<h3>左端の空白を除去する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
   <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">#</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">"</span><span class="si">}</span><span class="s2">"</span>
@@ -482,14 +431,10 @@ f <span class="s2">"a b c"</span>
 <li><a class="reference internal" href="#id4">スクリプトの絶対パスを得る。</a></li>
 <li><a class="reference internal" href="#id5">標準エラーに出力する。</a></li>
 <li><a class="reference internal" href="#id6">異常終了する。</a></li>
-<li><a class="reference internal" href="#id7">スタックトレースを出力する。</a><ul>
-<li><a class="reference internal" href="#id8">例: インタラクティブなセッションでスタックトレースを出力する。</a></li>
-<li><a class="reference internal" href="#id9">例: スクリプト実行でスタックトレースを出力する。</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id10">コマンド実行が失敗したら異常終了する。</a></li>
-<li><a class="reference internal" href="#id11">コマンド実行が失敗しても無視することを明示する。</a></li>
-<li><a class="reference internal" href="#id12">左端の空白を除去する。</a></li>
+<li><a class="reference internal" href="#id7">スタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id8">コマンド実行が失敗したら異常終了する。</a></li>
+<li><a class="reference internal" href="#id9">コマンド実行が失敗しても無視することを明示する。</a></li>
+<li><a class="reference internal" href="#id10">左端の空白を除去する。</a></li>
 </ul>
 </li>
 </ul>

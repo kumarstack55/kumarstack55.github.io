@@ -27,18 +27,8 @@ ln -s $HOME/shellcheck-stable/shellcheck ~/bin/shellcheck
 ```bash
 #!/bin/bash
 
-SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]}")
+SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
 echo "$SCRIPT_PATH"
-```
-
-```console
-$ ./a.sh
-/tmp/a.sh
-```
-
-```console
-$ source a.sh
-/tmp/a.sh
 ```
 
 ### 標準エラーに出力する。
@@ -64,77 +54,18 @@ $ source a.sh
 ### スタックトレースを出力する。
 
 ```bash
-print_stacktrace() {
-  local index=0
-  local stack
-  err "Traceback (most recent call first):"
-  # shellcheck disable=SC2207
-  while stack=($(caller "${index}")); do
-    local line="${stack[0]}" sub="${stack[1]}" file="${stack[2]}"
-    err "  ${file}, line ${line}, in ${sub}"
-    ((index++))
-  done
-}
 ```
 
-#### 例: インタラクティブなセッションでスタックトレースを出力する。
-
-```bash
-f() {
-  print_stacktrace
-}
-
-g() {
-  f
-}
-
-g
+```{eval-rst}
+.. literalinclude:: snippets/lib/print_stacktrace.sh
 ```
 
-```console
-$ g
-main, line 2, in f
-main, line 2, in g
+```{eval-rst}
+.. literalinclude:: snippets/demo_print_stacktrace.sh
 ```
 
-#### 例: スクリプト実行でスタックトレースを出力する。
-
-```bash
-#!/bin/bash
-
-err() {
-  echo "$1" 1>&2
-}
-
-print_stacktrace() {
-  local index=0
-  local stack
-  err "Traceback (most recent call first):"
-  # shellcheck disable=SC2207
-  while stack=($(caller "${index}")); do
-    local line="${stack[0]}" sub="${stack[1]}" file="${stack[2]}"
-    err "  ${file}, line ${line}, in ${sub}"
-    ((index++))
-  done
-}
-
-f() {
-  print_stacktrace
-}
-
-g() {
-  f
-}
-
-g
-```
-
-```console
-$ ./a.sh
-Traceback (most recent call first):
-  ./a.sh, line 20, in f
-  ./a.sh, line 24, in g
-  ./a.sh, line 27, in main
+```{eval-rst}
+.. literalinclude:: snippets/demo_print_stacktrace.txt
 ```
 
 ### コマンド実行が失敗したら異常終了する。
