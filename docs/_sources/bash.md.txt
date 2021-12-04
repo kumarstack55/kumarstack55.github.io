@@ -34,95 +34,55 @@ echo "$SCRIPT_PATH"
 ### 標準エラーに出力する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/lib/err.sh
+.. literalinclude:: snippets/bash/lib/err.sh
 ```
 
 ### 異常終了する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/lib/die.sh
+.. literalinclude:: snippets/bash/lib/die.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/demo_die.sh
+.. literalinclude:: snippets/bash/demo_die.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/demo_die.txt
+.. literalinclude:: snippets/bash/demo_die.txt
 ```
 
 ### スタックトレースを出力する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/lib/print_stacktrace.sh
+.. literalinclude:: snippets/bash/lib/print_stacktrace.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/demo_print_stacktrace.sh
+.. literalinclude:: snippets/bash/demo_print_stacktrace.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/demo_print_stacktrace.txt
+.. literalinclude:: snippets/bash/demo_print_stacktrace.txt
 ```
 
 ### コマンド実行が失敗したら異常終了する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/lib/ensure.sh
+.. literalinclude:: snippets/bash/lib/ensure.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/demo_ensure.sh
+.. literalinclude:: snippets/bash/demo_ensure.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/demo_ensure.txt
-```
-
-```bash
-ensure() {
-  if ! "$@"; then die "command failed: $*"; fi
-}
-```
-
-```bash
-#!/bin/bash
-
-err() {
-  echo "$1" 1>&2
-}
-
-die() {
-  local msg="$1"; shift
-  msg="${msg:-Died}"
-
-  local at=""
-  local stack
-  # shellcheck disable=SC2207
-  if stack=($(caller 0)); then
-    local line="${stack[0]}" file="${stack[2]}"
-    at=" at ${file} line ${line}"
-  fi
-  err "${msg}${at}."
-  exit 1
-}
-
-ensure() {
-  if ! "$@"; then die "command failed: $*"; fi
-}
-
-ensure false
-```
-
-```console
-$ ./a.sh
-command failed: false at ./a.sh line 23.
+.. literalinclude:: snippets/bash/demo_ensure.txt
 ```
 
 ### コマンド実行が失敗しても無視することを明示する。

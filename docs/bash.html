@@ -222,37 +222,9 @@ ln -s <span class="nv">$HOME</span>/shellcheck-stable/shellcheck ~/bin/shellchec
 </section>
 <section id="id5">
 <h3>標準エラーに出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="n">err</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">echo</span> <span class="s2">"$1"</span> <span class="mi">1</span><span class="o">&gt;&amp;</span><span class="mi">2</span>
-<span class="p">}</span>
-</pre></div>
-</div>
 </section>
 <section id="id6">
 <h3>異常終了する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="c1"># shellcheck source=err.sh</span>
-<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/err.sh"</span>
-
-die<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
-  <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="k">:-</span><span class="nv">Died</span><span class="si">}</span><span class="s2">"</span>
-
-  <span class="nb">local</span> <span class="nv">at</span><span class="o">=</span><span class="s2">""</span>
-  <span class="nb">local</span> stack
-  <span class="c1"># shellcheck disable=SC2207</span>
-  <span class="k">if</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="m">0</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
-    <span class="nv">at</span><span class="o">=</span><span class="s2">" at </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">fi</span>
-  err <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="si">}${</span><span class="nv">at</span><span class="si">}</span><span class="s2">."</span>
-  <span class="nb">exit</span> <span class="m">1</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=lib/die.sh</span>
@@ -311,44 +283,7 @@ ensure f
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_ensure.sh
-command failed: f at /home/kumarstack55/render-github-pages-docs/source/snippets/lib/ensure.sh line 7.
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ensure<span class="o">()</span> <span class="o">{</span>
-  <span class="k">if</span> ! <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">then</span> die <span class="s2">"command failed: </span><span class="nv">$*</span><span class="s2">"</span><span class="p">;</span> <span class="k">fi</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-err<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span>
-<span class="o">}</span>
-
-die<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
-  <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="k">:-</span><span class="nv">Died</span><span class="si">}</span><span class="s2">"</span>
-
-  <span class="nb">local</span> <span class="nv">at</span><span class="o">=</span><span class="s2">""</span>
-  <span class="nb">local</span> stack
-  <span class="c1"># shellcheck disable=SC2207</span>
-  <span class="k">if</span> <span class="nv">stack</span><span class="o">=(</span><span class="k">$(</span><span class="nb">caller</span> <span class="m">0</span><span class="k">)</span><span class="o">)</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">local</span> <span class="nv">line</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="nv">file</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">stack</span><span class="p">[2]</span><span class="si">}</span><span class="s2">"</span>
-    <span class="nv">at</span><span class="o">=</span><span class="s2">" at </span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> line </span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">fi</span>
-  err <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="si">}${</span><span class="nv">at</span><span class="si">}</span><span class="s2">."</span>
-  <span class="nb">exit</span> <span class="m">1</span>
-<span class="o">}</span>
-
-ensure<span class="o">()</span> <span class="o">{</span>
-  <span class="k">if</span> ! <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">then</span> die <span class="s2">"command failed: </span><span class="nv">$*</span><span class="s2">"</span><span class="p">;</span> <span class="k">fi</span>
-<span class="o">}</span>
-
-ensure <span class="nb">false</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.sh
-<span class="go">command failed: false at ./a.sh line 23.</span>
+command failed: f at /home/kumarstack55/render-github-pages-docs/source/snippets/bash/lib/ensure.sh line 7.
 </pre></div>
 </div>
 </section>
