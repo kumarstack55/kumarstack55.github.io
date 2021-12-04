@@ -30,33 +30,18 @@ cd bats-core
 
 ### ファンクションをテストする。
 
-```bash
-cat <<'__BASH__' >./a.sh
-#!/bin/bash
-f() {
-  false
-}
-__BASH__
-chmod -v +x ./a.sh
-
-cat <<'__BATS__' >./a.bats
-@test "test1" {
-  source ./a.sh
-  run f
-  [ "$status" -eq 0 ]
-}
-__BATS__
-
-bats a.bats
+```{eval-rst}
+.. literalinclude:: snippets/bats/lib1.sh
+   :language: bash
 ```
 
-```console
-$ bats a.bats
- ✗ test1
-   (in test file a.bats, line 4)
-     `[ "$status" -eq 0 ]' failed
+```{eval-rst}
+.. literalinclude:: snippets/bats/test/lib1.sh
+   :language: bash
+```
 
-1 test, 1 failure
+```{eval-rst}
+.. literalinclude:: snippets/bats/test_lib1.txt
 ```
 
 ### ファンクションの出力をテストする。
