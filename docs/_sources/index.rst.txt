@@ -8,6 +8,8 @@ Welcome to Untitled Document's documentation!
    bash.md
    bats.md
    python.md
+   windows.md
+   linux.md
 
 Indices and tables
 ==================
