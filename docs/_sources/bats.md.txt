@@ -20,7 +20,7 @@ cd bats-core
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/bats/test/command1.sh
+.. literalinclude:: snippets/bats/test/command1.bats
    :language: bash
 ```
 
@@ -31,49 +31,31 @@ cd bats-core
 ### ファンクションをテストする。
 
 ```{eval-rst}
-.. literalinclude:: snippets/bats/lib1.sh
+.. literalinclude:: snippets/bats/lib_simple.sh
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/bats/test/lib1.sh
+.. literalinclude:: snippets/bats/test/lib_simple.bats
    :language: bash
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/bats/test_lib1.txt
+.. literalinclude:: snippets/bats/test_lib_simple.txt
 ```
 
 ### ファンクションの出力をテストする。
 
-```bash
-cat <<'__BASH__' >./a.sh
-#!/bin/bash
-f() {
-  echo "line1x"
-}
-__BASH__
-chmod -v +x ./a.sh
-
-cat <<'__BATS__' >./a.bats
-@test "test1" {
-  source ./a.sh
-  run f
-  [ "$status" -eq 0 ]
-  [ "$output" == "line1" ]
-}
-__BATS__
-
-bats --print-output-on-failure a.bats
+```{eval-rst}
+.. literalinclude:: snippets/bats/lib_assert_output.sh
+   :language: bash
 ```
 
-```console
-$ bats --print-output-on-failure a.bats
- ✗ test1
-   (in test file a.bats, line 5)
-     `[ "$output" == "line1" ]' failed
-   Last output:
-   line1x
+```{eval-rst}
+.. literalinclude:: snippets/bats/test/lib_assert_output.bats
+   :language: bash
+```
 
-1 test, 1 failure
+```{eval-rst}
+.. literalinclude:: snippets/bats/test_lib_assert_output.txt
 ```
