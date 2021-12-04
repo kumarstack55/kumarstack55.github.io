@@ -14,24 +14,18 @@ cd bats-core
 
 ### コマンドをテストする。
 
-```bash
-cat <<'__BATS__' >./a.bats
-@test "test1" {
-  run false
-  [ "$status" -eq 0 ]
-}
-__BATS__
-
-bats a.bats
+```{eval-rst}
+.. literalinclude:: snippets/bats/command1.sh
+   :language: bash
 ```
 
-```console
-$ bats a.bats
- ✗ test1
-   (in test file a.bats, line 3)
-     `[ "$status" -eq 0 ]' failed
+```{eval-rst}
+.. literalinclude:: snippets/bats/test/command1.sh
+   :language: bash
+```
 
-1 test, 1 failure
+```{eval-rst}
+.. literalinclude:: snippets/bats/test_command1.txt
 ```
 
 ### ファンクションをテストする。

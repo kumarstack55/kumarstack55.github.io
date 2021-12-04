@@ -5,11 +5,11 @@ Welcome to Untitled Document's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   linux.md
    bash.md
    bats.md
    python.md
    windows.md
-   linux.md
 
 Indices and tables
 ==================
