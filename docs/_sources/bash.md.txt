@@ -71,6 +71,20 @@ echo "$SCRIPT_PATH"
 
 ### コマンド実行が失敗したら異常終了する。
 
+```{eval-rst}
+.. literalinclude:: snippets/lib/ensure.sh
+   :language: bash
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/demo_ensure.sh
+   :language: bash
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/demo_ensure.txt
+```
+
 ```bash
 ensure() {
   if ! "$@"; then die "command failed: $*"; fi
