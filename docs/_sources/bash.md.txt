@@ -35,6 +35,7 @@ echo "$SCRIPT_PATH"
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/err.sh
+   :language: bash
 ```
 
 ### 異常終了する。
