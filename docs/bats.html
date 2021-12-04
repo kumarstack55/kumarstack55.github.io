@@ -206,7 +206,9 @@
 <span class="nb">false</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@test <span class="s2">"command1.sh は正常終了する。"</span> <span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bats</span>
+
+@test <span class="s2">"command1.sh は正常終了する。"</span> <span class="o">{</span>
   run ./command1.sh
   <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> -eq <span class="m">0</span> <span class="o">]</span>
 <span class="o">}</span>
@@ -215,7 +217,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ bats -t ./test/command1.bats
 1..1
 not ok 1 command1.sh は正常終了する。
-# (in test file test/command1.bats, line 3)
+# (in test file test/command1.bats, line 5)
 #   `[ "$status" -eq 0 ]' failed
 </pre></div>
 </div>
@@ -228,8 +230,12 @@ f<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@test <span class="s2">"f() は正常終了する。"</span> <span class="o">{</span>
-  <span class="nb">source</span> lib_simple.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bats</span>
+
+<span class="c1"># shellcheck source=../lib_simple.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="nv">$BATS_TEST_DIRNAME</span><span class="s2">"</span><span class="k">)</span><span class="s2">/lib_simple.sh"</span>
+
+@test <span class="s2">"f() は正常終了する。"</span> <span class="o">{</span>
   run f
   <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> -eq <span class="m">0</span> <span class="o">]</span>
 <span class="o">}</span>
@@ -238,7 +244,7 @@ f<span class="o">()</span> <span class="o">{</span>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ bats -t ./test/lib_simple.bats
 1..1
 not ok 1 f() は正常終了する。
-# (in test file test/lib_simple.bats, line 4)
+# (in test file test/lib_simple.bats, line 6)
 #   `[ "$status" -eq 0 ]' failed
 </pre></div>
 </div>
@@ -251,7 +257,10 @@ f<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="nv">$BATS_TEST_DIRNAME</span><span class="k">)</span><span class="s2">/lib_assert_output.sh"</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bats</span>
+
+<span class="c1"># shellcheck source=../lib_assert_output.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="nv">$BATS_TEST_DIRNAME</span><span class="s2">"</span><span class="k">)</span><span class="s2">/lib_assert_output.sh"</span>
 
 setup<span class="o">()</span> <span class="o">{</span>
   load <span class="s1">'test_helper/bats-support/load'</span>
@@ -268,7 +277,7 @@ setup<span class="o">()</span> <span class="o">{</span>
 1..1
 not ok 1 f() は文字列を出力する。
 # (from function `assert_output' in file test/test_helper/bats-assert/src/assert_output.bash, line 194,
-#  in test file test/lib_assert_output.bats, line 10)
+#  in test file test/lib_assert_output.bats, line 13)
 #   `assert_output "line1"' failed
 #
 # -- output differs --
