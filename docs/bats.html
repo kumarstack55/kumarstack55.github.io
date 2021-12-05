@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="python" href="python.html" /><link rel="prev" title="bash" href="bash.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="python" href="python.html" /><link rel="prev" title="bash応用" href="bash_application.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>bats - Untitled Document ドキュメント</title>
@@ -157,7 +157,8 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash.html">bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
@@ -191,17 +192,15 @@
 <h1>bats<a class="headerlink" href="#bats" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>https://bats-core.readthedocs.io/en/stable/</p>
 <section id="id1">
-<h2>基礎<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id2">
-<h3>インストールする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>インストールする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/bats-core/bats-core.git
 <span class="nb">cd</span> bats-core
 ./install.sh <span class="nv">$HOME</span>
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h3>コマンドをテストする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id2">
+<h2>コマンドをテストする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nb">false</span>
 </pre></div>
@@ -222,8 +221,8 @@ not ok 1 command1.sh は正常終了する。
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>ファンクションをテストする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id3">
+<h2>ファンクションをテストする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">false</span>
@@ -249,8 +248,8 @@ not ok 1 f() は正常終了する。
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h3>ファンクションの出力をテストする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id4">
+<h2>ファンクションの出力をテストする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">echo</span> line1x
@@ -289,7 +288,6 @@ not ok 1 f() は文字列を出力する。
 </div>
 </section>
 </section>
-</section>
 
         </article>
       </div>
@@ -305,14 +303,14 @@ not ok 1 f() は文字列を出力する。
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="bash.html">
+          <a class="prev-page" href="bash_application.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">bash</div>
+                <div class="title">bash応用</div>
                 
               </div>
             </a>
@@ -345,13 +343,10 @@ not ok 1 f() は文字列を出力する。
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">bats</a><ul>
-<li><a class="reference internal" href="#id1">基礎</a><ul>
-<li><a class="reference internal" href="#id2">インストールする。</a></li>
-<li><a class="reference internal" href="#id3">コマンドをテストする。</a></li>
-<li><a class="reference internal" href="#id4">ファンクションをテストする。</a></li>
-<li><a class="reference internal" href="#id5">ファンクションの出力をテストする。</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#id1">インストールする。</a></li>
+<li><a class="reference internal" href="#id2">コマンドをテストする。</a></li>
+<li><a class="reference internal" href="#id3">ファンクションをテストする。</a></li>
+<li><a class="reference internal" href="#id4">ファンクションの出力をテストする。</a></li>
 </ul>
 </li>
 </ul>

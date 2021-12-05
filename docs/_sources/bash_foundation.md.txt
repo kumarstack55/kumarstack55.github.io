@@ -1,0 +1,11 @@
+# bash基礎
+
+https://www.gnu.org/software/bash/manual/bash.html
+
+## ファンクションを定義する。
+
+```bash
+f() {
+  true
+}
+```

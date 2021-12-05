@@ -157,7 +157,8 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash.html">bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
@@ -189,12 +190,8 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="python">
 <h1>python<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="id1">
-<h2>基礎<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="debian-10-buster-python-3-9-7">
-<h3>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<section id="id2">
-<h4>Python をインストールする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h2>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -i
 
 apt update
@@ -210,15 +207,11 @@ make
 make altinstall
 </pre></div>
 </div>
-<p>https://docs.python.org/3.9/using/unix.html#on-linux</p>
-</section>
-<section id="python3-9">
-<h4>Python3.9 を選択しておく。<a class="headerlink" href="#python3-9" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/python-3.9.7/bin/python3.9 <span class="m">10</span>
 </pre></div>
 </div>
-</section>
-</section>
+<p>参考:</p>
+<p>https://docs.python.org/3.9/using/unix.html#on-linux</p>
 </section>
 </section>
 
@@ -276,14 +269,7 @@ make altinstall
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">python</a><ul>
-<li><a class="reference internal" href="#id1">基礎</a><ul>
-<li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a><ul>
-<li><a class="reference internal" href="#id2">Python をインストールする。</a></li>
-<li><a class="reference internal" href="#python3-9">Python3.9 を選択しておく。</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 </ul>
 </li>
 </ul>

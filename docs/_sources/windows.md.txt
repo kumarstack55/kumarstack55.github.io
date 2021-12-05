@@ -1,5 +1,147 @@
 # Microsoft Windows
 
+## BCDEDIT - ブート構成データ ストア エディター
+
+### ストアのエントリを一覧表示する。
+
+```
+# cmd.exe
+bcdedit.exe /enum
+```
+
+```
+C:\WINDOWS\system32>bcdedit.exe /enum
+
+Windows ブート マネージャー
+--------------------------------
+identifier              {bootmgr}
+device                  partition=\Device\HarddiskVolume1
+path                    \EFI\Microsoft\Boot\bootmgfw.efi
+description             Windows Boot Manager
+locale                  ja-JP
+inherit                 {globalsettings}
+isolatedcontext         Yes
+default                 {current}
+resumeobject            {198fde25-3998-11ec-8825-502f9b7dcde5}
+displayorder            {current}
+toolsdisplayorder       {memdiag}
+timeout                 30
+
+Windows ブート ローダー
+--------------------------------
+identifier              {current}
+device                  partition=C:
+path                    \WINDOWS\system32\winload.efi
+description             Windows 11
+locale                  ja-JP
+inherit                 {bootloadersettings}
+recoverysequence        {198fde28-3998-11ec-8825-502f9b7dcde5}
+displaymessageoverride  Recovery
+recoveryenabled         Yes
+isolatedcontext         Yes
+allowedinmemorysettings 0x15000075
+osdevice                partition=C:
+systemroot              \WINDOWS
+resumeobject            {198fde25-3998-11ec-8825-502f9b7dcde5}
+nx                      OptIn
+bootmenupolicy          Standard
+hypervisorlaunchtype    Auto
+```
+
+### 参考: bcdedit /?
+
+```console
+>bcdedit /?
+
+BCDEDIT - ブート構成データ ストア エディター
+
+Bcdedit.exe コマンドライン ツールは、ブート構成データ ストアを修正します。
+ブート構成データ ストアにはブート構成パラメーターが含まれ、オペレーティング
+システムのブート方法を制御します。これらのパラメーターは、以前は Boot.ini
+ファイル (BIOS ベースのオペレーティング システム内) か、不揮発性 RAM エントリ
+(拡張ファームウェア インターフェイスベースのオペレーティング システム内) に
+ありました。Bcdedit.exe を使用して、ブート構成データ ストアのエントリを追加、
+削除、編集、および付加することができます。
+
+詳細なコマンドとオプション情報については、「bcdedit.exe /? <command>」と入力
+してください。たとえば、/createstore コマンドについて詳細情報を表示するには以下のように入力します。
+
+     bcdedit.exe /? /createstore
+
+ヘルプ ファイルのトピック順の一覧を参照するには、"bcdedit /? TOPICS" を実行します。
+
+ストアの操作のコマンド
+======================
+/store          現在のシステムの既定以外の BCD ストアを指定するために使用されます。
+/createstore    新しい空のブート構成データ ストアを作成します。
+/export         システム ストアの内容をファイルにエクスポートします。
+                このファイルは、システム ストアの状態を復元するために後から使用することができます。
+/import         /export コマンドで作成されたバックアップ ファイルを使用して、
+                システム ストアの状態を復元します。
+/sysstore       システム ストア デバイスを設定します (EFI システムにのみ有効
+                です。設定内容は再起動後まで維持されません。システム ストア
+                デバイスが明確に指定されていない場合にのみ使用されます)。
+
+ストア内のエントリの操作のコマンド
+==================================
+/copy           ストアにエントリのコピーを作成します。
+/create         ストアに新しいエントリを作成します。
+/delete         ストアからエントリを削除します。
+/mirror         ストアにエントリのミラーを作成します。
+
+これらのコマンドで使用する ID の情報については bcdedit /? ID を実行してください。
+
+エントリ オプションの操作のコマンド
+===================================
+/deletevalue    ストアからエントリ オプションを削除します。
+/set            ストアにエントリ オプションの値を設定します。
+
+これらのコマンドで使用するデータの種類の一覧については bcdedit /? TYPES を実行してください。
+有効なデータ形式の一覧については bcdedit /? FORMATS を実行してください。
+
+出力を制御するコマンド
+======================
+/enum           ストアのエントリを一覧表示します。
+/v              既知の識別子名を使用するのではなく、エントリ識別子を完全な
+                形式で表示するコマンドライン オプションです。
+                ACTIVE な種類のエントリ識別子の完全な形式を表示するコマンド
+                として /v を使用します。
+
+"bcdedit" の実行は "bcdedit /enum ACTIVE" の実行と同じです。
+
+ブート マネージャーを制御するコマンド
+===================================
+/bootsequence   ブート マネージャーの 1 回限りのブート シーケンスを設定します。
+/default        ブート マネージャーが使用する既定のエントリを設定します。
+/displayorder   ブート マネージャーがマルチブート メニューを表示する順序を設定
+                します。
+/timeout        ブート マネージャーのタイムアウト値を設定します。
+/toolsdisplayorder  ブート マネージャーがツール メニューを表示する順序を設定
+                    します。
+
+ブート アプリケーションの緊急管理サービスを制御するコマンド
+===========================================================
+/bootems        ブート アプリケーションの緊急管理サービスを有効または無効に
+                します。
+/ems            オペレーティング システム エントリの緊急管理サービスを有効
+                または無効にします。
+/emssettings    グローバルな緊急管理サービスのパラメーターを設定します。
+
+デバッグを制御するコマンド
+==========================
+/bootdebug      ブート アプリケーションのブート デバッグを有効または無効にします。
+/dbgsettings    グローバル デバッガー パラメーターを設定します。
+/debug          オペレーティング システム エントリのカーネル デバッグを有効
+                または無効にします。
+/hypervisorsettings  ハイパーバイザー パラメーターを設定します。
+
+リモート イベント ログを制御するコマンド
+=========================================
+/eventsettings  グローバルなリモート イベント ログ パラメーターを設定します。
+/event          オペレーティング システム エントリのリモート イベント ログを
+                有効または無効にします。
+```
+
 ## WSL2
 
 https://docs.microsoft.com/en-us/windows/wsl/install
@@ -28,6 +170,12 @@ wsl -l -v
 wsl --install -d Ubuntu
 ```
 
+### インストールしたディストリビューションを消す。
+
+```powershell
+wsl --unregister Ubuntu
+```
+
 ### 既存ウィンドウでシェルを起動し、 State を Running にする。
 
 ```powershell
@@ -44,13 +192,19 @@ wsl --exec uname
 wsl uname
 ```
 
+### ディストリビューションを指定する。
+
+```powershell
+wsl -d Ubuntu-20.04
+```
+
 ### すべてのディストリビューションの State を Stopped にする。
 
 ```powershell
 wsl --shutdown
 ```
 
-### ネットワーク構造
+### ネットワーク構成
 
 ```
     |
@@ -59,7 +213,7 @@ wsl --shutdown
       vEthernet (WSL)
       ip address: 172.19.64.1
       |
-     -o-o- 172.19.65.234/20
+     -o-o- 172.19.64.0/20
         |
         eth0
         Ubuntu

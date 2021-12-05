@@ -6,7 +6,8 @@ Welcome to Untitled Document's documentation!
    :caption: Contents:
 
    linux.md
-   bash.md
+   bash_foundation.md
+   bash_application.md
    bats.md
    python.md
    windows.md

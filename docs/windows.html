@@ -157,7 +157,8 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash.html">bash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Microsoft Windows</a></li>
@@ -189,6 +190,148 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="microsoft-windows">
 <h1>Microsoft Windows<a class="headerlink" href="#microsoft-windows" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="bcdedit">
+<h2>BCDEDIT - ブート構成データ ストア エディター<a class="headerlink" href="#bcdedit" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id1">
+<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cmd.exe</span>
+<span class="n">bcdedit</span><span class="o">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">enum</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">WINDOWS</span>\<span class="n">system32</span><span class="o">&gt;</span><span class="n">bcdedit</span><span class="o">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">enum</span>
+
+<span class="n">Windows</span> <span class="n">ブート</span> <span class="n">マネージャー</span>
+<span class="o">--------------------------------</span>
+<span class="n">identifier</span>              <span class="p">{</span><span class="n">bootmgr</span><span class="p">}</span>
+<span class="n">device</span>                  <span class="n">partition</span><span class="o">=</span>\<span class="n">Device</span>\<span class="n">HarddiskVolume1</span>
+<span class="n">path</span>                    \<span class="n">EFI</span>\<span class="n">Microsoft</span>\<span class="n">Boot</span>\<span class="n">bootmgfw</span><span class="o">.</span><span class="n">efi</span>
+<span class="n">description</span>             <span class="n">Windows</span> <span class="n">Boot</span> <span class="n">Manager</span>
+<span class="n">locale</span>                  <span class="n">ja</span><span class="o">-</span><span class="n">JP</span>
+<span class="n">inherit</span>                 <span class="p">{</span><span class="n">globalsettings</span><span class="p">}</span>
+<span class="n">isolatedcontext</span>         <span class="n">Yes</span>
+<span class="n">default</span>                 <span class="p">{</span><span class="n">current</span><span class="p">}</span>
+<span class="n">resumeobject</span>            <span class="p">{</span><span class="mi">198</span><span class="n">fde25</span><span class="o">-</span><span class="mi">3998</span><span class="o">-</span><span class="mi">11</span><span class="n">ec</span><span class="o">-</span><span class="mi">8825</span><span class="o">-</span><span class="mi">502</span><span class="n">f9b7dcde5</span><span class="p">}</span>
+<span class="n">displayorder</span>            <span class="p">{</span><span class="n">current</span><span class="p">}</span>
+<span class="n">toolsdisplayorder</span>       <span class="p">{</span><span class="n">memdiag</span><span class="p">}</span>
+<span class="n">timeout</span>                 <span class="mi">30</span>
+
+<span class="n">Windows</span> <span class="n">ブート</span> <span class="n">ローダー</span>
+<span class="o">--------------------------------</span>
+<span class="n">identifier</span>              <span class="p">{</span><span class="n">current</span><span class="p">}</span>
+<span class="n">device</span>                  <span class="n">partition</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>
+<span class="n">path</span>                    \<span class="n">WINDOWS</span>\<span class="n">system32</span>\<span class="n">winload</span><span class="o">.</span><span class="n">efi</span>
+<span class="n">description</span>             <span class="n">Windows</span> <span class="mi">11</span>
+<span class="n">locale</span>                  <span class="n">ja</span><span class="o">-</span><span class="n">JP</span>
+<span class="n">inherit</span>                 <span class="p">{</span><span class="n">bootloadersettings</span><span class="p">}</span>
+<span class="n">recoverysequence</span>        <span class="p">{</span><span class="mi">198</span><span class="n">fde28</span><span class="o">-</span><span class="mi">3998</span><span class="o">-</span><span class="mi">11</span><span class="n">ec</span><span class="o">-</span><span class="mi">8825</span><span class="o">-</span><span class="mi">502</span><span class="n">f9b7dcde5</span><span class="p">}</span>
+<span class="n">displaymessageoverride</span>  <span class="n">Recovery</span>
+<span class="n">recoveryenabled</span>         <span class="n">Yes</span>
+<span class="n">isolatedcontext</span>         <span class="n">Yes</span>
+<span class="n">allowedinmemorysettings</span> <span class="mh">0x15000075</span>
+<span class="n">osdevice</span>                <span class="n">partition</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>
+<span class="n">systemroot</span>              \<span class="n">WINDOWS</span>
+<span class="n">resumeobject</span>            <span class="p">{</span><span class="mi">198</span><span class="n">fde25</span><span class="o">-</span><span class="mi">3998</span><span class="o">-</span><span class="mi">11</span><span class="n">ec</span><span class="o">-</span><span class="mi">8825</span><span class="o">-</span><span class="mi">502</span><span class="n">f9b7dcde5</span><span class="p">}</span>
+<span class="n">nx</span>                      <span class="n">OptIn</span>
+<span class="n">bootmenupolicy</span>          <span class="n">Standard</span>
+<span class="n">hypervisorlaunchtype</span>    <span class="n">Auto</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>参考: bcdedit /?<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;bcdedit /?</span>
+
+<span class="go">BCDEDIT - ブート構成データ ストア エディター</span>
+
+<span class="go">Bcdedit.exe コマンドライン ツールは、ブート構成データ ストアを修正します。</span>
+<span class="go">ブート構成データ ストアにはブート構成パラメーターが含まれ、オペレーティング</span>
+<span class="go">システムのブート方法を制御します。これらのパラメーターは、以前は Boot.ini</span>
+<span class="go">ファイル (BIOS ベースのオペレーティング システム内) か、不揮発性 RAM エントリ</span>
+<span class="gp gp-VirtualEnv">(拡張ファームウェア インターフェイスベースのオペレーティング システム内)</span> <span class="go">に</span>
+<span class="go">ありました。Bcdedit.exe を使用して、ブート構成データ ストアのエントリを追加、</span>
+<span class="go">削除、編集、および付加することができます。</span>
+
+<span class="go">詳細なコマンドとオプション情報については、「bcdedit.exe /? &lt;command&gt;」と入力</span>
+<span class="go">してください。たとえば、/createstore コマンドについて詳細情報を表示するには以下のように入力します。</span>
+
+<span class="go">     bcdedit.exe /? /createstore</span>
+
+<span class="go">ヘルプ ファイルのトピック順の一覧を参照するには、"bcdedit /? TOPICS" を実行します。</span>
+
+<span class="go">ストアの操作のコマンド</span>
+<span class="go">======================</span>
+<span class="go">/store          現在のシステムの既定以外の BCD ストアを指定するために使用されます。</span>
+<span class="go">/createstore    新しい空のブート構成データ ストアを作成します。</span>
+<span class="go">/export         システム ストアの内容をファイルにエクスポートします。</span>
+<span class="go">                このファイルは、システム ストアの状態を復元するために後から使用することができます。</span>
+<span class="go">/import         /export コマンドで作成されたバックアップ ファイルを使用して、</span>
+<span class="go">                システム ストアの状態を復元します。</span>
+<span class="go">/sysstore       システム ストア デバイスを設定します (EFI システムにのみ有効</span>
+<span class="go">                です。設定内容は再起動後まで維持されません。システム ストア</span>
+<span class="go">                デバイスが明確に指定されていない場合にのみ使用されます)。</span>
+
+<span class="go">ストア内のエントリの操作のコマンド</span>
+<span class="go">==================================</span>
+<span class="go">/copy           ストアにエントリのコピーを作成します。</span>
+<span class="go">/create         ストアに新しいエントリを作成します。</span>
+<span class="go">/delete         ストアからエントリを削除します。</span>
+<span class="go">/mirror         ストアにエントリのミラーを作成します。</span>
+
+<span class="go">これらのコマンドで使用する ID の情報については bcdedit /? ID を実行してください。</span>
+
+<span class="go">エントリ オプションの操作のコマンド</span>
+<span class="go">===================================</span>
+<span class="go">/deletevalue    ストアからエントリ オプションを削除します。</span>
+<span class="go">/set            ストアにエントリ オプションの値を設定します。</span>
+
+<span class="go">これらのコマンドで使用するデータの種類の一覧については bcdedit /? TYPES を実行してください。</span>
+<span class="go">有効なデータ形式の一覧については bcdedit /? FORMATS を実行してください。</span>
+
+<span class="go">出力を制御するコマンド</span>
+<span class="go">======================</span>
+<span class="go">/enum           ストアのエントリを一覧表示します。</span>
+<span class="go">/v              既知の識別子名を使用するのではなく、エントリ識別子を完全な</span>
+<span class="go">                形式で表示するコマンドライン オプションです。</span>
+<span class="go">                ACTIVE な種類のエントリ識別子の完全な形式を表示するコマンド</span>
+<span class="go">                として /v を使用します。</span>
+
+<span class="go">"bcdedit" の実行は "bcdedit /enum ACTIVE" の実行と同じです。</span>
+
+<span class="go">ブート マネージャーを制御するコマンド</span>
+<span class="go">===================================</span>
+<span class="go">/bootsequence   ブート マネージャーの 1 回限りのブート シーケンスを設定します。</span>
+<span class="go">/default        ブート マネージャーが使用する既定のエントリを設定します。</span>
+<span class="go">/displayorder   ブート マネージャーがマルチブート メニューを表示する順序を設定</span>
+<span class="go">                します。</span>
+<span class="go">/timeout        ブート マネージャーのタイムアウト値を設定します。</span>
+<span class="go">/toolsdisplayorder  ブート マネージャーがツール メニューを表示する順序を設定</span>
+<span class="go">                    します。</span>
+
+<span class="go">ブート アプリケーションの緊急管理サービスを制御するコマンド</span>
+<span class="go">===========================================================</span>
+<span class="go">/bootems        ブート アプリケーションの緊急管理サービスを有効または無効に</span>
+<span class="go">                します。</span>
+<span class="go">/ems            オペレーティング システム エントリの緊急管理サービスを有効</span>
+<span class="go">                または無効にします。</span>
+<span class="go">/emssettings    グローバルな緊急管理サービスのパラメーターを設定します。</span>
+
+<span class="go">デバッグを制御するコマンド</span>
+<span class="go">==========================</span>
+<span class="go">/bootdebug      ブート アプリケーションのブート デバッグを有効または無効にします。</span>
+<span class="go">/dbgsettings    グローバル デバッガー パラメーターを設定します。</span>
+<span class="go">/debug          オペレーティング システム エントリのカーネル デバッグを有効</span>
+<span class="go">                または無効にします。</span>
+<span class="go">/hypervisorsettings  ハイパーバイザー パラメーターを設定します。</span>
+
+<span class="go">リモート イベント ログを制御するコマンド</span>
+<span class="go">=========================================</span>
+<span class="go">/eventsettings  グローバルなリモート イベント ログ パラメーターを設定します。</span>
+<span class="go">/event          オペレーティング システム エントリのリモート イベント ログを</span>
+<span class="go">                有効または無効にします。</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="wsl2">
 <h2>WSL2<a class="headerlink" href="#wsl2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>https://docs.microsoft.com/en-us/windows/wsl/install</p>
@@ -198,14 +341,14 @@
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h3>ディストリビューションの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id3">
+<h3>ディストリビューションの一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h3>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id4">
+<h3>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
 </pre></div>
 </div>
@@ -216,19 +359,31 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h3>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id5">
+<h3>インストールしたディストリビューションを消す。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-unregister</span> <span class="n">Ubuntu</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="p">~</span>
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>指定コマンドを実行し、 State を Running にする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h3>指定コマンドを実行し、 State を Running にする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-exec</span> <span class="n">uname</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="n">uname</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>ディストリビューションを指定する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span>
 </pre></div>
 </div>
 </section>
@@ -238,15 +393,15 @@
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h3>ネットワーク構造<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id9">
+<h3>ネットワーク構成<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">|</span>
    <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span>
       <span class="o">|</span>
       <span class="n">vEthernet</span> <span class="p">(</span><span class="n">WSL</span><span class="p">)</span>
       <span class="n">ip</span> <span class="n">address</span><span class="p">:</span> <span class="mf">172.19.64.1</span>
       <span class="o">|</span>
-     <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span> <span class="mf">172.19.65.234</span><span class="o">/</span><span class="mi">20</span>
+     <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span> <span class="mf">172.19.64.0</span><span class="o">/</span><span class="mi">20</span>
         <span class="o">|</span>
         <span class="n">eth0</span>
         <span class="n">Ubuntu</span>
@@ -452,15 +607,22 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Microsoft Windows</a><ul>
+<li><a class="reference internal" href="#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
+<li><a class="reference internal" href="#id1">ストアのエントリを一覧表示する。</a></li>
+<li><a class="reference internal" href="#id2">参考: bcdedit /?</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#wsl2">WSL2</a><ul>
 <li><a class="reference internal" href="#wsl">WSLのステータスを得る。</a></li>
-<li><a class="reference internal" href="#id1">ディストリビューションの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id2">ローカルのディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id3">ディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id4">ローカルのディストリビューションの一覧を得る。</a></li>
 <li><a class="reference internal" href="#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
-<li><a class="reference internal" href="#id3">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
-<li><a class="reference internal" href="#id4">指定コマンドを実行し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id5">インストールしたディストリビューションを消す。</a></li>
+<li><a class="reference internal" href="#id6">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id7">指定コマンドを実行し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id8">ディストリビューションを指定する。</a></li>
 <li><a class="reference internal" href="#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
-<li><a class="reference internal" href="#id5">ネットワーク構造</a></li>
+<li><a class="reference internal" href="#id9">ネットワーク構成</a></li>
 <li><a class="reference internal" href="#wsl-help">参考: wsl --help</a></li>
 </ul>
 </li>

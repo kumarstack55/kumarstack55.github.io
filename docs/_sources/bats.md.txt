@@ -2,9 +2,7 @@
 
 https://bats-core.readthedocs.io/en/stable/
 
-## 基礎
-
-### インストールする。
+## インストールする。
 
 ```bash
 git clone https://github.com/bats-core/bats-core.git
@@ -12,7 +10,7 @@ cd bats-core
 ./install.sh $HOME
 ```
 
-### コマンドをテストする。
+## コマンドをテストする。
 
 ```{eval-rst}
 .. literalinclude:: snippets/bats/command1.sh
@@ -28,7 +26,7 @@ cd bats-core
 .. literalinclude:: snippets/bats/test_command1.txt
 ```
 
-### ファンクションをテストする。
+## ファンクションをテストする。
 
 ```{eval-rst}
 .. literalinclude:: snippets/bats/lib_simple.sh
@@ -44,7 +42,7 @@ cd bats-core
 .. literalinclude:: snippets/bats/test_lib_simple.txt
 ```
 
-### ファンクションの出力をテストする。
+## ファンクションの出力をテストする。
 
 ```{eval-rst}
 .. literalinclude:: snippets/bats/lib_assert_output.sh
