@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -181,7 +181,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -189,6 +189,221 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="microsoft-windows">
 <h1>Microsoft Windows<a class="headerlink" href="#microsoft-windows" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="wsl2">
+<h2>WSL2<a class="headerlink" href="#wsl2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>https://docs.microsoft.com/en-us/windows/wsl/install</p>
+<section id="wsl">
+<h3>WSLのステータスを得る。<a class="headerlink" href="#wsl" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-status</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>ディストリビューションの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
+</pre></div>
+</div>
+</section>
+<section id="state-running">
+<h3>ディストリビューションをインストールし、State を Running にする。<a class="headerlink" href="#state-running" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span> <span class="n">-d</span> <span class="n">Ubuntu</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span>
+<span class="c"># または</span>
+<span class="n">wsl</span> <span class="p">~</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>指定コマンドを実行し、 State を Running にする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-exec</span> <span class="n">uname</span>
+<span class="c"># または</span>
+<span class="n">wsl</span> <span class="n">uname</span>
+</pre></div>
+</div>
+</section>
+<section id="state-stopped">
+<h3>すべてのディストリビューションの State を Stopped にする。<a class="headerlink" href="#state-stopped" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-shutdown</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>ネットワーク構造<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">|</span>
+   <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span>
+      <span class="o">|</span>
+      <span class="n">vEthernet</span> <span class="p">(</span><span class="n">WSL</span><span class="p">)</span>
+      <span class="n">ip</span> <span class="n">address</span><span class="p">:</span> <span class="mf">172.19.64.1</span>
+      <span class="o">|</span>
+     <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span> <span class="mf">172.19.65.234</span><span class="o">/</span><span class="mi">20</span>
+        <span class="o">|</span>
+        <span class="n">eth0</span>
+        <span class="n">Ubuntu</span>
+        <span class="n">nameserver</span><span class="p">:</span> <span class="mf">172.19.64.1</span>
+</pre></div>
+</div>
+</section>
+<section id="wsl-help">
+<h3>参考: wsl --help<a class="headerlink" href="#wsl-help" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; wsl --status</span>
+<span class="go">既定のバージョン: 2</span>
+
+<span class="go">Linux 用 Windows サブシステムの最終更新日: 2021/12/05</span>
+<span class="go">Windows Subsystem for Linux カーネルは、'wsl --update' を使用して手動で更新できますが、システム設定が原因で自動更新が発生することはありません。</span>
+<span class="go">カーネルの自動更新を受け取るには、 Windows Update の設定を有効にしてください:' Windowsの更新に、その他のMicrosoftの製品の更新情報を受け取る'。</span>
+<span class="go">詳細については、 https://aka.ms/wsl2kernel.</span>
+<span class="go"> を参照してください</span>
+<span class="go">カーネル バージョン: 5.10.60.1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; wsl --help</span>
+<span class="go">Copyright (c) Microsoft Corporation. All rights reserved.</span>
+
+<span class="go">使用法: wsl.exe [Argument] [Options...] [CommandLine]</span>
+
+<span class="go">Linux バイナリを実行するための引数:</span>
+
+<span class="go">    コマンドラインを指定しない場合、wsl.exe によって既定のシェルが起動されます。</span>
+
+<span class="go">    --exec, -e &lt;CommandLine&gt;</span>
+<span class="go">        既定の Linux シェルを使用せずに、指定したコマンドを実行します。</span>
+
+<span class="go">    --</span>
+<span class="go">        残りのコマンドラインをそのまま渡します。</span>
+
+<span class="go">オプション:</span>
+<span class="go">    --cd &lt;Directory&gt;</span>
+<span class="go">        指定したディレクトリを現在の作業ディレクトリとして設定します。</span>
+<span class="go">        ~ が使用されている場合は、Linux ユーザーのホーム パスが使用されます。パスの先頭が</span>
+<span class="go">        / の場合は、Linux の絶対パスと解釈されます。</span>
+<span class="go">        それ以外の場合、この値は Windows の絶対パスである必要があります。</span>
+
+<span class="go">   --distribution, -d &lt;Distro&gt;</span>
+<span class="go">        指定したディストリビューションを実行します。</span>
+
+<span class="go">   --user, -u &lt;UserName&gt;</span>
+<span class="go">        指定されたユーザーとして実行します。</span>
+
+<span class="go">     --system</span>
+<span class="go">        システム配布用のシェルを起動します。</span>
+
+<span class="go">Windows Subsystem for Linux を管理するための引数:</span>
+
+<span class="go">    --help</span>
+<span class="go">        使用状況に関する情報を表示します。</span>
+
+<span class="go">    --install [Options]</span>
+<span class="go">      追加の Windows Subsystem for Linux ディストリビューションをインストールします。</span>
+<span class="go">      有効なディストリビューションの一覧を表示するには、'wsl--list--online' を使用してください。</span>
+
+<span class="go">        オプション:</span>
+<span class="go">            --distribution, -d [Argument]</span>
+<span class="go">                名前を指定して配布をダウンロードしてインストールします。</span>
+
+<span class="go">                引数:</span>
+<span class="go">                   有効なディストリビューション名 (大文字と小文字は区別されません)。</span>
+
+<span class="go">                例:</span>
+<span class="go">                    wsl --install -d Ubuntu</span>
+<span class="go">                    wsl --install --distribution Debian</span>
+
+<span class="go">    --set-default-version &lt;Version&gt;</span>
+<span class="go">         新しいディストリビューションの既定のインストールバージョンを変更します。</span>
+
+<span class="go">    --shutdown</span>
+<span class="go">        直ちに、すべての実行中の配布および WSL 2</span>
+<span class="go"> 軽快なユーティリティの仮想マシンを終了します。</span>
+
+<span class="go">    --status</span>
+<span class="go">        Linux の Windows Subsystem の状態を示します。</span>
+
+<span class="go">    --update [Options]</span>
+<span class="go">        オプションが指定されていない場合、WSL 2 カーネルは更新され</span>
+<span class="go"> 、最新バージョンになります。</span>
+
+<span class="go">        オプション:</span>
+<span class="go">            --rollback</span>
+<span class="go">                以前のバージョンの WSL 2 カーネルに戻します。</span>
+
+<span class="go">Windows Subsystem for Linuxのディストリビューションを管理するための引数:</span>
+
+<span class="go">    --export &lt;Distro&gt; &lt;FileName&gt;</span>
+<span class="go">        ディストリビューションを tar ファイルにエクスポートします。</span>
+<span class="go">ファイル名には、標準出力として - を使用できます。</span>
+
+<span class="go">    --import &lt;Distro&gt; &lt;InstallLocation&gt; &lt;FileName&gt; [Options]</span>
+<span class="go">        指定した tar ファイルを新しいディストリビューションとしてインポートします。</span>
+<span class="go">ファイル名には標準入力として - を使用できます。</span>
+
+<span class="go">        オプション:</span>
+<span class="go">            --version &lt;Version&gt;</span>
+<span class="go">                新しいディストリビューションに使用するバージョンを指定します。</span>
+
+<span class="go">    --list, -l [Options]</span>
+<span class="go">        ディストリビューションの一覧を表示します。</span>
+
+<span class="go">        オプション:</span>
+<span class="go">            --all</span>
+<span class="go">                現在インストールまたはアンインストールされているディストリビューションを含む、すべてのディストリビューションを表示します。</span>
+
+<span class="go">            --running</span>
+<span class="go">                現在実行中のディストリビューションのみを表示します。</span>
+
+<span class="go">            --quiet, -q</span>
+<span class="go">                ディストリビューション名のみを表示します。</span>
+
+<span class="go">            --verbose, -v</span>
+<span class="go">                すべてのディストリビューションに関する詳細な情報を表示します。</span>
+
+<span class="go">            --online, -o</span>
+<span class="go">                'wsl --install' を使用してインストールするために使用できるディストリビューションの一覧を表示します。</span>
+
+<span class="go">    --set-default, -s &lt;Distro&gt;</span>
+<span class="go">       ディストリビューションを既定として設定します。</span>
+
+<span class="go">    --set-version &lt;Distro&gt; &lt;Version&gt;</span>
+<span class="go">        指定されたディストリビューションのバージョンを変更します。</span>
+
+<span class="go">    --terminate, -t &lt;Distro&gt;</span>
+<span class="go">        指定されたディストリビューションを終了します。</span>
+
+<span class="go">    --unregister &lt;Distro&gt;</span>
+<span class="go">        ディストリビューションの登録を解除し、ルートファイルシステムを削除します。</span>
+
+<span class="go">    --mount &lt;Disk&gt;</span>
+<span class="go">        すべての WSL2 配布に物理ディスクをアタッチしてマウントします。</span>
+
+<span class="go">        オプション:</span>
+<span class="go">            --bare</span>
+<span class="go">                ディスクを WSL2 に接続しますが、マウントしません。</span>
+
+<span class="go">            --type &lt;Type&gt;</span>
+<span class="go">                ディスクのマウント時に使用するファイルシステムです。指定しない場合は、既定で ext4 になります。</span>
+
+<span class="go">            --options &lt;Options&gt;</span>
+<span class="go">                追加のマウントオプション。</span>
+
+<span class="go">            --partition &lt;Index&gt;</span>
+<span class="go">                マウントするパーティションのインデックスです。指定しない場合、既定でディスク全体が指定されます。</span>
+
+<span class="go">    --unmount [Disk]</span>
+<span class="go">        すべての WSL2 ディストリビューションからディスクのマウントを解除してデタッチします。</span>
+<span class="go">        引数なしで呼び出された場合は、ディスクをマウント解除してデタッチします。</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
         </article>
@@ -224,8 +439,38 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Microsoft Windows</a><ul>
+<li><a class="reference internal" href="#wsl2">WSL2</a><ul>
+<li><a class="reference internal" href="#wsl">WSLのステータスを得る。</a></li>
+<li><a class="reference internal" href="#id1">ディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id2">ローカルのディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
+<li><a class="reference internal" href="#id3">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id4">指定コマンドを実行し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
+<li><a class="reference internal" href="#id5">ネットワーク構造</a></li>
+<li><a class="reference internal" href="#wsl-help">参考: wsl --help</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

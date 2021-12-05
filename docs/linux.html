@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -181,7 +181,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -189,6 +189,24 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="linux">
 <h1>Linux<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="ip">
+<h2>IPアドレスを得る。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span> <span class="n">a</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>ルーティングテーブルを得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span> <span class="n">r</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>インストールされたパッケージ一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="nb">list</span> <span class="o">--</span><span class="n">installed</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -232,8 +250,29 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Linux</a><ul>
+<li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
+<li><a class="reference internal" href="#id1">ルーティングテーブルを得る。</a></li>
+<li><a class="reference internal" href="#id2">インストールされたパッケージ一覧を得る。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
