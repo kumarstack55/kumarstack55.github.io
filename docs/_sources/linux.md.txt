@@ -2,18 +2,32 @@
 
 ## IPアドレスを得る。
 
-```
+```bash
 ip a
 ```
 
 ## ルーティングテーブルを得る。
 
-```
+```bash
 ip r
 ```
 
 ## インストールされたパッケージ一覧を得る。
 
-```
+```bash
 apt list --installed
+```
+
+## スワップを加える。
+
+```bash
+cat /proc/swaps
+free -h
+
+dd if=/dev/zero of=/swap1 bs=1M count=1024
+chmod -v 0600 /swap1
+mkswap /swap1
+swapon /swap1
+
+ansible -m lineinfile -a "path=/etc/fstab line='/swap1 swap swap defaults 0 0' backup=yes" localhost
 ```

@@ -1,0 +1,8 @@
+# Debian
+
+## Ansible をインストールする。
+
+```bash
+apt update
+apt install ansible
+```
