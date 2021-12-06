@@ -266,6 +266,7 @@ Failed to execute f() at ./demo_die.sh line 10.
 
 <span class="nv">_LOG_STDERR</span><span class="o">=</span><span class="m">1</span>
 <span class="nv">_LOG_SYSLOG</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">_LOG_SYSLOG_FACILITY</span><span class="o">=</span>local0
 <span class="nv">_LOG_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span>
 
 log_disable_stderr<span class="o">()</span> <span class="o">{</span>
@@ -276,42 +277,45 @@ log_disable_syslog<span class="o">()</span> <span class="o">{</span>
   <span class="nv">_LOG_SYSLOG</span><span class="o">=</span><span class="s1">''</span>
 <span class="o">}</span>
 
+log_disable_syslog_facility<span class="o">()</span> <span class="o">{</span>
+  <span class="nv">_LOG_SYSLOG_FACILITY</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
 _log_pri<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">local0</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">err</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">_LOG_SYSLOG_FACILITY</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">err</span><span class="si">}</span><span class="s2">"</span>
 <span class="o">}</span>
 
 _log<span class="o">()</span> <span class="o">{</span>
-  <span class="c1">#[ "$_LOG_STDERR" ] &amp;&amp; err "$(date '+%F %H:%M:%S') $_LOG_NAME $3"</span>
-  <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_STDERR</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> err <span class="s2">"</span><span class="k">$(</span>date --rfc-3339<span class="o">=</span>seconds<span class="k">)</span><span class="s2"> </span><span class="nv">$_LOG_NAME</span><span class="s2"> </span><span class="nv">$3</span><span class="s2">"</span>
+  <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_STDERR</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> err <span class="s2">"</span><span class="k">$(</span>date --rfc-3339<span class="o">=</span>seconds<span class="k">)</span><span class="s2"> </span><span class="nv">$_LOG_NAME</span><span class="s2"> </span><span class="nv">$2</span><span class="s2">"</span>
   <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_SYSLOG</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
     <span class="nb">local</span> pri
-    <span class="nv">pri</span><span class="o">=</span><span class="k">$(</span>_log_pri <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span><span class="k">)</span> <span class="o">||</span> die
-    logger -p <span class="s2">"</span><span class="nv">$pri</span><span class="s2">"</span> -t <span class="s2">"</span><span class="nv">$_LOG_NAME</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+    <span class="nv">pri</span><span class="o">=</span><span class="k">$(</span>_log_pri <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="k">)</span> <span class="o">||</span> die
+    logger -p <span class="s2">"</span><span class="nv">$pri</span><span class="s2">"</span> -t <span class="s2">"</span><span class="nv">$_LOG_NAME</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
   <span class="k">fi</span>
 <span class="o">}</span>
 
 log<span class="o">()</span> <span class="o">{</span>
-  _log <span class="s2">""</span> <span class="s2">""</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  _log <span class="s1">''</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 
 log_crit<span class="o">()</span> <span class="o">{</span>
-  _log <span class="s2">""</span> <span class="s2">"crit"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  _log <span class="s1">'crit'</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 
 log_err<span class="o">()</span> <span class="o">{</span>
-  _log <span class="s2">""</span> <span class="s2">"err"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  _log <span class="s1">'err'</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 
 log_warn<span class="o">()</span> <span class="o">{</span>
-  _log <span class="s2">""</span> <span class="s2">"warn"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  _log <span class="s1">'warn'</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 
 log_info<span class="o">()</span> <span class="o">{</span>
-  _log <span class="s2">""</span> <span class="s2">"info"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  _log <span class="s1">'info'</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 
 log_debug<span class="o">()</span> <span class="o">{</span>
-  _log <span class="s2">""</span> <span class="s2">"debug"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  _log <span class="s1">'debug'</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 </pre></div>
 </div>
@@ -324,7 +328,7 @@ log_err <span class="s2">"test"</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_log.sh
-2021-12-07 00:22:10+09:00 demo_log.sh test
+2021-12-07 00:40:24+09:00 demo_log.sh test
 </pre></div>
 </div>
 </section>
