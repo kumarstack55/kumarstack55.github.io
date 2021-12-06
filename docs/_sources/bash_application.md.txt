@@ -40,6 +40,22 @@ echo "$SCRIPT_PATH"
 .. literalinclude:: snippets/bash/demo_die.txt
 ```
 
+## ログを出力する。
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/lib/log.sh
+   :language: bash
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_log.sh
+   :language: bash
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_log.txt
+```
+
 ## スタックトレースを出力する。
 
 ```{eval-rst}

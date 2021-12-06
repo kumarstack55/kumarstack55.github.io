@@ -226,8 +226,7 @@ err<span class="o">()</span> <span class="o">{</span>
 <span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/err.sh"</span>
 
 die<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
-  <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="k">:-</span><span class="nv">Died</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">Died</span><span class="si">}</span><span class="s2">"</span>
 
   <span class="nb">local</span> <span class="nv">at</span><span class="o">=</span><span class="s2">""</span>
   <span class="nb">local</span> stack
@@ -259,7 +258,78 @@ Failed to execute f() at ./demo_die.sh line 10.
 </div>
 </section>
 <section id="id4">
-<h2>スタックトレースを出力する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>ログを出力する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># shellcheck source=err.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/err.sh"</span>
+
+<span class="nv">_LOG_STDERR</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">_LOG_SYSLOG</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">_LOG_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span>
+
+log_disable_stderr<span class="o">()</span> <span class="o">{</span>
+  <span class="nv">_LOG_STDERR</span><span class="o">=</span><span class="s1">''</span>
+<span class="o">}</span>
+
+log_disable_syslog<span class="o">()</span> <span class="o">{</span>
+  <span class="nv">_LOG_SYSLOG</span><span class="o">=</span><span class="s1">''</span>
+<span class="o">}</span>
+
+_log_pri<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">local0</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">err</span><span class="si">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+_log<span class="o">()</span> <span class="o">{</span>
+  <span class="c1">#[ "$_LOG_STDERR" ] &amp;&amp; err "$(date '+%F %H:%M:%S') $_LOG_NAME $3"</span>
+  <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_STDERR</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> err <span class="s2">"</span><span class="k">$(</span>date --rfc-3339<span class="o">=</span>seconds<span class="k">)</span><span class="s2"> </span><span class="nv">$_LOG_NAME</span><span class="s2"> </span><span class="nv">$3</span><span class="s2">"</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_SYSLOG</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">local</span> pri
+    <span class="nv">pri</span><span class="o">=</span><span class="k">$(</span>_log_pri <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span><span class="k">)</span> <span class="o">||</span> die
+    logger -p <span class="s2">"</span><span class="nv">$pri</span><span class="s2">"</span> -t <span class="s2">"</span><span class="nv">$_LOG_NAME</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+  <span class="k">fi</span>
+<span class="o">}</span>
+
+log<span class="o">()</span> <span class="o">{</span>
+  _log <span class="s2">""</span> <span class="s2">""</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+log_crit<span class="o">()</span> <span class="o">{</span>
+  _log <span class="s2">""</span> <span class="s2">"crit"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+log_err<span class="o">()</span> <span class="o">{</span>
+  _log <span class="s2">""</span> <span class="s2">"err"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+log_warn<span class="o">()</span> <span class="o">{</span>
+  _log <span class="s2">""</span> <span class="s2">"warn"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+log_info<span class="o">()</span> <span class="o">{</span>
+  _log <span class="s2">""</span> <span class="s2">"info"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+log_debug<span class="o">()</span> <span class="o">{</span>
+  _log <span class="s2">""</span> <span class="s2">"debug"</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># shellcheck source=lib/log.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/lib/log.sh"</span>
+
+log_err <span class="s2">"test"</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_log.sh
+2021-12-07 00:22:10+09:00 demo_log.sh test
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>スタックトレースを出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=err.sh</span>
@@ -302,8 +372,8 @@ Traceback (most recent call first):
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=die.sh</span>
@@ -331,16 +401,16 @@ command failed: f at /home/kumarstack55/render-github-pages-docs/source/snippets
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ignore<span class="o">()</span> <span class="o">{</span>
   <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>左端の空白を除去する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>左端の空白を除去する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
   <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">#</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">"</span><span class="si">}</span><span class="s2">"</span>
@@ -419,10 +489,11 @@ f <span class="s2">"a b c"</span>
 <li><a class="reference internal" href="#id1">スクリプトの絶対パスを得る。</a></li>
 <li><a class="reference internal" href="#id2">標準エラーに出力する。</a></li>
 <li><a class="reference internal" href="#id3">異常終了する。</a></li>
-<li><a class="reference internal" href="#id4">スタックトレースを出力する。</a></li>
-<li><a class="reference internal" href="#id5">コマンド実行が失敗したら異常終了する。</a></li>
-<li><a class="reference internal" href="#id6">コマンド実行が失敗しても無視することを明示する。</a></li>
-<li><a class="reference internal" href="#id7">左端の空白を除去する。</a></li>
+<li><a class="reference internal" href="#id4">ログを出力する。</a></li>
+<li><a class="reference internal" href="#id5">スタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id6">コマンド実行が失敗したら異常終了する。</a></li>
+<li><a class="reference internal" href="#id7">コマンド実行が失敗しても無視することを明示する。</a></li>
+<li><a class="reference internal" href="#id8">左端の空白を除去する。</a></li>
 </ul>
 </li>
 </ul>
