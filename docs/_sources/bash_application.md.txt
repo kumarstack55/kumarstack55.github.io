@@ -90,10 +90,18 @@ echo "$SCRIPT_PATH"
 
 ## コマンド実行が失敗しても無視することを明示する。
 
-```bash
-ignore() {
-  "$@"
-}
+```{eval-rst}
+.. literalinclude:: snippets/bash/lib/ignore.sh
+   :language: bash
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_ignore.sh
+   :language: bash
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_ignore.txt
 ```
 
 ## 左端の空白を除去する。

@@ -407,9 +407,26 @@ command failed: f at /home/kumarstack55/render-github-pages-docs/source/snippets
 </section>
 <section id="id7">
 <h2>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ignore<span class="o">()</span> <span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+ignore<span class="o">()</span> <span class="o">{</span>
   <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 <span class="o">}</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># shellcheck source=lib/ignore.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/lib/ignore.sh"</span>
+
+f<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">false</span>
+<span class="o">}</span>
+
+ignore f
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_ignore.sh
 </pre></div>
 </div>
 </section>
