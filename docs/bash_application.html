@@ -264,38 +264,35 @@ Failed to execute f() at ./demo_die.sh line 10.
 <span class="c1"># shellcheck source=err.sh</span>
 <span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/err.sh"</span>
 
-<span class="c1"># shellcheck source=die.sh</span>
-<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/die.sh"</span>
-
-<span class="nv">_LOG_STDERR</span><span class="o">=</span><span class="m">1</span>
-<span class="nv">_LOG_SYSLOG</span><span class="o">=</span><span class="m">1</span>
-<span class="nv">_LOG_SYSLOG_FACILITY</span><span class="o">=</span>local0
-<span class="nv">_LOG_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span>
+<span class="nv">_log_stderr</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">_log_syslog</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">_log_syslog_facility</span><span class="o">=</span>local0
+<span class="nv">_log_name</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span>
 
 log_disable_stderr<span class="o">()</span> <span class="o">{</span>
-  <span class="nv">_LOG_STDERR</span><span class="o">=</span><span class="s1">''</span>
+  <span class="nv">_log_stderr</span><span class="o">=</span><span class="s1">''</span>
 <span class="o">}</span>
 
 log_disable_syslog<span class="o">()</span> <span class="o">{</span>
-  <span class="nv">_LOG_SYSLOG</span><span class="o">=</span><span class="s1">''</span>
+  <span class="nv">_log_syslog</span><span class="o">=</span><span class="s1">''</span>
 <span class="o">}</span>
 
-log_disable_syslog_facility<span class="o">()</span> <span class="o">{</span>
-  <span class="nv">_LOG_SYSLOG_FACILITY</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+log_set_syslog_facility<span class="o">()</span> <span class="o">{</span>
+  <span class="nv">_log_syslog_facility</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
 <span class="o">}</span>
 
 _log_pri<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">_LOG_SYSLOG_FACILITY</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">err</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">_log_syslog_facility</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">err</span><span class="si">}</span><span class="s2">"</span>
 <span class="o">}</span>
 
 _log<span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">sec</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">3</span><span class="k">:-$(</span>date +%s<span class="k">)</span><span class="si">}</span><span class="s2">"</span>
-  <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_STDERR</span><span class="s2">"</span> <span class="o">]</span> <span class="se">\</span>
-    <span class="o">&amp;&amp;</span> err <span class="s2">"</span><span class="k">$(</span>date --rfc-3339<span class="o">=</span>seconds --date<span class="o">=</span><span class="s2">"@</span><span class="nv">$sec</span><span class="s2">"</span><span class="k">)</span><span class="s2"> </span><span class="nv">$_LOG_NAME</span><span class="s2"> </span><span class="nv">$2</span><span class="s2">"</span>
-  <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$_LOG_SYSLOG</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="o">[</span> <span class="s2">"</span><span class="nv">$_log_stderr</span><span class="s2">"</span> <span class="o">]</span> <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> err <span class="s2">"</span><span class="k">$(</span>date --rfc-3339<span class="o">=</span>seconds --date<span class="o">=</span><span class="s2">"@</span><span class="nv">$sec</span><span class="s2">"</span><span class="k">)</span><span class="s2"> </span><span class="nv">$_log_name</span><span class="s2"> </span><span class="nv">$2</span><span class="s2">"</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$_log_syslog</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
     <span class="nb">local</span> pri
-    <span class="nv">pri</span><span class="o">=</span><span class="k">$(</span>_log_pri <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="k">)</span> <span class="o">||</span> die <span class="s2">"_log_pri failed."</span>
-    logger -p <span class="s2">"</span><span class="nv">$pri</span><span class="s2">"</span> -t <span class="s2">"</span><span class="nv">$_LOG_NAME</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+    <span class="nv">pri</span><span class="o">=</span><span class="k">$(</span>_log_pri <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="k">)</span>
+    logger -p <span class="s2">"</span><span class="nv">$pri</span><span class="s2">"</span> -t <span class="s2">"</span><span class="nv">$_log_name</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
   <span class="k">fi</span>
 <span class="o">}</span>
 
