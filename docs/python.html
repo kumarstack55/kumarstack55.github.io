@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -183,7 +183,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -191,29 +191,6 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="python">
 <h1>python<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="debian-10-buster-python-3-9-7">
-<h2>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -i
-
-apt update
-apt install build-essential zlib1g-dev libssl-dev libffi-dev
-
-<span class="nb">cd</span> /usr/local/src
-curl -Lo Python-3.9.7.tar.xz https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz
-tar -Jxvf Python-3.9.7.tar.xz
-
-<span class="nb">cd</span> /usr/local/src/Python-3.9.7
-./configure --enable-optimizations --prefix<span class="o">=</span>/usr/local/python-3.9.7
-make
-make altinstall
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/python-3.9.7/bin/python3.9 <span class="m">10</span>
-</pre></div>
-</div>
-<p>参考:</p>
-<p>https://docs.python.org/3.9/using/unix.html#on-linux</p>
-</section>
 </section>
 
         </article>
@@ -257,27 +234,8 @@ make altinstall
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            コンテンツ
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">python</a><ul>
-<li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
