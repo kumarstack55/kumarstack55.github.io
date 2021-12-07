@@ -22,6 +22,7 @@ echo "$SCRIPT_PATH"
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/err.sh
    :language: bash
+   :caption:
 ```
 
 ## 異常終了する。
@@ -29,15 +30,35 @@ echo "$SCRIPT_PATH"
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/die.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_die.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_die.txt
+```
+
+## チェックモードで実行する。
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/lib/should_process.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_should_process.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_should_process.txt
 ```
 
 ## ログを出力する。
@@ -45,11 +66,13 @@ echo "$SCRIPT_PATH"
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/log.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_log.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
@@ -61,11 +84,13 @@ echo "$SCRIPT_PATH"
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/print_stacktrace.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_print_stacktrace.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
@@ -77,11 +102,13 @@ echo "$SCRIPT_PATH"
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/ensure.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_ensure.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
@@ -93,11 +120,13 @@ echo "$SCRIPT_PATH"
 ```{eval-rst}
 .. literalinclude:: snippets/bash/lib/ignore.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_ignore.sh
    :language: bash
+   :caption:
 ```
 
 ```{eval-rst}

@@ -210,6 +210,8 @@ ln -s <span class="nv">$HOME</span>/shellcheck-stable/shellcheck ~/bin/shellchec
 </section>
 <section id="id2">
 <h2>標準エラーに出力する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/err.sh</span><a class="headerlink" href="#id10" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 err<span class="o">()</span> <span class="o">{</span>
@@ -217,9 +219,12 @@ err<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
 </section>
 <section id="id3">
 <h2>異常終了する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/die.sh</span><a class="headerlink" href="#id11" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=err.sh</span>
@@ -240,6 +245,9 @@ die<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/demo_die.sh</span><a class="headerlink" href="#id12" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=lib/die.sh</span>
@@ -252,13 +260,65 @@ f<span class="o">()</span> <span class="o">{</span>
 f <span class="o">||</span> die <span class="s2">"Failed to execute f()"</span>
 </pre></div>
 </div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_die.sh
 Failed to execute f() at ./demo_die.sh line 10.
 </pre></div>
 </div>
 </section>
 <section id="id4">
-<h2>ログを出力する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>チェックモードで実行する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/should_process.sh</span><a class="headerlink" href="#id13" title="このコードへのパーマリンク">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># shellcheck source=err.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/err.sh"</span>
+
+<span class="nv">_should_process_check_mode</span><span class="o">=</span><span class="m">1</span>
+
+should_process_disable_check_mode<span class="o">()</span> <span class="o">{</span>
+  <span class="nv">_should_process_check_mode</span><span class="o">=</span><span class="s1">''</span>
+<span class="o">}</span>
+
+should_process<span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$_should_process_check_mode</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    err <span class="s2">"[CHECK MODE] </span><span class="nv">$1</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="m">1</span>
+  <span class="k">fi</span>
+  <span class="k">return</span> <span class="m">0</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/demo_should_process.sh</span><a class="headerlink" href="#id14" title="このコードへのパーマリンク">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># shellcheck source=lib/should_process.sh</span>
+<span class="nb">source</span> <span class="s2">"</span><span class="k">$(</span>dirname <span class="s2">"</span><span class="k">$(</span>readlink -f <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="k">)</span><span class="s2">/lib/should_process.sh"</span>
+
+<span class="k">if</span> should_process <span class="s2">"remove file /dummy"</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> rm -v /tmp/dummy
+<span class="k">fi</span>
+
+should_process_disable_check_mode
+<span class="k">if</span> should_process <span class="s2">"remove file /dummy"</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> rm -v /tmp/dummy
+<span class="k">fi</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_should_process.sh
+[CHECK MODE] remove file /dummy
+rm -v /tmp/dummy
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>ログを出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/log.sh</span><a class="headerlink" href="#id15" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=err.sh</span>
@@ -321,6 +381,9 @@ log_debug<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/demo_log.sh</span><a class="headerlink" href="#id16" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=lib/log.sh</span>
@@ -329,13 +392,16 @@ log_debug<span class="o">()</span> <span class="o">{</span>
 log_err <span class="s2">"test"</span> <span class="m">2147483647</span>
 </pre></div>
 </div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_log.sh
 2038-01-19 12:14:07+09:00 demo_log.sh test
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>スタックトレースを出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>スタックトレースを出力する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/print_stacktrace.sh</span><a class="headerlink" href="#id17" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=err.sh</span>
@@ -354,6 +420,9 @@ print_stacktrace<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/demo_print_stacktrace.sh</span><a class="headerlink" href="#id18" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=lib/die.sh</span>
@@ -370,6 +439,7 @@ g<span class="o">()</span> <span class="o">{</span>
 g
 </pre></div>
 </div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_print_stacktrace.sh
 Traceback (most recent call first):
   ./demo_print_stacktrace.sh, line 7, in f
@@ -378,8 +448,10 @@ Traceback (most recent call first):
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>コマンド実行が失敗したら異常終了する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/ensure.sh</span><a class="headerlink" href="#id19" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=die.sh</span>
@@ -390,6 +462,9 @@ ensure<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/demo_ensure.sh</span><a class="headerlink" href="#id20" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=lib/ensure.sh</span>
@@ -402,13 +477,16 @@ f<span class="o">()</span> <span class="o">{</span>
 ensure f
 </pre></div>
 </div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_ensure.sh
 command failed: f at /home/kumarstack55/render-github-pages-docs/source/snippets/bash/lib/ensure.sh line 7.
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>コマンド実行が失敗しても無視することを明示する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/lib/ignore.sh</span><a class="headerlink" href="#id21" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 ignore<span class="o">()</span> <span class="o">{</span>
@@ -416,6 +494,9 @@ ignore<span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-text">snippets/bash/demo_ignore.sh</span><a class="headerlink" href="#id22" title="このコードへのパーマリンク">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=lib/ignore.sh</span>
@@ -428,12 +509,13 @@ f<span class="o">()</span> <span class="o">{</span>
 ignore f
 </pre></div>
 </div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./demo_ignore.sh
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>左端の空白を除去する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>左端の空白を除去する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span> <span class="nb">shift</span>
   <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">#</span><span class="s2">"</span><span class="si">${</span><span class="nv">msg</span><span class="p">%%[![:</span><span class="nv">space</span><span class="p">:]]*</span><span class="si">}</span><span class="s2">"</span><span class="si">}</span><span class="s2">"</span>
@@ -512,11 +594,12 @@ f <span class="s2">"a b c"</span>
 <li><a class="reference internal" href="#id1">スクリプトの絶対パスを得る。</a></li>
 <li><a class="reference internal" href="#id2">標準エラーに出力する。</a></li>
 <li><a class="reference internal" href="#id3">異常終了する。</a></li>
-<li><a class="reference internal" href="#id4">ログを出力する。</a></li>
-<li><a class="reference internal" href="#id5">スタックトレースを出力する。</a></li>
-<li><a class="reference internal" href="#id6">コマンド実行が失敗したら異常終了する。</a></li>
-<li><a class="reference internal" href="#id7">コマンド実行が失敗しても無視することを明示する。</a></li>
-<li><a class="reference internal" href="#id8">左端の空白を除去する。</a></li>
+<li><a class="reference internal" href="#id4">チェックモードで実行する。</a></li>
+<li><a class="reference internal" href="#id5">ログを出力する。</a></li>
+<li><a class="reference internal" href="#id6">スタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id7">コマンド実行が失敗したら異常終了する。</a></li>
+<li><a class="reference internal" href="#id8">コマンド実行が失敗しても無視することを明示する。</a></li>
+<li><a class="reference internal" href="#id9">左端の空白を除去する。</a></li>
 </ul>
 </li>
 </ul>

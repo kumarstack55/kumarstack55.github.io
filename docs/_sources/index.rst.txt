@@ -1,4 +1,4 @@
-Welcome to Untitled Document's documentation!
+Welcome to Untitled Document!
 =============================================
 
 .. toctree::
