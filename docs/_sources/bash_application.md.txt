@@ -25,40 +25,14 @@ echo "$SCRIPT_PATH"
    :caption:
 ```
 
-## 異常終了する。
-
 ```{eval-rst}
-.. literalinclude:: snippets/bash/lib/die.sh
+.. literalinclude:: snippets/bash/demo_err.sh
    :language: bash
    :caption:
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/bash/demo_die.sh
-   :language: bash
-   :caption:
-```
-
-```{eval-rst}
-.. literalinclude:: snippets/bash/demo_die.txt
-```
-
-## チェックモードで実行する。
-
-```{eval-rst}
-.. literalinclude:: snippets/bash/lib/should_process.sh
-   :language: bash
-   :caption:
-```
-
-```{eval-rst}
-.. literalinclude:: snippets/bash/demo_should_process.sh
-   :language: bash
-   :caption:
-```
-
-```{eval-rst}
-.. literalinclude:: snippets/bash/demo_should_process.txt
+.. literalinclude:: snippets/bash/demo_err.txt
 ```
 
 ## ログを出力する。
@@ -79,22 +53,22 @@ echo "$SCRIPT_PATH"
 .. literalinclude:: snippets/bash/demo_log.txt
 ```
 
-## スタックトレースを出力する。
+## 異常終了する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/bash/lib/print_stacktrace.sh
+.. literalinclude:: snippets/bash/lib/die.sh
    :language: bash
    :caption:
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/bash/demo_print_stacktrace.sh
+.. literalinclude:: snippets/bash/demo_die.sh
    :language: bash
    :caption:
 ```
 
 ```{eval-rst}
-.. literalinclude:: snippets/bash/demo_print_stacktrace.txt
+.. literalinclude:: snippets/bash/demo_die.txt
 ```
 
 ## コマンド実行が失敗したら異常終了する。
@@ -131,6 +105,60 @@ echo "$SCRIPT_PATH"
 
 ```{eval-rst}
 .. literalinclude:: snippets/bash/demo_ignore.txt
+```
+
+## 実行可能なコマンドがあるか確認する。
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/lib/executable.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_executable.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_executable.txt
+```
+
+## チェックモードで実行する。
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/lib/should_process.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_should_process.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_should_process.txt
+```
+
+## スタックトレースを出力する。
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/lib/print_stacktrace.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_print_stacktrace.sh
+   :language: bash
+   :caption:
+```
+
+```{eval-rst}
+.. literalinclude:: snippets/bash/demo_print_stacktrace.txt
 ```
 
 ## 左端の空白を除去する。
