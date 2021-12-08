@@ -324,7 +324,7 @@ log_err <span class="s2">"test"</span> <span class="m">2147483647</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># shellcheck source=err.sh</span>
-. lib/err.sh
+. <span class="s2">"</span><span class="si">${</span><span class="nv">HIY_LIB</span><span class="k">:-</span><span class="p">./lib</span><span class="si">}</span><span class="s2">/err.sh"</span>
 
 die<span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">Died</span><span class="si">}</span><span class="s2">"</span>
