@@ -5,13 +5,17 @@ Welcome to Untitled Document!
    :maxdepth: 2
    :caption: Contents:
 
+   oci.md
    linux.md
    debian.md
+   ubuntu.md
    bash_foundation.md
    bash_application.md
    bats.md
    python.md
+   container.md
    windows.md
+   powershell.md
 
 Indices and tables
 ==================

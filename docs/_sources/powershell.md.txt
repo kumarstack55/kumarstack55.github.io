@@ -1,0 +1,15 @@
+# PowerShell
+
+## ロールバック可能なキューのクラス。
+
+```{eval-rst}
+.. literalinclude:: snippets/powershell/CommitQueue.ps1
+   :language: powershell
+```
+
+## ファイルの一覧を出力する。
+
+```{eval-rst}
+.. literalinclude:: snippets/powershell/Export-ChildItemCsv.ps1
+   :language: powershell
+```

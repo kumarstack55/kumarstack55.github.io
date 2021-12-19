@@ -1,0 +1,14 @@
+# コンテナ
+
+## コンテナを実行する。
+
+```bash
+podman run --name nginx -p 10080:80 -d nginx
+curl -s http://127.0.0.1:10080/ | grep -i 'title'
+```
+
+## コンテナ内でコマンドを実行する。
+
+```bash
+podman exec -it nginx /bin/bash
+```

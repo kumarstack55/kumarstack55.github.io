@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Debian" href="debian.html" /><link rel="prev" title="Oracle Cloud" href="oci.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Linux" href="linux.html" /><link rel="prev" title="Welcome to Untitled Document!" href="index.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Linux - Untitled Document ドキュメント</title>
+        <title>Oracle Cloud - Untitled Document ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -156,8 +156,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Linux</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
@@ -187,46 +187,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="linux">
-<h1>Linux<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="ip">
-<h2>IPアドレスを得る。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip a
-</pre></div>
-</div>
-</section>
-<section id="id1">
-<h2>ルーティングテーブルを得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip r
-</pre></div>
-</div>
-</section>
-<section id="id2">
-<h2>インストールされたパッケージ一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt list --installed
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h2>スワップを加える。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /proc/swaps
-free -h
-
-dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swap1 <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1024</span>
-chmod -v <span class="m">0600</span> /swap1
-mkswap /swap1
-swapon /swap1
-
-ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swap defaults 0 0' backup=yes"</span> localhost
-</pre></div>
-</div>
-</section>
+          <section class="tex2jax_ignore mathjax_ignore" id="oracle-cloud">
+<h1>Oracle Cloud<a class="headerlink" href="#oracle-cloud" title="このヘッドラインへのパーマリンク">¶</a></h1>
 </section>
 
         </article>
@@ -234,23 +202,23 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="debian.html">
+          <a class="next-page" href="linux.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Debian</div>
+                <div class="title">Linux</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="oci.html">
+          <a class="prev-page" href="index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Oracle Cloud</div>
+                <div class="title">Home</div>
                 
               </div>
             </a>
@@ -262,7 +230,7 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/linux.md.txt"
+            <a class="muted-link" href="_sources/oci.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -270,30 +238,8 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            コンテンツ
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Linux</a><ul>
-<li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
-<li><a class="reference internal" href="#id1">ルーティングテーブルを得る。</a></li>
-<li><a class="reference internal" href="#id2">インストールされたパッケージ一覧を得る。</a></li>
-<li><a class="reference internal" href="#id3">スワップを加える。</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
