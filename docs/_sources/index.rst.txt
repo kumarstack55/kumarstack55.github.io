@@ -7,6 +7,7 @@ Welcome to Untitled Document!
 
    oci.md
    linux.md
+   git.md
    debian.md
    ubuntu.md
    bash_foundation.md
