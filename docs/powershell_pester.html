@@ -279,7 +279,26 @@
 <section id="pester-v4">
 <h2>Pester v4 をインストールする。<a class="headerlink" href="#pester-v4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">Pester</span> <span class="n">-RequiredVersion</span> <span class="n">4</span><span class="p">.</span><span class="n">10</span> <span class="n">-SkipPublisherCheck</span>
-<span class="nb">Get-InstalledModule</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; Get-InstalledModule | Where-Object { $_.Name -eq 'Pester' } | Select-Object Version,Name</span>
+
+<span class="go">Version Name</span>
+<span class="go">------- ----</span>
+<span class="go">4.10.0  Pester</span>
+</pre></div>
+</div>
+</section>
+<section id="pester-v5">
+<h2>Pester v5 をインストールする。<a class="headerlink" href="#pester-v5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">Pester</span> <span class="n">-RequiredVersion</span> <span class="n">5</span><span class="p">.</span><span class="n">3</span> <span class="n">-SkipPublisherCheck</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; Get-InstalledModule | Where-Object { $_.Name -eq 'Pester' } | Select-Object Version,Name</span>
+
+<span class="go">Version Name</span>
+<span class="go">------- ----</span>
+<span class="go">5.3.0   Pester</span>
 </pre></div>
 </div>
 </section>
@@ -338,6 +357,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#pester-v4">Pester v4 をインストールする。</a></li>
+<li><a class="reference internal" href="#pester-v5">Pester v5 をインストールする。</a></li>
 </ul>
 </li>
 </ul>
