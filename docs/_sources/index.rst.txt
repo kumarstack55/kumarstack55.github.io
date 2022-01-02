@@ -1,5 +1,5 @@
-Welcome to Untitled Document!
-=============================
+Untitled ドキュメント
+=====================
 
 .. toctree::
    :maxdepth: 3
