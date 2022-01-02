@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Ubuntu" href="ubuntu.html" /><link rel="prev" title="Git" href="git.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="停止しても再実行できるように、ファイルの一覧を出力する。" href="powershell_get_childitem.html" /><link rel="prev" title="PowerShell" href="powershell.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Debian - Untitled Document ドキュメント</title>
+        <title>PowerShell 未分類 - Untitled Document ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -159,7 +159,7 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Debian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
@@ -167,8 +167,8 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
 </ul>
@@ -199,34 +199,12 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="debian">
-<h1>Debian<a class="headerlink" href="#debian" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="debian-10-buster-python-3-9-7">
-<h2>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -i
-
-apt update
-apt install build-essential zlib1g-dev libssl-dev libffi-dev
-
-<span class="nb">cd</span> /usr/local/src
-curl -Lo Python-3.9.7.tar.xz https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz
-tar -Jxvf Python-3.9.7.tar.xz
-
-<span class="nb">cd</span> /usr/local/src/Python-3.9.7
-./configure --enable-optimizations --prefix<span class="o">=</span>/usr/local/python-3.9.7
-make
-make altinstall
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/python-3.9.7/bin/python3.9 <span class="m">10</span>
-</pre></div>
-</div>
-<p><a class="reference external" href="https://docs.python.org/3.9/using/unix.html#on-linux">Getting and installing the latest version of Python</a>を参照した。</p>
-</section>
-<section id="ansible">
-<h2>Ansible をインストールする。<a class="headerlink" href="#ansible" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt update
-apt install ansible
+          <section class="tex2jax_ignore mathjax_ignore" id="powershell">
+<h1>PowerShell 未分類<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Get</span><span class="o">-</span><span class="n">Module</span>
+<span class="n">Get</span><span class="o">-</span><span class="n">InstalledModule</span>
 </pre></div>
 </div>
 </section>
@@ -237,23 +215,23 @@ apt install ansible
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="ubuntu.html">
+          <a class="next-page" href="powershell_get_childitem.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Ubuntu</div>
+                <div class="title">停止しても再実行できるように、ファイルの一覧を出力する。</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="git.html">
+          <a class="prev-page" href="powershell.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Git</div>
+                <div class="title">PowerShell</div>
                 
               </div>
             </a>
@@ -265,7 +243,7 @@ apt install ansible
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/debian.md.txt"
+            <a class="muted-link" href="_sources/powershell_uncategorized.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -285,9 +263,8 @@ apt install ansible
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Debian</a><ul>
-<li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
-<li><a class="reference internal" href="#ansible">Ansible をインストールする。</a></li>
+<li><a class="reference internal" href="#">PowerShell 未分類</a><ul>
+<li><a class="reference internal" href="#id1">インストールしたモジュールの一覧を得る。</a></li>
 </ul>
 </li>
 </ul>

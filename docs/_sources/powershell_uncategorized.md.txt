@@ -1,0 +1,10 @@
+# PowerShell 未分類
+
+## インストールしたモジュールの一覧を得る。
+
+```
+Get-Module
+Get-InstalledModule
+```
+
+

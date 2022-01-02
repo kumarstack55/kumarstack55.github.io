@@ -1,6 +1,8 @@
 # Pester でテストする。
 
-## 環境を確認する。
+## Pester v3 でテストする。
+
+### 環境を確認する。
 
 ```console
 PS tmp> $PSVersionTable.PSVersion | Select-Object -Property Major,Minor
@@ -18,7 +20,7 @@ Version Name
 3.4.0   Pester
 ```
 
-## テストのフィクスチャを作る。
+### テストのフィクスチャを作る。
 
 ```powershell
 cd C:\tmp\
@@ -47,16 +49,17 @@ Describe "Get-A" {
 }
 ```
 
-## テストを実行する。
+### テストを実行する。
 
 ```powershell
-.\Get-A.Tests.ps1
+Invoke-Pester
 ```
 
 ```console
-PS powershell-project> .\Get-A.Tests.ps1
+PS powershell-project> Invoke-Pester
+
 Describing Get-A
- [-] does something useful 61ms
+ [-] does something useful 88ms
    Expected: {False}
    But was:  {True}
    7:         $true | Should Be $false
@@ -68,5 +71,16 @@ Describing Get-A
    <ScriptBlock>、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 6
    Describe、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\Describe.ps1: 行 100
    <ScriptBlock>、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 5
+   <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Pester.psm1: 行 297
+   Invoke-Pester、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Pester.psm1: 行 310
    <ScriptBlock>、<ファイルなし>: 行 1
+Tests completed in 88ms
+Passed: 0 Failed: 1 Skipped: 0 Pending: 0 Inconclusive: 0
+```
+
+## Pester v4 をインストールする。
+
+```powershell
+Install-Module -Name Pester -RequiredVersion 4.10 -SkipPublisherCheck
+Get-InstalledModule
 ```

@@ -168,6 +168,7 @@
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Pester でテストする。</a></li>
 </ul>
@@ -200,8 +201,10 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="pester">
 <h1>Pester でテストする。<a class="headerlink" href="#pester" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="pester-v3">
+<h2>Pester v3 でテストする。<a class="headerlink" href="#pester-v3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="id1">
-<h2>環境を確認する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>環境を確認する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; $PSVersionTable.PSVersion | Select-Object -Property Major,Minor</span>
 
 <span class="go">Major Minor</span>
@@ -218,7 +221,7 @@
 </div>
 </section>
 <section id="id2">
-<h2>テストのフィクスチャを作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>テストのフィクスチャを作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">tmp</span><span class="p">\</span>
 <span class="n">mkdir</span> <span class="n">powershell-project</span>
 <span class="nb">cd </span><span class="n">powershell-project</span>
@@ -245,13 +248,14 @@
 </div>
 </section>
 <section id="id3">
-<h2>テストを実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\</span><span class="nb">Get-A</span><span class="p">.</span><span class="n">Tests</span><span class="p">.</span><span class="n">ps1</span>
+<h3>テストを実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Invoke-Pester</span>
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS powershell-project&gt; .\Get-A.Tests.ps1</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS powershell-project&gt; Invoke-Pester</span>
+
 <span class="go">Describing Get-A</span>
-<span class="go"> [-] does something useful 61ms</span>
+<span class="go"> [-] does something useful 88ms</span>
 <span class="go">   Expected: {False}</span>
 <span class="go">   But was:  {True}</span>
 <span class="go">   7:         $true | Should Be $false</span>
@@ -263,7 +267,19 @@
 <span class="go">   &lt;ScriptBlock&gt;、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 6</span>
 <span class="go">   Describe、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\Describe.ps1: 行 100</span>
 <span class="go">   &lt;ScriptBlock&gt;、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 5</span>
+<span class="go">   &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Pester.psm1: 行 297</span>
+<span class="go">   Invoke-Pester、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Pester.psm1: 行 310</span>
 <span class="go">   &lt;ScriptBlock&gt;、&lt;ファイルなし&gt;: 行 1</span>
+<span class="go">Tests completed in 88ms</span>
+<span class="go">Passed: 0 Failed: 1 Skipped: 0 Pending: 0 Inconclusive: 0</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pester-v4">
+<h2>Pester v4 をインストールする。<a class="headerlink" href="#pester-v4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Install-Module</span> <span class="n">-Name</span> <span class="n">Pester</span> <span class="n">-RequiredVersion</span> <span class="n">4</span><span class="p">.</span><span class="n">10</span> <span class="n">-SkipPublisherCheck</span>
+<span class="nb">Get-InstalledModule</span>
 </pre></div>
 </div>
 </section>
@@ -315,9 +331,13 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Pester でテストする。</a><ul>
+<li><a class="reference internal" href="#pester-v3">Pester v3 でテストする。</a><ul>
 <li><a class="reference internal" href="#id1">環境を確認する。</a></li>
 <li><a class="reference internal" href="#id2">テストのフィクスチャを作る。</a></li>
 <li><a class="reference internal" href="#id3">テストを実行する。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pester-v4">Pester v4 をインストールする。</a></li>
 </ul>
 </li>
 </ul>
