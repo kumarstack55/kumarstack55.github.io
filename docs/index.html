@@ -157,17 +157,24 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -205,6 +212,15 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#ssh">SSH ログインする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id1">SSHでエージェントフォワードする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#gui">GUIを有効にする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#virtualbox-vram">解像度をより大きくため、VirtualBox で VRAM を変更する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#virtualbox">VirtualBox の仮想マシンの名前を指定する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id2">プロビジョンでシェルのコマンドを実行する。</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="linux.html#ip">IPアドレスを得る。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="linux.html#id1">ルーティングテーブルを得る。</a></li>
@@ -212,14 +228,15 @@
 <li class="toctree-l2"><a class="reference internal" href="linux.html#id3">スワップを加える。</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="git.html#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git.html#git-submodule">git submodule の機能一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ssh.html#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="debian.html#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debian.html#ansible">Ansible をインストールする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html#en-us-utf-8">ロケール en_US.UTF-8 を作る。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html#deb">ファイル名を含む deb パッケージを検索する。</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a><ul>
@@ -252,29 +269,54 @@
 <li class="toctree-l2"><a class="reference internal" href="bats.html#id4">ファンクションの出力をテストする。</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="git.html#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git.html#git-submodule">git submodule の機能一覧</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="container.html#docker-engine-community-edition-debian">Docker Engine の Community Edition を Debian にインストールする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container.html#root">root ではないユーザでコンテナを実行できるようにする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container.html#podman">Podman をインストールする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="container.html#id2">コンテナを実行する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="container.html#id3">コンテナ内でコマンドを実行する。</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes.html">Kubernetes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#id1">kubectl をインストールする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#id2">kubectl でクラスタの状態を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#kubectl-bash">kubectl を bash で補完する。</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_minikube.html#id1">Minikube を動かす。</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#id1">未分類</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id2">指定コマンドのパスを得る。</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="windows.html#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id1">ストアのエントリを一覧表示する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id2">参考: bcdedit /?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id3">ストアのエントリを一覧表示する。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id4">参考: bcdedit /?</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="windows.html#wsl2">WSL2</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="windows.html#wsl">WSLのステータスを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id3">ディストリビューションの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id4">ローカルのディストリビューションの一覧を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id5">ディストリビューションの一覧を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id6">ローカルのディストリビューションの一覧を得る。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="windows.html#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id5">インストールしたディストリビューションを消す。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id6">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id7">指定コマンドを実行し、 State を Running にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id8">ディストリビューションを指定する。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id7">インストールしたディストリビューションを消す。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id8">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id9">指定コマンドを実行し、 State を Running にする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id10">ディストリビューションを指定する。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="windows.html#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id9">ネットワーク構成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#id11">ネットワーク構成</a></li>
 <li class="toctree-l3"><a class="reference internal" href="windows.html#wsl-help">参考: wsl --help</a></li>
 </ul>
 </li>
@@ -305,7 +347,6 @@
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">モジュール索引</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">検索ページ</span></a></p></li>
 </ul>
 </section>

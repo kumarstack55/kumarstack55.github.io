@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Microsoft Windows" href="windows.html" /><link rel="prev" title="python" href="python.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Kubernetes" href="kubernetes.html" /><link rel="prev" title="python" href="python.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>コンテナ - Untitled ドキュメント</title>
@@ -157,17 +157,24 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">コンテナ</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -201,6 +208,39 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>コンテナ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="docker-engine-community-edition-debian">
+<h2>Docker Engine の Community Edition を Debian にインストールする。<a class="headerlink" href="#docker-engine-community-edition-debian" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg lsb-release -y
+
+curl -fsSL https://download.docker.com/linux/debian/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+<span class="nb">echo</span> <span class="se">\</span>
+  <span class="s2">"deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \</span>
+<span class="s2">  </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable"</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+
+sudo docker run hello-world
+</pre></div>
+</div>
+<p>https://docs.docker.com/engine/install/debian/</p>
+</section>
+<section id="root">
+<h2>root ではないユーザでコンテナを実行できるようにする。<a class="headerlink" href="#root" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo groupadd docker
+sudo usermod -aG docker <span class="nv">$USER</span>
+newgrp docker
+docker run hello-world
+</pre></div>
+</div>
+<p>https://docs.docker.com/engine/install/linux-postinstall/</p>
+</section>
+<section id="podman">
+<h2>Podman をインストールする。<a class="headerlink" href="#podman" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>TODO</p>
+</section>
 <section id="id2">
 <h2>コンテナを実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman run --name nginx -p <span class="m">10080</span>:80 -d nginx
@@ -221,12 +261,12 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="windows.html">
+          <a class="next-page" href="kubernetes.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Microsoft Windows</div>
+                <div class="title">Kubernetes</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -270,6 +310,9 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">コンテナ</a><ul>
+<li><a class="reference internal" href="#docker-engine-community-edition-debian">Docker Engine の Community Edition を Debian にインストールする。</a></li>
+<li><a class="reference internal" href="#root">root ではないユーザでコンテナを実行できるようにする。</a></li>
+<li><a class="reference internal" href="#podman">Podman をインストールする。</a></li>
 <li><a class="reference internal" href="#id2">コンテナを実行する。</a></li>
 <li><a class="reference internal" href="#id3">コンテナ内でコマンドを実行する。</a></li>
 </ul>

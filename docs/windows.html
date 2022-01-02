@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="PowerShell" href="powershell.html" /><link rel="prev" title="コンテナ" href="container.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="PowerShell" href="powershell.html" /><link rel="prev" title="Minikube" href="kubernetes_minikube.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>Microsoft Windows - Untitled ドキュメント</title>
@@ -157,17 +157,24 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -201,10 +208,20 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="microsoft-windows">
 <h1>Microsoft Windows<a class="headerlink" href="#microsoft-windows" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>未分類<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h3>指定コマンドのパスを得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; where.exe ssh.exe</span>
+<span class="go">C:\Windows\System32\OpenSSH\ssh.exe</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="bcdedit">
 <h2>BCDEDIT - ブート構成データ ストア エディター<a class="headerlink" href="#bcdedit" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id1">
-<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id3">
+<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cmd.exe</span>
 <span class="n">bcdedit</span><span class="o">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">enum</span>
 </pre></div>
@@ -248,8 +265,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h3>参考: bcdedit /?<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id4">
+<h3>参考: bcdedit /?<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;bcdedit /?</span>
 
 <span class="go">BCDEDIT - ブート構成データ ストア エディター</span>
@@ -352,14 +369,14 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h3>ディストリビューションの一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id5">
+<h3>ディストリビューションの一覧を得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id6">
+<h3>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
 </pre></div>
 </div>
@@ -370,30 +387,30 @@
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h3>インストールしたディストリビューションを消す。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h3>インストールしたディストリビューションを消す。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-unregister</span> <span class="n">Ubuntu</span>
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id8">
+<h3>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="p">~</span>
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h3>指定コマンドを実行し、 State を Running にする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id9">
+<h3>指定コマンドを実行し、 State を Running にする。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-exec</span> <span class="n">uname</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="n">uname</span>
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h3>ディストリビューションを指定する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id10">
+<h3>ディストリビューションを指定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span>
 </pre></div>
 </div>
@@ -404,8 +421,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h3>ネットワーク構成<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id11">
+<h3>ネットワーク構成<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">|</span>
    <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span>
       <span class="o">|</span>
@@ -586,14 +603,14 @@
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="container.html">
+          <a class="prev-page" href="kubernetes_minikube.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">コンテナ</div>
+                <div class="title">Minikube</div>
                 
               </div>
             </a>
@@ -626,22 +643,26 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Microsoft Windows</a><ul>
+<li><a class="reference internal" href="#id1">未分類</a><ul>
+<li><a class="reference internal" href="#id2">指定コマンドのパスを得る。</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
-<li><a class="reference internal" href="#id1">ストアのエントリを一覧表示する。</a></li>
-<li><a class="reference internal" href="#id2">参考: bcdedit /?</a></li>
+<li><a class="reference internal" href="#id3">ストアのエントリを一覧表示する。</a></li>
+<li><a class="reference internal" href="#id4">参考: bcdedit /?</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wsl2">WSL2</a><ul>
 <li><a class="reference internal" href="#wsl">WSLのステータスを得る。</a></li>
-<li><a class="reference internal" href="#id3">ディストリビューションの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id4">ローカルのディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id5">ディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id6">ローカルのディストリビューションの一覧を得る。</a></li>
 <li><a class="reference internal" href="#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
-<li><a class="reference internal" href="#id5">インストールしたディストリビューションを消す。</a></li>
-<li><a class="reference internal" href="#id6">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
-<li><a class="reference internal" href="#id7">指定コマンドを実行し、 State を Running にする。</a></li>
-<li><a class="reference internal" href="#id8">ディストリビューションを指定する。</a></li>
+<li><a class="reference internal" href="#id7">インストールしたディストリビューションを消す。</a></li>
+<li><a class="reference internal" href="#id8">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id9">指定コマンドを実行し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id10">ディストリビューションを指定する。</a></li>
 <li><a class="reference internal" href="#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
-<li><a class="reference internal" href="#id9">ネットワーク構成</a></li>
+<li><a class="reference internal" href="#id11">ネットワーク構成</a></li>
 <li><a class="reference internal" href="#wsl-help">参考: wsl --help</a></li>
 </ul>
 </li>

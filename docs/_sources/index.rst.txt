@@ -6,15 +6,18 @@ Untitled ドキュメント
    :caption: Contents:
 
    oci.md
+   vagrant.md
    linux.md
-   git.md
+   ssh.md
    debian.md
    ubuntu.md
    bash_foundation.md
    bash_application.md
    bats.md
+   git.md
    python.md
    container.md
+   kubernetes.md
    windows.md
    powershell.rst
 
@@ -22,5 +25,4 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`

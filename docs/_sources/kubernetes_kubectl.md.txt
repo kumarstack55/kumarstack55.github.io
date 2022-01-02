@@ -1,0 +1,24 @@
+# kubectl
+
+## kubectl をインストールする。
+
+```bash
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+```
+
+https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/
+
+## kubectl でクラスタの状態を得る。
+
+```bash
+kubectl cluster-info
+```
+
+## kubectl を bash で補完する。
+
+```bash
+```
+
+https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/

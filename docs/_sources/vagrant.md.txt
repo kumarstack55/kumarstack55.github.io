@@ -1,0 +1,70 @@
+# Vagrant
+
+## SSH ログインする。
+
+```powershell
+mkdir sandbox-vagrant
+cd sandbox-vagrant
+vagrant init
+nvim Vagrantfile
+  # config.vm.box = "debian/buster64"
+vagrant up
+vagrant ssh
+```
+
+```text
+        |
+        Gateway
+        | .2
+        |
+       -o---o- 10.0.2.0/24
+            |
+            | VirtualBox
+            |   NAT
+            |   port forwarding:
+            |     rule:
+            |       ssh TCP 127.0.0.1:2222 -> 22
+            | .15
+            eth0
+            Hostname: buster
+```
+
+## SSHでエージェントフォワードする。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.ssh.forward_agent = true
+```
+
+## GUIを有効にする。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = true
+```
+
+## 解像度をより大きくため、VirtualBox で VRAM を変更する。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize [ "modifyvm", :id, "--vram", "16" ]
+```
+
+## VirtualBox の仮想マシンの名前を指定する。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "xxx"
+```
+
+## プロビジョンでシェルのコマンドを実行する。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+  SHELL
+```

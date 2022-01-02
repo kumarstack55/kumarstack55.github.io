@@ -1,5 +1,14 @@
 # Microsoft Windows
 
+## 未分類
+
+### 指定コマンドのパスを得る。
+
+```console
+PS tmp> where.exe ssh.exe
+C:\Windows\System32\OpenSSH\ssh.exe
+```
+
 ## BCDEDIT - ブート構成データ ストア エディター
 
 ### ストアのエントリを一覧表示する。

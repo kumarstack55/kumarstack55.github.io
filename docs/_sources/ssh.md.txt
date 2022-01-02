@@ -1,0 +1,5 @@
+# SSH
+
+## Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。
+
+https://github.com/benpye/wsl-ssh-pageant
