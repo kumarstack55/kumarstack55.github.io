@@ -210,7 +210,11 @@
 <h1>SSH<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="windows-openssh-ssh-exe-pageant">
 <h2>Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。<a class="headerlink" href="#windows-openssh-ssh-exe-pageant" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>https://github.com/benpye/wsl-ssh-pageant</p>
+<p><a class="reference external" href="https://github.com/benpye/wsl-ssh-pageant">wsl-ssh-pageant</a>を使う。
+Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイに常駐させておく。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span><span class="o">-</span><span class="n">ssh</span><span class="o">-</span><span class="n">pageant</span><span class="o">-</span><span class="n">amd64</span><span class="o">-</span><span class="n">gui</span><span class="o">.</span><span class="n">exe</span> <span class="o">--</span><span class="n">systray</span> <span class="o">--</span><span class="n">winssh</span> <span class="n">ssh</span><span class="o">-</span><span class="n">pageant</span>
+</pre></div>
+</div>
 </section>
 </section>
 
