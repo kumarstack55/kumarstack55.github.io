@@ -1,0 +1,72 @@
+# Pester でテストする。
+
+## 環境を確認する。
+
+```console
+PS tmp> $PSVersionTable.PSVersion | Select-Object -Property Major,Minor
+
+Major Minor
+----- -----
+    5     1
+```
+
+```console
+PS tmp> Get-Module Pester | select Version,Name
+
+Version Name
+------- ----
+3.4.0   Pester
+```
+
+## テストのフィクスチャを作る。
+
+```powershell
+cd C:\tmp\
+mkdir powershell-project
+cd powershell-project
+New-Fixture -Name Get-A
+```
+
+```console
+PS powershell-project> cat .\Get-A.ps1
+function Get-A {
+
+}
+```
+
+```console
+PS powershell-project> cat .\Get-A.Tests.ps1
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
+. "$here\$sut"
+
+Describe "Get-A" {
+    It "does something useful" {
+        $true | Should Be $false
+    }
+}
+```
+
+## テストを実行する。
+
+```powershell
+.\Get-A.Tests.ps1
+```
+
+```console
+PS powershell-project> .\Get-A.Tests.ps1
+Describing Get-A
+ [-] does something useful 61ms
+   Expected: {False}
+   But was:  {True}
+   7:         $true | Should Be $false
+   Should<End>、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\Assertions\Should.ps1: 行 92
+   <ScriptBlock>、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 7
+   Invoke-Test、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\It.ps1: 行 253
+   ItImpl、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\It.ps1: 行 203
+   It、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\It.ps1: 行 117
+   <ScriptBlock>、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 6
+   Describe、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\Describe.ps1: 行 100
+   <ScriptBlock>、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 5
+   <ScriptBlock>、<ファイルなし>: 行 1
+```

@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="prev" title="Microsoft Windows" href="windows.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="停止しても再実行できるように、ファイルの一覧を出力する。" href="powershell_get_childitem.html" /><link rel="prev" title="Microsoft Windows" href="windows.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>PowerShell - Untitled Document ドキュメント</title>
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -167,7 +167,11 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">PowerShell</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -188,204 +192,29 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="powershell">
+          <section id="powershell">
 <h1>PowerShell<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="id1">
-<h2>ロールバック可能なキューのクラス。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">CommitQueue</span> <span class="p">{</span>
-    <span class="nv">$List</span>
-    <span class="nv">$Index</span>
-
-    <span class="n">CommitQueue</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">List</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">ArrayList</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">Index</span> <span class="p">=</span> <span class="n">0</span>
-    <span class="p">}</span>
-    <span class="no">[bool]</span><span class="n">IsEmpty</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nv">$this</span><span class="p">.</span><span class="n">List</span><span class="p">.</span><span class="n">Count</span> <span class="p">-</span> <span class="nv">$this</span><span class="p">.</span><span class="n">Index</span><span class="p">)</span> <span class="o">-eq</span> <span class="n">0</span>
-    <span class="p">}</span>
-    <span class="no">[void]</span><span class="n">Add</span><span class="p">(</span><span class="no">[object]</span><span class="nv">$Item</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">List</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Item</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="no">[object]</span><span class="n">Get</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nv">$this</span><span class="p">.</span><span class="n">List</span><span class="p">[</span><span class="nv">$this</span><span class="p">.</span><span class="n">Index</span><span class="p">++]</span>
-    <span class="p">}</span>
-    <span class="no">[void]</span><span class="n">Rollback</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">Index</span> <span class="p">=</span> <span class="n">0</span>
-    <span class="p">}</span>
-    <span class="no">[void]</span><span class="n">Commit</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">while</span> <span class="p">(</span><span class="nv">$this</span><span class="p">.</span><span class="n">Index</span> <span class="o">-gt</span> <span class="n">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$this</span><span class="p">.</span><span class="n">List</span><span class="p">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="n">0</span><span class="p">)</span>
-            <span class="nv">$this</span><span class="p">.</span><span class="n">Index</span><span class="p">--</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">class</span> <span class="n">QueueFileDumper</span> <span class="p">{</span>
-    <span class="no">[void]</span><span class="n">Dump</span><span class="p">(</span><span class="no">[CommitQueue]</span><span class="nv">$Queue</span><span class="p">,</span> <span class="no">[string]</span><span class="nv">$FullName</span><span class="p">,</span> <span class="no">[bool]</span><span class="nv">$Append</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$List</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">ArrayList</span>
-        <span class="k">while</span> <span class="p">(</span><span class="o">-not</span> <span class="nv">$Queue</span><span class="p">.</span><span class="n">IsEmpty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="nv">$List</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Queue</span><span class="p">.</span><span class="n">Get</span><span class="p">())</span>
-        <span class="p">}</span>
-        <span class="nv">$Params</span> <span class="p">=</span> <span class="p">@{</span>
-                <span class="s1">'LiteralPath'</span><span class="p">=</span><span class="nv">$FullName</span>
-                <span class="s1">'Append'</span><span class="p">=</span><span class="nv">$Append</span>
-                <span class="s1">'Encoding'</span><span class="p">=</span><span class="s1">'UTF8'</span>
-                <span class="s1">'NoTypeInformation'</span><span class="p">=</span><span class="nv">$false</span>
-            <span class="p">}</span>
-        <span class="nv">$List</span> <span class="p">|</span>
-            <span class="nb">Export-Csv</span> <span class="nv">@Params</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">class</span> <span class="n">QueueFileLoader</span> <span class="p">{</span>
-    <span class="no">[CommitQueue]</span><span class="n">Load</span><span class="p">(</span><span class="no">[string]</span><span class="nv">$FullName</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$Queue</span> <span class="p">=</span> <span class="no">[CommitQueue]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-        <span class="nb">Import-Csv</span> <span class="n">-LiteralPath</span> <span class="nv">$FullName</span> <span class="n">-Encoding</span> <span class="n">UTF8</span> <span class="p">|</span>
-            <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-                <span class="nv">$Queue</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$_</span><span class="p">)</span>
-            <span class="p">}</span>
-        <span class="k">return</span> <span class="nv">$Queue</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html#id2">ロールバック可能なキューのクラス。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html#id3">一覧を出力する。</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell_pester.html#id1">環境を確認する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell_pester.html#id2">テストのフィクスチャを作る。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell_pester.html#id3">テストを実行する。</a></li>
+</ul>
+</li>
+</ul>
 </div>
-</section>
-<section id="id2">
-<h2>ファイルの一覧を出力する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="k">CmdletBinding</span><span class="p">()]</span>
-<span class="k">param</span><span class="p">(</span>
-    <span class="p">[</span><span class="k">parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">)]</span><span class="no">[string]</span><span class="nv">$RootFolderPath</span><span class="p">,</span>
-    <span class="p">[</span><span class="k">parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">)]</span><span class="no">[string]</span><span class="nv">$QueuePath</span><span class="p">,</span>
-    <span class="p">[</span><span class="k">parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">)]</span><span class="no">[string]</span><span class="nv">$CsvPath</span>
-<span class="p">)</span>
-<span class="cm">&lt;#</span>
-<span class="cm">    </span><span class="sd">.SYNOPSIS</span><span class="cm"></span>
-<span class="cm">    キューファイルがない場合、RootFolderPath 以下を探索します。</span>
-<span class="cm">    異常終了した場合、キューの内容を出力します。</span>
-<span class="cm">    キューファイルがある場合、RootFolderPath は無視され、探索を再開します。</span>
-<span class="cm">#&gt;</span>
-
-<span class="nv">$here</span> <span class="p">=</span> <span class="nb">Split-Path</span> <span class="n">-Parent</span> <span class="nv">$MyInvocation</span><span class="p">.</span><span class="n">MyCommand</span><span class="p">.</span><span class="n">Path</span>
-<span class="p">.</span> <span class="s2">"$here\CommitQueue.ps1"</span>
-
-<span class="n">class</span> <span class="n">FolderQueueEntry</span> <span class="p">{</span>
-    <span class="nv">$FullName</span>
-    <span class="n">FolderQueueEntry</span><span class="p">(</span><span class="no">[string]</span><span class="nv">$FullName</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">FullName</span> <span class="p">=</span> <span class="nv">$FullName</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">class</span> <span class="n">FileEntry</span> <span class="p">{</span>
-    <span class="nv">$FullName</span>
-    <span class="nv">$Name</span>
-    <span class="nv">$IsContainer</span>
-    <span class="nv">$Size</span>
-    <span class="nv">$GetChildItemFailed</span>
-    <span class="nv">$GetAclFailed</span>
-    <span class="n">FileEntry</span><span class="p">(</span><span class="no">[string]</span><span class="nv">$FullName</span><span class="p">,</span> <span class="no">[bool]</span><span class="nv">$IsContainer</span><span class="p">,</span> <span class="no">[long]</span><span class="nv">$Size</span><span class="p">,</span> <span class="no">[bool]</span><span class="nv">$GetChildItemFailed</span><span class="p">,</span> <span class="no">[bool]</span><span class="nv">$GetAclFailed</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">FullName</span> <span class="p">=</span> <span class="nv">$FullName</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="nb">Split-Path</span> <span class="n">-Path</span> <span class="nv">$FullName</span> <span class="n">-Leaf</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">IsContainer</span> <span class="p">=</span> <span class="nv">$IsContainer</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">Size</span> <span class="p">=</span> <span class="nv">$Size</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">GetChildItemFailed</span> <span class="p">=</span> <span class="nv">$GetChildItemFailed</span>
-        <span class="nv">$this</span><span class="p">.</span><span class="n">GetAclFailed</span> <span class="p">=</span> <span class="nv">$GetAclFailed</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="k">function</span> <span class="nb">Test-IsContainer</span> <span class="p">{</span>
-    <span class="k">param</span><span class="p">([</span><span class="k">parameter</span><span class="p">(</span><span class="k">Mandatory</span><span class="p">)]</span><span class="no">[string]</span><span class="nv">$LiteralPath</span><span class="p">)</span>
-    <span class="nb">Test-Path</span> <span class="n">-Type</span> <span class="n">Container</span> <span class="n">-LiteralPath</span> <span class="nv">$LiteralPath</span>
-<span class="p">}</span>
-
-<span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="s1">'Stop'</span>
-
-<span class="c"># 最初の１件目を登録する。CSVファイルが存在すれば消す。</span>
-<span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="nv">$QueuePath</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nv">$FolderQueue1</span> <span class="p">=</span> <span class="no">[CommitQueue]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-    <span class="nv">$FolderQueue1</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="no">[FolderQueueEntry]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$RootFolderPath</span><span class="p">))</span>
-    <span class="nv">$Dumper</span> <span class="p">=</span> <span class="no">[QueueFileDumper]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-    <span class="nv">$Dumper</span><span class="p">.</span><span class="n">Dump</span><span class="p">(</span><span class="nv">$FolderQueue1</span><span class="p">,</span> <span class="nv">$QueuePath</span><span class="p">,</span> <span class="nv">$false</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="n">-LiteralPath</span> <span class="nv">$CsvPath</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nb">Remove-Item</span> <span class="nv">$CsvPath</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c"># キューを読む。</span>
-<span class="nv">$Loader</span> <span class="p">=</span> <span class="no">[QueueFileLoader]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-<span class="nv">$FolderQueue2</span> <span class="p">=</span> <span class="nv">$Loader</span><span class="p">.</span><span class="n">Load</span><span class="p">(</span><span class="nv">$QueuePath</span><span class="p">)</span>
-
-<span class="k">try</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="o">-not</span> <span class="nv">$FolderQueue2</span><span class="p">.</span><span class="n">IsEmpty</span><span class="p">())</span> <span class="p">{</span>
-        <span class="nv">$FolderPath</span> <span class="p">=</span> <span class="nv">$FolderQueue2</span><span class="p">.</span><span class="n">Get</span><span class="p">().</span><span class="n">FullName</span>
-        <span class="nb">Write-Warning</span> <span class="s2">"FolderPath: $FolderPath"</span>
-
-        <span class="nv">$RecordList</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">ArrayList</span>
-
-        <span class="k">try</span> <span class="p">{</span>
-            <span class="c"># フォルダの子アイテムを得る。</span>
-            <span class="nv">$ItemArray</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-LiteralPath</span> <span class="nv">$FolderPath</span>
-
-            <span class="c"># フォルダ自身をレコードにする。</span>
-            <span class="nv">$RecordList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="no">[FileEntry]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$FolderPath</span><span class="p">,</span> <span class="nv">$true</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="nv">$false</span><span class="p">,</span> <span class="nv">$null</span><span class="p">))</span> <span class="p">|</span>
-                <span class="nb">Out-Null</span>
-
-            <span class="c"># フォルダの子アイテムの内、ファイルをレコードにする。</span>
-            <span class="nv">$ItemArray</span> <span class="p">|</span>
-                <span class="nb">Where-Object</span> <span class="p">{</span>
-                    <span class="o">-not</span> <span class="p">(</span><span class="nb">Test-IsContainer</span> <span class="n">-LiteralPath</span> <span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span><span class="p">)</span>
-                <span class="p">}</span> <span class="p">|</span>
-                <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-                    <span class="k">try</span> <span class="p">{</span>
-                        <span class="nb">Get-Acl</span> <span class="n">-LiteralPath</span> <span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span> <span class="p">|</span> <span class="nb">Out-Null</span>
-                        <span class="nv">$RecordList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="no">[FileEntry]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span><span class="p">,</span> <span class="nv">$false</span><span class="p">,</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="nv">$null</span><span class="p">,</span> <span class="nv">$false</span><span class="p">))</span> <span class="p">|</span>
-                            <span class="nb">Out-Null</span>
-                    <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
-                        <span class="nv">$RecordList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="no">[FileEntry]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span><span class="p">,</span> <span class="nv">$false</span><span class="p">,</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Length</span><span class="p">,</span> <span class="nv">$null</span><span class="p">,</span> <span class="nv">$true</span><span class="p">))</span> <span class="p">|</span>
-                            <span class="nb">Out-Null</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-        <span class="p">}</span> <span class="k">catch</span> <span class="no">[System.UnauthorizedAccessException]</span> <span class="p">{</span>
-            <span class="c"># フォルダの子アイテムを得ることができなかった。</span>
-            <span class="nv">$RecordList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="no">[FileEntry]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$FolderPath</span><span class="p">,</span> <span class="nv">$true</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="nv">$true</span><span class="p">,</span> <span class="nv">$null</span><span class="p">))</span>
-        <span class="p">}</span>
-
-        <span class="c"># フォルダと、フォルダの子アイテムの内、ファイルを出力する。</span>
-        <span class="nv">$RecordList</span> <span class="p">|</span>
-            <span class="nb">Export-Csv</span> <span class="n">-LiteralPath</span> <span class="nv">$CsvPath</span> <span class="n">-Append</span> <span class="n">-Encoding</span> <span class="n">UTF8</span>
-
-        <span class="c"># フォルダの子アイテムの内、フォルダをキューに加える。</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-ne</span> <span class="nv">$ItemArray</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nv">$ItemArray</span> <span class="p">|</span>
-                <span class="nb">Where-Object</span> <span class="p">{</span>
-                    <span class="nb">Test-IsContainer</span> <span class="n">-LiteralPath</span> <span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span>
-                <span class="p">}</span> <span class="p">|</span>
-                <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-                    <span class="nb">Write-Warning</span> <span class="s2">"Item      : $FolderPath"</span>
-                    <span class="nv">$FolderQueue2</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="no">[FolderQueueEntry]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span><span class="p">))</span>
-                <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="nv">$FolderQueue2</span><span class="p">.</span><span class="n">Commit</span><span class="p">()</span>
-    <span class="p">}</span>
-<span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
-    <span class="nv">$FolderQueue2</span><span class="p">.</span><span class="n">Rollback</span><span class="p">()</span>
-
-    <span class="c"># キューを保存する。</span>
-    <span class="nv">$Dumper</span> <span class="p">=</span> <span class="no">[QueueFileDumper]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
-    <span class="nv">$Dumper</span><span class="p">.</span><span class="n">Dump</span><span class="p">(</span><span class="nv">$FolderQueue2</span><span class="p">,</span> <span class="nv">$QueuePath</span><span class="p">,</span> <span class="nv">$false</span><span class="p">)</span>
-
-    <span class="nb">Write-Warning</span> <span class="s2">"キューを保存した。"</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</section>
 </section>
 
         </article>
@@ -393,7 +222,15 @@
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="powershell_get_childitem.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">停止しても再実行できるように、ファイルの一覧を出力する。</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="windows.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -413,7 +250,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/powershell.md.txt"
+            <a class="muted-link" href="_sources/powershell.rst.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -421,28 +258,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            コンテンツ
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">PowerShell</a><ul>
-<li><a class="reference internal" href="#id1">ロールバック可能なキューのクラス。</a></li>
-<li><a class="reference internal" href="#id2">ファイルの一覧を出力する。</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

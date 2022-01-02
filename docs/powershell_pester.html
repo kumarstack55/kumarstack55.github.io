@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="コンテナ" href="container.html" /><link rel="prev" title="bats" href="bats.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="prev" title="停止しても再実行できるように、ファイルの一覧を出力する。" href="powershell_get_childitem.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>python - Untitled Document ドキュメント</title>
+        <title>Pester でテストする。 - Untitled Document ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -164,12 +164,12 @@
 <li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Pester でテストする。</a></li>
 </ul>
 </li>
 </ul>
@@ -192,14 +192,81 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="python">
-<h1>python<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
+          <section class="tex2jax_ignore mathjax_ignore" id="pester">
+<h1>Pester でテストする。<a class="headerlink" href="#pester" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>環境を確認する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; $PSVersionTable.PSVersion | Select-Object -Property Major,Minor</span>
+
+<span class="go">Major Minor</span>
+<span class="go">----- -----</span>
+<span class="go">    5     1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; Get-Module Pester | select Version,Name</span>
+
+<span class="go">Version Name</span>
+<span class="go">------- ----</span>
+<span class="go">3.4.0   Pester</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>テストのフィクスチャを作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">tmp</span><span class="p">\</span>
+<span class="n">mkdir</span> <span class="n">powershell-project</span>
+<span class="nb">cd </span><span class="n">powershell-project</span>
+<span class="nb">New-Fixture</span> <span class="n">-Name</span> <span class="nb">Get-A</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS powershell-project&gt; cat .\Get-A.ps1</span>
+<span class="go">function Get-A {</span>
+
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS powershell-project&gt; cat .\Get-A.Tests.ps1</span>
+<span class="gp">$</span><span class="nv">here</span> <span class="o">=</span> Split-Path -Parent <span class="nv">$MyInvocation</span>.MyCommand.Path
+<span class="gp">$</span><span class="nv">sut</span> <span class="o">=</span> <span class="o">(</span>Split-Path -Leaf <span class="nv">$MyInvocation</span>.MyCommand.Path<span class="o">)</span> -replace <span class="s1">'\.Tests\.'</span>, <span class="s1">'.'</span>
+<span class="go">. "$here\$sut"</span>
+
+<span class="go">Describe "Get-A" {</span>
+<span class="go">    It "does something useful" {</span>
+<span class="gp">        $</span><span class="nb">true</span> <span class="p">|</span> Should Be <span class="nv">$false</span>
+<span class="go">    }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>テストを実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">.\</span><span class="nb">Get-A</span><span class="p">.</span><span class="n">Tests</span><span class="p">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS powershell-project&gt; .\Get-A.Tests.ps1</span>
+<span class="go">Describing Get-A</span>
+<span class="go"> [-] does something useful 61ms</span>
+<span class="go">   Expected: {False}</span>
+<span class="go">   But was:  {True}</span>
+<span class="go">   7:         $true | Should Be $false</span>
+<span class="go">   Should&lt;End&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\Assertions\Should.ps1: 行 92</span>
+<span class="go">   &lt;ScriptBlock&gt;、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 7</span>
+<span class="go">   Invoke-Test、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\It.ps1: 行 253</span>
+<span class="go">   ItImpl、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\It.ps1: 行 203</span>
+<span class="go">   It、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\It.ps1: 行 117</span>
+<span class="go">   &lt;ScriptBlock&gt;、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 6</span>
+<span class="go">   Describe、C:\Program Files\WindowsPowerShell\Modules\Pester\3.4.0\Functions\Describe.ps1: 行 100</span>
+<span class="go">   &lt;ScriptBlock&gt;、C:\tmp\powershell-project\Get-A.Tests.ps1: 行 5</span>
+<span class="go">   &lt;ScriptBlock&gt;、&lt;ファイルなし&gt;: 行 1</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -207,23 +274,15 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="container.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">コンテナ</div>
-              </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="bats.html">
+          
+          <a class="prev-page" href="powershell_get_childitem.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">bats</div>
+                <div class="title">停止しても再実行できるように、ファイルの一覧を出力する。</div>
                 
               </div>
             </a>
@@ -235,7 +294,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/python.md.txt"
+            <a class="muted-link" href="_sources/powershell_pester.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -243,8 +302,29 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Pester でテストする。</a><ul>
+<li><a class="reference internal" href="#id1">環境を確認する。</a></li>
+<li><a class="reference internal" href="#id2">テストのフィクスチャを作る。</a></li>
+<li><a class="reference internal" href="#id3">テストを実行する。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

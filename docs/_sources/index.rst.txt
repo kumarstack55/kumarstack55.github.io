@@ -1,5 +1,5 @@
 Welcome to Untitled Document!
-=============================================
+=============================
 
 .. toctree::
    :maxdepth: 2
@@ -16,7 +16,7 @@ Welcome to Untitled Document!
    python.md
    container.md
    windows.md
-   powershell.md
+   powershell.rst
 
 Indices and tables
 ==================

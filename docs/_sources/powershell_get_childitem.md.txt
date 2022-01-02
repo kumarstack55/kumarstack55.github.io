@@ -1,4 +1,6 @@
-# PowerShell
+# 停止しても再実行できるように、ファイルの一覧を出力する。
+
+終了時は、ジョブキューの中身をファイルに出力する。
 
 ## ロールバック可能なキューのクラス。
 
@@ -7,7 +9,7 @@
    :language: powershell
 ```
 
-## ファイルの一覧を出力する。
+## 一覧を出力する。
 
 ```{eval-rst}
 .. literalinclude:: snippets/powershell/Export-ChildItemCsv.ps1
