@@ -210,7 +210,8 @@
 <h1>kubectl<a class="headerlink" href="#kubectl" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
 <h2>kubectl をインストールする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -LO <span class="s2">"https://storage.googleapis.com/kubernetes-release/release/</span><span class="k">$(</span>curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt<span class="k">)</span><span class="s2">/bin/linux/amd64/kubectl"</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /tmp
+curl -LO <span class="s2">"https://storage.googleapis.com/kubernetes-release/release/</span><span class="k">$(</span>curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt<span class="k">)</span><span class="s2">/bin/linux/amd64/kubectl"</span>
 chmod +x kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 </pre></div>
@@ -225,9 +226,6 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 </section>
 <section id="kubectl-bash">
 <h2>kubectl を bash で補完する。<a class="headerlink" href="#kubectl-bash" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <p>https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/</p>
 </section>
 </section>

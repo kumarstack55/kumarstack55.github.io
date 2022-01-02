@@ -216,6 +216,18 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
 </pre></div>
 </div>
 </section>
+<section id="ssh-authorized-keys">
+<h2>SSHでエージェントの公開鍵を authorized_keys に加える。<a class="headerlink" href="#ssh-authorized-keys" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add -L <span class="se">\</span>
+  <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
+      ansible <span class="se">\</span>
+        -m lineinfile <span class="se">\</span>
+        -a <span class="s2">"path='</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/authorized_keys' line='</span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">' backup=yes"</span> <span class="se">\</span>
+        localhost
+    <span class="k">done</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -273,6 +285,7 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
             <ul>
 <li><a class="reference internal" href="#">SSH</a><ul>
 <li><a class="reference internal" href="#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
+<li><a class="reference internal" href="#ssh-authorized-keys">SSHでエージェントの公開鍵を authorized_keys に加える。</a></li>
 </ul>
 </li>
 </ul>

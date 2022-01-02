@@ -8,3 +8,15 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
 ```
 wsl-ssh-pageant-amd64-gui.exe --systray --winssh ssh-pageant
 ```
+
+## SSHでエージェントの公開鍵を authorized_keys に加える。
+
+```bash
+ssh-add -L \
+  | while read -r line; do
+      ansible \
+        -m lineinfile \
+        -a "path='${HOME}/.ssh/authorized_keys' line='${line}' backup=yes" \
+        localhost
+    done
+```
