@@ -1,5 +1,35 @@
 # Debian
 
+## ロケール en_US.UTF-8 を作る。
+
+```bash
+LANG=C locale -a
+cat /etc/locale.gen
+ansible -b -m lineinfile -a "path=/etc/locale.gen regexp='^(?:#\s*|)(en_US\.UTF-8\s*UTF-8)$' backrefs=yes line='\1' backup=yes" localhost
+locale-gen
+```
+
+## タイムゾーンを設定する。
+
+```bash
+sudo timedatectl set-timezone Asia/Tokyo
+```
+
+## Ansible をインストールする。
+
+```bash
+sudo apt update
+sudo apt install ansible -y
+```
+
+## ファイル名を含む deb パッケージを検索する。
+
+```bash
+sudo apt install apt-file
+sudo apt-file update
+apt-file search /apt-file
+```
+
 ## Debian 10 (buster) に Python 3.9.7 をインストールする。
 
 ```bash
@@ -24,26 +54,3 @@ sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/pyt
 
 [Getting and installing the latest version of Python](https://docs.python.org/3.9/using/unix.html#on-linux)を参照した。
 
-## Ansible をインストールする。
-
-```bash
-apt update
-apt install ansible
-```
-
-## ロケール en_US.UTF-8 を作る。
-
-```bash
-LANG=C locale -a
-cat /etc/locale.gen
-ansible -b -m lineinfile -a "path=/etc/locale.gen regexp='^(?:#\s*|)(en_US\.UTF-8\s*UTF-8)$' backrefs=yes line='\1' backup=yes" localhost
-locale-gen
-```
-
-## ファイル名を含む deb パッケージを検索する。
-
-```bash
-sudo apt install apt-file
-sudo apt-file update
-apt-file search /apt-file
-```

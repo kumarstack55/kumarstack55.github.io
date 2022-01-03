@@ -169,6 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Minikube</a></li>
 </ul>
@@ -210,10 +211,94 @@
 <h1>Minikube<a class="headerlink" href="#minikube" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
 <h2>Minikube を動かす。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>メモリ量 8GB 程度のマシンで動かすのが良い。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /tmp</span>
 <span class="go">curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb</span>
 <span class="go">sudo dpkg -i minikube_latest_amd64.deb</span>
 <span class="go">minikube start</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>docker container ls --format<span class="o">=</span><span class="s1">'{{json .}}'</span> <span class="p">|</span> jq .
+<span class="go">{</span>
+<span class="go">  "Command": "\"/usr/local/bin/entr…\"",</span>
+<span class="go">  "CreatedAt": "2022-01-02 14:28:17 +0000 UTC",</span>
+<span class="go">  "ID": "0499c786bd2b",</span>
+<span class="go">  "Image": "gcr.io/k8s-minikube/kicbase:v0.0.28",</span>
+<span class="go">  "Labels": "created_by.minikube.sigs.k8s.io=true,mode.minikube.sigs.k8s.io=minikube,name.minikube.sigs.k8s.io=minikube,role.minikube.sigs.k8s.io=",</span>
+<span class="go">  "LocalVolumes": "1",</span>
+<span class="go">  "Mounts": "/lib/modules,minikube",</span>
+<span class="go">  "Names": "minikube",</span>
+<span class="go">  "Networks": "minikube",</span>
+<span class="go">  "Ports": "127.0.0.1:49157-&gt;22/tcp, 127.0.0.1:49156-&gt;2376/tcp, 127.0.0.1:49155-&gt;5000/tcp, 127.0.0.1:49154-&gt;8443/tcp, 127.0.0.1:49153-&gt;32443/tcp",</span>
+<span class="go">  "RunningFor": "22 hours ago",</span>
+<span class="go">  "Size": "2.93MB (virtual 1.08GB)",</span>
+<span class="go">  "State": "running",</span>
+<span class="go">  "Status": "Up 4 minutes"</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>ダッシュボードを動かす。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>minikube dashboard
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>minikube の機能一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>minikube version
+<span class="go">minikube version: v1.24.0</span>
+<span class="go">commit: 76b94fb3c4e8ac5062daf70d60cf03ddcc0a741b</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>minikube -h
+<span class="go">minikube provisions and manages local Kubernetes clusters optimized for development workflows.</span>
+
+<span class="go">Basic Commands:</span>
+<span class="go">  start          Starts a local Kubernetes cluster</span>
+<span class="go">  status         Gets the status of a local Kubernetes cluster</span>
+<span class="go">  stop           Stops a running local Kubernetes cluster</span>
+<span class="go">  delete         Deletes a local Kubernetes cluster</span>
+<span class="go">  dashboard      Access the Kubernetes dashboard running within the minikube cluster</span>
+<span class="go">  pause          pause Kubernetes</span>
+<span class="go">  unpause        unpause Kubernetes</span>
+
+<span class="go">Images Commands:</span>
+<span class="go">  docker-env     Configure environment to use minikube's Docker daemon</span>
+<span class="go">  podman-env     Configure environment to use minikube's Podman service</span>
+<span class="go">  cache          Add, delete, or push a local image into minikube</span>
+<span class="go">  image          Manage images</span>
+
+<span class="go">Configuration and Management Commands:</span>
+<span class="go">  addons         Enable or disable a minikube addon</span>
+<span class="go">  config         Modify persistent configuration values</span>
+<span class="go">  profile        Get or list the current profiles (clusters)</span>
+<span class="go">  update-context Update kubeconfig in case of an IP or port change</span>
+
+<span class="go">Networking and Connectivity Commands:</span>
+<span class="go">  service        Returns a URL to connect to a service</span>
+<span class="go">  tunnel         Connect to LoadBalancer services</span>
+
+<span class="go">Advanced Commands:</span>
+<span class="go">  mount          Mounts the specified directory into minikube</span>
+<span class="go">  ssh            Log into the minikube environment (for debugging)</span>
+<span class="go">  kubectl        Run a kubectl binary matching the cluster version</span>
+<span class="go">  node           Add, remove, or list additional nodes</span>
+<span class="go">  cp             Copy the specified file into minikube</span>
+
+<span class="go">Troubleshooting Commands:</span>
+<span class="go">  ssh-key        Retrieve the ssh identity key path of the specified node</span>
+<span class="go">  ssh-host       Retrieve the ssh host key of the specified node</span>
+<span class="go">  ip             Retrieves the IP address of the specified node</span>
+<span class="go">  logs           Returns logs to debug a local Kubernetes cluster</span>
+<span class="go">  update-check   Print current and latest version number</span>
+<span class="go">  version        Print the version of minikube</span>
+<span class="go">  options        Show a list of global command-line options (applies to all commands).</span>
+
+<span class="go">Other Commands:</span>
+<span class="go">  completion     Generate command completion for a shell</span>
+
+<span class="go">Use "minikube &lt;command&gt; --help" for more information about a given command.</span>
 </pre></div>
 </div>
 </section>
@@ -274,6 +359,8 @@
             <ul>
 <li><a class="reference internal" href="#">Minikube</a><ul>
 <li><a class="reference internal" href="#id1">Minikube を動かす。</a></li>
+<li><a class="reference internal" href="#id2">ダッシュボードを動かす。</a></li>
+<li><a class="reference internal" href="#id3">minikube の機能一覧</a></li>
 </ul>
 </li>
 </ul>

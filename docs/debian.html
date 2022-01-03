@@ -169,6 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
@@ -208,6 +209,36 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="debian">
 <h1>Debian<a class="headerlink" href="#debian" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="en-us-utf-8">
+<h2>ロケール en_US.UTF-8 を作る。<a class="headerlink" href="#en-us-utf-8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LANG</span><span class="o">=</span>C locale -a
+cat /etc/locale.gen
+ansible -b -m lineinfile -a <span class="s2">"path=/etc/locale.gen regexp='^(?:#\s*|)(en_US\.UTF-8\s*UTF-8)</span>$<span class="s2">' backrefs=yes line='\1' backup=yes"</span> localhost
+locale-gen
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>タイムゾーンを設定する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo timedatectl set-timezone Asia/Tokyo
+</pre></div>
+</div>
+</section>
+<section id="ansible">
+<h2>Ansible をインストールする。<a class="headerlink" href="#ansible" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt update
+sudo apt install ansible -y
+</pre></div>
+</div>
+</section>
+<section id="deb">
+<h2>ファイル名を含む deb パッケージを検索する。<a class="headerlink" href="#deb" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install apt-file
+sudo apt-file update
+apt-file search /apt-file
+</pre></div>
+</div>
+</section>
 <section id="debian-10-buster-python-3-9-7">
 <h2>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -i
@@ -229,30 +260,6 @@ make altinstall
 </pre></div>
 </div>
 <p><a class="reference external" href="https://docs.python.org/3.9/using/unix.html#on-linux">Getting and installing the latest version of Python</a>を参照した。</p>
-</section>
-<section id="ansible">
-<h2>Ansible をインストールする。<a class="headerlink" href="#ansible" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt update
-apt install ansible
-</pre></div>
-</div>
-</section>
-<section id="en-us-utf-8">
-<h2>ロケール en_US.UTF-8 を作る。<a class="headerlink" href="#en-us-utf-8" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LANG</span><span class="o">=</span>C locale -a
-cat /etc/locale.gen
-ansible -b -m lineinfile -a <span class="s2">"path=/etc/locale.gen regexp='^(?:#\s*|)(en_US\.UTF-8\s*UTF-8)</span>$<span class="s2">' backrefs=yes line='\1' backup=yes"</span> localhost
-locale-gen
-</pre></div>
-</div>
-</section>
-<section id="deb">
-<h2>ファイル名を含む deb パッケージを検索する。<a class="headerlink" href="#deb" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install apt-file
-sudo apt-file update
-apt-file search /apt-file
-</pre></div>
-</div>
 </section>
 </section>
 
@@ -310,10 +317,11 @@ apt-file search /apt-file
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Debian</a><ul>
-<li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
-<li><a class="reference internal" href="#ansible">Ansible をインストールする。</a></li>
 <li><a class="reference internal" href="#en-us-utf-8">ロケール en_US.UTF-8 を作る。</a></li>
+<li><a class="reference internal" href="#id1">タイムゾーンを設定する。</a></li>
+<li><a class="reference internal" href="#ansible">Ansible をインストールする。</a></li>
 <li><a class="reference internal" href="#deb">ファイル名を含む deb パッケージを検索する。</a></li>
+<li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 </ul>
 </li>
 </ul>

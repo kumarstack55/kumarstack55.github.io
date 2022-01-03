@@ -169,6 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
@@ -229,15 +230,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ssh.html#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ssh.html#ssh-authorized-keys">SSHでエージェントの公開鍵を authorized_keys に加える。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ssh.html#id1">SSHクライアント</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ssh.html#ssh-authorized-keys">SSHでエージェントの公開鍵を authorized_keys に加える。</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="debian.html#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debian.html#ansible">Ansible をインストールする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debian.html#en-us-utf-8">ロケール en_US.UTF-8 を作る。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html#id1">タイムゾーンを設定する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html#ansible">Ansible をインストールする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="debian.html#deb">ファイル名を含む deb パッケージを検索する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debian.html#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a><ul>
@@ -285,14 +290,30 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kubernetes.html">Kubernetes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id1">クライアントとサーバのバージョンを確認する。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id2">設定のコンテキストを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id3">設定を見る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#api">名前空間にあるAPIリソースを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id4">名前空間にないAPIリソースを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id5">名前空間の一覧を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id6">名前空間を作る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id7">名前空間を消す。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pods">podsを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id8">すべての名前空間のpodsを得る。</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#id1">kubectl をインストールする。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#id2">kubectl でクラスタの状態を得る。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#kubectl-bash">kubectl を bash で補完する。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_kubectl.html#id3">kubectlの機能一覧</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_minikube.html#id1">Minikube を動かす。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_minikube.html#id2">ダッシュボードを動かす。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_minikube.html#id3">minikube の機能一覧</a></li>
 </ul>
 </li>
 </ul>

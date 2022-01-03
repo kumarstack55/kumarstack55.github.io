@@ -169,6 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
@@ -208,16 +209,22 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="ssh">
 <h1>SSH<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>SSHクライアント<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="windows-openssh-ssh-exe-pageant">
-<h2>Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。<a class="headerlink" href="#windows-openssh-ssh-exe-pageant" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。<a class="headerlink" href="#windows-openssh-ssh-exe-pageant" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><a class="reference external" href="https://github.com/benpye/wsl-ssh-pageant">wsl-ssh-pageant</a>を使う。
 Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイに常駐させておく。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span><span class="o">-</span><span class="n">ssh</span><span class="o">-</span><span class="n">pageant</span><span class="o">-</span><span class="n">amd64</span><span class="o">-</span><span class="n">gui</span><span class="o">.</span><span class="n">exe</span> <span class="o">--</span><span class="n">systray</span> <span class="o">--</span><span class="n">winssh</span> <span class="n">ssh</span><span class="o">-</span><span class="n">pageant</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl-ssh-pageant-amd64-gui</span><span class="p">.</span><span class="n">exe</span> <span class="p">-</span><span class="n">-systray</span> <span class="p">-</span><span class="n">-winssh</span> <span class="n">ssh-pageant</span>
+</pre></div>
+</div>
+<p>環境変数を設定する。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:SSH_AUTH_SOCK</span> <span class="p">=</span> <span class="s1">'\\.\pipe\ssh-pageant'</span>
 </pre></div>
 </div>
 </section>
 <section id="ssh-authorized-keys">
-<h2>SSHでエージェントの公開鍵を authorized_keys に加える。<a class="headerlink" href="#ssh-authorized-keys" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>SSHでエージェントの公開鍵を authorized_keys に加える。<a class="headerlink" href="#ssh-authorized-keys" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add -L <span class="se">\</span>
   <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
       ansible <span class="se">\</span>
@@ -227,6 +234,7 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
     <span class="k">done</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -284,8 +292,11 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">SSH</a><ul>
+<li><a class="reference internal" href="#id1">SSHクライアント</a><ul>
 <li><a class="reference internal" href="#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
 <li><a class="reference internal" href="#ssh-authorized-keys">SSHでエージェントの公開鍵を authorized_keys に加える。</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

@@ -2,9 +2,96 @@
 
 ## Minikube を動かす。
 
+メモリ量 8GB 程度のマシンで動かすのが良い。
+
 ```console
 cd /tmp
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
 sudo dpkg -i minikube_latest_amd64.deb
 minikube start
+```
+
+```console
+vagrant@buster:/tmp$ docker container ls --format='{{json .}}' | jq .
+{
+  "Command": "\"/usr/local/bin/entr…\"",
+  "CreatedAt": "2022-01-02 14:28:17 +0000 UTC",
+  "ID": "0499c786bd2b",
+  "Image": "gcr.io/k8s-minikube/kicbase:v0.0.28",
+  "Labels": "created_by.minikube.sigs.k8s.io=true,mode.minikube.sigs.k8s.io=minikube,name.minikube.sigs.k8s.io=minikube,role.minikube.sigs.k8s.io=",
+  "LocalVolumes": "1",
+  "Mounts": "/lib/modules,minikube",
+  "Names": "minikube",
+  "Networks": "minikube",
+  "Ports": "127.0.0.1:49157->22/tcp, 127.0.0.1:49156->2376/tcp, 127.0.0.1:49155->5000/tcp, 127.0.0.1:49154->8443/tcp, 127.0.0.1:49153->32443/tcp",
+  "RunningFor": "22 hours ago",
+  "Size": "2.93MB (virtual 1.08GB)",
+  "State": "running",
+  "Status": "Up 4 minutes"
+}
+```
+
+## ダッシュボードを動かす。
+
+```bash
+minikube dashboard
+```
+
+## minikube の機能一覧
+
+```console
+vagrant@buster:/tmp$ minikube version
+minikube version: v1.24.0
+commit: 76b94fb3c4e8ac5062daf70d60cf03ddcc0a741b
+```
+
+```console
+vagrant@buster:/tmp$ minikube -h
+minikube provisions and manages local Kubernetes clusters optimized for development workflows.
+
+Basic Commands:
+  start          Starts a local Kubernetes cluster
+  status         Gets the status of a local Kubernetes cluster
+  stop           Stops a running local Kubernetes cluster
+  delete         Deletes a local Kubernetes cluster
+  dashboard      Access the Kubernetes dashboard running within the minikube cluster
+  pause          pause Kubernetes
+  unpause        unpause Kubernetes
+
+Images Commands:
+  docker-env     Configure environment to use minikube's Docker daemon
+  podman-env     Configure environment to use minikube's Podman service
+  cache          Add, delete, or push a local image into minikube
+  image          Manage images
+
+Configuration and Management Commands:
+  addons         Enable or disable a minikube addon
+  config         Modify persistent configuration values
+  profile        Get or list the current profiles (clusters)
+  update-context Update kubeconfig in case of an IP or port change
+
+Networking and Connectivity Commands:
+  service        Returns a URL to connect to a service
+  tunnel         Connect to LoadBalancer services
+
+Advanced Commands:
+  mount          Mounts the specified directory into minikube
+  ssh            Log into the minikube environment (for debugging)
+  kubectl        Run a kubectl binary matching the cluster version
+  node           Add, remove, or list additional nodes
+  cp             Copy the specified file into minikube
+
+Troubleshooting Commands:
+  ssh-key        Retrieve the ssh identity key path of the specified node
+  ssh-host       Retrieve the ssh host key of the specified node
+  ip             Retrieves the IP address of the specified node
+  logs           Returns logs to debug a local Kubernetes cluster
+  update-check   Print current and latest version number
+  version        Print the version of minikube
+  options        Show a list of global command-line options (applies to all commands).
+
+Other Commands:
+  completion     Generate command completion for a shell
+
+Use "minikube <command> --help" for more information about a given command.
 ```
