@@ -263,6 +263,49 @@
 </pre></div>
 </div>
 </section>
+<section id="id4">
+<h2>イベントを得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get events
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get events
+<span class="go">LAST SEEN   TYPE     REASON                    OBJECT          MESSAGE</span>
+<span class="go">46h         Normal   Starting                  node/minikube   Starting kubelet.</span>
+<span class="go">46h         Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory</span>
+<span class="go">46h         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure</span>
+<span class="go">46h         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID</span>
+<span class="go">46h         Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady</span>
+<span class="go">46h         Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods</span>
+<span class="go">46h         Normal   NodeReady                 node/minikube   Node minikube status is now: NodeReady</span>
+<span class="go">46h         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller</span>
+<span class="go">46h         Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady</span>
+<span class="go">46h         Normal   Starting                  node/minikube</span>
+<span class="go">46h         Normal   Starting                  node/minikube   Starting kubelet.</span>
+<span class="go">46h         Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory</span>
+<span class="go">46h         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure</span>
+<span class="go">46h         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID</span>
+<span class="go">46h         Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods</span>
+<span class="go">46h         Normal   Starting                  node/minikube</span>
+<span class="go">46h         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller</span>
+<span class="go">46h         Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady</span>
+<span class="go">100m        Normal   Starting                  node/minikube   Starting kubelet.</span>
+<span class="go">99m         Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory</span>
+<span class="go">99m         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure</span>
+<span class="go">99m         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID</span>
+<span class="go">100m        Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods</span>
+<span class="go">99m         Normal   Starting                  node/minikube</span>
+<span class="go">99m         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller</span>
+<span class="go">16m         Normal   Starting                  node/minikube   Starting kubelet.</span>
+<span class="go">9m58s       Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory</span>
+<span class="go">16m         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure</span>
+<span class="go">16m         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID</span>
+<span class="go">16m         Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods</span>
+<span class="go">13m         Normal   Starting                  node/minikube</span>
+<span class="go">13m         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller</span>
+<span class="go">8m22s       Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady</span>
+</pre></div>
+</div>
+</section>
 <section id="api">
 <h2>名前空間にあるAPIリソースを得る。<a class="headerlink" href="#api" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>kubectl api-resources --namespaced<span class="o">=</span><span class="nb">true</span>
@@ -301,8 +344,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>名前空間にないAPIリソースを得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>名前空間にないAPIリソースを得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>kubectl api-resources --namespaced<span class="o">=</span><span class="nb">false</span>
 <span class="go">NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND</span>
 <span class="go">componentstatuses                 cs           v1                                     false        ComponentStatus</span>
@@ -333,8 +376,13 @@
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>名前空間の一覧を得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>名前空間の一覧を得る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get namespaces
+
+kubectl get namespaces --show-labels
+</pre></div>
+</div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>kubectl get namespaces
 <span class="go">NAME              STATUS   AGE</span>
 <span class="go">default           Active   23m</span>
@@ -343,24 +391,103 @@
 <span class="go">kube-system       Active   24m</span>
 </pre></div>
 </div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get namespaces --show-labels
+<span class="go">NAME                   STATUS   AGE     LABELS</span>
+<span class="go">default                Active   45h     kubernetes.io/metadata.name=default</span>
+<span class="go">development            Active   5m41s   kubernetes.io/metadata.name=development,name=development</span>
+<span class="go">kube-node-lease        Active   45h     kubernetes.io/metadata.name=kube-node-lease</span>
+<span class="go">kube-public            Active   45h     kubernetes.io/metadata.name=kube-public</span>
+<span class="go">kube-system            Active   45h     kubernetes.io/metadata.name=kube-system</span>
+<span class="go">kubernetes-dashboard   Active   44h     addonmanager.kubernetes.io/mode=Reconcile,kubernetes.io/metadata.name=kubernetes-dashboard,kubernetes.io/minikube-addons=dashboard</span>
+<span class="go">production             Active   95s     kubernetes.io/metadata.name=production,name=production</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get namespaces --show-labels <span class="p">|</span> grep -i -e ^NAME -e production -e development
+<span class="go">NAME                   STATUS   AGE     LABELS</span>
+<span class="go">development            Active   6m42s   kubernetes.io/metadata.name=development,name=development</span>
+<span class="go">production             Active   2m36s   kubernetes.io/metadata.name=production,name=production</span>
+</pre></div>
+</div>
 <p>https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#viewing-namespaces</p>
 </section>
-<section id="id6">
-<h2>名前空間を作る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>名前空間を作る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="yaml">
+<h3>名前空間をYAMLで作る。<a class="headerlink" href="#yaml" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;__YAML__ &gt;my-ns1.yaml</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Namespace</span>
+<span class="s">metadata:</span>
+<span class="s">  name: ns1</span>
+<span class="s">__YAML__</span>
+
+kubectl create -f my-ns1.yaml
+</pre></div>
+</div>
+</section>
+<section id="json">
+<h3>名前空間をJSONで作る。<a class="headerlink" href="#json" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl create -f https://k8s.io/examples/admin/namespace-dev.json
+kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>curl -Ls kubectl create -f https://k8s.io/examples/admin/names
+<span class="go">pace-dev.json</span>
+<span class="go">{</span>
+<span class="go">  "apiVersion": "v1",</span>
+<span class="go">  "kind": "Namespace",</span>
+<span class="go">  "metadata": {</span>
+<span class="go">    "name": "development",</span>
+<span class="go">    "labels": {</span>
+<span class="go">      "name": "development"</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+
+<span class="gp">vagrant@buster:~$ </span>curl -Ls kubectl create -f https://k8s.io/examples/admin/names
+<span class="go">pace-prod.json</span>
+<span class="go">{</span>
+<span class="go">  "apiVersion": "v1",</span>
+<span class="go">  "kind": "Namespace",</span>
+<span class="go">  "metadata": {</span>
+<span class="go">    "name": "production",</span>
+<span class="go">    "labels": {</span>
+<span class="go">      "name": "production"</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl create -f https://kubernetes.io/examples/admin/namespace-dev.json
+<span class="go">namespace/development created</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
+<span class="go">namespace/production created</span>
+</pre></div>
+</div>
 <p>https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace</p>
 </section>
-<section id="id7">
-<h2>名前空間を消す。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</section>
+<section id="id8">
+<h2>名前空間を消す。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl create -f my-ns1.yaml
+</pre></div>
+</div>
 </section>
 <section id="pods">
-<h2>podsを得る。<a class="headerlink" href="#pods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Podsを得る。<a class="headerlink" href="#pods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po
+
+<span class="c1"># 名前空間を指定する。</span>
+kubectl get po --namespace production
+kubectl get po --namespace development
+</pre></div>
+</div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>kubectl get po
 <span class="go">No resources found in default namespace.</span>
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>すべての名前空間のpodsを得る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>すべての名前空間のpodsを得る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get po -A
 <span class="go">NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE</span>
 <span class="go">kube-system   coredns-78fcd69978-5zv2q           1/1     Running   1 (12m ago)     14m</span>
@@ -370,6 +497,243 @@
 <span class="go">kube-system   kube-proxy-s4gv4                   1/1     Running   1 (12m ago)     14m</span>
 <span class="go">kube-system   kube-scheduler-minikube            1/1     Running   1 (10m ago)     14m</span>
 <span class="go">kube-system   storage-provisioner                0/1     Error     2 (7m28s ago)   14m</span>
+</pre></div>
+</div>
+</section>
+<section id="deployment">
+<h2>Deploymentを得る。<a class="headerlink" href="#deployment" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get deployment
+kubectl get deployment -n<span class="o">=</span>development
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get deployment -n<span class="o">=</span>development
+<span class="go">NAME        READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">snowflake   2/2     2            2           68s</span>
+</pre></div>
+</div>
+</section>
+<section id="deploymentpods">
+<h2>Deploymentを作ることで、Podsを作る。<a class="headerlink" href="#deploymentpods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 名前空間 deployment に snowflake を作る。</span>
+kubectl create deployment snowflake --image<span class="o">=</span>k8s.gcr.io/serve_hostname  -n<span class="o">=</span>development --replicas<span class="o">=</span><span class="m">2</span>
+kubectl get deployment -n<span class="o">=</span>development
+kubectl get pods -l <span class="nv">app</span><span class="o">=</span>snowflake -n<span class="o">=</span>development
+
+<span class="c1"># 名前空間 production に cattle を作る。</span>
+kubectl create deployment cattle --image<span class="o">=</span>k8s.gcr.io/serve_hostname -n<span class="o">=</span>production
+kubectl scale deployment cattle --replicas<span class="o">=</span><span class="m">5</span> -n<span class="o">=</span>production
+kubectl get deployment -n<span class="o">=</span>production
+kubectl get pods -l <span class="nv">app</span><span class="o">=</span>cattle -n<span class="o">=</span>production
+
+<span class="c1"># hello-node を作る。</span>
+kubectl create deployment hello-node --image<span class="o">=</span>k8s.gcr.io/echoserver:1.4
+kubectl get deployments
+kubectl get pods
+kubectl get events
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl create deployment snowflake --image<span class="o">=</span>k8s.gcr.io/serve_hostname  -n<span class="o">=</span>development --replicas<span class="o">=</span><span class="m">2</span>
+<span class="go">deployment.apps/snowflake created</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get deployment -n<span class="o">=</span>development
+<span class="go">NAME        READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">snowflake   2/2     2            2           68s</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get pods -l <span class="nv">app</span><span class="o">=</span>snowflake -n<span class="o">=</span>development
+<span class="go">NAME                         READY   STATUS    RESTARTS   AGE</span>
+<span class="go">snowflake-7cf7c446bc-pqbvb   1/1     Running   0          92s</span>
+<span class="go">snowflake-7cf7c446bc-xmsch   1/1     Running   0          92s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl create deployment cattle --image<span class="o">=</span>k8s.gcr.io/serve_hostname -n<span class="o">=</span>production
+<span class="go">deployment.apps/cattle created</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl scale deployment cattle --replicas<span class="o">=</span><span class="m">5</span> -n<span class="o">=</span>production
+<span class="go">deployment.apps/cattle scaled</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get deployment -n<span class="o">=</span>production
+<span class="go">NAME     READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">cattle   3/5     5            3           10s</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get deployment -n<span class="o">=</span>production
+<span class="go">NAME     READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">cattle   5/5     5            5           15s</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get pods -l <span class="nv">app</span><span class="o">=</span>cattle -n<span class="o">=</span>production
+<span class="go">NAME                      READY   STATUS    RESTARTS   AGE</span>
+<span class="go">cattle-65d567657f-56n8p   1/1     Running   0          72s</span>
+<span class="go">cattle-65d567657f-cpcb5   1/1     Running   0          67s</span>
+<span class="go">cattle-65d567657f-ndhs4   1/1     Running   0          67s</span>
+<span class="go">cattle-65d567657f-q594z   1/1     Running   0          67s</span>
+<span class="go">cattle-65d567657f-q8xdg   1/1     Running   0          67s</span>
+</pre></div>
+</div>
+</section>
+<section id="export-service">
+<h2>export で Service を作る。<a class="headerlink" href="#export-service" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
+kubectl get svc
+<span class="c1"># On minikube, the LoadBalancer type makes the Service accessible through the minikube service command.</span>
+minikube service hello-node
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get svc
+<span class="go">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   47h</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
+<span class="go">service/hello-node exposed</span>
+
+<span class="gp">vagrant@buster:~$ </span>kubectl get svc
+<span class="go">NAME         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE</span>
+<span class="go">hello-node   LoadBalancer   10.105.231.194   &lt;pending&gt;     8080:30349/TCP   68s</span>
+<span class="go">kubernetes   ClusterIP      10.96.0.1        &lt;none&gt;        443/TCP          47h</span>
+
+<span class="gp">vagrant@buster:~$ </span>minikube service hello-node
+<span class="go">|-----------|------------|-------------|---------------------------|</span>
+<span class="go">| NAMESPACE |    NAME    | TARGET PORT |            URL            |</span>
+<span class="go">|-----------|------------|-------------|---------------------------|</span>
+<span class="go">| default   | hello-node |        8080 | http://192.168.49.2:30349 |</span>
+<span class="go">|-----------|------------|-------------|---------------------------|</span>
+<span class="go">?  Opening service default/hello-node in default browser...</span>
+<span class="go">?  http://192.168.49.2:30349</span>
+
+<span class="gp">vagrant@buster:~$ </span>ip -4 -o a
+<span class="go">1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever</span>
+<span class="go">2: eth0    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0\       valid_lft 85413sec preferred_lft 85413sec</span>
+<span class="go">3: docker0    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0\       valid_lft forever preferred_lft forever</span>
+<span class="go">4: br-c21be1532ab5    inet 192.168.49.1/24 brd 192.168.49.255 scope global br-c21be1532ab5\       valid_lft forever preferred_lft forever</span>
+
+<span class="gp">vagrant@buster:~$ </span>ps -ef <span class="p">|</span> grep -e <span class="s1">'^UID'</span> -e <span class="s1">'192.168.49.2'</span> <span class="p">|</span> grep -v grep
+<span class="go">UID          PID    PPID  C STIME TTY          TIME CMD</span>
+<span class="go">root        1008     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49153 -container-ip 192.168.49.2 -container-port 32443</span>
+<span class="go">root        1020     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49154 -container-ip 192.168.49.2 -container-port 8443</span>
+<span class="go">root        1033     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49155 -container-ip 192.168.49.2 -container-port 5000</span>
+<span class="go">root        1047     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49156 -container-ip 192.168.49.2 -container-port 2376</span>
+<span class="go">root        1060     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49157 -container-ip 192.168.49.2 -container-port 22</span>
+<span class="go">root        1998    1094  7 22:14 ?        00:03:19 /var/lib/minikube/binaries/v1.22.3/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=/var/lib/kubelet/config.yaml --container-runtime=docker --hostname-override=minikube --kubeconfig=/etc/kubernetes/kubelet.conf --node-ip=192.168.49.2</span>
+<span class="go">root        2711    2685  6 22:14 ?        00:02:39 etcd --advertise-client-urls=https://192.168.49.2:2379 --cert-file=/var/lib/minikube/certs/etcd/server.crt --client-cert-auth=true --data-dir=/var/lib/minikube/etcd --initial-advertise-peer-urls=https://192.168.49.2:2380 --initial-cluster=minikube=https://192.168.49.2:2380 --key-file=/var/lib/minikube/certs/etcd/server.key --listen-client-urls=https://127.0.0.1:2379,https://192.168.49.2:2379 --listen-metrics-urls=http://127.0.0.1:2381 --listen-peer-urls=https://192.168.49.2:2380 --name=minikube --peer-cert-file=/var/lib/minikube/certs/etcd/peer.crt --peer-client-cert-auth=true --peer-key-file=/var/lib/minikube/certs/etcd/peer.key --peer-trusted-ca-file=/var/lib/minikube/certs/etcd/ca.crt --proxy-refresh-interval=70000 --snapshot-count=10000 --trusted-ca-file=/var/lib/minikube/certs/etcd/ca.crt</span>
+<span class="go">root        2845    2749 16 22:14 ?        00:07:10 kube-apiserver --advertise-address=192.168.49.2 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/var/lib/minikube/certs/ca.crt --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota --enable-bootstrap-token-auth=true --etcd-cafile=/var/lib/minikube/certs/etcd/ca.crt --etcd-certfile=/var/lib/minikube/certs/apiserver-etcd-client.crt --etcd-keyfile=/var/lib/minikube/certs/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/var/lib/minikube/certs/apiserver-kubelet-client.crt --kubelet-client-key=/var/lib/minikube/certs/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/var/lib/minikube/certs/front-proxy-client.crt --proxy-client-key-file=/var/lib/minikube/certs/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=8443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/var/lib/minikube/certs/sa.pub --service-account-signing-key-file=/var/lib/minikube/certs/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/var/lib/minikube/certs/apiserver.crt --tls-private-key-file=/var/lib/minikube/certs/apiserver.key</span>
+
+<span class="gp">vagrant@buster:~$ </span>sudo docker ps
+<span class="go">CONTAINER ID   IMAGE                                 COMMAND                  CREATED      STATUS          PORTS                                                                                                                                  NAMES</span>
+<span class="go">b3eefafc2996   gcr.io/k8s-minikube/kicbase:v0.0.28   "/usr/local/bin/entr…"   2 days ago   Up 44 minutes   127.0.0.1:49157-&gt;22/tcp, 127.0.0.1:49156-&gt;2376/tcp, 127.0.0.1:49155-&gt;5000/tcp, 127.0.0.1:49154-&gt;8443/tcp, 127.0.0.1:49153-&gt;32443/tcp   minikube</span>
+
+<span class="gp">vagrant@buster:~$ </span>curl -w <span class="s1">'\n'</span> http://192.168.49.2:30349
+<span class="go">CLIENT VALUES:</span>
+<span class="go">client_address=172.17.0.1</span>
+<span class="go">command=GET</span>
+<span class="go">real path=/</span>
+<span class="go">query=nil</span>
+<span class="go">request_version=1.1</span>
+<span class="go">request_uri=http://192.168.49.2:8080/</span>
+
+<span class="go">SERVER VALUES:</span>
+<span class="go">server_version=nginx: 1.10.0 - lua: 10001</span>
+
+<span class="go">HEADERS RECEIVED:</span>
+<span class="go">accept=*/*</span>
+<span class="go">host=192.168.49.2:30349</span>
+<span class="go">user-agent=curl/7.64.0</span>
+<span class="go">BODY:</span>
+<span class="go">-no body in request-</span>
+</pre></div>
+</div>
+</section>
+<section id="kubectl-get-pods-h">
+<h2>参考: kubectl get pods -h<a class="headerlink" href="#kubectl-get-pods-h" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get pods -h
+<span class="go">Display one or many resources.</span>
+
+<span class="go"> Prints a table of the most important information about the specified resources. You can filter the list using a label</span>
+<span class="go">selector and the --selector flag. If the desired resource type is namespaced you will only see results in your current</span>
+<span class="go">namespace unless you pass --all-namespaces.</span>
+
+<span class="go"> By specifying the output as 'template' and providing a Go template as the value of the --template flag, you can filter</span>
+<span class="go">the attributes of the fetched resources.</span>
+
+<span class="go">Use "kubectl api-resources" for a complete list of supported resources.</span>
+
+<span class="go">Examples:</span>
+<span class="gp">  # </span>List all pods <span class="k">in</span> ps output format
+<span class="go">  kubectl get pods</span>
+
+<span class="gp">  # </span>List all pods <span class="k">in</span> ps output format with more information <span class="o">(</span>such as node name<span class="o">)</span>
+<span class="go">  kubectl get pods -o wide</span>
+
+<span class="gp">  # </span>List a single replication controller with specified NAME <span class="k">in</span> ps output format
+<span class="go">  kubectl get replicationcontroller web</span>
+
+<span class="gp">  # </span>List deployments <span class="k">in</span> JSON output format, <span class="k">in</span> the <span class="s2">"v1"</span> version of the <span class="s2">"apps"</span> API group
+<span class="go">  kubectl get deployments.v1.apps -o json</span>
+
+<span class="gp">  # </span>List a single pod <span class="k">in</span> JSON output format
+<span class="go">  kubectl get -o json pod web-pod-13je7</span>
+
+<span class="gp">  # </span>List a pod identified by <span class="nb">type</span> and name specified <span class="k">in</span> <span class="s2">"pod.yaml"</span> <span class="k">in</span> JSON output format
+<span class="go">  kubectl get -f pod.yaml -o json</span>
+
+<span class="gp">  # </span>List resources from a directory with kustomization.yaml - e.g. dir/kustomization.yaml
+<span class="go">  kubectl get -k dir/</span>
+
+<span class="gp">  # </span>Return only the phase value of the specified pod
+<span class="go">  kubectl get -o template pod/web-pod-13je7 --template={{.status.phase}}</span>
+
+<span class="gp">  # </span>List resource information <span class="k">in</span> custom columns
+<span class="go">  kubectl get pod test-pod -o custom-columns=CONTAINER:.spec.containers[0].name,IMAGE:.spec.containers[0].image</span>
+
+<span class="gp">  # </span>List all replication controllers and services together <span class="k">in</span> ps output format
+<span class="go">  kubectl get rc,services</span>
+
+<span class="gp">  # </span>List one or more resources by their <span class="nb">type</span> and names
+<span class="go">  kubectl get rc/web service/frontend pods/web-pod-13je7</span>
+
+<span class="go">Options:</span>
+<span class="go">  -A, --all-namespaces=false: If present, list the requested object(s) across all namespaces. Namespace in current</span>
+<span class="go">context is ignored even if specified with --namespace.</span>
+<span class="go">      --allow-missing-template-keys=true: If true, ignore any errors in templates when a field or map key is missing in</span>
+<span class="go">the template. Only applies to golang and jsonpath output formats.</span>
+<span class="go">      --chunk-size=500: Return large lists in chunks rather than all at once. Pass 0 to disable. This flag is beta and</span>
+<span class="go">may change in the future.</span>
+<span class="go">      --field-selector='': Selector (field query) to filter on, supports '=', '==', and '!='.(e.g. --field-selector</span>
+<span class="go">key1=value1,key2=value2). The server only supports a limited number of field queries per type.</span>
+<span class="go">  -f, --filename=[]: Filename, directory, or URL to files identifying the resource to get from a server.</span>
+<span class="go">      --ignore-not-found=false: If the requested object does not exist the command will return exit code 0.</span>
+<span class="go">  -k, --kustomize='': Process the kustomization directory. This flag can't be used together with -f or -R.</span>
+<span class="go">  -L, --label-columns=[]: Accepts a comma separated list of labels that are going to be presented as columns. Names are</span>
+<span class="go">case-sensitive. You can also use multiple flag options like -L label1 -L label2...</span>
+<span class="go">      --no-headers=false: When using the default or custom-column output format, don't print headers (default print</span>
+<span class="go">headers).</span>
+<span class="go">  -o, --output='': Output format. One of:</span>
+<span class="go">json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file|custom-columns|custom-columns-file|wide</span>
+<span class="go">See custom columns [https://kubernetes.io/docs/reference/kubectl/overview/#custom-columns], golang template</span>
+<span class="go">[http://golang.org/pkg/text/template/#pkg-overview] and jsonpath template</span>
+<span class="go">[https://kubernetes.io/docs/reference/kubectl/jsonpath/].</span>
+<span class="go">      --output-watch-events=false: Output watch event objects when --watch or --watch-only is used. Existing objects are</span>
+<span class="go">output as initial ADDED events.</span>
+<span class="go">      --raw='': Raw URI to request from the server.  Uses the transport specified by the kubeconfig file.</span>
+<span class="go">  -R, --recursive=false: Process the directory used in -f, --filename recursively. Useful when you want to manage</span>
+<span class="go">related manifests organized within the same directory.</span>
+<span class="go">  -l, --selector='': Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)</span>
+<span class="go">      --server-print=true: If true, have the server return the appropriate table output. Supports extension APIs and</span>
+<span class="go">CRDs.</span>
+<span class="go">      --show-kind=false: If present, list the resource type for the requested object(s).</span>
+<span class="go">      --show-labels=false: When printing, show all labels as the last column (default hide labels column)</span>
+<span class="go">      --show-managed-fields=false: If true, keep the managedFields when printing objects in JSON or YAML format.</span>
+<span class="go">      --sort-by='': If non-empty, sort list types using this field specification.  The field specification is expressed</span>
+<span class="go">as a JSONPath expression (e.g. '{.metadata.name}'). The field in the API resource specified by this JSONPath expression</span>
+<span class="go">must be an integer or a string.</span>
+<span class="go">      --template='': Template string or path to template file to use when -o=go-template, -o=go-template-file. The</span>
+<span class="go">template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].</span>
+<span class="go">  -w, --watch=false: After listing/getting the requested object, watch for changes.</span>
+<span class="go">      --watch-only=false: Watch for changes to the requested object(s), without listing/getting first.</span>
+
+<span class="go">Usage:</span>
+<span class="go">  kubectl get</span>
+<span class="go">[(-o|--output=)json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file|custom-columns|custom-columns-file|wide]</span>
+<span class="gp gp-VirtualEnv">(TYPE[.VERSION][.GROUP] [NAME | -l label] | TYPE[.VERSION][.GROUP]/NAME ...)</span> <span class="go">[flags] [options]</span>
+
+<span class="go">Use "kubectl options" for a list of global command-line options (applies to all commands).</span>
 </pre></div>
 </div>
 </section>
@@ -432,13 +796,22 @@
 <li><a class="reference internal" href="#id1">クライアントとサーバのバージョンを確認する。</a></li>
 <li><a class="reference internal" href="#id2">設定のコンテキストを得る。</a></li>
 <li><a class="reference internal" href="#id3">設定を見る。</a></li>
+<li><a class="reference internal" href="#id4">イベントを得る。</a></li>
 <li><a class="reference internal" href="#api">名前空間にあるAPIリソースを得る。</a></li>
-<li><a class="reference internal" href="#id4">名前空間にないAPIリソースを得る。</a></li>
-<li><a class="reference internal" href="#id5">名前空間の一覧を得る。</a></li>
-<li><a class="reference internal" href="#id6">名前空間を作る。</a></li>
-<li><a class="reference internal" href="#id7">名前空間を消す。</a></li>
-<li><a class="reference internal" href="#pods">podsを得る。</a></li>
-<li><a class="reference internal" href="#id8">すべての名前空間のpodsを得る。</a></li>
+<li><a class="reference internal" href="#id5">名前空間にないAPIリソースを得る。</a></li>
+<li><a class="reference internal" href="#id6">名前空間の一覧を得る。</a></li>
+<li><a class="reference internal" href="#id7">名前空間を作る。</a><ul>
+<li><a class="reference internal" href="#yaml">名前空間をYAMLで作る。</a></li>
+<li><a class="reference internal" href="#json">名前空間をJSONで作る。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">名前空間を消す。</a></li>
+<li><a class="reference internal" href="#pods">Podsを得る。</a></li>
+<li><a class="reference internal" href="#id9">すべての名前空間のpodsを得る。</a></li>
+<li><a class="reference internal" href="#deployment">Deploymentを得る。</a></li>
+<li><a class="reference internal" href="#deploymentpods">Deploymentを作ることで、Podsを作る。</a></li>
+<li><a class="reference internal" href="#export-service">export で Service を作る。</a></li>
+<li><a class="reference internal" href="#kubectl-get-pods-h">参考: kubectl get pods -h</a></li>
 </ul>
 </li>
 </ul>

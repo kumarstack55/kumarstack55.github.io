@@ -1,15 +1,180 @@
 # Linux
 
+## Network namespace の情報を得る。
+
+```bash
+sudo ip netns
+```
+
 ## IPアドレスを得る。
 
 ```bash
 ip a
+
+# IPv4 のみに限定する。
+ip -4 a
+
+# 1インタフェース1行にする。
+ip -o a
 ```
 
-## ルーティングテーブルを得る。
+## IPルーティングテーブルを得る。
 
 ```bash
 ip r
+```
+
+## ブリッジの一覧を得る。
+
+```bash
+sudo brctl show
+```
+
+```console
+vagrant@buster:~$ sudo brctl show
+bridge name     bridge id               STP enabled     interfaces
+br-c21be1532ab5         8000.0242ebfe9869       no              veth4cbee64
+docker0         8000.0242b5795f0c       no
+```
+
+## ブリッジの情報を得る。
+
+```bash
+sudo brctl show br-c21be1532ab5
+```
+
+```console
+vagrant@buster:~$ sudo brctl show br-c21be1532ab5
+bridge name     bridge id               STP enabled     interfaces
+br-c21be1532ab5         8000.0242ebfe9869       no              veth4cbee64
+```
+
+## 参考: brctl -h
+
+```console
+vagrant@buster:~$ sudo brctl -h
+Usage: brctl [commands]
+commands:
+        addbr           <bridge>                add bridge
+        delbr           <bridge>                delete bridge
+        addif           <bridge> <device>       add interface to bridge
+        delif           <bridge> <device>       delete interface from bridge
+        hairpin         <bridge> <port> {on|off}        turn hairpin on/off
+        setageing       <bridge> <time>         set ageing time
+        setbridgeprio   <bridge> <prio>         set bridge priority
+        setfd           <bridge> <time>         set bridge forward delay
+        sethello        <bridge> <time>         set hello time
+        setmaxage       <bridge> <time>         set max message age
+        setpathcost     <bridge> <port> <cost>  set path cost
+        setportprio     <bridge> <port> <prio>  set port priority
+        show            [ <bridge> ]            show a list of bridges
+        showmacs        <bridge>                show a list of mac addrs
+        showstp         <bridge>                show bridge stp info
+        stp             <bridge> {on|off}       turn stp on/off
+```
+
+## veth の一覧を得る。
+
+```bash
+ip link show type veth
+```
+
+## veth の情報を得る。
+
+```bash
+sudo ethtool -S veth4cbee64
+
+peer_ifindex=$(
+  sudo ethtool -S veth4cbee64 \
+    | grep -Po '(?<=peer_ifindex: )\d+'
+)
+echo "$peer_ifindex"
+
+ip link | grep "^${peer_ifindex}:"
+```
+
+```console
+vagrant@buster:~$ sudo ethtool -S veth4cbee64
+NIC statistics:
+     peer_ifindex: 5
+
+vagrant@buster:~$ sudo docker exec -it b3eefafc2996 /sbin/ip netns
+
+vagrant@buster:~$ sudo ip netns
+
+vagrant@buster:~$ sudo docker exec -it b3eefafc2996 /sbin/ip -o link
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 02:42:26:8b:17:b3 brd ff:ff:ff:ff:ff:ff
+4: veth7755247@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 5a:d7:12:56:6e:7f brd ff:ff:ff:ff:ff:ff link-netnsid 1
+5: eth0@if6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 02:42:c0:a8:31:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+7: veth57c23b8@if6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 1e:e5:60:f3:9f:e4 brd ff:ff:ff:ff:ff:ff link-netnsid 3
+9: veth983f578@if8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 7a:f7:1c:ff:78:20 brd ff:ff:ff:ff:ff:ff link-netnsid 4
+11: vethb935fad@if10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 6e:0a:38:0c:08:cb brd ff:ff:ff:ff:ff:ff link-netnsid 2
+13: veth753b447@if12: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 06:91:de:b3:db:84 brd ff:ff:ff:ff:ff:ff link-netnsid 11
+15: veth26354a8@if14: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether c6:59:9f:4c:96:ce brd ff:ff:ff:ff:ff:ff link-netnsid 6
+17: vethc513e0a@if16: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether be:bd:01:de:2f:4c brd ff:ff:ff:ff:ff:ff link-netnsid 5
+19: veth324baff@if18: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 22:e5:22:e5:10:1e brd ff:ff:ff:ff:ff:ff link-netnsid 7
+21: vethdbcc726@if20: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 36:d3:74:66:44:c9 brd ff:ff:ff:ff:ff:ff link-netnsid 10
+23: veth449f028@if22: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 16:98:92:9c:4b:b3 brd ff:ff:ff:ff:ff:ff link-netnsid 8
+25: veth7f373c1@if24: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 72:28:58:38:75:3f brd ff:ff:ff:ff:ff:ff link-netnsid 9
+```
+
+## TCPのListenしているポートを得る。
+
+```bash
+ss -nltp
+```
+
+## iptables のルールを得る。
+
+```bash
+sudo iptables -nL
+```
+
+```console
+vagrant@buster:~$ sudo iptables -nL
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain FORWARD (policy DROP)
+target     prot opt source               destination
+DOCKER-USER  all  --  0.0.0.0/0            0.0.0.0/0
+DOCKER-ISOLATION-STAGE-1  all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+DOCKER     all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+DOCKER     all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain DOCKER (2 references)
+target     prot opt source               destination
+ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:32443
+ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:8443
+ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:5000
+ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:2376
+ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:22
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+target     prot opt source               destination
+DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0
+DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain DOCKER-ISOLATION-STAGE-2 (2 references)
+target     prot opt source               destination
+DROP       all  --  0.0.0.0/0            0.0.0.0/0
+DROP       all  --  0.0.0.0/0            0.0.0.0/0
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain DOCKER-USER (1 references)
+target     prot opt source               destination
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0
 ```
 
 ## インストールされたパッケージ一覧を得る。

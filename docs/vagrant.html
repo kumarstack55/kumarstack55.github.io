@@ -260,6 +260,18 @@
 </pre></div>
 </div>
 </section>
+<section id="stall">
+<h2>stall 回避を狙いに、オーディオを無効にする。<a class="headerlink" href="#stall" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">"virtualbox"</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
+    <span class="n">vb</span><span class="o">.</span><span class="n">customize</span> <span class="o">[</span> <span class="s2">"modifyvm"</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="s2">"--audio"</span><span class="p">,</span> <span class="s2">"none"</span> <span class="o">]</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">INFO: rcu_sched self-detected stall on CPU</span>
+</pre></div>
+</div>
+<p>https://stackoverflow.com/a/67861322</p>
+</section>
 <section id="virtualbox">
 <h2>VirtualBox の仮想マシンの名前を指定する。<a class="headerlink" href="#virtualbox" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
@@ -337,6 +349,7 @@
 <li><a class="reference internal" href="#id1">SSHでエージェントフォワードする。</a></li>
 <li><a class="reference internal" href="#gui">GUIを有効にする。</a></li>
 <li><a class="reference internal" href="#virtualbox-vram">解像度をより大きくため、VirtualBox で VRAM を変更する。</a></li>
+<li><a class="reference internal" href="#stall">stall 回避を狙いに、オーディオを無効にする。</a></li>
 <li><a class="reference internal" href="#virtualbox">VirtualBox の仮想マシンの名前を指定する。</a></li>
 <li><a class="reference internal" href="#id2">プロビジョンでシェルのコマンドを実行する。</a></li>
 </ul>

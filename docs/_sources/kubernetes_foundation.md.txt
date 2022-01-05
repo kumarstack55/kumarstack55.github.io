@@ -54,6 +54,50 @@ users:
     client-key: /home/vagrant/.minikube/profiles/minikube/client.key
 ```
 
+## イベントを得る。
+
+```bash
+kubectl get events
+```
+
+```console
+vagrant@buster:~$ kubectl get events
+LAST SEEN   TYPE     REASON                    OBJECT          MESSAGE
+46h         Normal   Starting                  node/minikube   Starting kubelet.
+46h         Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory
+46h         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure
+46h         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID
+46h         Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady
+46h         Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods
+46h         Normal   NodeReady                 node/minikube   Node minikube status is now: NodeReady
+46h         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller
+46h         Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady
+46h         Normal   Starting                  node/minikube
+46h         Normal   Starting                  node/minikube   Starting kubelet.
+46h         Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory
+46h         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure
+46h         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID
+46h         Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods
+46h         Normal   Starting                  node/minikube
+46h         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller
+46h         Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady
+100m        Normal   Starting                  node/minikube   Starting kubelet.
+99m         Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory
+99m         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure
+99m         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID
+100m        Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods
+99m         Normal   Starting                  node/minikube
+99m         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller
+16m         Normal   Starting                  node/minikube   Starting kubelet.
+9m58s       Normal   NodeHasSufficientMemory   node/minikube   Node minikube status is now: NodeHasSufficientMemory
+16m         Normal   NodeHasNoDiskPressure     node/minikube   Node minikube status is now: NodeHasNoDiskPressure
+16m         Normal   NodeHasSufficientPID      node/minikube   Node minikube status is now: NodeHasSufficientPID
+16m         Normal   NodeAllocatableEnforced   node/minikube   Updated Node Allocatable limit across pods
+13m         Normal   Starting                  node/minikube
+13m         Normal   RegisteredNode            node/minikube   Node minikube event: Registered Node minikube in Controller
+8m22s       Normal   NodeNotReady              node/minikube   Node minikube status is now: NodeNotReady
+```
+
 ## 名前空間にあるAPIリソースを得る。
 
 ```console
@@ -126,6 +170,12 @@ volumeattachments                              storage.k8s.io/v1                
 
 ## 名前空間の一覧を得る。
 
+```bash
+kubectl get namespaces
+
+kubectl get namespaces --show-labels
+```
+
 ```console
 vagrant@buster:/tmp$ kubectl get namespaces
 NAME              STATUS   AGE
@@ -135,15 +185,98 @@ kube-public       Active   24m
 kube-system       Active   24m
 ```
 
+```console
+vagrant@buster:~$ kubectl get namespaces --show-labels
+NAME                   STATUS   AGE     LABELS
+default                Active   45h     kubernetes.io/metadata.name=default
+development            Active   5m41s   kubernetes.io/metadata.name=development,name=development
+kube-node-lease        Active   45h     kubernetes.io/metadata.name=kube-node-lease
+kube-public            Active   45h     kubernetes.io/metadata.name=kube-public
+kube-system            Active   45h     kubernetes.io/metadata.name=kube-system
+kubernetes-dashboard   Active   44h     addonmanager.kubernetes.io/mode=Reconcile,kubernetes.io/metadata.name=kubernetes-dashboard,kubernetes.io/minikube-addons=dashboard
+production             Active   95s     kubernetes.io/metadata.name=production,name=production
+
+vagrant@buster:~$ kubectl get namespaces --show-labels | grep -i -e ^NAME -e production -e development
+NAME                   STATUS   AGE     LABELS
+development            Active   6m42s   kubernetes.io/metadata.name=development,name=development
+production             Active   2m36s   kubernetes.io/metadata.name=production,name=production
+```
+
 https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#viewing-namespaces
 
 ## 名前空間を作る。
+
+### 名前空間をYAMLで作る。
+
+```bash
+cat <<__YAML__ >my-ns1.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns1
+__YAML__
+
+kubectl create -f my-ns1.yaml
+```
+
+### 名前空間をJSONで作る。
+
+```bash
+kubectl create -f https://k8s.io/examples/admin/namespace-dev.json
+kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
+```
+
+```console
+vagrant@buster:~$ curl -Ls kubectl create -f https://k8s.io/examples/admin/names
+pace-dev.json
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "name": "development",
+    "labels": {
+      "name": "development"
+    }
+  }
+}
+
+vagrant@buster:~$ curl -Ls kubectl create -f https://k8s.io/examples/admin/names
+pace-prod.json
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "name": "production",
+    "labels": {
+      "name": "production"
+    }
+  }
+}
+
+vagrant@buster:~$ kubectl create -f https://kubernetes.io/examples/admin/namespace-dev.json
+namespace/development created
+
+vagrant@buster:~$ kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
+namespace/production created
+```
 
 https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace
 
 ## 名前空間を消す。
 
-## podsを得る。
+```bash
+kubectl create -f my-ns1.yaml
+```
+
+## Podsを得る。
+
+```bash
+kubectl get po
+
+# 名前空間を指定する。
+kubectl get po --namespace production
+kubectl get po --namespace development
+```
 
 ```console
 vagrant@buster:/tmp$ kubectl get po
@@ -163,3 +296,245 @@ kube-system   kube-proxy-s4gv4                   1/1     Running   1 (12m ago)  
 kube-system   kube-scheduler-minikube            1/1     Running   1 (10m ago)     14m
 kube-system   storage-provisioner                0/1     Error     2 (7m28s ago)   14m
 ```
+
+## Deploymentを得る。
+
+```bash
+kubectl get deployment
+kubectl get deployment -n=development
+```
+
+```console
+vagrant@buster:~$ kubectl get deployment -n=development
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+snowflake   2/2     2            2           68s
+```
+
+## Deploymentを作ることで、Podsを作る。
+
+```bash
+# 名前空間 deployment に snowflake を作る。
+kubectl create deployment snowflake --image=k8s.gcr.io/serve_hostname  -n=development --replicas=2
+kubectl get deployment -n=development
+kubectl get pods -l app=snowflake -n=development
+
+# 名前空間 production に cattle を作る。
+kubectl create deployment cattle --image=k8s.gcr.io/serve_hostname -n=production
+kubectl scale deployment cattle --replicas=5 -n=production
+kubectl get deployment -n=production
+kubectl get pods -l app=cattle -n=production
+
+# hello-node を作る。
+kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+kubectl get deployments
+kubectl get pods
+kubectl get events
+```
+
+```console
+vagrant@buster:~$ kubectl create deployment snowflake --image=k8s.gcr.io/serve_hostname  -n=development --replicas=2
+deployment.apps/snowflake created
+
+vagrant@buster:~$ kubectl get deployment -n=development
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+snowflake   2/2     2            2           68s
+
+vagrant@buster:~$ kubectl get pods -l app=snowflake -n=development
+NAME                         READY   STATUS    RESTARTS   AGE
+snowflake-7cf7c446bc-pqbvb   1/1     Running   0          92s
+snowflake-7cf7c446bc-xmsch   1/1     Running   0          92s
+```
+
+```console
+vagrant@buster:~$ kubectl create deployment cattle --image=k8s.gcr.io/serve_hostname -n=production
+deployment.apps/cattle created
+
+vagrant@buster:~$ kubectl scale deployment cattle --replicas=5 -n=production
+deployment.apps/cattle scaled
+
+vagrant@buster:~$ kubectl get deployment -n=production
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+cattle   3/5     5            3           10s
+
+vagrant@buster:~$ kubectl get deployment -n=production
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+cattle   5/5     5            5           15s
+
+vagrant@buster:~$ kubectl get pods -l app=cattle -n=production
+NAME                      READY   STATUS    RESTARTS   AGE
+cattle-65d567657f-56n8p   1/1     Running   0          72s
+cattle-65d567657f-cpcb5   1/1     Running   0          67s
+cattle-65d567657f-ndhs4   1/1     Running   0          67s
+cattle-65d567657f-q594z   1/1     Running   0          67s
+cattle-65d567657f-q8xdg   1/1     Running   0          67s
+```
+
+## export で Service を作る。
+
+```bash
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+kubectl get svc
+# On minikube, the LoadBalancer type makes the Service accessible through the minikube service command.
+minikube service hello-node
+```
+
+```console
+vagrant@buster:~$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   47h
+
+vagrant@buster:~$ kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+service/hello-node exposed
+
+vagrant@buster:~$ kubectl get svc
+NAME         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.105.231.194   <pending>     8080:30349/TCP   68s
+kubernetes   ClusterIP      10.96.0.1        <none>        443/TCP          47h
+
+vagrant@buster:~$ minikube service hello-node
+|-----------|------------|-------------|---------------------------|
+| NAMESPACE |    NAME    | TARGET PORT |            URL            |
+|-----------|------------|-------------|---------------------------|
+| default   | hello-node |        8080 | http://192.168.49.2:30349 |
+|-----------|------------|-------------|---------------------------|
+?  Opening service default/hello-node in default browser...
+?  http://192.168.49.2:30349
+
+vagrant@buster:~$ ip -4 -o a
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+2: eth0    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0\       valid_lft 85413sec preferred_lft 85413sec
+3: docker0    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0\       valid_lft forever preferred_lft forever
+4: br-c21be1532ab5    inet 192.168.49.1/24 brd 192.168.49.255 scope global br-c21be1532ab5\       valid_lft forever preferred_lft forever
+
+vagrant@buster:~$ ps -ef | grep -e '^UID' -e '192.168.49.2' | grep -v grep
+UID          PID    PPID  C STIME TTY          TIME CMD
+root        1008     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49153 -container-ip 192.168.49.2 -container-port 32443
+root        1020     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49154 -container-ip 192.168.49.2 -container-port 8443
+root        1033     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49155 -container-ip 192.168.49.2 -container-port 5000
+root        1047     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49156 -container-ip 192.168.49.2 -container-port 2376
+root        1060     372  0 22:13 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 49157 -container-ip 192.168.49.2 -container-port 22
+root        1998    1094  7 22:14 ?        00:03:19 /var/lib/minikube/binaries/v1.22.3/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=/var/lib/kubelet/config.yaml --container-runtime=docker --hostname-override=minikube --kubeconfig=/etc/kubernetes/kubelet.conf --node-ip=192.168.49.2
+root        2711    2685  6 22:14 ?        00:02:39 etcd --advertise-client-urls=https://192.168.49.2:2379 --cert-file=/var/lib/minikube/certs/etcd/server.crt --client-cert-auth=true --data-dir=/var/lib/minikube/etcd --initial-advertise-peer-urls=https://192.168.49.2:2380 --initial-cluster=minikube=https://192.168.49.2:2380 --key-file=/var/lib/minikube/certs/etcd/server.key --listen-client-urls=https://127.0.0.1:2379,https://192.168.49.2:2379 --listen-metrics-urls=http://127.0.0.1:2381 --listen-peer-urls=https://192.168.49.2:2380 --name=minikube --peer-cert-file=/var/lib/minikube/certs/etcd/peer.crt --peer-client-cert-auth=true --peer-key-file=/var/lib/minikube/certs/etcd/peer.key --peer-trusted-ca-file=/var/lib/minikube/certs/etcd/ca.crt --proxy-refresh-interval=70000 --snapshot-count=10000 --trusted-ca-file=/var/lib/minikube/certs/etcd/ca.crt
+root        2845    2749 16 22:14 ?        00:07:10 kube-apiserver --advertise-address=192.168.49.2 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/var/lib/minikube/certs/ca.crt --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota --enable-bootstrap-token-auth=true --etcd-cafile=/var/lib/minikube/certs/etcd/ca.crt --etcd-certfile=/var/lib/minikube/certs/apiserver-etcd-client.crt --etcd-keyfile=/var/lib/minikube/certs/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/var/lib/minikube/certs/apiserver-kubelet-client.crt --kubelet-client-key=/var/lib/minikube/certs/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/var/lib/minikube/certs/front-proxy-client.crt --proxy-client-key-file=/var/lib/minikube/certs/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=8443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/var/lib/minikube/certs/sa.pub --service-account-signing-key-file=/var/lib/minikube/certs/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/var/lib/minikube/certs/apiserver.crt --tls-private-key-file=/var/lib/minikube/certs/apiserver.key
+
+vagrant@buster:~$ sudo docker ps
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED      STATUS          PORTS                                                                                                                                  NAMES
+b3eefafc2996   gcr.io/k8s-minikube/kicbase:v0.0.28   "/usr/local/bin/entr…"   2 days ago   Up 44 minutes   127.0.0.1:49157->22/tcp, 127.0.0.1:49156->2376/tcp, 127.0.0.1:49155->5000/tcp, 127.0.0.1:49154->8443/tcp, 127.0.0.1:49153->32443/tcp   minikube
+
+vagrant@buster:~$ curl -w '\n' http://192.168.49.2:30349
+CLIENT VALUES:
+client_address=172.17.0.1
+command=GET
+real path=/
+query=nil
+request_version=1.1
+request_uri=http://192.168.49.2:8080/
+
+SERVER VALUES:
+server_version=nginx: 1.10.0 - lua: 10001
+
+HEADERS RECEIVED:
+accept=*/*
+host=192.168.49.2:30349
+user-agent=curl/7.64.0
+BODY:
+-no body in request-
+```
+
+## 参考: kubectl get pods -h
+
+```console
+vagrant@buster:~$ kubectl get pods -h
+Display one or many resources.
+
+ Prints a table of the most important information about the specified resources. You can filter the list using a label
+selector and the --selector flag. If the desired resource type is namespaced you will only see results in your current
+namespace unless you pass --all-namespaces.
+
+ By specifying the output as 'template' and providing a Go template as the value of the --template flag, you can filter
+the attributes of the fetched resources.
+
+Use "kubectl api-resources" for a complete list of supported resources.
+
+Examples:
+  # List all pods in ps output format
+  kubectl get pods
+
+  # List all pods in ps output format with more information (such as node name)
+  kubectl get pods -o wide
+
+  # List a single replication controller with specified NAME in ps output format
+  kubectl get replicationcontroller web
+
+  # List deployments in JSON output format, in the "v1" version of the "apps" API group
+  kubectl get deployments.v1.apps -o json
+
+  # List a single pod in JSON output format
+  kubectl get -o json pod web-pod-13je7
+
+  # List a pod identified by type and name specified in "pod.yaml" in JSON output format
+  kubectl get -f pod.yaml -o json
+
+  # List resources from a directory with kustomization.yaml - e.g. dir/kustomization.yaml
+  kubectl get -k dir/
+
+  # Return only the phase value of the specified pod
+  kubectl get -o template pod/web-pod-13je7 --template={{.status.phase}}
+
+  # List resource information in custom columns
+  kubectl get pod test-pod -o custom-columns=CONTAINER:.spec.containers[0].name,IMAGE:.spec.containers[0].image
+
+  # List all replication controllers and services together in ps output format
+  kubectl get rc,services
+
+  # List one or more resources by their type and names
+  kubectl get rc/web service/frontend pods/web-pod-13je7
+
+Options:
+  -A, --all-namespaces=false: If present, list the requested object(s) across all namespaces. Namespace in current
+context is ignored even if specified with --namespace.
+      --allow-missing-template-keys=true: If true, ignore any errors in templates when a field or map key is missing in
+the template. Only applies to golang and jsonpath output formats.
+      --chunk-size=500: Return large lists in chunks rather than all at once. Pass 0 to disable. This flag is beta and
+may change in the future.
+      --field-selector='': Selector (field query) to filter on, supports '=', '==', and '!='.(e.g. --field-selector
+key1=value1,key2=value2). The server only supports a limited number of field queries per type.
+  -f, --filename=[]: Filename, directory, or URL to files identifying the resource to get from a server.
+      --ignore-not-found=false: If the requested object does not exist the command will return exit code 0.
+  -k, --kustomize='': Process the kustomization directory. This flag can't be used together with -f or -R.
+  -L, --label-columns=[]: Accepts a comma separated list of labels that are going to be presented as columns. Names are
+case-sensitive. You can also use multiple flag options like -L label1 -L label2...
+      --no-headers=false: When using the default or custom-column output format, don't print headers (default print
+headers).
+  -o, --output='': Output format. One of:
+json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file|custom-columns|custom-columns-file|wide
+See custom columns [https://kubernetes.io/docs/reference/kubectl/overview/#custom-columns], golang template
+[http://golang.org/pkg/text/template/#pkg-overview] and jsonpath template
+[https://kubernetes.io/docs/reference/kubectl/jsonpath/].
+      --output-watch-events=false: Output watch event objects when --watch or --watch-only is used. Existing objects are
+output as initial ADDED events.
+      --raw='': Raw URI to request from the server.  Uses the transport specified by the kubeconfig file.
+  -R, --recursive=false: Process the directory used in -f, --filename recursively. Useful when you want to manage
+related manifests organized within the same directory.
+  -l, --selector='': Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)
+      --server-print=true: If true, have the server return the appropriate table output. Supports extension APIs and
+CRDs.
+      --show-kind=false: If present, list the resource type for the requested object(s).
+      --show-labels=false: When printing, show all labels as the last column (default hide labels column)
+      --show-managed-fields=false: If true, keep the managedFields when printing objects in JSON or YAML format.
+      --sort-by='': If non-empty, sort list types using this field specification.  The field specification is expressed
+as a JSONPath expression (e.g. '{.metadata.name}'). The field in the API resource specified by this JSONPath expression
+must be an integer or a string.
+      --template='': Template string or path to template file to use when -o=go-template, -o=go-template-file. The
+template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview].
+  -w, --watch=false: After listing/getting the requested object, watch for changes.
+      --watch-only=false: Watch for changes to the requested object(s), without listing/getting first.
+
+Usage:
+  kubectl get
+[(-o|--output=)json|yaml|name|go-template|go-template-file|template|templatefile|jsonpath|jsonpath-as-json|jsonpath-file|custom-columns|custom-columns-file|wide]
+(TYPE[.VERSION][.GROUP] [NAME | -l label] | TYPE[.VERSION][.GROUP]/NAME ...) [flags] [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all commands).
+```
+
