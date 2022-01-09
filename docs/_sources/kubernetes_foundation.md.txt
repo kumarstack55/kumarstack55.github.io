@@ -268,7 +268,58 @@ https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-n
 kubectl create -f my-ns1.yaml
 ```
 
-## Podsを得る。
+## Pod を作る。
+
+```bash
+# nginx コンテナが動く Pod を定義する。
+kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+
+# debian コンテナが動く Pod を定義する。
+cat <<__YAML__ | tee ./pod-debian.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debian
+spec:
+  containers:
+  - name: debian
+    image: debian:latest
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+__YAML__
+kubectl apply -f ./pod-debian.yaml
+kubectl get po debian
+```
+
+```console
+vagrant@ubuntu-focal:~$ curl -Ls https://k8s.io/examples/pods/simple-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+pod/nginx created
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get po
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          54s
+```
+
+* https://kubernetes.io/docs/concepts/workloads/pods/
+* https://stackoverflow.com/a/40093356/12786161
+
+## Podの一覧を得る。
 
 ```bash
 kubectl get po
@@ -279,8 +330,306 @@ kubectl get po --namespace development
 ```
 
 ```console
-vagrant@buster:/tmp$ kubectl get po
-No resources found in default namespace.
+vagrant@ubuntu-focal:~$ kubectl get po
+NAME     READY   STATUS    RESTARTS      AGE
+debian   1/1     Running   1 (11m ago)   7h43m
+nginx    1/1     Running   1 (11m ago)   5h
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get po --namespace production
+No resources found in production namespace.
+```
+
+## Podの情報を得る。
+
+```bash
+kubectl describe po debian
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl describe po debian
+Name:         debian
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.49.2
+Start Time:   Sun, 09 Jan 2022 02:45:56 +0000
+Labels:       <none>
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.4
+IPs:
+  IP:  172.17.0.4
+Containers:
+  debian:
+    Container ID:  docker://769dda214d49bad8b9280c2eb789aad45bc533baac08ab5ccf0c6cf53befac44
+    Image:         debian:latest
+    Image ID:      docker-pullable://debian@sha256:2906804d2a64e8a13a434a1a127fe3f6a28bf7cf3696be4223b06276f32f1f2d
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      -c
+      --
+    Args:
+      while true; do sleep 30; done;
+    State:          Running
+      Started:      Sun, 09 Jan 2022 10:18:32 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    255
+      Started:      Sun, 09 Jan 2022 02:46:00 +0000
+      Finished:     Sun, 09 Jan 2022 10:17:39 +0000
+    Ready:          True
+    Restart Count:  1
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jwvv9 (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  kube-api-access-jwvv9:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason          Age    From     Message
+  ----    ------          ----   ----     -------
+  Normal  SandboxChanged  10m    kubelet  Pod sandbox changed, it will be killed and re-created.
+  Normal  Pulling         9m50s  kubelet  Pulling image "debian:latest"
+  Normal  Pulled          9m46s  kubelet  Successfully pulled image "debian:latest" in 3.854382685s
+  Normal  Created         9m46s  kubelet  Created container debian
+  Normal  Started         9m45s  kubelet  Started container debian
+```
+
+## PodのYAMLを得る。
+
+```bash
+kubectl get po debian -o yaml
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get po debian -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"debian","namespace":"default"},"spec":{"containers":[{"args":["while true; do sleep 30; done;"],"command":["/bin/bash","-c","--"],"image":"debian:latest","name":"debian"}]}}
+  creationTimestamp: "2022-01-09T02:45:56Z"
+  name: debian
+  namespace: default
+  resourceVersion: "15700"
+  uid: c402f5fe-f554-4467-af88-df85c99776e0
+spec:
+  containers:
+  - args:
+    - while true; do sleep 30; done;
+    command:
+    - /bin/bash
+    - -c
+    - --
+    image: debian:latest
+    imagePullPolicy: Always
+    name: debian
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-jwvv9
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-jwvv9
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T02:45:56Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T10:18:32Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T10:18:32Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T02:45:56Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://769dda214d49bad8b9280c2eb789aad45bc533baac08ab5ccf0c6cf53befac44
+    image: debian:latest
+    imageID: docker-pullable://debian@sha256:2906804d2a64e8a13a434a1a127fe3f6a28bf7cf3696be4223b06276f32f1f2d
+    lastState:
+      terminated:
+        containerID: docker://f0978f1d55fa0d70ee9373230fdb8d738a7924f1b6f05635247320eb615c4ddd
+        exitCode: 255
+        finishedAt: "2022-01-09T10:17:39Z"
+        reason: Error
+        startedAt: "2022-01-09T02:46:00Z"
+    name: debian
+    ready: true
+    restartCount: 1
+    started: true
+    state:
+      running:
+        startedAt: "2022-01-09T10:18:32Z"
+  hostIP: 192.168.49.2
+  phase: Running
+  podIP: 172.17.0.4
+  podIPs:
+  - ip: 172.17.0.4
+  qosClass: BestEffort
+  startTime: "2022-01-09T02:45:56Z"
+```
+
+## Pod の YAMLを得て、編集し、反映する。
+
+```bash
+kubectl get po debian -o yaml >debian.yaml
+
+# 1回目
+kubectl apply -f debian.yaml
+
+# 2回目
+kubectl apply -f debian.yaml
+  # k8s と debian.yaml に resourceVersion に相違があるので、反映に失敗する。
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get po debian -o yaml >debian.yaml
+
+vagrant@ubuntu-focal:~$ kubectl apply -f debian.yaml
+pod/debian configured
+
+vagrant@ubuntu-focal:~$ kubectl apply -f debian.yaml
+Error from server (Conflict): error when applying patch:
+{"metadata":{"resourceVersion":"16383"}}
+to:
+Resource: "/v1, Resource=pods", GroupVersionKind: "/v1, Kind=Pod"
+Name: "debian", Namespace: "default"
+for: "debian.yaml": Operation cannot be fulfilled on pods "debian": the object has been modified; please apply your changes to the latest version and try again
+```
+
+## Pods 内でコマンドを実行する。
+
+```bash
+kubectl exec debian /bin/bash
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl exec -it debian -- /bin/bash
+root@debian:/#
+```
+
+## Pods を消す。
+
+```console
+vagrant@ubuntu-focal:~$ kubectl delete po nginx
+pod "nginx" deleted
+```
+
+## リソースの一覧を得る。
+
+```bash
+kubectl get all
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   29m
+```
+
+## リソースの情報を得る。
+
+```bash
+# サービスのkubernetesの情報を得る。
+kubectl describe service/kubernetes
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl describe service/kubernetes
+Name:              kubernetes
+Namespace:         default
+Labels:            component=apiserver
+                   provider=kubernetes
+Annotations:       <none>
+Selector:          <none>
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.96.0.1
+IPs:               10.96.0.1
+Port:              https  443/TCP
+TargetPort:        8443/TCP
+Endpoints:         192.168.49.2:8443
+Session Affinity:  None
+Events:            <none>
+```
+
+## ログを得る。
+
+TODO
+
+```bash
+kubectl logs
+```
+
+## コンテナ内でコマンドを実行する。
+
+```bash
+kubectl exec
 ```
 
 ## すべての名前空間のpodsを得る。
@@ -329,6 +678,32 @@ kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
 kubectl get deployments
 kubectl get pods
 kubectl get events
+
+# nginx-deployment を作る。
+cat <<__YAML__ | tee ./nginx-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+__YAML__
+kubectl apply -f ./nginx-deployment.yaml
 ```
 
 ```console
@@ -367,6 +742,133 @@ cattle-65d567657f-cpcb5   1/1     Running   0          67s
 cattle-65d567657f-ndhs4   1/1     Running   0          67s
 cattle-65d567657f-q594z   1/1     Running   0          67s
 cattle-65d567657f-q8xdg   1/1     Running   0          67s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl apply -f ./nginx-deployment.yaml
+deployment.apps/nginx-deployment created
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get po
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-66b6c48dd5-bdzkk   1/1     Running   0          2m34s
+nginx-deployment-66b6c48dd5-js6pm   1/1     Running   0          2m34s
+nginx-deployment-66b6c48dd5-rs47f   1/1     Running   0          2m34s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get po nginx-deployment-66b6c48dd5-bdzkk -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2022-01-09T12:17:56Z"
+  generateName: nginx-deployment-66b6c48dd5-
+  labels:
+    app: nginx
+    pod-template-hash: 66b6c48dd5
+  name: nginx-deployment-66b6c48dd5-bdzkk
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: nginx-deployment-66b6c48dd5
+    uid: 76ac0f6c-0ebf-4823-9c3b-e7d7ced2da2d
+  resourceVersion: "20168"
+  uid: a45bc209-3359-4ef2-b79d-88299e29a0c3
+spec:
+  containers:
+  - image: nginx:1.14.2
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-khdj9
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-khdj9
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T12:17:56Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T12:18:02Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T12:18:02Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2022-01-09T12:17:56Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://9016f35bce14dbd4d9457ed9574622ce669b02d57627e329b3e2961dcd5fefaa
+    image: nginx:1.14.2
+    imageID: docker-pullable://nginx@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d
+    lastState: {}
+    name: nginx
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2022-01-09T12:18:01Z"
+  hostIP: 192.168.49.2
+  phase: Running
+  podIP: 172.17.0.7
+  podIPs:
+  - ip: 172.17.0.7
+  qosClass: BestEffort
+  startTime: "2022-01-09T12:17:56Z"
 ```
 
 ## export で Service を作る。

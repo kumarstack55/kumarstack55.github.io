@@ -1,6 +1,42 @@
 # Vagrant
 
-## SSH ログインする。
+## ホストのエージェントをSSHログイン先に転送する。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.ssh.forward_agent = true
+```
+
+## プロビジョンでシェルのコマンドを実行する。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+  SHELL
+```
+
+## 同期フォルダを無効にする。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+```
+
+## 転送されたポートを確認する。
+
+```powershell
+vagrant port
+```
+
+## VirtualBox: public_network を使う。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.network "public_network"
+```
+
+## VirtualBox: ホストから Box に SSH ログインする。
 
 ```powershell
 mkdir sandbox-vagrant
@@ -29,14 +65,7 @@ vagrant ssh
             Hostname: buster
 ```
 
-## SSHでエージェントフォワードする。
-
-```ruby
-Vagrant.configure("2") do |config|
-  config.ssh.forward_agent = true
-```
-
-## GUIを有効にする。
+## VirtualBox: GUIを有効にする。
 
 ```ruby
 Vagrant.configure("2") do |config|
@@ -44,7 +73,7 @@ Vagrant.configure("2") do |config|
     vb.gui = true
 ```
 
-## 解像度をより大きくため、VirtualBox で VRAM を変更する。
+## VirtualBox: 解像度をより大きくため、VirtualBox で VRAM を変更する。
 
 ```ruby
 Vagrant.configure("2") do |config|
@@ -52,7 +81,7 @@ Vagrant.configure("2") do |config|
     vb.customize [ "modifyvm", :id, "--vram", "16" ]
 ```
 
-## stall 回避を狙いに、オーディオを無効にする。
+## VirtualBox: stall 回避を狙いに、オーディオを無効にする。
 
 ```ruby
 Vagrant.configure("2") do |config|
@@ -66,21 +95,10 @@ INFO: rcu_sched self-detected stall on CPU
 
 https://stackoverflow.com/a/67861322
 
-
-
-## VirtualBox の仮想マシンの名前を指定する。
+## VirtualBox: VirtualBox の仮想マシンの名前を指定する。
 
 ```ruby
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.name = "xxx"
-```
-
-## プロビジョンでシェルのコマンドを実行する。
-
-```ruby
-Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-  SHELL
 ```

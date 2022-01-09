@@ -1,0 +1,501 @@
+<!doctype html>
+<html class="no-js" lang="ja">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="SSH" href="ssh.html" /><link rel="prev" title="Linux" href="linux.html" />
+
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>Linuxでネットワークの操作をする。 - Untitled ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Untitled  ドキュメント</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Untitled  ドキュメント</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=検索 name="q" aria-label="検索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Linuxでネットワークの操作をする。</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section class="tex2jax_ignore mathjax_ignore" id="linux">
+<h1>Linuxでネットワークの操作をする。<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="network-namespace">
+<h2>Network namespace の情報を得る。<a class="headerlink" href="#network-namespace" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ip netns
+</pre></div>
+</div>
+</section>
+<section id="pid-network-namespace-exec">
+<h2>指定PIDの Network namespace に exec できるようにする。<a class="headerlink" href="#pid-network-namespace-exec" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Docker などでコンテナを実行する場合、 Linux namespace を使うが ip netns exec
+できない。できない理由は、ip netns が /var/run/netns 下を参照して、 netns を
+探すため、かつ、 Docker などでコンテナを実行するとき /var/run/netns 下に
+ファイルを作らないため、である。</p>
+<p>/var/run/netns に、 /proc 配下のプロセスの net へのシンボリックリンクを
+作れば、 exec を実行できるようになる。</p>
+<p>なお、 ip netns に identify というサブコマンドもあり手作業でシンボリックリンク
+を作る必要性はなさそうだが、 identify も同様に /var/run/netns 下を参照するので
+identify も exec 同様に利用できない。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">read</span> -rp <span class="s1">'pid: '</span> pid
+
+sudo ls -l <span class="s2">"/proc/</span><span class="si">${</span><span class="nv">pid</span><span class="si">}</span><span class="s2">/ns/net"</span>
+  <span class="c1"># vagrant@ubuntu-focal:~$ sudo ls -l "/proc/${pid}/ns/net"</span>
+  <span class="c1"># lrwxrwxrwx 1 root root 0 Jan  8 07:33 /proc/3738/ns/net -&gt; 'net:[4026531992]'</span>
+
+sudo realpath <span class="s2">"/proc/</span><span class="si">${</span><span class="nv">pid</span><span class="si">}</span><span class="s2">/ns/net"</span>
+  <span class="c1"># vagrant@ubuntu-focal:~$ sudo realpath "/proc/${pid}/ns/net"</span>
+  <span class="c1"># /proc/1637/ns/net:[4026531992]</span>
+
+<span class="c1"># シンボリックリンクの名前を決める。</span>
+<span class="c1"># 任意の名前でよいが、ここでは netns-XXX としている。</span>
+<span class="nv">netns</span><span class="o">=</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>basename <span class="k">$(</span>sudo realpath <span class="s2">"/proc/</span><span class="si">${</span><span class="nv">pid</span><span class="si">}</span><span class="s2">/ns/net"</span><span class="k">))</span> <span class="o">=</span>~ <span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+ <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  : <span class="si">${</span><span class="nv">netns</span><span class="p">:=netns-</span><span class="si">${</span><span class="nv">BASH_REMATCH</span><span class="p">[0]</span><span class="si">}}</span>
+<span class="k">else</span>
+  : <span class="si">${</span><span class="nv">netns</span><span class="p">:=netns-default</span><span class="si">}</span>
+<span class="k">fi</span>
+
+<span class="c1"># identify, exec できるようにする。</span>
+sudo ln -sv <span class="s2">"/proc/</span><span class="si">${</span><span class="nv">pid</span><span class="si">}</span><span class="s2">/ns/net"</span> <span class="s2">"/var/run/netns/</span><span class="si">${</span><span class="nv">netns</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="c1"># identify, exec を実行できるようになることを確認する。</span>
+sudo ip netns identify <span class="s2">"</span><span class="si">${</span><span class="nv">pid</span><span class="si">}</span><span class="s2">"</span>
+sudo ip netns <span class="nb">exec</span> <span class="s2">"</span><span class="si">${</span><span class="nv">netns</span><span class="si">}</span><span class="s2">"</span> /sbin/ip link
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://enakai00.hatenablog.com/entry/20140424/1398321672</p></li>
+</ul>
+</section>
+<section id="veth">
+<h2>veth の一覧を得る。<a class="headerlink" href="#veth" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip link show <span class="nb">type</span> veth
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>veth の情報を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ethtool -S veth4cbee64
+
+<span class="nv">peer_ifindex</span><span class="o">=</span><span class="k">$(</span>
+  sudo ethtool -S veth4cbee64 <span class="se">\</span>
+    <span class="p">|</span> grep -Po <span class="s1">'(?&lt;=peer_ifindex: )\d+'</span>
+<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$peer_ifindex</span><span class="s2">"</span>
+
+ip link <span class="p">|</span> grep <span class="s2">"^</span><span class="si">${</span><span class="nv">peer_ifindex</span><span class="si">}</span><span class="s2">:"</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo ethtool -S veth4cbee64
+<span class="go">NIC statistics:</span>
+<span class="go">     peer_ifindex: 5</span>
+
+<span class="gp">vagrant@buster:~$ </span>sudo docker <span class="nb">exec</span> -it b3eefafc2996 /sbin/ip netns
+
+<span class="gp">vagrant@buster:~$ </span>sudo ip netns
+
+<span class="gp">vagrant@buster:~$ </span>sudo docker <span class="nb">exec</span> -it b3eefafc2996 /sbin/ip -o link
+<span class="go">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span>
+<span class="go">2: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 02:42:26:8b:17:b3 brd ff:ff:ff:ff:ff:ff</span>
+<span class="go">4: veth7755247@if3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 5a:d7:12:56:6e:7f brd ff:ff:ff:ff:ff:ff link-netnsid 1</span>
+<span class="go">5: eth0@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 02:42:c0:a8:31:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span>
+<span class="go">7: veth57c23b8@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 1e:e5:60:f3:9f:e4 brd ff:ff:ff:ff:ff:ff link-netnsid 3</span>
+<span class="go">9: veth983f578@if8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 7a:f7:1c:ff:78:20 brd ff:ff:ff:ff:ff:ff link-netnsid 4</span>
+<span class="go">11: vethb935fad@if10: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 6e:0a:38:0c:08:cb brd ff:ff:ff:ff:ff:ff link-netnsid 2</span>
+<span class="go">13: veth753b447@if12: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 06:91:de:b3:db:84 brd ff:ff:ff:ff:ff:ff link-netnsid 11</span>
+<span class="go">15: veth26354a8@if14: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether c6:59:9f:4c:96:ce brd ff:ff:ff:ff:ff:ff link-netnsid 6</span>
+<span class="go">17: vethc513e0a@if16: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether be:bd:01:de:2f:4c brd ff:ff:ff:ff:ff:ff link-netnsid 5</span>
+<span class="go">19: veth324baff@if18: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 22:e5:22:e5:10:1e brd ff:ff:ff:ff:ff:ff link-netnsid 7</span>
+<span class="go">21: vethdbcc726@if20: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 36:d3:74:66:44:c9 brd ff:ff:ff:ff:ff:ff link-netnsid 10</span>
+<span class="go">23: veth449f028@if22: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 16:98:92:9c:4b:b3 brd ff:ff:ff:ff:ff:ff link-netnsid 8</span>
+<span class="go">25: veth7f373c1@if24: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 72:28:58:38:75:3f brd ff:ff:ff:ff:ff:ff link-netnsid 9</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>ネットワークデバイス一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip link
+</pre></div>
+</div>
+</section>
+<section id="ip">
+<h2>IPアドレス一覧を得る。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip a
+
+<span class="c1"># IPv4 のみに限定する。</span>
+ip -4 a
+
+<span class="c1"># 1インタフェース1行にする。</span>
+ip -o a
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>IPルーティングテーブルを得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip r
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>ブリッジの一覧を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo brctl show
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo brctl show
+<span class="go">bridge name     bridge id               STP enabled     interfaces</span>
+<span class="go">br-c21be1532ab5         8000.0242ebfe9869       no              veth4cbee64</span>
+<span class="go">docker0         8000.0242b5795f0c       no</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>指定ブリッジの情報を得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo brctl show br-c21be1532ab5
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo brctl show br-c21be1532ab5
+<span class="go">bridge name     bridge id               STP enabled     interfaces</span>
+<span class="go">br-c21be1532ab5         8000.0242ebfe9869       no              veth4cbee64</span>
+</pre></div>
+</div>
+</section>
+<section id="tcplisten">
+<h2>TCPのListenしているポート一覧を得る。<a class="headerlink" href="#tcplisten" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ss -lnt
+
+<span class="c1"># PIDを得る。</span>
+sudo ss -lntp
+</pre></div>
+</div>
+</section>
+<section id="iptables">
+<h2>iptables のルールを得る。<a class="headerlink" href="#iptables" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo iptables -nL
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo iptables -nL
+<span class="go">Chain INPUT (policy ACCEPT)</span>
+<span class="go">target     prot opt source               destination</span>
+
+<span class="go">Chain FORWARD (policy DROP)</span>
+<span class="go">target     prot opt source               destination</span>
+<span class="go">DOCKER-USER  all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">DOCKER-ISOLATION-STAGE-1  all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED</span>
+<span class="go">DOCKER     all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED</span>
+<span class="go">DOCKER     all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
+
+<span class="go">Chain OUTPUT (policy ACCEPT)</span>
+<span class="go">target     prot opt source               destination</span>
+
+<span class="go">Chain DOCKER (2 references)</span>
+<span class="go">target     prot opt source               destination</span>
+<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:32443</span>
+<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:8443</span>
+<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:5000</span>
+<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:2376</span>
+<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:22</span>
+
+<span class="go">Chain DOCKER-ISOLATION-STAGE-1 (1 references)</span>
+<span class="go">target     prot opt source               destination</span>
+<span class="go">DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">RETURN     all  --  0.0.0.0/0            0.0.0.0/0</span>
+
+<span class="go">Chain DOCKER-ISOLATION-STAGE-2 (2 references)</span>
+<span class="go">target     prot opt source               destination</span>
+<span class="go">DROP       all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">DROP       all  --  0.0.0.0/0            0.0.0.0/0</span>
+<span class="go">RETURN     all  --  0.0.0.0/0            0.0.0.0/0</span>
+
+<span class="go">Chain DOCKER-USER (1 references)</span>
+<span class="go">target     prot opt source               destination</span>
+<span class="go">RETURN     all  --  0.0.0.0/0            0.0.0.0/0</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="ssh.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">SSH</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="linux.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Linux</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, kumarstack55 |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/linux_network.md.txt"
+               rel="nofollow">
+              ソースコードを表示
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Linuxでネットワークの操作をする。</a><ul>
+<li><a class="reference internal" href="#network-namespace">Network namespace の情報を得る。</a></li>
+<li><a class="reference internal" href="#pid-network-namespace-exec">指定PIDの Network namespace に exec できるようにする。</a></li>
+<li><a class="reference internal" href="#veth">veth の一覧を得る。</a></li>
+<li><a class="reference internal" href="#id1">veth の情報を得る。</a></li>
+<li><a class="reference internal" href="#id2">ネットワークデバイス一覧を得る。</a></li>
+<li><a class="reference internal" href="#ip">IPアドレス一覧を得る。</a></li>
+<li><a class="reference internal" href="#id3">IPルーティングテーブルを得る。</a></li>
+<li><a class="reference internal" href="#id4">ブリッジの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id5">指定ブリッジの情報を得る。</a></li>
+<li><a class="reference internal" href="#tcplisten">TCPのListenしているポート一覧を得る。</a></li>
+<li><a class="reference internal" href="#iptables">iptables のルールを得る。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>

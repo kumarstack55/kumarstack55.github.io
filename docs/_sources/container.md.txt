@@ -23,9 +23,14 @@ https://docs.docker.com/engine/install/debian/
 ## root ではないユーザでコンテナを実行できるようにする。
 
 ```bash
+# グループを作って、ユーザを加える。
 sudo groupadd docker
 sudo usermod -aG docker $USER
+
+# 再起動なしにグループを有効にする。
 newgrp docker
+
+# root ではないユーザでコンテナを実行する。
 docker run hello-world
 ```
 

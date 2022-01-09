@@ -8,11 +8,11 @@ Untitled ドキュメント
    oci.md
    vagrant.md
    linux.md
+   linux_network.md
    ssh.md
    debian.md
    ubuntu.md
-   bash_foundation.md
-   bash_application.md
+   bash.rst
    bats.md
    git.md
    python.md

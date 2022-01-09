@@ -159,23 +159,27 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Minikube</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -209,12 +213,70 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="minikube">
 <h1>Minikube<a class="headerlink" href="#minikube" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="minikube-windows-virtualbox-vagrant">
+<h2>Minikube 用のマシンを Windows + VirtualBox + Vagrant で用意する。<a class="headerlink" href="#minikube-windows-virtualbox-vagrant" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Ubuntu を選ぶ。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.network "forwarded_port", guest: 10080, host: 10080
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "8192"
+    vb.customize [ "modifyvm", :id, "--audio", "none" ]
+    #vb.gui = true
+    #vb.customize [ "modifyvm", :id, "--vram", "16" ]
+  end
+  config.ssh.forward_agent = true
+end
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">up</span>
+<span class="nv">$env:SSH_AUTH_SOCK</span> <span class="p">=</span> <span class="s1">'\\.\pipe\ssh-pageant'</span>
+<span class="n">vagrant</span> <span class="n">ssh</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ansibleをインストールする。</span>
+sudo apt update -y
+sudo apt install ansible -y
+
+<span class="c1"># SSH公開鍵を登録する。</span>
+ssh-add -L <span class="se">\</span>
+  <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
+      ansible <span class="se">\</span>
+        -m lineinfile <span class="se">\</span>
+        -a <span class="s2">"path='</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/authorized_keys' line='</span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">' backup=yes"</span> <span class="se">\</span>
+        localhost
+    <span class="k">done</span>
+
+<span class="c1"># Docker をインストールする。</span>
+<span class="nb">cd</span> /tmp
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+<span class="nb">cd</span>
+
+<span class="c1"># Docker を非 root ユーザで管理する。</span>
+sudo groupadd docker
+sudo usermod -aG docker <span class="nv">$USER</span>
+newgrp docker
+
+<span class="c1"># kubectl をインストールする。</span>
+<span class="nb">cd</span> /tmp
+curl -LO <span class="s2">"https://storage.googleapis.com/kubernetes-release/release/</span><span class="k">$(</span>curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt<span class="k">)</span><span class="s2">/bin/linux/amd64/kubectl"</span>
+chmod +x kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+<span class="c1"># 編集できるようにする。</span>
+sudo apt install neovim -y
+</pre></div>
+</div>
+</section>
 <section id="id1">
 <h2>Minikube を動かす。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>メモリ量 8GB 程度のマシンで動かすのが良い。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /tmp</span>
 <span class="go">curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb</span>
 <span class="go">sudo dpkg -i minikube_latest_amd64.deb</span>
+
+<span class="go">cd</span>
 <span class="go">minikube start</span>
 </pre></div>
 </div>
@@ -241,11 +303,178 @@
 <section id="id2">
 <h2>ダッシュボードを動かす。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>minikube dashboard
+
+<span class="c1"># URLを表示する。ポートを10080/tcpにする。</span>
+minikube dashboard --url --port<span class="o">=</span><span class="m">10080</span>
+</pre></div>
+</div>
+</section>
+<section id="hello-minikube">
+<h2>Hello Minikube<a class="headerlink" href="#hello-minikube" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>https://kubernetes.io/docs/tutorials/hello-minikube/</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl create deployment hello-node --image<span class="o">=</span>k8s.gcr.io/echoserver:1.4
+kubectl get deployments
+kubectl get pods
+kubectl get events
+kubectl config view
+kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
+kubectl get services
+minikube service hello-node
+
+minikube addons list
+minikube addons <span class="nb">enable</span> metrics-server
+kubectl get pod,svc -n kube-system
+minikube addons disable metrics-server
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+minikube stop
+minikube delete
+</pre></div>
+</div>
+<p>https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/</p>
+</section>
+<section id="minikube-pod">
+<h2>参考: Minikube の Pod 内のネットワーク<a class="headerlink" href="#minikube-pod" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>ip a
+<span class="go">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span>
+<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span>
+<span class="go">    inet 127.0.0.1/8 scope host lo</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">    inet6 ::1/128 scope host</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span>
+<span class="go">    link/ether 02:31:14:45:32:03 brd ff:ff:ff:ff:ff:ff</span>
+<span class="go">    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic enp0s3</span>
+<span class="go">       valid_lft 85865sec preferred_lft 85865sec</span>
+<span class="go">    inet6 fe80::31:14ff:fe45:3203/64 scope link</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">4: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default</span>
+<span class="go">    link/ether 02:42:82:d2:df:63 brd ff:ff:ff:ff:ff:ff</span>
+<span class="go">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">    inet6 fe80::42:82ff:fed2:df63/64 scope link</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">7: br-79d8378f226e: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span>
+<span class="go">    link/ether 02:42:96:01:14:a1 brd ff:ff:ff:ff:ff:ff</span>
+<span class="go">    inet 192.168.49.1/24 brd 192.168.49.255 scope global br-79d8378f226e</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">    inet6 fe80::42:96ff:fe01:14a1/64 scope link</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">15: vethc4e5996@if14: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master br-79d8378f226e state UP group default</span>
+<span class="go">    link/ether 76:4a:55:b3:e9:5b brd ff:ff:ff:ff:ff:ff link-netnsid 0</span>
+<span class="go">    inet6 fe80::744a:55ff:feb3:e95b/64 scope link</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get service/kubernetes
+<span class="go">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   100m</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl <span class="nb">exec</span> -it debian -- /bin/bash
+<span class="gp">root@debian:/#</span>
+
+<span class="gp">root@debian:/# </span>ip a
+<span class="go">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span>
+<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span>
+<span class="go">    inet 127.0.0.1/8 scope host lo</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">34: eth0@if35: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span>
+<span class="go">    link/ether 02:42:ac:11:00:0d brd ff:ff:ff:ff:ff:ff link-netnsid 0</span>
+<span class="go">    inet 172.17.0.13/16 brd 172.17.255.255 scope global eth0</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+
+<span class="gp">root@debian:/# </span>ip r
+<span class="go">default via 172.17.0.1 dev eth0</span>
+<span class="go">172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.13</span>
+
+<span class="gp">root@debian:/# </span>ip link show <span class="nb">type</span> veth
+<span class="go">34: eth0@if35: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode DEFAULT group default</span>
+<span class="go">    link/ether 02:42:ac:11:00:0d brd ff:ff:ff:ff:ff:ff link-netnsid 0</span>
+
+<span class="gp">root@debian:/# </span>ethtool -S eth0
+<span class="go">NIC statistics:</span>
+<span class="go">     peer_ifindex: 35</span>
+<span class="go">     rx_queue_0_xdp_packets: 0</span>
+<span class="go">     rx_queue_0_xdp_bytes: 0</span>
+<span class="go">     rx_queue_0_xdp_drops: 0</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>docker ps
+<span class="go">CONTAINER ID   IMAGE                                 COMMAND                  CREATED       STATUS          PORTS                                                                                                                                  NAMES</span>
+<span class="go">39f8154e1e27   gcr.io/k8s-minikube/kicbase:v0.0.28   "/usr/local/bin/entr…"   2 hours ago   Up 30 minutes   127.0.0.1:49167-&gt;22/tcp, 127.0.0.1:49166-&gt;2376/tcp, 127.0.0.1:49165-&gt;5000/tcp, 127.0.0.1:49164-&gt;8443/tcp, 127.0.0.1:49163-&gt;32443/tcp   minikube</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>docker <span class="nb">exec</span> -it 39f8154e1e27 /sbin/ip -o link <span class="p">|</span> grep ^35
+<span class="go">35: veth6a3d995@if34: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether b2:c4:e9:1e:19:4e brd ff:ff:ff:ff:ff:ff link-netnsid 12</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>docker <span class="nb">exec</span> -it 39f8154e1e27 /sbin/brctl show
+<span class="go">bridge name     bridge id               STP enabled     interfaces</span>
+<span class="go">docker0         8000.02422ec31099       no              veth08d3ce5</span>
+<span class="go">                                                        veth11dad47</span>
+<span class="go">                                                        veth518c336</span>
+<span class="go">                                                        veth6a3d995</span>
+<span class="go">                                                        veth81d9e62</span>
+<span class="go">                                                        veth93c7894</span>
+<span class="go">                                                        vethacdc005</span>
+<span class="go">                                                        vethb57d307</span>
+<span class="go">                                                        vethcc95dd8</span>
+<span class="go">                                                        vethf4f1444</span>
+<span class="go">                                                        vethfa1917d</span>
+<span class="go">                                                        vethfc9c3f4</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>docker <span class="nb">exec</span> -it 39f8154e1e27 /sbin/ip -4 a
+<span class="go">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span>
+<span class="go">    inet 127.0.0.1/8 scope host lo</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">2: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span>
+<span class="go">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">14: eth0@if15: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default  link-netnsid 0</span>
+<span class="go">    inet 192.168.49.2/24 brd 192.168.49.255 scope global eth0</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>brctl show
+<span class="go">bridge name     bridge id               STP enabled     interfaces</span>
+<span class="go">br-79d8378f226e         8000.0242960114a1       no              vethc4e5996</span>
+<span class="go">docker0         8000.024282d2df63       no</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>ip -4 a show dev br-79d8378f226e
+<span class="go">7: br-79d8378f226e: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span>
+<span class="go">    inet 192.168.49.1/24 brd 192.168.49.255 scope global br-79d8378f226e</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>ip -4 a show dev docker0
+<span class="go">4: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default</span>
+<span class="go">    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    |
+   -o---o-
+        |
+    ~~~~|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        |
+        | 10.0.2.15/24      | 172.17.0.1/16       | 192.168.49.1/24
+        |                   | bridge              | bridge
+        | ubuntu-focal      | ubuntu-focal        | ubuntu-focal
+        enp0s3              docker0               br-79d8378f226e
+                                                  |
+                                                  15: vethc4e5996@if14
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|~~~~~~~~~~~~~~~~~~~~
+                                                  |
+                            docker0               |
+                            |                     |
+                            |                     | 192.168.49.2/24
+                            | minikube            | minikube
+                            35: veth6a3d995@if34  14: eth0@if15
+                            |
+    ~~~~~~~~~~~~~~~~~~~~~~~~|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |
+                            | 172.17.0.13/16
+                            | debian
+                            34: eth0@if35
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h2>minikube の機能一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>参考: minikube の機能一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>minikube version
 <span class="go">minikube version: v1.24.0</span>
 <span class="go">commit: 76b94fb3c4e8ac5062daf70d60cf03ddcc0a741b</span>
@@ -358,9 +587,12 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Minikube</a><ul>
+<li><a class="reference internal" href="#minikube-windows-virtualbox-vagrant">Minikube 用のマシンを Windows + VirtualBox + Vagrant で用意する。</a></li>
 <li><a class="reference internal" href="#id1">Minikube を動かす。</a></li>
 <li><a class="reference internal" href="#id2">ダッシュボードを動かす。</a></li>
-<li><a class="reference internal" href="#id3">minikube の機能一覧</a></li>
+<li><a class="reference internal" href="#hello-minikube">Hello Minikube</a></li>
+<li><a class="reference internal" href="#minikube-pod">参考: Minikube の Pod 内のネットワーク</a></li>
+<li><a class="reference internal" href="#id3">参考: minikube の機能一覧</a></li>
 </ul>
 </li>
 </ul>

@@ -6,7 +6,7 @@
 LANG=C locale -a
 cat /etc/locale.gen
 ansible -b -m lineinfile -a "path=/etc/locale.gen regexp='^(?:#\s*|)(en_US\.UTF-8\s*UTF-8)$' backrefs=yes line='\1' backup=yes" localhost
-locale-gen
+sudo locale-gen
 ```
 
 ## タイムゾーンを設定する。
@@ -22,35 +22,61 @@ sudo apt update
 sudo apt install ansible -y
 ```
 
+## ローカルに存在する指定パスがどの deb パッケージで管理されているかを得る。
+
+```bash
+dpkg -S /bin/ls
+```
+
+```console
+vagrant@ubuntu-focal:~$ dpkg -S /bin/ls
+coreutils: /bin/ls
+```
+
+## インストールされたパッケージ一覧を得る。
+
+```bash
+apt list --installed
+```
+
 ## ファイル名を含む deb パッケージを検索する。
 
 ```bash
-sudo apt install apt-file
+# apt-file をインストールする。
+sudo apt install apt-file -y
+
+# アップデートする。
 sudo apt-file update
+
+# 探す。
 apt-file search /apt-file
+
+# 正規表現で探す。
+apt-file search -x bin/python$
 ```
 
-## Debian 10 (buster) に Python 3.9.7 をインストールする。
-
-```bash
-sudo -i
-
-apt update
-apt install build-essential zlib1g-dev libssl-dev libffi-dev
-
-cd /usr/local/src
-curl -Lo Python-3.9.7.tar.xz https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz
-tar -Jxvf Python-3.9.7.tar.xz
-
-cd /usr/local/src/Python-3.9.7
-./configure --enable-optimizations --prefix=/usr/local/python-3.9.7
-make
-make altinstall
+```console
+vagrant@ubuntu-focal:~$ apt-file search bin/apt-file
+apt-file: /usr/bin/apt-file
 ```
 
-```bash
-sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/python-3.9.7/bin/python3.9 10
+```console
+vagrant@ubuntu-focal:~$ apt-file search -x bin/python$
+python-is-python2: /usr/bin/python
+python-is-python3: /usr/bin/python
+wims: /var/lib/wims/public_html/bin/python
 ```
 
-[Getting and installing the latest version of Python](https://docs.python.org/3.9/using/unix.html#on-linux)を参照した。
+```console
+vagrant@ubuntu-focal:~$ apt-file search -x bin/brctl$
+bridge-utils: /sbin/brctl
+```
 
+```console
+vagrant@ubuntu-focal:~$ apt-file search -x bin/ping$
+inetutils-ping: /bin/ping
+iputils-ping: /bin/ping
+
+vagrant@ubuntu-focal:~$ dpkg -S /bin/ping
+iputils-ping: /bin/ping
+```

@@ -159,23 +159,27 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -472,8 +476,57 @@ kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
 </pre></div>
 </div>
 </section>
-<section id="pods">
-<h2>Podsを得る。<a class="headerlink" href="#pods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="pod">
+<h2>Pod を作る。<a class="headerlink" href="#pod" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># nginx コンテナが動く Pod を定義する。</span>
+kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+
+<span class="c1"># debian コンテナが動く Pod を定義する。</span>
+cat <span class="s">&lt;&lt;__YAML__ | tee ./pod-debian.yaml</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Pod</span>
+<span class="s">metadata:</span>
+<span class="s">  name: debian</span>
+<span class="s">spec:</span>
+<span class="s">  containers:</span>
+<span class="s">  - name: debian</span>
+<span class="s">    image: debian:latest</span>
+<span class="s">    command: [ "/bin/bash", "-c", "--" ]</span>
+<span class="s">    args: [ "while true; do sleep 30; done;" ]</span>
+<span class="s">__YAML__</span>
+kubectl apply -f ./pod-debian.yaml
+kubectl get po debian
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>curl -Ls https://k8s.io/examples/pods/simple-pod.yaml
+<span class="go">apiVersion: v1</span>
+<span class="go">kind: Pod</span>
+<span class="go">metadata:</span>
+<span class="go">  name: nginx</span>
+<span class="go">spec:</span>
+<span class="go">  containers:</span>
+<span class="go">  - name: nginx</span>
+<span class="go">    image: nginx:1.14.2</span>
+<span class="go">    ports:</span>
+<span class="go">    - containerPort: 80</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+<span class="go">pod/nginx created</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po
+<span class="go">NAME    READY   STATUS    RESTARTS   AGE</span>
+<span class="go">nginx   1/1     Running   0          54s</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://kubernetes.io/docs/concepts/workloads/pods/</p></li>
+<li><p>https://stackoverflow.com/a/40093356/12786161</p></li>
+</ul>
+</section>
+<section id="id9">
+<h2>Podの一覧を得る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po
 
 <span class="c1"># 名前空間を指定する。</span>
@@ -481,13 +534,303 @@ kubectl get po --namespace production
 kubectl get po --namespace development
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:/tmp$ </span>kubectl get po
-<span class="go">No resources found in default namespace.</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po
+<span class="go">NAME     READY   STATUS    RESTARTS      AGE</span>
+<span class="go">debian   1/1     Running   1 (11m ago)   7h43m</span>
+<span class="go">nginx    1/1     Running   1 (11m ago)   5h</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po --namespace production
+<span class="go">No resources found in production namespace.</span>
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h2>すべての名前空間のpodsを得る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>Podの情報を得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl describe po debian
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl describe po debian
+<span class="go">Name:         debian</span>
+<span class="go">Namespace:    default</span>
+<span class="go">Priority:     0</span>
+<span class="go">Node:         minikube/192.168.49.2</span>
+<span class="go">Start Time:   Sun, 09 Jan 2022 02:45:56 +0000</span>
+<span class="go">Labels:       &lt;none&gt;</span>
+<span class="go">Annotations:  &lt;none&gt;</span>
+<span class="go">Status:       Running</span>
+<span class="go">IP:           172.17.0.4</span>
+<span class="go">IPs:</span>
+<span class="go">  IP:  172.17.0.4</span>
+<span class="go">Containers:</span>
+<span class="go">  debian:</span>
+<span class="go">    Container ID:  docker://769dda214d49bad8b9280c2eb789aad45bc533baac08ab5ccf0c6cf53befac44</span>
+<span class="go">    Image:         debian:latest</span>
+<span class="go">    Image ID:      docker-pullable://debian@sha256:2906804d2a64e8a13a434a1a127fe3f6a28bf7cf3696be4223b06276f32f1f2d</span>
+<span class="go">    Port:          &lt;none&gt;</span>
+<span class="go">    Host Port:     &lt;none&gt;</span>
+<span class="go">    Command:</span>
+<span class="go">      /bin/bash</span>
+<span class="go">      -c</span>
+<span class="go">      --</span>
+<span class="go">    Args:</span>
+<span class="go">      while true; do sleep 30; done;</span>
+<span class="go">    State:          Running</span>
+<span class="go">      Started:      Sun, 09 Jan 2022 10:18:32 +0000</span>
+<span class="go">    Last State:     Terminated</span>
+<span class="go">      Reason:       Error</span>
+<span class="go">      Exit Code:    255</span>
+<span class="go">      Started:      Sun, 09 Jan 2022 02:46:00 +0000</span>
+<span class="go">      Finished:     Sun, 09 Jan 2022 10:17:39 +0000</span>
+<span class="go">    Ready:          True</span>
+<span class="go">    Restart Count:  1</span>
+<span class="go">    Environment:    &lt;none&gt;</span>
+<span class="go">    Mounts:</span>
+<span class="go">      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jwvv9 (ro)</span>
+<span class="go">Conditions:</span>
+<span class="go">  Type              Status</span>
+<span class="go">  Initialized       True</span>
+<span class="go">  Ready             True</span>
+<span class="go">  ContainersReady   True</span>
+<span class="go">  PodScheduled      True</span>
+<span class="go">Volumes:</span>
+<span class="go">  kube-api-access-jwvv9:</span>
+<span class="go">    Type:                    Projected (a volume that contains injected data from multiple sources)</span>
+<span class="go">    TokenExpirationSeconds:  3607</span>
+<span class="go">    ConfigMapName:           kube-root-ca.crt</span>
+<span class="go">    ConfigMapOptional:       &lt;nil&gt;</span>
+<span class="go">    DownwardAPI:             true</span>
+<span class="go">QoS Class:                   BestEffort</span>
+<span class="go">Node-Selectors:              &lt;none&gt;</span>
+<span class="go">Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s</span>
+<span class="go">                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s</span>
+<span class="go">Events:</span>
+<span class="go">  Type    Reason          Age    From     Message</span>
+<span class="go">  ----    ------          ----   ----     -------</span>
+<span class="go">  Normal  SandboxChanged  10m    kubelet  Pod sandbox changed, it will be killed and re-created.</span>
+<span class="go">  Normal  Pulling         9m50s  kubelet  Pulling image "debian:latest"</span>
+<span class="go">  Normal  Pulled          9m46s  kubelet  Successfully pulled image "debian:latest" in 3.854382685s</span>
+<span class="go">  Normal  Created         9m46s  kubelet  Created container debian</span>
+<span class="go">  Normal  Started         9m45s  kubelet  Started container debian</span>
+</pre></div>
+</div>
+</section>
+<section id="podyaml">
+<h2>PodのYAMLを得る。<a class="headerlink" href="#podyaml" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po debian -o yaml
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po debian -o yaml
+<span class="go">apiVersion: v1</span>
+<span class="go">kind: Pod</span>
+<span class="go">metadata:</span>
+<span class="go">  annotations:</span>
+<span class="go">    kubectl.kubernetes.io/last-applied-configuration: |</span>
+<span class="go">      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"debian","namespace":"default"},"spec":{"containers":[{"args":["while true; do sleep 30; done;"],"command":["/bin/bash","-c","--"],"image":"debian:latest","name":"debian"}]}}</span>
+<span class="go">  creationTimestamp: "2022-01-09T02:45:56Z"</span>
+<span class="go">  name: debian</span>
+<span class="go">  namespace: default</span>
+<span class="go">  resourceVersion: "15700"</span>
+<span class="go">  uid: c402f5fe-f554-4467-af88-df85c99776e0</span>
+<span class="go">spec:</span>
+<span class="go">  containers:</span>
+<span class="go">  - args:</span>
+<span class="go">    - while true; do sleep 30; done;</span>
+<span class="go">    command:</span>
+<span class="go">    - /bin/bash</span>
+<span class="go">    - -c</span>
+<span class="go">    - --</span>
+<span class="go">    image: debian:latest</span>
+<span class="go">    imagePullPolicy: Always</span>
+<span class="go">    name: debian</span>
+<span class="go">    resources: {}</span>
+<span class="go">    terminationMessagePath: /dev/termination-log</span>
+<span class="go">    terminationMessagePolicy: File</span>
+<span class="go">    volumeMounts:</span>
+<span class="go">    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount</span>
+<span class="go">      name: kube-api-access-jwvv9</span>
+<span class="go">      readOnly: true</span>
+<span class="go">  dnsPolicy: ClusterFirst</span>
+<span class="go">  enableServiceLinks: true</span>
+<span class="go">  nodeName: minikube</span>
+<span class="go">  preemptionPolicy: PreemptLowerPriority</span>
+<span class="go">  priority: 0</span>
+<span class="go">  restartPolicy: Always</span>
+<span class="go">  schedulerName: default-scheduler</span>
+<span class="go">  securityContext: {}</span>
+<span class="go">  serviceAccount: default</span>
+<span class="go">  serviceAccountName: default</span>
+<span class="go">  terminationGracePeriodSeconds: 30</span>
+<span class="go">  tolerations:</span>
+<span class="go">  - effect: NoExecute</span>
+<span class="go">    key: node.kubernetes.io/not-ready</span>
+<span class="go">    operator: Exists</span>
+<span class="go">    tolerationSeconds: 300</span>
+<span class="go">  - effect: NoExecute</span>
+<span class="go">    key: node.kubernetes.io/unreachable</span>
+<span class="go">    operator: Exists</span>
+<span class="go">    tolerationSeconds: 300</span>
+<span class="go">  volumes:</span>
+<span class="go">  - name: kube-api-access-jwvv9</span>
+<span class="go">    projected:</span>
+<span class="go">      defaultMode: 420</span>
+<span class="go">      sources:</span>
+<span class="go">      - serviceAccountToken:</span>
+<span class="go">          expirationSeconds: 3607</span>
+<span class="go">          path: token</span>
+<span class="go">      - configMap:</span>
+<span class="go">          items:</span>
+<span class="go">          - key: ca.crt</span>
+<span class="go">            path: ca.crt</span>
+<span class="go">          name: kube-root-ca.crt</span>
+<span class="go">      - downwardAPI:</span>
+<span class="go">          items:</span>
+<span class="go">          - fieldRef:</span>
+<span class="go">              apiVersion: v1</span>
+<span class="go">              fieldPath: metadata.namespace</span>
+<span class="go">            path: namespace</span>
+<span class="go">status:</span>
+<span class="go">  conditions:</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T02:45:56Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: Initialized</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T10:18:32Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: Ready</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T10:18:32Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: ContainersReady</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T02:45:56Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: PodScheduled</span>
+<span class="go">  containerStatuses:</span>
+<span class="go">  - containerID: docker://769dda214d49bad8b9280c2eb789aad45bc533baac08ab5ccf0c6cf53befac44</span>
+<span class="go">    image: debian:latest</span>
+<span class="go">    imageID: docker-pullable://debian@sha256:2906804d2a64e8a13a434a1a127fe3f6a28bf7cf3696be4223b06276f32f1f2d</span>
+<span class="go">    lastState:</span>
+<span class="go">      terminated:</span>
+<span class="go">        containerID: docker://f0978f1d55fa0d70ee9373230fdb8d738a7924f1b6f05635247320eb615c4ddd</span>
+<span class="go">        exitCode: 255</span>
+<span class="go">        finishedAt: "2022-01-09T10:17:39Z"</span>
+<span class="go">        reason: Error</span>
+<span class="go">        startedAt: "2022-01-09T02:46:00Z"</span>
+<span class="go">    name: debian</span>
+<span class="go">    ready: true</span>
+<span class="go">    restartCount: 1</span>
+<span class="go">    started: true</span>
+<span class="go">    state:</span>
+<span class="go">      running:</span>
+<span class="go">        startedAt: "2022-01-09T10:18:32Z"</span>
+<span class="go">  hostIP: 192.168.49.2</span>
+<span class="go">  phase: Running</span>
+<span class="go">  podIP: 172.17.0.4</span>
+<span class="go">  podIPs:</span>
+<span class="go">  - ip: 172.17.0.4</span>
+<span class="go">  qosClass: BestEffort</span>
+<span class="go">  startTime: "2022-01-09T02:45:56Z"</span>
+</pre></div>
+</div>
+</section>
+<section id="pod-yaml">
+<h2>Pod の YAMLを得て、編集し、反映する。<a class="headerlink" href="#pod-yaml" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po debian -o yaml &gt;debian.yaml
+
+<span class="c1"># 1回目</span>
+kubectl apply -f debian.yaml
+
+<span class="c1"># 2回目</span>
+kubectl apply -f debian.yaml
+  <span class="c1"># k8s と debian.yaml に resourceVersion に相違があるので、反映に失敗する。</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po debian -o yaml &gt;debian.yaml
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl apply -f debian.yaml
+<span class="go">pod/debian configured</span>
+
+<span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl apply -f debian.yaml
+<span class="go">Error from server (Conflict): error when applying patch:</span>
+<span class="go">{"metadata":{"resourceVersion":"16383"}}</span>
+<span class="go">to:</span>
+<span class="go">Resource: "/v1, Resource=pods", GroupVersionKind: "/v1, Kind=Pod"</span>
+<span class="go">Name: "debian", Namespace: "default"</span>
+<span class="go">for: "debian.yaml": Operation cannot be fulfilled on pods "debian": the object has been modified; please apply your changes to the latest version and try again</span>
+</pre></div>
+</div>
+</section>
+<section id="pods">
+<h2>Pods 内でコマンドを実行する。<a class="headerlink" href="#pods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl <span class="nb">exec</span> debian /bin/bash
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl <span class="nb">exec</span> -it debian -- /bin/bash
+<span class="gp">root@debian:/#</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h2>Pods を消す。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl delete po nginx
+<span class="go">pod "nginx" deleted</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h2>リソースの一覧を得る。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get all
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
+<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   29m</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h2>リソースの情報を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># サービスのkubernetesの情報を得る。</span>
+kubectl describe service/kubernetes
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl describe service/kubernetes
+<span class="go">Name:              kubernetes</span>
+<span class="go">Namespace:         default</span>
+<span class="go">Labels:            component=apiserver</span>
+<span class="go">                   provider=kubernetes</span>
+<span class="go">Annotations:       &lt;none&gt;</span>
+<span class="go">Selector:          &lt;none&gt;</span>
+<span class="go">Type:              ClusterIP</span>
+<span class="go">IP Family Policy:  SingleStack</span>
+<span class="go">IP Families:       IPv4</span>
+<span class="go">IP:                10.96.0.1</span>
+<span class="go">IPs:               10.96.0.1</span>
+<span class="go">Port:              https  443/TCP</span>
+<span class="go">TargetPort:        8443/TCP</span>
+<span class="go">Endpoints:         192.168.49.2:8443</span>
+<span class="go">Session Affinity:  None</span>
+<span class="go">Events:            &lt;none&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h2>ログを得る。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>TODO</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl logs
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h2>コンテナ内でコマンドを実行する。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl <span class="nb">exec</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h2>すべての名前空間のpodsを得る。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get po -A
 <span class="go">NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE</span>
 <span class="go">kube-system   coredns-78fcd69978-5zv2q           1/1     Running   1 (12m ago)     14m</span>
@@ -530,6 +873,32 @@ kubectl create deployment hello-node --image<span class="o">=</span>k8s.gcr.io/e
 kubectl get deployments
 kubectl get pods
 kubectl get events
+
+<span class="c1"># nginx-deployment を作る。</span>
+cat <span class="s">&lt;&lt;__YAML__ | tee ./nginx-deployment.yaml</span>
+<span class="s">apiVersion: apps/v1</span>
+<span class="s">kind: Deployment</span>
+<span class="s">metadata:</span>
+<span class="s">  name: nginx-deployment</span>
+<span class="s">  labels:</span>
+<span class="s">    app: nginx</span>
+<span class="s">spec:</span>
+<span class="s">  replicas: 3</span>
+<span class="s">  selector:</span>
+<span class="s">    matchLabels:</span>
+<span class="s">      app: nginx</span>
+<span class="s">  template:</span>
+<span class="s">    metadata:</span>
+<span class="s">      labels:</span>
+<span class="s">        app: nginx</span>
+<span class="s">    spec:</span>
+<span class="s">      containers:</span>
+<span class="s">      - name: nginx</span>
+<span class="s">        image: nginx:1.14.2</span>
+<span class="s">        ports:</span>
+<span class="s">        - containerPort: 80</span>
+<span class="s">__YAML__</span>
+kubectl apply -f ./nginx-deployment.yaml
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl create deployment snowflake --image<span class="o">=</span>k8s.gcr.io/serve_hostname  -n<span class="o">=</span>development --replicas<span class="o">=</span><span class="m">2</span>
@@ -566,6 +935,130 @@ kubectl get events
 <span class="go">cattle-65d567657f-ndhs4   1/1     Running   0          67s</span>
 <span class="go">cattle-65d567657f-q594z   1/1     Running   0          67s</span>
 <span class="go">cattle-65d567657f-q8xdg   1/1     Running   0          67s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl apply -f ./nginx-deployment.yaml
+<span class="go">deployment.apps/nginx-deployment created</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po
+<span class="go">NAME                                READY   STATUS    RESTARTS   AGE</span>
+<span class="go">nginx-deployment-66b6c48dd5-bdzkk   1/1     Running   0          2m34s</span>
+<span class="go">nginx-deployment-66b6c48dd5-js6pm   1/1     Running   0          2m34s</span>
+<span class="go">nginx-deployment-66b6c48dd5-rs47f   1/1     Running   0          2m34s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po nginx-deployment-66b6c48dd5-bdzkk -o yaml
+<span class="go">apiVersion: v1</span>
+<span class="go">kind: Pod</span>
+<span class="go">metadata:</span>
+<span class="go">  creationTimestamp: "2022-01-09T12:17:56Z"</span>
+<span class="go">  generateName: nginx-deployment-66b6c48dd5-</span>
+<span class="go">  labels:</span>
+<span class="go">    app: nginx</span>
+<span class="go">    pod-template-hash: 66b6c48dd5</span>
+<span class="go">  name: nginx-deployment-66b6c48dd5-bdzkk</span>
+<span class="go">  namespace: default</span>
+<span class="go">  ownerReferences:</span>
+<span class="go">  - apiVersion: apps/v1</span>
+<span class="go">    blockOwnerDeletion: true</span>
+<span class="go">    controller: true</span>
+<span class="go">    kind: ReplicaSet</span>
+<span class="go">    name: nginx-deployment-66b6c48dd5</span>
+<span class="go">    uid: 76ac0f6c-0ebf-4823-9c3b-e7d7ced2da2d</span>
+<span class="go">  resourceVersion: "20168"</span>
+<span class="go">  uid: a45bc209-3359-4ef2-b79d-88299e29a0c3</span>
+<span class="go">spec:</span>
+<span class="go">  containers:</span>
+<span class="go">  - image: nginx:1.14.2</span>
+<span class="go">    imagePullPolicy: IfNotPresent</span>
+<span class="go">    name: nginx</span>
+<span class="go">    ports:</span>
+<span class="go">    - containerPort: 80</span>
+<span class="go">      protocol: TCP</span>
+<span class="go">    resources: {}</span>
+<span class="go">    terminationMessagePath: /dev/termination-log</span>
+<span class="go">    terminationMessagePolicy: File</span>
+<span class="go">    volumeMounts:</span>
+<span class="go">    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount</span>
+<span class="go">      name: kube-api-access-khdj9</span>
+<span class="go">      readOnly: true</span>
+<span class="go">  dnsPolicy: ClusterFirst</span>
+<span class="go">  enableServiceLinks: true</span>
+<span class="go">  nodeName: minikube</span>
+<span class="go">  preemptionPolicy: PreemptLowerPriority</span>
+<span class="go">  priority: 0</span>
+<span class="go">  restartPolicy: Always</span>
+<span class="go">  schedulerName: default-scheduler</span>
+<span class="go">  securityContext: {}</span>
+<span class="go">  serviceAccount: default</span>
+<span class="go">  serviceAccountName: default</span>
+<span class="go">  terminationGracePeriodSeconds: 30</span>
+<span class="go">  tolerations:</span>
+<span class="go">  - effect: NoExecute</span>
+<span class="go">    key: node.kubernetes.io/not-ready</span>
+<span class="go">    operator: Exists</span>
+<span class="go">    tolerationSeconds: 300</span>
+<span class="go">  - effect: NoExecute</span>
+<span class="go">    key: node.kubernetes.io/unreachable</span>
+<span class="go">    operator: Exists</span>
+<span class="go">    tolerationSeconds: 300</span>
+<span class="go">  volumes:</span>
+<span class="go">  - name: kube-api-access-khdj9</span>
+<span class="go">    projected:</span>
+<span class="go">      defaultMode: 420</span>
+<span class="go">      sources:</span>
+<span class="go">      - serviceAccountToken:</span>
+<span class="go">          expirationSeconds: 3607</span>
+<span class="go">          path: token</span>
+<span class="go">      - configMap:</span>
+<span class="go">          items:</span>
+<span class="go">          - key: ca.crt</span>
+<span class="go">            path: ca.crt</span>
+<span class="go">          name: kube-root-ca.crt</span>
+<span class="go">      - downwardAPI:</span>
+<span class="go">          items:</span>
+<span class="go">          - fieldRef:</span>
+<span class="go">              apiVersion: v1</span>
+<span class="go">              fieldPath: metadata.namespace</span>
+<span class="go">            path: namespace</span>
+<span class="go">status:</span>
+<span class="go">  conditions:</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T12:17:56Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: Initialized</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T12:18:02Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: Ready</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T12:18:02Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: ContainersReady</span>
+<span class="go">  - lastProbeTime: null</span>
+<span class="go">    lastTransitionTime: "2022-01-09T12:17:56Z"</span>
+<span class="go">    status: "True"</span>
+<span class="go">    type: PodScheduled</span>
+<span class="go">  containerStatuses:</span>
+<span class="go">  - containerID: docker://9016f35bce14dbd4d9457ed9574622ce669b02d57627e329b3e2961dcd5fefaa</span>
+<span class="go">    image: nginx:1.14.2</span>
+<span class="go">    imageID: docker-pullable://nginx@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d</span>
+<span class="go">    lastState: {}</span>
+<span class="go">    name: nginx</span>
+<span class="go">    ready: true</span>
+<span class="go">    restartCount: 0</span>
+<span class="go">    started: true</span>
+<span class="go">    state:</span>
+<span class="go">      running:</span>
+<span class="go">        startedAt: "2022-01-09T12:18:01Z"</span>
+<span class="go">  hostIP: 192.168.49.2</span>
+<span class="go">  phase: Running</span>
+<span class="go">  podIP: 172.17.0.7</span>
+<span class="go">  podIPs:</span>
+<span class="go">  - ip: 172.17.0.7</span>
+<span class="go">  qosClass: BestEffort</span>
+<span class="go">  startTime: "2022-01-09T12:17:56Z"</span>
 </pre></div>
 </div>
 </section>
@@ -806,8 +1299,18 @@ minikube service hello-node
 </ul>
 </li>
 <li><a class="reference internal" href="#id8">名前空間を消す。</a></li>
-<li><a class="reference internal" href="#pods">Podsを得る。</a></li>
-<li><a class="reference internal" href="#id9">すべての名前空間のpodsを得る。</a></li>
+<li><a class="reference internal" href="#pod">Pod を作る。</a></li>
+<li><a class="reference internal" href="#id9">Podの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id10">Podの情報を得る。</a></li>
+<li><a class="reference internal" href="#podyaml">PodのYAMLを得る。</a></li>
+<li><a class="reference internal" href="#pod-yaml">Pod の YAMLを得て、編集し、反映する。</a></li>
+<li><a class="reference internal" href="#pods">Pods 内でコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id11">Pods を消す。</a></li>
+<li><a class="reference internal" href="#id12">リソースの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id13">リソースの情報を得る。</a></li>
+<li><a class="reference internal" href="#id14">ログを得る。</a></li>
+<li><a class="reference internal" href="#id15">コンテナ内でコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id16">すべての名前空間のpodsを得る。</a></li>
 <li><a class="reference internal" href="#deployment">Deploymentを得る。</a></li>
 <li><a class="reference internal" href="#deploymentpods">Deploymentを作ることで、Podsを作る。</a></li>
 <li><a class="reference internal" href="#export-service">export で Service を作る。</a></li>

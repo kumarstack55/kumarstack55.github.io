@@ -1,13 +1,73 @@
 # Minikube
 
-## Minikube を動かす。
+## Minikube 用のマシンを Windows + VirtualBox + Vagrant で用意する。
 
-メモリ量 8GB 程度のマシンで動かすのが良い。
+Ubuntu を選ぶ。
+
+```text
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.network "forwarded_port", guest: 10080, host: 10080
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "8192"
+    vb.customize [ "modifyvm", :id, "--audio", "none" ]
+    #vb.gui = true
+    #vb.customize [ "modifyvm", :id, "--vram", "16" ]
+  end
+  config.ssh.forward_agent = true
+end
+```
+
+```powershell
+vagrant up
+$env:SSH_AUTH_SOCK = '\\.\pipe\ssh-pageant'
+vagrant ssh
+```
+
+```bash
+# Ansibleをインストールする。
+sudo apt update -y
+sudo apt install ansible -y
+
+# SSH公開鍵を登録する。
+ssh-add -L \
+  | while read -r line; do
+      ansible \
+        -m lineinfile \
+        -a "path='${HOME}/.ssh/authorized_keys' line='${line}' backup=yes" \
+        localhost
+    done
+
+# Docker をインストールする。
+cd /tmp
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+cd
+
+# Docker を非 root ユーザで管理する。
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+# kubectl をインストールする。
+cd /tmp
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+# 編集できるようにする。
+sudo apt install neovim -y
+```
+
+## Minikube を動かす。
 
 ```console
 cd /tmp
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
 sudo dpkg -i minikube_latest_amd64.deb
+
+cd
 minikube start
 ```
 
@@ -35,9 +95,181 @@ vagrant@buster:/tmp$ docker container ls --format='{{json .}}' | jq .
 
 ```bash
 minikube dashboard
+
+# URLを表示する。ポートを10080/tcpにする。
+minikube dashboard --url --port=10080
 ```
 
-## minikube の機能一覧
+## Hello Minikube
+
+https://kubernetes.io/docs/tutorials/hello-minikube/
+
+```bash
+kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+kubectl get deployments
+kubectl get pods
+kubectl get events
+kubectl config view
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+kubectl get services
+minikube service hello-node
+
+minikube addons list
+minikube addons enable metrics-server
+kubectl get pod,svc -n kube-system
+minikube addons disable metrics-server
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+minikube stop
+minikube delete
+```
+
+https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/
+
+## 参考: Minikube の Pod 内のネットワーク
+
+```console
+vagrant@ubuntu-focal:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 02:31:14:45:32:03 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic enp0s3
+       valid_lft 85865sec preferred_lft 85865sec
+    inet6 fe80::31:14ff:fe45:3203/64 scope link
+       valid_lft forever preferred_lft forever
+4: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether 02:42:82:d2:df:63 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:82ff:fed2:df63/64 scope link
+       valid_lft forever preferred_lft forever
+7: br-79d8378f226e: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:96:01:14:a1 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.49.1/24 brd 192.168.49.255 scope global br-79d8378f226e
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:96ff:fe01:14a1/64 scope link
+       valid_lft forever preferred_lft forever
+15: vethc4e5996@if14: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master br-79d8378f226e state UP group default
+    link/ether 76:4a:55:b3:e9:5b brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::744a:55ff:feb3:e95b/64 scope link
+       valid_lft forever preferred_lft forever
+
+vagrant@ubuntu-focal:~$ kubectl get service/kubernetes
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   100m
+
+vagrant@ubuntu-focal:~$ kubectl exec -it debian -- /bin/bash
+root@debian:/#
+
+root@debian:/# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+34: eth0@if35: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:ac:11:00:0d brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.13/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+
+root@debian:/# ip r
+default via 172.17.0.1 dev eth0
+172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.13
+
+root@debian:/# ip link show type veth
+34: eth0@if35: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default
+    link/ether 02:42:ac:11:00:0d brd ff:ff:ff:ff:ff:ff link-netnsid 0
+
+root@debian:/# ethtool -S eth0
+NIC statistics:
+     peer_ifindex: 35
+     rx_queue_0_xdp_packets: 0
+     rx_queue_0_xdp_bytes: 0
+     rx_queue_0_xdp_drops: 0
+
+vagrant@ubuntu-focal:~$ docker ps
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED       STATUS          PORTS                                                                                                                                  NAMES
+39f8154e1e27   gcr.io/k8s-minikube/kicbase:v0.0.28   "/usr/local/bin/entr…"   2 hours ago   Up 30 minutes   127.0.0.1:49167->22/tcp, 127.0.0.1:49166->2376/tcp, 127.0.0.1:49165->5000/tcp, 127.0.0.1:49164->8443/tcp, 127.0.0.1:49163->32443/tcp   minikube
+
+vagrant@ubuntu-focal:~$ docker exec -it 39f8154e1e27 /sbin/ip -o link | grep ^35
+35: veth6a3d995@if34: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether b2:c4:e9:1e:19:4e brd ff:ff:ff:ff:ff:ff link-netnsid 12
+
+vagrant@ubuntu-focal:~$ docker exec -it 39f8154e1e27 /sbin/brctl show
+bridge name     bridge id               STP enabled     interfaces
+docker0         8000.02422ec31099       no              veth08d3ce5
+                                                        veth11dad47
+                                                        veth518c336
+                                                        veth6a3d995
+                                                        veth81d9e62
+                                                        veth93c7894
+                                                        vethacdc005
+                                                        vethb57d307
+                                                        vethcc95dd8
+                                                        vethf4f1444
+                                                        vethfa1917d
+                                                        vethfc9c3f4
+
+vagrant@ubuntu-focal:~$ docker exec -it 39f8154e1e27 /sbin/ip -4 a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+14: eth0@if15: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default  link-netnsid 0
+    inet 192.168.49.2/24 brd 192.168.49.255 scope global eth0
+       valid_lft forever preferred_lft forever
+
+vagrant@ubuntu-focal:~$ brctl show
+bridge name     bridge id               STP enabled     interfaces
+br-79d8378f226e         8000.0242960114a1       no              vethc4e5996
+docker0         8000.024282d2df63       no
+
+vagrant@ubuntu-focal:~$ ip -4 a show dev br-79d8378f226e
+7: br-79d8378f226e: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    inet 192.168.49.1/24 brd 192.168.49.255 scope global br-79d8378f226e
+       valid_lft forever preferred_lft forever
+
+vagrant@ubuntu-focal:~$ ip -4 a show dev docker0
+4: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+```
+
+```text
+
+    |
+   -o---o-
+        |
+    ~~~~|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        |
+        | 10.0.2.15/24      | 172.17.0.1/16       | 192.168.49.1/24
+        |                   | bridge              | bridge
+        | ubuntu-focal      | ubuntu-focal        | ubuntu-focal
+        enp0s3              docker0               br-79d8378f226e
+                                                  |
+                                                  15: vethc4e5996@if14
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|~~~~~~~~~~~~~~~~~~~~
+                                                  |
+                            docker0               |
+                            |                     |
+                            |                     | 192.168.49.2/24
+                            | minikube            | minikube
+                            35: veth6a3d995@if34  14: eth0@if15
+                            |
+    ~~~~~~~~~~~~~~~~~~~~~~~~|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |
+                            | 172.17.0.13/16
+                            | debian
+                            34: eth0@if35
+```
+
+
+## 参考: minikube の機能一覧
 
 ```console
 vagrant@buster:/tmp$ minikube version

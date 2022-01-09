@@ -1,8 +1,12 @@
 # Microsoft Windows
 
-## 未分類
+## LISTEN しているポートを得る。
 
-### 指定コマンドのパスを得る。
+```powershell
+netstat -anp TCP
+```
+
+## 指定コマンドのパスを得る。
 
 ```console
 PS tmp> where.exe ssh.exe

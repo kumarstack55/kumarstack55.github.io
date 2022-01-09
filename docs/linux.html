@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="SSH" href="ssh.html" /><link rel="prev" title="Vagrant" href="vagrant.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Linuxでネットワークの操作をする。" href="linux_network.html" /><link rel="prev" title="Vagrant" href="vagrant.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>Linux - Untitled ドキュメント</title>
@@ -159,23 +159,27 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bash_application.html">bash応用</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">bats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -209,56 +213,37 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="linux">
 <h1>Linux<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="network-namespace">
-<h2>Network namespace の情報を得る。<a class="headerlink" href="#network-namespace" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ip netns
-</pre></div>
-</div>
-</section>
-<section id="ip">
-<h2>IPアドレスを得る。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip a
-
-<span class="c1"># IPv4 のみに限定する。</span>
-ip -4 a
-
-<span class="c1"># 1インタフェース1行にする。</span>
-ip -o a
+<section id="namespace">
+<h2>namespace の一覧を得る。<a class="headerlink" href="#namespace" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo lsns
 </pre></div>
 </div>
 </section>
 <section id="id1">
-<h2>IPルーティングテーブルを得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip r
+<h2>スワップを加える。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /proc/swaps
+free -h
+
+dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swap1 <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1024</span>
+chmod -v <span class="m">0600</span> /swap1
+mkswap /swap1
+swapon /swap1
+
+ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swap defaults 0 0' backup=yes"</span> localhost
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>ブリッジの一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo brctl show
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo brctl show
-<span class="go">bridge name     bridge id               STP enabled     interfaces</span>
-<span class="go">br-c21be1532ab5         8000.0242ebfe9869       no              veth4cbee64</span>
-<span class="go">docker0         8000.0242b5795f0c       no</span>
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h2>ブリッジの情報を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo brctl show br-c21be1532ab5
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo brctl show br-c21be1532ab5
-<span class="go">bridge name     bridge id               STP enabled     interfaces</span>
-<span class="go">br-c21be1532ab5         8000.0242ebfe9869       no              veth4cbee64</span>
-</pre></div>
-</div>
+<section id="strace">
+<h2>strace する。<a class="headerlink" href="#strace" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>TODO</p>
 </section>
 <section id="brctl-h">
 <h2>参考: brctl -h<a class="headerlink" href="#brctl-h" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo brctl -h
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>brctl --version
+<span class="go">bridge-utils, 1.6</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>brctl --help
 <span class="go">Usage: brctl [commands]</span>
 <span class="go">commands:</span>
 <span class="go">        addbr           &lt;bridge&gt;                add bridge</span>
@@ -280,128 +265,6 @@ ip -o a
 </pre></div>
 </div>
 </section>
-<section id="veth">
-<h2>veth の一覧を得る。<a class="headerlink" href="#veth" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ip link show <span class="nb">type</span> veth
-</pre></div>
-</div>
-</section>
-<section id="id4">
-<h2>veth の情報を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo ethtool -S veth4cbee64
-
-<span class="nv">peer_ifindex</span><span class="o">=</span><span class="k">$(</span>
-  sudo ethtool -S veth4cbee64 <span class="se">\</span>
-    <span class="p">|</span> grep -Po <span class="s1">'(?&lt;=peer_ifindex: )\d+'</span>
-<span class="k">)</span>
-<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$peer_ifindex</span><span class="s2">"</span>
-
-ip link <span class="p">|</span> grep <span class="s2">"^</span><span class="si">${</span><span class="nv">peer_ifindex</span><span class="si">}</span><span class="s2">:"</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo ethtool -S veth4cbee64
-<span class="go">NIC statistics:</span>
-<span class="go">     peer_ifindex: 5</span>
-
-<span class="gp">vagrant@buster:~$ </span>sudo docker <span class="nb">exec</span> -it b3eefafc2996 /sbin/ip netns
-
-<span class="gp">vagrant@buster:~$ </span>sudo ip netns
-
-<span class="gp">vagrant@buster:~$ </span>sudo docker <span class="nb">exec</span> -it b3eefafc2996 /sbin/ip -o link
-<span class="go">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span>
-<span class="go">2: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 02:42:26:8b:17:b3 brd ff:ff:ff:ff:ff:ff</span>
-<span class="go">4: veth7755247@if3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 5a:d7:12:56:6e:7f brd ff:ff:ff:ff:ff:ff link-netnsid 1</span>
-<span class="go">5: eth0@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP mode DEFAULT group default \    link/ether 02:42:c0:a8:31:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span>
-<span class="go">7: veth57c23b8@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 1e:e5:60:f3:9f:e4 brd ff:ff:ff:ff:ff:ff link-netnsid 3</span>
-<span class="go">9: veth983f578@if8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 7a:f7:1c:ff:78:20 brd ff:ff:ff:ff:ff:ff link-netnsid 4</span>
-<span class="go">11: vethb935fad@if10: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 6e:0a:38:0c:08:cb brd ff:ff:ff:ff:ff:ff link-netnsid 2</span>
-<span class="go">13: veth753b447@if12: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 06:91:de:b3:db:84 brd ff:ff:ff:ff:ff:ff link-netnsid 11</span>
-<span class="go">15: veth26354a8@if14: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether c6:59:9f:4c:96:ce brd ff:ff:ff:ff:ff:ff link-netnsid 6</span>
-<span class="go">17: vethc513e0a@if16: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether be:bd:01:de:2f:4c brd ff:ff:ff:ff:ff:ff link-netnsid 5</span>
-<span class="go">19: veth324baff@if18: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 22:e5:22:e5:10:1e brd ff:ff:ff:ff:ff:ff link-netnsid 7</span>
-<span class="go">21: vethdbcc726@if20: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 36:d3:74:66:44:c9 brd ff:ff:ff:ff:ff:ff link-netnsid 10</span>
-<span class="go">23: veth449f028@if22: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 16:98:92:9c:4b:b3 brd ff:ff:ff:ff:ff:ff link-netnsid 8</span>
-<span class="go">25: veth7f373c1@if24: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default \    link/ether 72:28:58:38:75:3f brd ff:ff:ff:ff:ff:ff link-netnsid 9</span>
-</pre></div>
-</div>
-</section>
-<section id="tcplisten">
-<h2>TCPのListenしているポートを得る。<a class="headerlink" href="#tcplisten" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ss -nltp
-</pre></div>
-</div>
-</section>
-<section id="iptables">
-<h2>iptables のルールを得る。<a class="headerlink" href="#iptables" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo iptables -nL
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>sudo iptables -nL
-<span class="go">Chain INPUT (policy ACCEPT)</span>
-<span class="go">target     prot opt source               destination</span>
-
-<span class="go">Chain FORWARD (policy DROP)</span>
-<span class="go">target     prot opt source               destination</span>
-<span class="go">DOCKER-USER  all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">DOCKER-ISOLATION-STAGE-1  all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED</span>
-<span class="go">DOCKER     all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED</span>
-<span class="go">DOCKER     all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0</span>
-
-<span class="go">Chain OUTPUT (policy ACCEPT)</span>
-<span class="go">target     prot opt source               destination</span>
-
-<span class="go">Chain DOCKER (2 references)</span>
-<span class="go">target     prot opt source               destination</span>
-<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:32443</span>
-<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:8443</span>
-<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:5000</span>
-<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:2376</span>
-<span class="go">ACCEPT     tcp  --  0.0.0.0/0            192.168.49.2         tcp dpt:22</span>
-
-<span class="go">Chain DOCKER-ISOLATION-STAGE-1 (1 references)</span>
-<span class="go">target     prot opt source               destination</span>
-<span class="go">DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">RETURN     all  --  0.0.0.0/0            0.0.0.0/0</span>
-
-<span class="go">Chain DOCKER-ISOLATION-STAGE-2 (2 references)</span>
-<span class="go">target     prot opt source               destination</span>
-<span class="go">DROP       all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">DROP       all  --  0.0.0.0/0            0.0.0.0/0</span>
-<span class="go">RETURN     all  --  0.0.0.0/0            0.0.0.0/0</span>
-
-<span class="go">Chain DOCKER-USER (1 references)</span>
-<span class="go">target     prot opt source               destination</span>
-<span class="go">RETURN     all  --  0.0.0.0/0            0.0.0.0/0</span>
-</pre></div>
-</div>
-</section>
-<section id="id5">
-<h2>インストールされたパッケージ一覧を得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt list --installed
-</pre></div>
-</div>
-</section>
-<section id="id6">
-<h2>スワップを加える。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /proc/swaps
-free -h
-
-dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swap1 <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1024</span>
-chmod -v <span class="m">0600</span> /swap1
-mkswap /swap1
-swapon /swap1
-
-ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swap defaults 0 0' backup=yes"</span> localhost
-</pre></div>
-</div>
-</section>
 </section>
 
         </article>
@@ -409,12 +272,12 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="ssh.html">
+          <a class="next-page" href="linux_network.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">SSH</div>
+                <div class="title">Linuxでネットワークの操作をする。</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -458,18 +321,10 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Linux</a><ul>
-<li><a class="reference internal" href="#network-namespace">Network namespace の情報を得る。</a></li>
-<li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
-<li><a class="reference internal" href="#id1">IPルーティングテーブルを得る。</a></li>
-<li><a class="reference internal" href="#id2">ブリッジの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id3">ブリッジの情報を得る。</a></li>
+<li><a class="reference internal" href="#namespace">namespace の一覧を得る。</a></li>
+<li><a class="reference internal" href="#id1">スワップを加える。</a></li>
+<li><a class="reference internal" href="#strace">strace する。</a></li>
 <li><a class="reference internal" href="#brctl-h">参考: brctl -h</a></li>
-<li><a class="reference internal" href="#veth">veth の一覧を得る。</a></li>
-<li><a class="reference internal" href="#id4">veth の情報を得る。</a></li>
-<li><a class="reference internal" href="#tcplisten">TCPのListenしているポートを得る。</a></li>
-<li><a class="reference internal" href="#iptables">iptables のルールを得る。</a></li>
-<li><a class="reference internal" href="#id5">インストールされたパッケージ一覧を得る。</a></li>
-<li><a class="reference internal" href="#id6">スワップを加える。</a></li>
 </ul>
 </li>
 </ul>
