@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Debian" href="debian.html" /><link rel="prev" title="Vagrant" href="vagrant.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Debian" href="debian.html" /><link rel="prev" title="Linuxでネットワークの操作をする。" href="linux_network.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>SSH - Untitled ドキュメント</title>
@@ -158,10 +158,15 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
+</ul>
+</li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 </ul>
@@ -170,15 +175,15 @@
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="powershell_foundation.html">PowerShell 未分類</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell_foundation.html">PowerShell 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
 </ul>
@@ -254,14 +259,14 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="vagrant.html">
+          <a class="prev-page" href="linux_network.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Vagrant</div>
+                <div class="title">Linuxでネットワークの操作をする。</div>
                 
               </div>
             </a>

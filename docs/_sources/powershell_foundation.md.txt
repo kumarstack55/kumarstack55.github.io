@@ -1,4 +1,4 @@
-# PowerShell 未分類
+# PowerShell 基礎
 
 ## インストールしたモジュールの一覧を得る。
 
