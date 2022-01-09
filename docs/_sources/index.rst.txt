@@ -17,7 +17,7 @@ Untitled ドキュメント
    python.md
    container.md
    kubernetes.md
-   windows.md
+   windows.rst
    powershell.rst
 
 Indices and tables

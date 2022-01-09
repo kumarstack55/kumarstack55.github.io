@@ -159,7 +159,7 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
 </ul>
 </li>
@@ -181,8 +181,12 @@
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="windows.html">Microsoft Windows 基礎</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows_foundation.html">Microsoft Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">WSL2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_foundation.html">PowerShell 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -234,7 +238,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="linux.html">Linux</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="linux_foundation.html#namespace">namespace の一覧を得る。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linux_foundation.html#id1">スワップを加える。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linux_foundation.html#strace">strace する。</a></li>
@@ -332,24 +336,12 @@
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id4">イベントを得る。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#api">名前空間にあるAPIリソースを得る。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id5">名前空間にないAPIリソースを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id6">名前空間の一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id7">名前空間を作る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id8">名前空間を消す。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pod">Pod を作る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id9">Podの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id10">Podの情報を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#podyaml">PodのYAMLを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pod-yaml">Pod の YAMLを得て、編集し、反映する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pods">Pods 内でコマンドを実行する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id11">Pods を消す。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id12">リソースの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id13">リソースの情報を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id14">ログを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id15">コンテナ内でコマンドを実行する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id16">すべての名前空間のpodsを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#deployment">Deploymentを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#deploymentpods">Deploymentを作ることで、Podsを作る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#export-service">export で Service を作る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id6">名前空間</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id10">リソースの一覧を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pod">Pod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#deployment">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#service">Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id18">リソースの情報を得る。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#kubectl-get-pods-h">参考: kubectl get pods -h</a></li>
 </ul>
 </li>
@@ -371,26 +363,25 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="windows.html#listen">LISTEN しているポートを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows.html#id1">指定コマンドのパスを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows.html#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id2">ストアのエントリを一覧表示する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id3">参考: bcdedit /?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows 基礎</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows_foundation.html">Microsoft Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows_foundation.html#listen">LISTEN しているポートを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_foundation.html#id1">指定コマンドのパスを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_foundation.html#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="windows.html#wsl2">WSL2</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#wsl">WSLのステータスを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id4">ディストリビューションの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id5">ローカルのディストリビューションの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id6">インストールしたディストリビューションを消す。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id7">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id8">指定コマンドを実行し、 State を Running にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id9">ディストリビューションを指定する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#id10">ネットワーク構成</a></li>
-<li class="toctree-l3"><a class="reference internal" href="windows.html#wsl-help">参考: wsl --help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">WSL2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#wsl">WSLのステータスを得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id1">ディストリビューションの一覧を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id2">ローカルのディストリビューションの一覧を得る。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id3">インストールしたディストリビューションを消す。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id4">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id5">指定コマンドを実行し、 State を Running にする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id6">ディストリビューションを指定する。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id7">参考: ネットワーク構成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows_wsl.html#id8">参考: wsl機能一覧</a></li>
 </ul>
 </li>
 </ul>

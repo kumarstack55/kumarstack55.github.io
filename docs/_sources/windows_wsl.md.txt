@@ -1,0 +1,227 @@
+# WSL2
+
+https://docs.microsoft.com/en-us/windows/wsl/install
+
+## WSLのステータスを得る。
+
+```powershell
+wsl --status
+```
+
+## ディストリビューションの一覧を得る。
+
+```powershell
+wsl -l -o
+```
+
+## ローカルのディストリビューションの一覧を得る。
+
+```powershell
+wsl -l -v
+```
+
+## ディストリビューションをインストールし、State を Running にする。
+
+```powershell
+wsl --install -d Ubuntu
+```
+
+## インストールしたディストリビューションを消す。
+
+```powershell
+wsl --unregister Ubuntu
+```
+
+## 既存ウィンドウでシェルを起動し、 State を Running にする。
+
+```powershell
+wsl
+# または
+wsl ~
+```
+
+## 指定コマンドを実行し、 State を Running にする。
+
+```powershell
+wsl --exec uname
+# または
+wsl uname
+```
+
+## ディストリビューションを指定する。
+
+```powershell
+wsl -d Ubuntu-20.04
+```
+
+## すべてのディストリビューションの State を Stopped にする。
+
+```powershell
+wsl --shutdown
+```
+
+## 参考: ネットワーク構成
+
+```
+    |
+   -o-o-
+      |
+      vEthernet (WSL)
+      ip address: 172.19.64.1
+      |
+     -o-o- 172.19.64.0/20
+        |
+        eth0
+        Ubuntu
+        nameserver: 172.19.64.1
+```
+
+## 参考: wsl機能一覧
+
+```console
+PS > wsl --status
+既定のバージョン: 2
+
+Linux 用 Windows サブシステムの最終更新日: 2021/12/05
+Windows Subsystem for Linux カーネルは、'wsl --update' を使用して手動で更新できますが、システム設定が原因で自動更新が発生することはありません。
+カーネルの自動更新を受け取るには、 Windows Update の設定を有効にしてください:' Windowsの更新に、その他のMicrosoftの製品の更新情報を受け取る'。
+詳細については、 https://aka.ms/wsl2kernel.
+ を参照してください
+カーネル バージョン: 5.10.60.1
+```
+
+```console
+PS > wsl --help
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+使用法: wsl.exe [Argument] [Options...] [CommandLine]
+
+Linux バイナリを実行するための引数:
+
+    コマンドラインを指定しない場合、wsl.exe によって既定のシェルが起動されます。
+
+    --exec, -e <CommandLine>
+        既定の Linux シェルを使用せずに、指定したコマンドを実行します。
+
+    --
+        残りのコマンドラインをそのまま渡します。
+
+オプション:
+    --cd <Directory>
+        指定したディレクトリを現在の作業ディレクトリとして設定します。
+        ~ が使用されている場合は、Linux ユーザーのホーム パスが使用されます。パスの先頭が
+        / の場合は、Linux の絶対パスと解釈されます。
+        それ以外の場合、この値は Windows の絶対パスである必要があります。
+
+   --distribution, -d <Distro>
+        指定したディストリビューションを実行します。
+
+   --user, -u <UserName>
+        指定されたユーザーとして実行します。
+
+     --system
+        システム配布用のシェルを起動します。
+
+Windows Subsystem for Linux を管理するための引数:
+
+    --help
+        使用状況に関する情報を表示します。
+
+    --install [Options]
+      追加の Windows Subsystem for Linux ディストリビューションをインストールします。
+      有効なディストリビューションの一覧を表示するには、'wsl--list--online' を使用してください。
+
+        オプション:
+            --distribution, -d [Argument]
+                名前を指定して配布をダウンロードしてインストールします。
+
+                引数:
+                   有効なディストリビューション名 (大文字と小文字は区別されません)。
+
+                例:
+                    wsl --install -d Ubuntu
+                    wsl --install --distribution Debian
+
+    --set-default-version <Version>
+         新しいディストリビューションの既定のインストールバージョンを変更します。
+
+    --shutdown
+        直ちに、すべての実行中の配布および WSL 2
+ 軽快なユーティリティの仮想マシンを終了します。
+
+    --status
+        Linux の Windows Subsystem の状態を示します。
+
+    --update [Options]
+        オプションが指定されていない場合、WSL 2 カーネルは更新され
+ 、最新バージョンになります。
+
+        オプション:
+            --rollback
+                以前のバージョンの WSL 2 カーネルに戻します。
+
+Windows Subsystem for Linuxのディストリビューションを管理するための引数:
+
+    --export <Distro> <FileName>
+        ディストリビューションを tar ファイルにエクスポートします。
+ファイル名には、標準出力として - を使用できます。
+
+    --import <Distro> <InstallLocation> <FileName> [Options]
+        指定した tar ファイルを新しいディストリビューションとしてインポートします。
+ファイル名には標準入力として - を使用できます。
+
+        オプション:
+            --version <Version>
+                新しいディストリビューションに使用するバージョンを指定します。
+
+    --list, -l [Options]
+        ディストリビューションの一覧を表示します。
+
+        オプション:
+            --all
+                現在インストールまたはアンインストールされているディストリビューションを含む、すべてのディストリビューションを表示します。
+
+            --running
+                現在実行中のディストリビューションのみを表示します。
+
+            --quiet, -q
+                ディストリビューション名のみを表示します。
+
+            --verbose, -v
+                すべてのディストリビューションに関する詳細な情報を表示します。
+
+            --online, -o
+                'wsl --install' を使用してインストールするために使用できるディストリビューションの一覧を表示します。
+
+    --set-default, -s <Distro>
+       ディストリビューションを既定として設定します。
+
+    --set-version <Distro> <Version>
+        指定されたディストリビューションのバージョンを変更します。
+
+    --terminate, -t <Distro>
+        指定されたディストリビューションを終了します。
+
+    --unregister <Distro>
+        ディストリビューションの登録を解除し、ルートファイルシステムを削除します。
+
+    --mount <Disk>
+        すべての WSL2 配布に物理ディスクをアタッチしてマウントします。
+
+        オプション:
+            --bare
+                ディスクを WSL2 に接続しますが、マウントしません。
+
+            --type <Type>
+                ディスクのマウント時に使用するファイルシステムです。指定しない場合は、既定で ext4 になります。
+
+            --options <Options>
+                追加のマウントオプション。
+
+            --partition <Index>
+                マウントするパーティションのインデックスです。指定しない場合、既定でディスク全体が指定されます。
+
+    --unmount [Disk]
+        すべての WSL2 ディストリビューションからディスクのマウントを解除してデタッチします。
+        引数なしで呼び出された場合は、ディスクをマウント解除してデタッチします。
+```

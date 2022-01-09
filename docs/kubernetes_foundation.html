@@ -159,7 +159,7 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
 </ul>
 </li>
@@ -181,8 +181,12 @@
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="windows.html">Microsoft Windows 基礎</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows_foundation.html">Microsoft Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">WSL2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="powershell_foundation.html">PowerShell 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
@@ -384,7 +388,9 @@
 </div>
 </section>
 <section id="id6">
-<h2>名前空間の一覧を得る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>名前空間<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h3>名前空間の一覧を得る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get namespaces
 
 kubectl get namespaces --show-labels
@@ -416,24 +422,19 @@ kubectl get namespaces --show-labels
 </div>
 <p>https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#viewing-namespaces</p>
 </section>
-<section id="id7">
-<h2>名前空間を作る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="yaml">
-<h3>名前空間をYAMLで作る。<a class="headerlink" href="#yaml" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;__YAML__ &gt;my-ns1.yaml</span>
+<section id="id8">
+<h3>名前空間を作る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 名前空間をYAMLで作る。</span>
+cat <span class="s">&lt;&lt;__YAML__ &gt;my-ns1.yaml</span>
 <span class="s">apiVersion: v1</span>
 <span class="s">kind: Namespace</span>
 <span class="s">metadata:</span>
 <span class="s">  name: ns1</span>
 <span class="s">__YAML__</span>
-
 kubectl create -f my-ns1.yaml
-</pre></div>
-</div>
-</section>
-<section id="json">
-<h3>名前空間をJSONで作る。<a class="headerlink" href="#json" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl create -f https://k8s.io/examples/admin/namespace-dev.json
+
+<span class="c1"># 名前空間をJSONで作る。</span>
+kubectl create -f https://k8s.io/examples/admin/namespace-dev.json
 kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
 </pre></div>
 </div>
@@ -472,15 +473,39 @@ kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
 </div>
 <p>https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace</p>
 </section>
-</section>
-<section id="id8">
-<h2>名前空間を消す。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h3>名前空間を消す。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl create -f my-ns1.yaml
 </pre></div>
 </div>
 </section>
+</section>
+<section id="id10">
+<h2>リソースの一覧を得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get all
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
+<span class="go">NAME                                    READY   STATUS    RESTARTS   AGE</span>
+<span class="go">pod/nginx-deployment-66b6c48dd5-bdzkk   1/1     Running   0          31m</span>
+<span class="go">pod/nginx-deployment-66b6c48dd5-js6pm   1/1     Running   0          31m</span>
+<span class="go">pod/nginx-deployment-66b6c48dd5-rs47f   1/1     Running   0          31m</span>
+
+<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   11h</span>
+
+<span class="go">NAME                               READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">deployment.apps/nginx-deployment   3/3     3            3           31m</span>
+
+<span class="go">NAME                                          DESIRED   CURRENT   READY   AGE</span>
+<span class="go">replicaset.apps/nginx-deployment-66b6c48dd5   3         3         3       31m</span>
+</pre></div>
+</div>
+</section>
 <section id="pod">
-<h2>Pod を作る。<a class="headerlink" href="#pod" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Pod<a class="headerlink" href="#pod" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h3>Pod を作る。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># nginx コンテナが動く Pod を定義する。</span>
 kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 
@@ -528,13 +553,23 @@ kubectl get po debian
 <li><p>https://stackoverflow.com/a/40093356/12786161</p></li>
 </ul>
 </section>
-<section id="id9">
-<h2>Podの一覧を得る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h3>ログを得る。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>TODO</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl logs
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>Podの一覧を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po
 
 <span class="c1"># 名前空間を指定する。</span>
 kubectl get po --namespace production
 kubectl get po --namespace development
+
+<span class="c1"># すべての名前空間のpodsを得る。</span>
+kubectl get po -A
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get po
@@ -547,9 +582,20 @@ kubectl get po --namespace development
 <span class="go">No resources found in production namespace.</span>
 </pre></div>
 </div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get po -A
+<span class="go">NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE</span>
+<span class="go">kube-system   coredns-78fcd69978-5zv2q           1/1     Running   1 (12m ago)     14m</span>
+<span class="go">kube-system   etcd-minikube                      1/1     Running   1 (12m ago)     14m</span>
+<span class="go">kube-system   kube-apiserver-minikube            1/1     Running   1 (12m ago)     14m</span>
+<span class="go">kube-system   kube-controller-manager-minikube   1/1     Running   3               14m</span>
+<span class="go">kube-system   kube-proxy-s4gv4                   1/1     Running   1 (12m ago)     14m</span>
+<span class="go">kube-system   kube-scheduler-minikube            1/1     Running   1 (10m ago)     14m</span>
+<span class="go">kube-system   storage-provisioner                0/1     Error     2 (7m28s ago)   14m</span>
+</pre></div>
+</div>
 </section>
-<section id="id10">
-<h2>Podの情報を得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id14">
+<h3>Podの情報を得る。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl describe po debian
 </pre></div>
 </div>
@@ -618,8 +664,8 @@ kubectl get po --namespace development
 </pre></div>
 </div>
 </section>
-<section id="podyaml">
-<h2>PodのYAMLを得る。<a class="headerlink" href="#podyaml" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="pod-yaml">
+<h3>Pod の YAML を得る。<a class="headerlink" href="#pod-yaml" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po debian -o yaml
 </pre></div>
 </div>
@@ -738,8 +784,8 @@ kubectl get po --namespace development
 </pre></div>
 </div>
 </section>
-<section id="pod-yaml">
-<h2>Pod の YAMLを得て、編集し、反映する。<a class="headerlink" href="#pod-yaml" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id15">
+<h3>Pod の YAMLを得て、編集し、反映する。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get po debian -o yaml &gt;debian.yaml
 
 <span class="c1"># 1回目</span>
@@ -766,7 +812,7 @@ kubectl apply -f debian.yaml
 </div>
 </section>
 <section id="pods">
-<h2>Pods 内でコマンドを実行する。<a class="headerlink" href="#pods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>Pods 内でコマンドを実行する。<a class="headerlink" href="#pods" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl <span class="nb">exec</span> debian /bin/bash
 </pre></div>
 </div>
@@ -775,79 +821,18 @@ kubectl apply -f debian.yaml
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h2>Pods を消す。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id16">
+<h3>Pods を消す。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl delete po nginx
 <span class="go">pod "nginx" deleted</span>
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h2>リソースの一覧を得る。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get all
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
-<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
-<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   29m</span>
-</pre></div>
-</div>
-</section>
-<section id="id13">
-<h2>リソースの情報を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># サービスのkubernetesの情報を得る。</span>
-kubectl describe service/kubernetes
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl describe service/kubernetes
-<span class="go">Name:              kubernetes</span>
-<span class="go">Namespace:         default</span>
-<span class="go">Labels:            component=apiserver</span>
-<span class="go">                   provider=kubernetes</span>
-<span class="go">Annotations:       &lt;none&gt;</span>
-<span class="go">Selector:          &lt;none&gt;</span>
-<span class="go">Type:              ClusterIP</span>
-<span class="go">IP Family Policy:  SingleStack</span>
-<span class="go">IP Families:       IPv4</span>
-<span class="go">IP:                10.96.0.1</span>
-<span class="go">IPs:               10.96.0.1</span>
-<span class="go">Port:              https  443/TCP</span>
-<span class="go">TargetPort:        8443/TCP</span>
-<span class="go">Endpoints:         192.168.49.2:8443</span>
-<span class="go">Session Affinity:  None</span>
-<span class="go">Events:            &lt;none&gt;</span>
-</pre></div>
-</div>
-</section>
-<section id="id14">
-<h2>ログを得る。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl logs
-</pre></div>
-</div>
-</section>
-<section id="id15">
-<h2>コンテナ内でコマンドを実行する。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl <span class="nb">exec</span>
-</pre></div>
-</div>
-</section>
-<section id="id16">
-<h2>すべての名前空間のpodsを得る。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@buster:~$ </span>kubectl get po -A
-<span class="go">NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE</span>
-<span class="go">kube-system   coredns-78fcd69978-5zv2q           1/1     Running   1 (12m ago)     14m</span>
-<span class="go">kube-system   etcd-minikube                      1/1     Running   1 (12m ago)     14m</span>
-<span class="go">kube-system   kube-apiserver-minikube            1/1     Running   1 (12m ago)     14m</span>
-<span class="go">kube-system   kube-controller-manager-minikube   1/1     Running   3               14m</span>
-<span class="go">kube-system   kube-proxy-s4gv4                   1/1     Running   1 (12m ago)     14m</span>
-<span class="go">kube-system   kube-scheduler-minikube            1/1     Running   1 (10m ago)     14m</span>
-<span class="go">kube-system   storage-provisioner                0/1     Error     2 (7m28s ago)   14m</span>
-</pre></div>
-</div>
 </section>
 <section id="deployment">
-<h2>Deploymentを得る。<a class="headerlink" href="#deployment" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Deployment<a class="headerlink" href="#deployment" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id17">
+<h3>Deploymentを得る。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl get deployment
 kubectl get deployment -n<span class="o">=</span>development
 </pre></div>
@@ -859,7 +844,7 @@ kubectl get deployment -n<span class="o">=</span>development
 </div>
 </section>
 <section id="deploymentpods">
-<h2>Deploymentを作ることで、Podsを作る。<a class="headerlink" href="#deploymentpods" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>Deploymentを作ることで、Podsを作る。<a class="headerlink" href="#deploymentpods" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 名前空間 deployment に snowflake を作る。</span>
 kubectl create deployment snowflake --image<span class="o">=</span>k8s.gcr.io/serve_hostname  -n<span class="o">=</span>development --replicas<span class="o">=</span><span class="m">2</span>
 kubectl get deployment -n<span class="o">=</span>development
@@ -1065,8 +1050,11 @@ kubectl apply -f ./nginx-deployment.yaml
 </pre></div>
 </div>
 </section>
-<section id="export-service">
-<h2>export で Service を作る。<a class="headerlink" href="#export-service" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</section>
+<section id="service">
+<h2>Service<a class="headerlink" href="#service" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="expose-service">
+<h3>expose で Service を作る。<a class="headerlink" href="#expose-service" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
 kubectl get svc
 <span class="c1"># On minikube, the LoadBalancer type makes the Service accessible through the minikube service command.</span>
@@ -1133,6 +1121,33 @@ minikube service hello-node
 <span class="go">user-agent=curl/7.64.0</span>
 <span class="go">BODY:</span>
 <span class="go">-no body in request-</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>リソースの情報を得る。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># サービスのkubernetesの情報を得る。</span>
+kubectl describe service/kubernetes
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl describe service/kubernetes
+<span class="go">Name:              kubernetes</span>
+<span class="go">Namespace:         default</span>
+<span class="go">Labels:            component=apiserver</span>
+<span class="go">                   provider=kubernetes</span>
+<span class="go">Annotations:       &lt;none&gt;</span>
+<span class="go">Selector:          &lt;none&gt;</span>
+<span class="go">Type:              ClusterIP</span>
+<span class="go">IP Family Policy:  SingleStack</span>
+<span class="go">IP Families:       IPv4</span>
+<span class="go">IP:                10.96.0.1</span>
+<span class="go">IPs:               10.96.0.1</span>
+<span class="go">Port:              https  443/TCP</span>
+<span class="go">TargetPort:        8443/TCP</span>
+<span class="go">Endpoints:         192.168.49.2:8443</span>
+<span class="go">Session Affinity:  None</span>
+<span class="go">Events:            &lt;none&gt;</span>
 </pre></div>
 </div>
 </section>
@@ -1295,28 +1310,34 @@ minikube service hello-node
 <li><a class="reference internal" href="#id4">イベントを得る。</a></li>
 <li><a class="reference internal" href="#api">名前空間にあるAPIリソースを得る。</a></li>
 <li><a class="reference internal" href="#id5">名前空間にないAPIリソースを得る。</a></li>
-<li><a class="reference internal" href="#id6">名前空間の一覧を得る。</a></li>
-<li><a class="reference internal" href="#id7">名前空間を作る。</a><ul>
-<li><a class="reference internal" href="#yaml">名前空間をYAMLで作る。</a></li>
-<li><a class="reference internal" href="#json">名前空間をJSONで作る。</a></li>
+<li><a class="reference internal" href="#id6">名前空間</a><ul>
+<li><a class="reference internal" href="#id7">名前空間の一覧を得る。</a></li>
+<li><a class="reference internal" href="#id8">名前空間を作る。</a></li>
+<li><a class="reference internal" href="#id9">名前空間を消す。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id8">名前空間を消す。</a></li>
-<li><a class="reference internal" href="#pod">Pod を作る。</a></li>
-<li><a class="reference internal" href="#id9">Podの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id10">Podの情報を得る。</a></li>
-<li><a class="reference internal" href="#podyaml">PodのYAMLを得る。</a></li>
-<li><a class="reference internal" href="#pod-yaml">Pod の YAMLを得て、編集し、反映する。</a></li>
+<li><a class="reference internal" href="#id10">リソースの一覧を得る。</a></li>
+<li><a class="reference internal" href="#pod">Pod</a><ul>
+<li><a class="reference internal" href="#id11">Pod を作る。</a></li>
+<li><a class="reference internal" href="#id12">ログを得る。</a></li>
+<li><a class="reference internal" href="#id13">Podの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id14">Podの情報を得る。</a></li>
+<li><a class="reference internal" href="#pod-yaml">Pod の YAML を得る。</a></li>
+<li><a class="reference internal" href="#id15">Pod の YAMLを得て、編集し、反映する。</a></li>
 <li><a class="reference internal" href="#pods">Pods 内でコマンドを実行する。</a></li>
-<li><a class="reference internal" href="#id11">Pods を消す。</a></li>
-<li><a class="reference internal" href="#id12">リソースの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id13">リソースの情報を得る。</a></li>
-<li><a class="reference internal" href="#id14">ログを得る。</a></li>
-<li><a class="reference internal" href="#id15">コンテナ内でコマンドを実行する。</a></li>
-<li><a class="reference internal" href="#id16">すべての名前空間のpodsを得る。</a></li>
-<li><a class="reference internal" href="#deployment">Deploymentを得る。</a></li>
+<li><a class="reference internal" href="#id16">Pods を消す。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deployment">Deployment</a><ul>
+<li><a class="reference internal" href="#id17">Deploymentを得る。</a></li>
 <li><a class="reference internal" href="#deploymentpods">Deploymentを作ることで、Podsを作る。</a></li>
-<li><a class="reference internal" href="#export-service">export で Service を作る。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#service">Service</a><ul>
+<li><a class="reference internal" href="#expose-service">expose で Service を作る。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id18">リソースの情報を得る。</a></li>
 <li><a class="reference internal" href="#kubectl-get-pods-h">参考: kubectl get pods -h</a></li>
 </ul>
 </li>

@@ -168,7 +168,9 @@ storageclasses                    sc           storage.k8s.io/v1                
 volumeattachments                              storage.k8s.io/v1                      false        VolumeAttachment
 ```
 
-## 名前空間の一覧を得る。
+## 名前空間
+
+### 名前空間の一覧を得る。
 
 ```bash
 kubectl get namespaces
@@ -204,24 +206,19 @@ production             Active   2m36s   kubernetes.io/metadata.name=production,n
 
 https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#viewing-namespaces
 
-## 名前空間を作る。
-
-### 名前空間をYAMLで作る。
+### 名前空間を作る。
 
 ```bash
+# 名前空間をYAMLで作る。
 cat <<__YAML__ >my-ns1.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
   name: ns1
 __YAML__
-
 kubectl create -f my-ns1.yaml
-```
 
-### 名前空間をJSONで作る。
-
-```bash
+# 名前空間をJSONで作る。
 kubectl create -f https://k8s.io/examples/admin/namespace-dev.json
 kubectl create -f https://k8s.io/examples/admin/namespace-prod.json
 ```
@@ -262,13 +259,38 @@ namespace/production created
 
 https://kubernetes.io/docs/tasks/administer-cluster/namespaces/#creating-a-new-namespace
 
-## 名前空間を消す。
+### 名前空間を消す。
 
 ```bash
 kubectl create -f my-ns1.yaml
 ```
 
-## Pod を作る。
+## リソースの一覧を得る。
+
+```bash
+kubectl get all
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get all
+NAME                                    READY   STATUS    RESTARTS   AGE
+pod/nginx-deployment-66b6c48dd5-bdzkk   1/1     Running   0          31m
+pod/nginx-deployment-66b6c48dd5-js6pm   1/1     Running   0          31m
+pod/nginx-deployment-66b6c48dd5-rs47f   1/1     Running   0          31m
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   11h
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx-deployment   3/3     3            3           31m
+
+NAME                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-deployment-66b6c48dd5   3         3         3       31m
+```
+
+## Pod
+
+### Pod を作る。
 
 ```bash
 # nginx コンテナが動く Pod を定義する。
@@ -319,7 +341,15 @@ nginx   1/1     Running   0          54s
 * https://kubernetes.io/docs/concepts/workloads/pods/
 * https://stackoverflow.com/a/40093356/12786161
 
-## Podの一覧を得る。
+### ログを得る。
+
+TODO
+
+```bash
+kubectl logs
+```
+
+### Podの一覧を得る。
 
 ```bash
 kubectl get po
@@ -327,6 +357,9 @@ kubectl get po
 # 名前空間を指定する。
 kubectl get po --namespace production
 kubectl get po --namespace development
+
+# すべての名前空間のpodsを得る。
+kubectl get po -A
 ```
 
 ```console
@@ -341,7 +374,19 @@ vagrant@ubuntu-focal:~$ kubectl get po --namespace production
 No resources found in production namespace.
 ```
 
-## Podの情報を得る。
+```console
+vagrant@buster:~$ kubectl get po -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
+kube-system   coredns-78fcd69978-5zv2q           1/1     Running   1 (12m ago)     14m
+kube-system   etcd-minikube                      1/1     Running   1 (12m ago)     14m
+kube-system   kube-apiserver-minikube            1/1     Running   1 (12m ago)     14m
+kube-system   kube-controller-manager-minikube   1/1     Running   3               14m
+kube-system   kube-proxy-s4gv4                   1/1     Running   1 (12m ago)     14m
+kube-system   kube-scheduler-minikube            1/1     Running   1 (10m ago)     14m
+kube-system   storage-provisioner                0/1     Error     2 (7m28s ago)   14m
+```
+
+### Podの情報を得る。
 
 ```bash
 kubectl describe po debian
@@ -412,7 +457,7 @@ Events:
   Normal  Started         9m45s  kubelet  Started container debian
 ```
 
-## PodのYAMLを得る。
+### Pod の YAML を得る。
 
 ```bash
 kubectl get po debian -o yaml
@@ -533,7 +578,7 @@ status:
   startTime: "2022-01-09T02:45:56Z"
 ```
 
-## Pod の YAMLを得て、編集し、反映する。
+### Pod の YAMLを得て、編集し、反映する。
 
 ```bash
 kubectl get po debian -o yaml >debian.yaml
@@ -561,7 +606,7 @@ Name: "debian", Namespace: "default"
 for: "debian.yaml": Operation cannot be fulfilled on pods "debian": the object has been modified; please apply your changes to the latest version and try again
 ```
 
-## Pods 内でコマンドを実行する。
+### Pods 内でコマンドを実行する。
 
 ```bash
 kubectl exec debian /bin/bash
@@ -572,81 +617,16 @@ vagrant@ubuntu-focal:~$ kubectl exec -it debian -- /bin/bash
 root@debian:/#
 ```
 
-## Pods を消す。
+### Pods を消す。
 
 ```console
 vagrant@ubuntu-focal:~$ kubectl delete po nginx
 pod "nginx" deleted
 ```
 
-## リソースの一覧を得る。
+## Deployment
 
-```bash
-kubectl get all
-```
-
-```console
-vagrant@ubuntu-focal:~$ kubectl get all
-NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   29m
-```
-
-## リソースの情報を得る。
-
-```bash
-# サービスのkubernetesの情報を得る。
-kubectl describe service/kubernetes
-```
-
-```console
-vagrant@ubuntu-focal:~$ kubectl describe service/kubernetes
-Name:              kubernetes
-Namespace:         default
-Labels:            component=apiserver
-                   provider=kubernetes
-Annotations:       <none>
-Selector:          <none>
-Type:              ClusterIP
-IP Family Policy:  SingleStack
-IP Families:       IPv4
-IP:                10.96.0.1
-IPs:               10.96.0.1
-Port:              https  443/TCP
-TargetPort:        8443/TCP
-Endpoints:         192.168.49.2:8443
-Session Affinity:  None
-Events:            <none>
-```
-
-## ログを得る。
-
-TODO
-
-```bash
-kubectl logs
-```
-
-## コンテナ内でコマンドを実行する。
-
-```bash
-kubectl exec
-```
-
-## すべての名前空間のpodsを得る。
-
-```console
-vagrant@buster:~$ kubectl get po -A
-NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
-kube-system   coredns-78fcd69978-5zv2q           1/1     Running   1 (12m ago)     14m
-kube-system   etcd-minikube                      1/1     Running   1 (12m ago)     14m
-kube-system   kube-apiserver-minikube            1/1     Running   1 (12m ago)     14m
-kube-system   kube-controller-manager-minikube   1/1     Running   3               14m
-kube-system   kube-proxy-s4gv4                   1/1     Running   1 (12m ago)     14m
-kube-system   kube-scheduler-minikube            1/1     Running   1 (10m ago)     14m
-kube-system   storage-provisioner                0/1     Error     2 (7m28s ago)   14m
-```
-
-## Deploymentを得る。
+### Deploymentを得る。
 
 ```bash
 kubectl get deployment
@@ -659,7 +639,7 @@ NAME        READY   UP-TO-DATE   AVAILABLE   AGE
 snowflake   2/2     2            2           68s
 ```
 
-## Deploymentを作ることで、Podsを作る。
+### Deploymentを作ることで、Podsを作る。
 
 ```bash
 # 名前空間 deployment に snowflake を作る。
@@ -871,7 +851,9 @@ status:
   startTime: "2022-01-09T12:17:56Z"
 ```
 
-## export で Service を作る。
+## Service
+
+### expose で Service を作る。
 
 ```bash
 kubectl expose deployment hello-node --type=LoadBalancer --port=8080
@@ -941,6 +923,33 @@ host=192.168.49.2:30349
 user-agent=curl/7.64.0
 BODY:
 -no body in request-
+```
+
+## リソースの情報を得る。
+
+```bash
+# サービスのkubernetesの情報を得る。
+kubectl describe service/kubernetes
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl describe service/kubernetes
+Name:              kubernetes
+Namespace:         default
+Labels:            component=apiserver
+                   provider=kubernetes
+Annotations:       <none>
+Selector:          <none>
+Type:              ClusterIP
+IP Family Policy:  SingleStack
+IP Families:       IPv4
+IP:                10.96.0.1
+IPs:               10.96.0.1
+Port:              https  443/TCP
+TargetPort:        8443/TCP
+Endpoints:         192.168.49.2:8443
+Session Affinity:  None
+Events:            <none>
 ```
 
 ## 参考: kubectl get pods -h
