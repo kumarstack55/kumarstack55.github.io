@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Linuxでネットワークの操作をする。" href="linux_network.html" /><link rel="prev" title="Vagrant" href="vagrant.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="停止しても再実行できるように、ファイルの一覧を出力する。" href="powershell_get_childitem.html" /><link rel="prev" title="PowerShell" href="powershell.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Linux - Untitled ドキュメント</title>
+        <title>PowerShell 未分類 - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -158,8 +158,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Linux</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linux_network.html">Linuxでネットワークの操作をする。</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssh.html">SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
@@ -179,8 +177,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="windows.html">Microsoft Windows</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="powershell_uncategorized.html">PowerShell 未分類</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">PowerShell 未分類</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
 </ul>
@@ -211,57 +209,12 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="linux">
-<h1>Linux<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="namespace">
-<h2>namespace の一覧を得る。<a class="headerlink" href="#namespace" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo lsns
-</pre></div>
-</div>
-</section>
+          <section class="tex2jax_ignore mathjax_ignore" id="powershell">
+<h1>PowerShell 未分類<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>スワップを加える。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /proc/swaps
-free -h
-
-dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swap1 <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1024</span>
-chmod -v <span class="m">0600</span> /swap1
-mkswap /swap1
-swapon /swap1
-
-ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swap defaults 0 0' backup=yes"</span> localhost
-</pre></div>
-</div>
-</section>
-<section id="strace">
-<h2>strace する。<a class="headerlink" href="#strace" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
-</section>
-<section id="brctl-h">
-<h2>参考: brctl -h<a class="headerlink" href="#brctl-h" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>brctl --version
-<span class="go">bridge-utils, 1.6</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>brctl --help
-<span class="go">Usage: brctl [commands]</span>
-<span class="go">commands:</span>
-<span class="go">        addbr           &lt;bridge&gt;                add bridge</span>
-<span class="go">        delbr           &lt;bridge&gt;                delete bridge</span>
-<span class="go">        addif           &lt;bridge&gt; &lt;device&gt;       add interface to bridge</span>
-<span class="go">        delif           &lt;bridge&gt; &lt;device&gt;       delete interface from bridge</span>
-<span class="go">        hairpin         &lt;bridge&gt; &lt;port&gt; {on|off}        turn hairpin on/off</span>
-<span class="go">        setageing       &lt;bridge&gt; &lt;time&gt;         set ageing time</span>
-<span class="go">        setbridgeprio   &lt;bridge&gt; &lt;prio&gt;         set bridge priority</span>
-<span class="go">        setfd           &lt;bridge&gt; &lt;time&gt;         set bridge forward delay</span>
-<span class="go">        sethello        &lt;bridge&gt; &lt;time&gt;         set hello time</span>
-<span class="go">        setmaxage       &lt;bridge&gt; &lt;time&gt;         set max message age</span>
-<span class="go">        setpathcost     &lt;bridge&gt; &lt;port&gt; &lt;cost&gt;  set path cost</span>
-<span class="go">        setportprio     &lt;bridge&gt; &lt;port&gt; &lt;prio&gt;  set port priority</span>
-<span class="go">        show            [ &lt;bridge&gt; ]            show a list of bridges</span>
-<span class="go">        showmacs        &lt;bridge&gt;                show a list of mac addrs</span>
-<span class="go">        showstp         &lt;bridge&gt;                show bridge stp info</span>
-<span class="go">        stp             &lt;bridge&gt; {on|off}       turn stp on/off</span>
+<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Get</span><span class="o">-</span><span class="n">Module</span>
+<span class="n">Get</span><span class="o">-</span><span class="n">InstalledModule</span>
 </pre></div>
 </div>
 </section>
@@ -272,23 +225,23 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="linux_network.html">
+          <a class="next-page" href="powershell_get_childitem.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Linuxでネットワークの操作をする。</div>
+                <div class="title">停止しても再実行できるように、ファイルの一覧を出力する。</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="vagrant.html">
+          <a class="prev-page" href="powershell.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Vagrant</div>
+                <div class="title">PowerShell</div>
                 
               </div>
             </a>
@@ -300,7 +253,7 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/linux.md.txt"
+            <a class="muted-link" href="_sources/powershell_foundation.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -320,11 +273,8 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Linux</a><ul>
-<li><a class="reference internal" href="#namespace">namespace の一覧を得る。</a></li>
-<li><a class="reference internal" href="#id1">スワップを加える。</a></li>
-<li><a class="reference internal" href="#strace">strace する。</a></li>
-<li><a class="reference internal" href="#brctl-h">参考: brctl -h</a></li>
+<li><a class="reference internal" href="#">PowerShell 未分類</a><ul>
+<li><a class="reference internal" href="#id1">インストールしたモジュールの一覧を得る。</a></li>
 </ul>
 </li>
 </ul>

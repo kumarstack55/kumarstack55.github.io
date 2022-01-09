@@ -7,8 +7,7 @@ Untitled ドキュメント
 
    oci.md
    vagrant.md
-   linux.md
-   linux_network.md
+   linux.rst
    ssh.md
    debian.md
    ubuntu.md
