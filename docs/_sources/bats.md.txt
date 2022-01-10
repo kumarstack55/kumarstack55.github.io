@@ -1,4 +1,4 @@
-# bats
+# Bats-core
 
 https://bats-core.readthedocs.io/en/stable/
 

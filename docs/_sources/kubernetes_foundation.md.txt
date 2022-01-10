@@ -311,6 +311,8 @@ spec:
 __YAML__
 kubectl apply -f ./pod-debian.yaml
 kubectl get po debian
+
+
 ```
 
 ```console

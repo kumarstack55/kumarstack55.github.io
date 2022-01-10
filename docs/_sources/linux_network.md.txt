@@ -1,4 +1,4 @@
-# Linuxでネットワークの操作をする。
+# Linuxのネットワーク管理
 
 ## Network namespace の情報を得る。
 

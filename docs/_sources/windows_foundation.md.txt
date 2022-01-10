@@ -1,9 +1,39 @@
-# Microsoft Windows
+# Microsoft Windows 基礎
 
 ## LISTEN しているポートを得る。
 
 ```powershell
-netstat -anp TCP
+netstat -anp TCP | Select-String LISTENING
+
+# または
+
+Get-NetTCPConnection
+```
+
+## TCP のポートを利用するプロセスIDを得る。
+
+```powershell
+netstat -anp TCP -o
+
+# LISTEN 中のプロセスIDを得る。
+netstat -anp TCP -o | Select-String LISTENING
+```
+
+## プロセス一覧を得る。
+
+```powershell
+Get-Process
+```
+
+## 指定したプロセスIDを得る。
+
+```powershell
+Get-Process -Id 15264
+  # PS > Get-Process -Id 15264
+  #
+  # Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+  # -------  ------    -----      -----     ------     --  -- -----------
+  #     939     100    73020      72520      79.39  15264   4 VBoxHeadless
 ```
 
 ## 指定コマンドのパスを得る。

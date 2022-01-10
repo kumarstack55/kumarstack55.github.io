@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Linux" href="linux.html" /><link rel="prev" title="Oracle Cloud" href="oci.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Debian" href="debian.html" /><link rel="prev" title="SSH" href="ssh.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Vagrant - Untitled ドキュメント</title>
+        <title>SSHクライアント - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -157,14 +157,14 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Vagrant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxのネットワーク管理</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="ssh.html">SSH</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="ssh.html">SSH</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">SSHクライアント</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
@@ -222,105 +222,29 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="vagrant">
-<h1>Vagrant<a class="headerlink" href="#vagrant" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="ssh">
-<h2>ホストのエージェントをSSHログイン先に転送する。<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">forward_agent</span> <span class="o">=</span> <span class="kp">true</span>
+          <section class="tex2jax_ignore mathjax_ignore" id="ssh">
+<h1>SSHクライアント<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="windows-openssh-ssh-exe-pageant">
+<h2>Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。<a class="headerlink" href="#windows-openssh-ssh-exe-pageant" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference external" href="https://github.com/benpye/wsl-ssh-pageant">wsl-ssh-pageant</a>を使う。
+Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイに常駐させておく。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl-ssh-pageant-amd64-gui</span><span class="p">.</span><span class="n">exe</span> <span class="p">-</span><span class="n">-systray</span> <span class="p">-</span><span class="n">-winssh</span> <span class="n">ssh-pageant</span>
+</pre></div>
+</div>
+<p>環境変数を設定する。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:SSH_AUTH_SOCK</span> <span class="p">=</span> <span class="s1">'\\.\pipe\ssh-pageant'</span>
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h2>プロビジョンでシェルのコマンドを実行する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">"shell"</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="o">&lt;&lt;-</span><span class="dl">SHELL</span>
-<span class="sh">    apt-get update</span>
-<span class="dl">  SHELL</span>
-</pre></div>
-</div>
-</section>
-<section id="id2">
-<h2>同期フォルダを無効にする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s2">"."</span><span class="p">,</span> <span class="s2">"/vagrant"</span><span class="p">,</span> <span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span>
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h2>転送されたポートを確認する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">port</span>
-</pre></div>
-</div>
-</section>
-<section id="virtualbox-public-network">
-<h2>VirtualBox: public_network を使う。<a class="headerlink" href="#virtualbox-public-network" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="s2">"public_network"</span>
-</pre></div>
-</div>
-</section>
-<section id="virtualbox-box-ssh">
-<h2>VirtualBox: ホストから Box に SSH ログインする。<a class="headerlink" href="#virtualbox-box-ssh" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">sandbox-vagrant</span>
-<span class="nb">cd </span><span class="n">sandbox-vagrant</span>
-<span class="n">vagrant</span> <span class="n">init</span>
-<span class="n">nvim</span> <span class="n">Vagrantfile</span>
-  <span class="c"># config.vm.box = "debian/buster64"</span>
-<span class="n">vagrant</span> <span class="n">up</span>
-<span class="n">vagrant</span> <span class="n">ssh</span>
-</pre></div>
-</div>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>        |
-        Gateway
-        | .2
-        |
-       -o---o- 10.0.2.0/24
-            |
-            | VirtualBox
-            |   NAT
-            |   port forwarding:
-            |     rule:
-            |       ssh TCP 127.0.0.1:2222 -&gt; 22
-            | .15
-            eth0
-            Hostname: buster
-</pre></div>
-</div>
-</section>
-<section id="virtualbox-gui">
-<h2>VirtualBox: GUIを有効にする。<a class="headerlink" href="#virtualbox-gui" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">"virtualbox"</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
-    <span class="n">vb</span><span class="o">.</span><span class="n">gui</span> <span class="o">=</span> <span class="kp">true</span>
-</pre></div>
-</div>
-</section>
-<section id="virtualbox-virtualbox-vram">
-<h2>VirtualBox: 解像度をより大きくため、VirtualBox で VRAM を変更する。<a class="headerlink" href="#virtualbox-virtualbox-vram" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">"virtualbox"</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
-    <span class="n">vb</span><span class="o">.</span><span class="n">customize</span> <span class="o">[</span> <span class="s2">"modifyvm"</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="s2">"--vram"</span><span class="p">,</span> <span class="s2">"16"</span> <span class="o">]</span>
-</pre></div>
-</div>
-</section>
-<section id="virtualbox-stall">
-<h2>VirtualBox: stall 回避を狙いに、オーディオを無効にする。<a class="headerlink" href="#virtualbox-stall" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">"virtualbox"</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
-    <span class="n">vb</span><span class="o">.</span><span class="n">customize</span> <span class="o">[</span> <span class="s2">"modifyvm"</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="s2">"--audio"</span><span class="p">,</span> <span class="s2">"none"</span> <span class="o">]</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">INFO: rcu_sched self-detected stall on CPU</span>
-</pre></div>
-</div>
-<p>https://stackoverflow.com/a/67861322</p>
-</section>
-<section id="virtualbox-virtualbox">
-<h2>VirtualBox: VirtualBox の仮想マシンの名前を指定する。<a class="headerlink" href="#virtualbox-virtualbox" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">"virtualbox"</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
-    <span class="n">vb</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"xxx"</span>
+<section id="authorized-keys">
+<h2>エージェントが管理する全ての公開鍵を authorized_keys に加える。<a class="headerlink" href="#authorized-keys" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add -L <span class="se">\</span>
+  <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
+      ansible <span class="se">\</span>
+        -m lineinfile <span class="se">\</span>
+        -a <span class="s2">"path='</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/authorized_keys' line='</span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">' backup=yes"</span> <span class="se">\</span>
+        localhost
+    <span class="k">done</span>
 </pre></div>
 </div>
 </section>
@@ -331,23 +255,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="linux.html">
+          <a class="next-page" href="debian.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Linux</div>
+                <div class="title">Debian</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="oci.html">
+          <a class="prev-page" href="ssh.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Oracle Cloud</div>
+                <div class="title">SSH</div>
                 
               </div>
             </a>
@@ -359,7 +283,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/vagrant.md.txt"
+            <a class="muted-link" href="_sources/ssh_client.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -379,17 +303,9 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Vagrant</a><ul>
-<li><a class="reference internal" href="#ssh">ホストのエージェントをSSHログイン先に転送する。</a></li>
-<li><a class="reference internal" href="#id1">プロビジョンでシェルのコマンドを実行する。</a></li>
-<li><a class="reference internal" href="#id2">同期フォルダを無効にする。</a></li>
-<li><a class="reference internal" href="#id3">転送されたポートを確認する。</a></li>
-<li><a class="reference internal" href="#virtualbox-public-network">VirtualBox: public_network を使う。</a></li>
-<li><a class="reference internal" href="#virtualbox-box-ssh">VirtualBox: ホストから Box に SSH ログインする。</a></li>
-<li><a class="reference internal" href="#virtualbox-gui">VirtualBox: GUIを有効にする。</a></li>
-<li><a class="reference internal" href="#virtualbox-virtualbox-vram">VirtualBox: 解像度をより大きくため、VirtualBox で VRAM を変更する。</a></li>
-<li><a class="reference internal" href="#virtualbox-stall">VirtualBox: stall 回避を狙いに、オーディオを無効にする。</a></li>
-<li><a class="reference internal" href="#virtualbox-virtualbox">VirtualBox: VirtualBox の仮想マシンの名前を指定する。</a></li>
+<li><a class="reference internal" href="#">SSHクライアント</a><ul>
+<li><a class="reference internal" href="#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
+<li><a class="reference internal" href="#authorized-keys">エージェントが管理する全ての公開鍵を authorized_keys に加える。</a></li>
 </ul>
 </li>
 </ul>

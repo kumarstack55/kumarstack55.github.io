@@ -15,6 +15,13 @@ sudo locale-gen
 sudo timedatectl set-timezone Asia/Tokyo
 ```
 
+## パッケージをインストールする。
+
+```bash
+# 依存関係として推奨パッケージをインストールしない。
+sudo apt --no-install-recommends install ansible
+```
+
 ## Ansible をインストールする。
 
 ```bash

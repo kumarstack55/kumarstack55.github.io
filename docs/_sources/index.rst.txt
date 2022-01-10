@@ -8,7 +8,7 @@ Untitled ドキュメント
    oci.md
    vagrant.md
    linux.rst
-   ssh.md
+   ssh.rst
    debian.md
    ubuntu.md
    bash.rst
@@ -17,6 +17,7 @@ Untitled ドキュメント
    python.md
    container.md
    kubernetes.md
+   prometheus.md
    windows.rst
    powershell.rst
 

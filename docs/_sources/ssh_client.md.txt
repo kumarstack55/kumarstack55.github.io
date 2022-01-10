@@ -1,8 +1,6 @@
-# SSH
+# SSHクライアント
 
-## SSHクライアント
-
-### Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。
+## Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。
 
 [wsl-ssh-pageant](https://github.com/benpye/wsl-ssh-pageant)を使う。
 Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイに常駐させておく。
@@ -17,7 +15,7 @@ wsl-ssh-pageant-amd64-gui.exe --systray --winssh ssh-pageant
 $env:SSH_AUTH_SOCK = '\\.\pipe\ssh-pageant'
 ```
 
-### SSHでエージェントの公開鍵を authorized_keys に加える。
+## エージェントが管理する全ての公開鍵を authorized_keys に加える。
 
 ```bash
 ssh-add -L \
