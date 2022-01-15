@@ -9,3 +9,22 @@ f() {
   true
 }
 ```
+
+## 変数で bool 相当の表現を行う。
+
+方法は複数あるが、次の記述が最もシンプルそう。
+
+```bash
+var='x'
+[ "$var" ] && echo y || echo n
+  # --> y
+
+var=''
+[ "$var" ] && echo y || echo n
+  # --> n
+```
+
+[test - evaluate expression](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html):
+
+> 1 argument:
+> Exit true (0) if $1 is not null; otherwise, exit false.

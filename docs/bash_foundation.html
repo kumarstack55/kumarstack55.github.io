@@ -233,6 +233,24 @@
 </pre></div>
 </div>
 </section>
+<section id="bool">
+<h2>変数で bool 相当の表現を行う。<a class="headerlink" href="#bool" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>方法は複数あるが、次の記述が最もシンプルそう。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">var</span><span class="o">=</span><span class="s1">'x'</span>
+<span class="o">[</span> <span class="s2">"</span><span class="nv">$var</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> y <span class="o">||</span> <span class="nb">echo</span> n
+  <span class="c1"># --&gt; y</span>
+
+<span class="nv">var</span><span class="o">=</span><span class="s1">''</span>
+<span class="o">[</span> <span class="s2">"</span><span class="nv">$var</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> y <span class="o">||</span> <span class="nb">echo</span> n
+  <span class="c1"># --&gt; n</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html">test - evaluate expression</a>:</p>
+<blockquote>
+<div><p>1 argument:
+Exit true (0) if $1 is not null; otherwise, exit false.</p>
+</div></blockquote>
+</section>
 </section>
 
         </article>
@@ -290,6 +308,7 @@
             <ul>
 <li><a class="reference internal" href="#">bash基礎</a><ul>
 <li><a class="reference internal" href="#id1">ファンクションを定義する。</a></li>
+<li><a class="reference internal" href="#bool">変数で bool 相当の表現を行う。</a></li>
 </ul>
 </li>
 </ul>
