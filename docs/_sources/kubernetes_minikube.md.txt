@@ -105,23 +105,652 @@ minikube dashboard --url --port=10080
 https://kubernetes.io/docs/tutorials/hello-minikube/
 
 ```bash
-kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+# Create a Deployment
+kubectl get all
 kubectl get deployments
 kubectl get pods
+
+kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+
+kubectl get all
+kubectl get deployments
+kubectl get pods
+
+kubectl get deployments -o yaml | yq e . -
+kubectl get pods -o yaml | yq e . -
+
 kubectl get events
+
+# Create a Service
 kubectl config view
-kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
 kubectl get services
+kubectl get services -o yaml | yq e . -
+
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+kubectl get services
+kubectl get services -o yaml | yq e . -
+
 minikube service hello-node
 
+kubectl get services
+kubectl get services -o yaml | yq e . -
+
+# Enable addons
 minikube addons list
 minikube addons enable metrics-server
 kubectl get pod,svc -n kube-system
 minikube addons disable metrics-server
+
+# Clean up
+kubectl get services
 kubectl delete service hello-node
+kubectl get services
+
+kubectl get all
+kubectl get deployments
+kubectl get pods
+
 kubectl delete deployment hello-node
+
+kubectl get all
+kubectl get deployments
+kubectl get pods
+
 minikube stop
 minikube delete
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get deployments
+No resources found in default namespace.
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get pods
+No resources found in default namespace.
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+deployment.apps/hello-node created
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get all
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/hello-node-7567d9fdc9-6p26s   1/1     Running   0          5s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21d
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/hello-node   1/1     1            1           5s
+
+NAME                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/hello-node-7567d9fdc9   1         1         1       5s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get deployments
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           7s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+hello-node-7567d9fdc9-6p26s   1/1     Running   0          13s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get deployments -o yaml | yq e . -
+apiVersion: v1
+items:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "1"
+      creationTimestamp: "2022-01-30T05:53:15Z"
+      generation: 1
+      labels:
+        app: hello-node
+      name: hello-node
+      namespace: default
+      resourceVersion: "28687"
+      uid: 9323f9d2-0d34-4705-a854-116ac27be7f8
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          app: hello-node
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: hello-node
+        spec:
+          containers:
+            - image: k8s.gcr.io/echoserver:1.4
+              imagePullPolicy: IfNotPresent
+              name: echoserver
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+    status:
+      availableReplicas: 1
+      conditions:
+        - lastTransitionTime: "2022-01-30T05:53:18Z"
+          lastUpdateTime: "2022-01-30T05:53:18Z"
+          message: Deployment has minimum availability.
+          reason: MinimumReplicasAvailable
+          status: "True"
+          type: Available
+        - lastTransitionTime: "2022-01-30T05:53:15Z"
+          lastUpdateTime: "2022-01-30T05:53:18Z"
+          message: ReplicaSet "hello-node-7567d9fdc9" has successfully progressed.
+          reason: NewReplicaSetAvailable
+          status: "True"
+          type: Progressing
+      observedGeneration: 1
+      readyReplicas: 1
+      replicas: 1
+      updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get pods -o yaml | yq e . -
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Pod
+    metadata:
+      creationTimestamp: "2022-01-30T05:53:15Z"
+      generateName: hello-node-7567d9fdc9-
+      labels:
+        app: hello-node
+        pod-template-hash: 7567d9fdc9
+      name: hello-node-7567d9fdc9-6p26s
+      namespace: default
+      ownerReferences:
+        - apiVersion: apps/v1
+          blockOwnerDeletion: true
+          controller: true
+          kind: ReplicaSet
+          name: hello-node-7567d9fdc9
+          uid: 25cd08fa-03c0-4d24-a2ed-f42670ba921f
+      resourceVersion: "28685"
+      uid: 8c479aa6-93cd-4e34-a445-a39f69b42874
+    spec:
+      containers:
+        - image: k8s.gcr.io/echoserver:1.4
+          imagePullPolicy: IfNotPresent
+          name: echoserver
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access-brmtp
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      nodeName: minikube
+      preemptionPolicy: PreemptLowerPriority
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 300
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 300
+      volumes:
+        - name: kube-api-access-brmtp
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+    status:
+      conditions:
+        - lastProbeTime: null
+          lastTransitionTime: "2022-01-30T05:53:15Z"
+          status: "True"
+          type: Initialized
+        - lastProbeTime: null
+          lastTransitionTime: "2022-01-30T05:53:18Z"
+          status: "True"
+          type: Ready
+        - lastProbeTime: null
+          lastTransitionTime: "2022-01-30T05:53:18Z"
+          status: "True"
+          type: ContainersReady
+        - lastProbeTime: null
+          lastTransitionTime: "2022-01-30T05:53:15Z"
+          status: "True"
+          type: PodScheduled
+      containerStatuses:
+        - containerID: docker://84dd07fbe15810ba9e715698098ff5ac4af4f1046c2f23a8f5f85c3fba38460a
+          image: k8s.gcr.io/echoserver:1.4
+          imageID: docker-pullable://k8s.gcr.io/echoserver@sha256:5d99aa1120524c801bc8c1a7077e8f5ec122ba16b6dda1a5d3826057f67b9bcb
+          lastState: {}
+          name: echoserver
+          ready: true
+          restartCount: 0
+          started: true
+          state:
+            running:
+              startedAt: "2022-01-30T05:53:17Z"
+      hostIP: 192.168.49.2
+      phase: Running
+      podIP: 172.17.0.2
+      podIPs:
+        - ip: 172.17.0.2
+      qosClass: BestEffort
+      startTime: "2022-01-30T05:53:15Z"
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get events
+LAST SEEN   TYPE     REASON              OBJECT                              MESSAGE
+34m         Normal   Scheduled           pod/hello-nginx-795c489f95-l2nnz    Successfully assigned default/hello-nginx-795c489f95-l2nnz to minikube
+34m         Normal   Pulling             pod/hello-nginx-795c489f95-l2nnz    Pulling image "nginx"
+33m         Normal   Pulled              pod/hello-nginx-795c489f95-l2nnz    Successfully pulled image "nginx" in 48.557620475s
+33m         Normal   Created             pod/hello-nginx-795c489f95-l2nnz    Created container nginx
+33m         Normal   Started             pod/hello-nginx-795c489f95-l2nnz    Started container nginx
+22m         Normal   Killing             pod/hello-nginx-795c489f95-l2nnz    Stopping container nginx
+34m         Normal   SuccessfulCreate    replicaset/hello-nginx-795c489f95   Created pod: hello-nginx-795c489f95-l2nnz
+34m         Normal   ScalingReplicaSet   deployment/hello-nginx              Scaled up replica set hello-nginx-795c489f95 to 1
+52m         Normal   Scheduled           pod/hello-node-7567d9fdc9-4p6rb     Successfully assigned default/hello-node-7567d9fdc9-4p6rb to minikube
+52m         Normal   Pulled              pod/hello-node-7567d9fdc9-4p6rb     Container image "k8s.gcr.io/echoserver:1.4" already present on machine
+52m         Normal   Created             pod/hello-node-7567d9fdc9-4p6rb     Created container echoserver
+52m         Normal   Started             pod/hello-node-7567d9fdc9-4p6rb     Started container echoserver
+9m4s        Normal   Killing             pod/hello-node-7567d9fdc9-4p6rb     Stopping container echoserver
+23s         Normal   Scheduled           pod/hello-node-7567d9fdc9-6p26s     Successfully assigned default/hello-node-7567d9fdc9-6p26s to minikube
+21s         Normal   Pulled              pod/hello-node-7567d9fdc9-6p26s     Container image "k8s.gcr.io/echoserver:1.4" already present on machine
+21s         Normal   Created             pod/hello-node-7567d9fdc9-6p26s     Created container echoserver
+21s         Normal   Started             pod/hello-node-7567d9fdc9-6p26s     Started container echoserver
+4m10s       Normal   Scheduled           pod/hello-node-7567d9fdc9-6xxwz     Successfully assigned default/hello-node-7567d9fdc9-6xxwz to minikube
+4m8s        Normal   Pulled              pod/hello-node-7567d9fdc9-6xxwz     Container image "k8s.gcr.io/echoserver:1.4" already present on machine
+4m8s        Normal   Created             pod/hello-node-7567d9fdc9-6xxwz     Created container echoserver
+4m8s        Normal   Started             pod/hello-node-7567d9fdc9-6xxwz     Started container echoserver
+72s         Normal   Killing             pod/hello-node-7567d9fdc9-6xxwz     Stopping container echoserver
+5m3s        Normal   Scheduled           pod/hello-node-7567d9fdc9-q7gsb     Successfully assigned default/hello-node-7567d9fdc9-q7gsb to minikube
+5m2s        Normal   Pulled              pod/hello-node-7567d9fdc9-q7gsb     Container image "k8s.gcr.io/echoserver:1.4" already present on machine
+5m2s        Normal   Created             pod/hello-node-7567d9fdc9-q7gsb     Created container echoserver
+5m          Normal   Started             pod/hello-node-7567d9fdc9-q7gsb     Started container echoserver
+4m33s       Normal   Killing             pod/hello-node-7567d9fdc9-q7gsb     Stopping container echoserver
+52m         Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-4p6rb
+5m3s        Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-q7gsb
+4m10s       Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-6xxwz
+23s         Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-6p26s
+52m         Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1
+5m3s        Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1
+4m10s       Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1
+23s         Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /home/vagrant/.minikube/ca.crt
+    extensions:
+    - extension:
+        last-update: Sun, 30 Jan 2022 04:25:02 UTC
+        provider: minikube.sigs.k8s.io
+        version: v1.24.0
+      name: cluster_info
+    server: https://192.168.49.2:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    extensions:
+    - extension:
+        last-update: Sun, 30 Jan 2022 04:25:02 UTC
+        provider: minikube.sigs.k8s.io
+        version: v1.24.0
+      name: context_info
+    namespace: default
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /home/vagrant/.minikube/profiles/minikube/client.crt
+    client-key: /home/vagrant/.minikube/profiles/minikube/client.key
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services -o yaml | yq e . -
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: "2022-01-09T01:16:03Z"
+      labels:
+        component: apiserver
+        provider: kubernetes
+      name: kubernetes
+      namespace: default
+      resourceVersion: "206"
+      uid: e82990e3-0c17-4ff3-96d0-3a69da6a957e
+    spec:
+      clusterIP: 10.96.0.1
+      clusterIPs:
+        - 10.96.0.1
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: 8443
+      sessionAffinity: None
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+service/hello-node exposed
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services
+NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.109.209.3   <pending>     8080:31550/TCP   4s
+kubernetes   ClusterIP      10.96.0.1      <none>        443/TCP          21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services -o yaml | yq e . -
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: "2022-01-30T05:53:51Z"
+      labels:
+        app: hello-node
+      name: hello-node
+      namespace: default
+      resourceVersion: "28710"
+      uid: 6ea5caba-9b15-46f2-8b4a-3e1e1ad4c55a
+    spec:
+      allocateLoadBalancerNodePorts: true
+      clusterIP: 10.109.209.3
+      clusterIPs:
+        - 10.109.209.3
+      externalTrafficPolicy: Cluster
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - nodePort: 31550
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: hello-node
+      sessionAffinity: None
+      type: LoadBalancer
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: "2022-01-09T01:16:03Z"
+      labels:
+        component: apiserver
+        provider: kubernetes
+      name: kubernetes
+      namespace: default
+      resourceVersion: "206"
+      uid: e82990e3-0c17-4ff3-96d0-3a69da6a957e
+    spec:
+      clusterIP: 10.96.0.1
+      clusterIPs:
+        - 10.96.0.1
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: 8443
+      sessionAffinity: None
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+```
+
+```console
+vagrant@ubuntu-focal:~$ minikube service hello-node
+|-----------|------------|-------------|---------------------------|
+| NAMESPACE |    NAME    | TARGET PORT |            URL            |
+|-----------|------------|-------------|---------------------------|
+| default   | hello-node |        8080 | http://192.168.49.2:31550 |
+|-----------|------------|-------------|---------------------------|
+🎉  Opening service default/hello-node in default browser...
+👉  http://192.168.49.2:31550
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services
+NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.109.209.3   <pending>     8080:31550/TCP   17s
+kubernetes   ClusterIP      10.96.0.1      <none>        443/TCP          21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services -o yaml | yq e . -
+apiVersion: v1
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: "2022-01-30T05:53:51Z"
+      labels:
+        app: hello-node
+      name: hello-node
+      namespace: default
+      resourceVersion: "28710"
+      uid: 6ea5caba-9b15-46f2-8b4a-3e1e1ad4c55a
+    spec:
+      allocateLoadBalancerNodePorts: true
+      clusterIP: 10.109.209.3
+      clusterIPs:
+        - 10.109.209.3
+      externalTrafficPolicy: Cluster
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - nodePort: 31550
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: hello-node
+      sessionAffinity: None
+      type: LoadBalancer
+    status:
+      loadBalancer: {}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: "2022-01-09T01:16:03Z"
+      labels:
+        component: apiserver
+        provider: kubernetes
+      name: kubernetes
+      namespace: default
+      resourceVersion: "206"
+      uid: e82990e3-0c17-4ff3-96d0-3a69da6a957e
+    spec:
+      clusterIP: 10.96.0.1
+      clusterIPs:
+        - 10.96.0.1
+      internalTrafficPolicy: Cluster
+      ipFamilies:
+        - IPv4
+      ipFamilyPolicy: SingleStack
+      ports:
+        - name: https
+          port: 443
+          protocol: TCP
+          targetPort: 8443
+      sessionAffinity: None
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services
+NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.109.209.3   <pending>     8080:31550/TCP   28s
+kubernetes   ClusterIP      10.96.0.1      <none>        443/TCP          21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl delete service hello-node
+service "hello-node" deleted
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get all
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/hello-node-7567d9fdc9-6p26s   1/1     Running   0          79s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21d
+
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/hello-node   1/1     1            1           79s
+
+NAME                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/hello-node-7567d9fdc9   1         1         1       79s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get deployments
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           82s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+hello-node-7567d9fdc9-6p26s   1/1     Running   0          85s
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl delete deployment hello-node
+deployment.apps "hello-node" deleted
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   21d
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get deployments
+No resources found in default namespace.
+```
+
+```console
+vagrant@ubuntu-focal:~$ kubectl get pods
+No resources found in default namespace.
 ```
 
 https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/

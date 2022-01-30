@@ -248,6 +248,26 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
 <h2>strace する。<a class="headerlink" href="#strace" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>TODO</p>
 </section>
+<section id="id2">
+<h2>差分を確認する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
+  date<span class="p">;</span> sleep <span class="m">1</span><span class="p">;</span> date
+<span class="o">}</span>
+
+<span class="nv">out</span><span class="o">=</span><span class="k">$(</span>f<span class="k">)</span>
+diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$out</span><span class="s2">"</span><span class="o">)</span> &lt;<span class="o">(</span>f<span class="o">)</span>
+</pre></div>
+</div>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>vagrant@ubuntu-focal:~$ diff -u &lt;(echo "$out") &lt;(f)
+<span class="gd">--- /dev/fd/63  2022-01-30 04:48:42.637832176 +0000</span>
+<span class="gi">+++ /dev/fd/62  2022-01-30 04:48:42.633830176 +0000</span>
+<span class="gu">@@ -1,2 +1,2 @@</span>
+<span class="gd">-Sun 30 Jan 2022 04:48:41 AM UTC</span>
+ Sun 30 Jan 2022 04:48:42 AM UTC
+<span class="gi">+Sun 30 Jan 2022 04:48:43 AM UTC</span>
+</pre></div>
+</div>
+</section>
 <section id="brctl-h">
 <h2>参考: brctl -h<a class="headerlink" href="#brctl-h" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>brctl --version
@@ -335,6 +355,7 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
 <li><a class="reference internal" href="#namespace">namespace の一覧を得る。</a></li>
 <li><a class="reference internal" href="#id1">スワップを加える。</a></li>
 <li><a class="reference internal" href="#strace">strace する。</a></li>
+<li><a class="reference internal" href="#id2">差分を確認する。</a></li>
 <li><a class="reference internal" href="#brctl-h">参考: brctl -h</a></li>
 </ul>
 </li>

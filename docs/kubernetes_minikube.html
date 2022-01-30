@@ -323,23 +323,623 @@ minikube dashboard --url --port<span class="o">=</span><span class="m">10080</sp
 <section id="hello-minikube">
 <h2>Hello Minikube<a class="headerlink" href="#hello-minikube" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>https://kubernetes.io/docs/tutorials/hello-minikube/</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl create deployment hello-node --image<span class="o">=</span>k8s.gcr.io/echoserver:1.4
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a Deployment</span>
+kubectl get all
 kubectl get deployments
 kubectl get pods
+
+kubectl create deployment hello-node --image<span class="o">=</span>k8s.gcr.io/echoserver:1.4
+
+kubectl get all
+kubectl get deployments
+kubectl get pods
+
+kubectl get deployments -o yaml <span class="p">|</span> yq e . -
+kubectl get pods -o yaml <span class="p">|</span> yq e . -
+
 kubectl get events
+
+<span class="c1"># Create a Service</span>
 kubectl config view
-kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
+
 kubectl get services
+kubectl get services -o yaml <span class="p">|</span> yq e . -
+
+kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
+
+kubectl get services
+kubectl get services -o yaml <span class="p">|</span> yq e . -
+
 minikube service hello-node
 
+kubectl get services
+kubectl get services -o yaml <span class="p">|</span> yq e . -
+
+<span class="c1"># Enable addons</span>
 minikube addons list
 minikube addons <span class="nb">enable</span> metrics-server
 kubectl get pod,svc -n kube-system
 minikube addons disable metrics-server
+
+<span class="c1"># Clean up</span>
+kubectl get services
 kubectl delete service hello-node
+kubectl get services
+
+kubectl get all
+kubectl get deployments
+kubectl get pods
+
 kubectl delete deployment hello-node
+
+kubectl get all
+kubectl get deployments
+kubectl get pods
+
 minikube stop
 minikube delete
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
+<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get deployments
+<span class="go">No resources found in default namespace.</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get pods
+<span class="go">No resources found in default namespace.</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl create deployment hello-node --image<span class="o">=</span>k8s.gcr.io/echoserver:1.4
+<span class="go">deployment.apps/hello-node created</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
+<span class="go">NAME                              READY   STATUS    RESTARTS   AGE</span>
+<span class="go">pod/hello-node-7567d9fdc9-6p26s   1/1     Running   0          5s</span>
+
+<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   21d</span>
+
+<span class="go">NAME                         READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">deployment.apps/hello-node   1/1     1            1           5s</span>
+
+<span class="go">NAME                                    DESIRED   CURRENT   READY   AGE</span>
+<span class="go">replicaset.apps/hello-node-7567d9fdc9   1         1         1       5s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get deployments
+<span class="go">NAME         READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">hello-node   1/1     1            1           7s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get pods
+<span class="go">NAME                          READY   STATUS    RESTARTS   AGE</span>
+<span class="go">hello-node-7567d9fdc9-6p26s   1/1     Running   0          13s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get deployments -o yaml <span class="p">|</span> yq e . -
+<span class="go">apiVersion: v1</span>
+<span class="go">items:</span>
+<span class="go">  - apiVersion: apps/v1</span>
+<span class="go">    kind: Deployment</span>
+<span class="go">    metadata:</span>
+<span class="go">      annotations:</span>
+<span class="go">        deployment.kubernetes.io/revision: "1"</span>
+<span class="go">      creationTimestamp: "2022-01-30T05:53:15Z"</span>
+<span class="go">      generation: 1</span>
+<span class="go">      labels:</span>
+<span class="go">        app: hello-node</span>
+<span class="go">      name: hello-node</span>
+<span class="go">      namespace: default</span>
+<span class="go">      resourceVersion: "28687"</span>
+<span class="go">      uid: 9323f9d2-0d34-4705-a854-116ac27be7f8</span>
+<span class="go">    spec:</span>
+<span class="go">      progressDeadlineSeconds: 600</span>
+<span class="go">      replicas: 1</span>
+<span class="go">      revisionHistoryLimit: 10</span>
+<span class="go">      selector:</span>
+<span class="go">        matchLabels:</span>
+<span class="go">          app: hello-node</span>
+<span class="go">      strategy:</span>
+<span class="go">        rollingUpdate:</span>
+<span class="go">          maxSurge: 25%</span>
+<span class="go">          maxUnavailable: 25%</span>
+<span class="go">        type: RollingUpdate</span>
+<span class="go">      template:</span>
+<span class="go">        metadata:</span>
+<span class="go">          creationTimestamp: null</span>
+<span class="go">          labels:</span>
+<span class="go">            app: hello-node</span>
+<span class="go">        spec:</span>
+<span class="go">          containers:</span>
+<span class="go">            - image: k8s.gcr.io/echoserver:1.4</span>
+<span class="go">              imagePullPolicy: IfNotPresent</span>
+<span class="go">              name: echoserver</span>
+<span class="go">              resources: {}</span>
+<span class="go">              terminationMessagePath: /dev/termination-log</span>
+<span class="go">              terminationMessagePolicy: File</span>
+<span class="go">          dnsPolicy: ClusterFirst</span>
+<span class="go">          restartPolicy: Always</span>
+<span class="go">          schedulerName: default-scheduler</span>
+<span class="go">          securityContext: {}</span>
+<span class="go">          terminationGracePeriodSeconds: 30</span>
+<span class="go">    status:</span>
+<span class="go">      availableReplicas: 1</span>
+<span class="go">      conditions:</span>
+<span class="go">        - lastTransitionTime: "2022-01-30T05:53:18Z"</span>
+<span class="go">          lastUpdateTime: "2022-01-30T05:53:18Z"</span>
+<span class="go">          message: Deployment has minimum availability.</span>
+<span class="go">          reason: MinimumReplicasAvailable</span>
+<span class="go">          status: "True"</span>
+<span class="go">          type: Available</span>
+<span class="go">        - lastTransitionTime: "2022-01-30T05:53:15Z"</span>
+<span class="go">          lastUpdateTime: "2022-01-30T05:53:18Z"</span>
+<span class="go">          message: ReplicaSet "hello-node-7567d9fdc9" has successfully progressed.</span>
+<span class="go">          reason: NewReplicaSetAvailable</span>
+<span class="go">          status: "True"</span>
+<span class="go">          type: Progressing</span>
+<span class="go">      observedGeneration: 1</span>
+<span class="go">      readyReplicas: 1</span>
+<span class="go">      replicas: 1</span>
+<span class="go">      updatedReplicas: 1</span>
+<span class="go">kind: List</span>
+<span class="go">metadata:</span>
+<span class="go">  resourceVersion: ""</span>
+<span class="go">  selfLink: ""</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get pods -o yaml <span class="p">|</span> yq e . -
+<span class="go">apiVersion: v1</span>
+<span class="go">items:</span>
+<span class="go">  - apiVersion: v1</span>
+<span class="go">    kind: Pod</span>
+<span class="go">    metadata:</span>
+<span class="go">      creationTimestamp: "2022-01-30T05:53:15Z"</span>
+<span class="go">      generateName: hello-node-7567d9fdc9-</span>
+<span class="go">      labels:</span>
+<span class="go">        app: hello-node</span>
+<span class="go">        pod-template-hash: 7567d9fdc9</span>
+<span class="go">      name: hello-node-7567d9fdc9-6p26s</span>
+<span class="go">      namespace: default</span>
+<span class="go">      ownerReferences:</span>
+<span class="go">        - apiVersion: apps/v1</span>
+<span class="go">          blockOwnerDeletion: true</span>
+<span class="go">          controller: true</span>
+<span class="go">          kind: ReplicaSet</span>
+<span class="go">          name: hello-node-7567d9fdc9</span>
+<span class="go">          uid: 25cd08fa-03c0-4d24-a2ed-f42670ba921f</span>
+<span class="go">      resourceVersion: "28685"</span>
+<span class="go">      uid: 8c479aa6-93cd-4e34-a445-a39f69b42874</span>
+<span class="go">    spec:</span>
+<span class="go">      containers:</span>
+<span class="go">        - image: k8s.gcr.io/echoserver:1.4</span>
+<span class="go">          imagePullPolicy: IfNotPresent</span>
+<span class="go">          name: echoserver</span>
+<span class="go">          resources: {}</span>
+<span class="go">          terminationMessagePath: /dev/termination-log</span>
+<span class="go">          terminationMessagePolicy: File</span>
+<span class="go">          volumeMounts:</span>
+<span class="go">            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount</span>
+<span class="go">              name: kube-api-access-brmtp</span>
+<span class="go">              readOnly: true</span>
+<span class="go">      dnsPolicy: ClusterFirst</span>
+<span class="go">      enableServiceLinks: true</span>
+<span class="go">      nodeName: minikube</span>
+<span class="go">      preemptionPolicy: PreemptLowerPriority</span>
+<span class="go">      priority: 0</span>
+<span class="go">      restartPolicy: Always</span>
+<span class="go">      schedulerName: default-scheduler</span>
+<span class="go">      securityContext: {}</span>
+<span class="go">      serviceAccount: default</span>
+<span class="go">      serviceAccountName: default</span>
+<span class="go">      terminationGracePeriodSeconds: 30</span>
+<span class="go">      tolerations:</span>
+<span class="go">        - effect: NoExecute</span>
+<span class="go">          key: node.kubernetes.io/not-ready</span>
+<span class="go">          operator: Exists</span>
+<span class="go">          tolerationSeconds: 300</span>
+<span class="go">        - effect: NoExecute</span>
+<span class="go">          key: node.kubernetes.io/unreachable</span>
+<span class="go">          operator: Exists</span>
+<span class="go">          tolerationSeconds: 300</span>
+<span class="go">      volumes:</span>
+<span class="go">        - name: kube-api-access-brmtp</span>
+<span class="go">          projected:</span>
+<span class="go">            defaultMode: 420</span>
+<span class="go">            sources:</span>
+<span class="go">              - serviceAccountToken:</span>
+<span class="go">                  expirationSeconds: 3607</span>
+<span class="go">                  path: token</span>
+<span class="go">              - configMap:</span>
+<span class="go">                  items:</span>
+<span class="go">                    - key: ca.crt</span>
+<span class="go">                      path: ca.crt</span>
+<span class="go">                  name: kube-root-ca.crt</span>
+<span class="go">              - downwardAPI:</span>
+<span class="go">                  items:</span>
+<span class="go">                    - fieldRef:</span>
+<span class="go">                        apiVersion: v1</span>
+<span class="go">                        fieldPath: metadata.namespace</span>
+<span class="go">                      path: namespace</span>
+<span class="go">    status:</span>
+<span class="go">      conditions:</span>
+<span class="go">        - lastProbeTime: null</span>
+<span class="go">          lastTransitionTime: "2022-01-30T05:53:15Z"</span>
+<span class="go">          status: "True"</span>
+<span class="go">          type: Initialized</span>
+<span class="go">        - lastProbeTime: null</span>
+<span class="go">          lastTransitionTime: "2022-01-30T05:53:18Z"</span>
+<span class="go">          status: "True"</span>
+<span class="go">          type: Ready</span>
+<span class="go">        - lastProbeTime: null</span>
+<span class="go">          lastTransitionTime: "2022-01-30T05:53:18Z"</span>
+<span class="go">          status: "True"</span>
+<span class="go">          type: ContainersReady</span>
+<span class="go">        - lastProbeTime: null</span>
+<span class="go">          lastTransitionTime: "2022-01-30T05:53:15Z"</span>
+<span class="go">          status: "True"</span>
+<span class="go">          type: PodScheduled</span>
+<span class="go">      containerStatuses:</span>
+<span class="go">        - containerID: docker://84dd07fbe15810ba9e715698098ff5ac4af4f1046c2f23a8f5f85c3fba38460a</span>
+<span class="go">          image: k8s.gcr.io/echoserver:1.4</span>
+<span class="go">          imageID: docker-pullable://k8s.gcr.io/echoserver@sha256:5d99aa1120524c801bc8c1a7077e8f5ec122ba16b6dda1a5d3826057f67b9bcb</span>
+<span class="go">          lastState: {}</span>
+<span class="go">          name: echoserver</span>
+<span class="go">          ready: true</span>
+<span class="go">          restartCount: 0</span>
+<span class="go">          started: true</span>
+<span class="go">          state:</span>
+<span class="go">            running:</span>
+<span class="go">              startedAt: "2022-01-30T05:53:17Z"</span>
+<span class="go">      hostIP: 192.168.49.2</span>
+<span class="go">      phase: Running</span>
+<span class="go">      podIP: 172.17.0.2</span>
+<span class="go">      podIPs:</span>
+<span class="go">        - ip: 172.17.0.2</span>
+<span class="go">      qosClass: BestEffort</span>
+<span class="go">      startTime: "2022-01-30T05:53:15Z"</span>
+<span class="go">kind: List</span>
+<span class="go">metadata:</span>
+<span class="go">  resourceVersion: ""</span>
+<span class="go">  selfLink: ""</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get events
+<span class="go">LAST SEEN   TYPE     REASON              OBJECT                              MESSAGE</span>
+<span class="go">34m         Normal   Scheduled           pod/hello-nginx-795c489f95-l2nnz    Successfully assigned default/hello-nginx-795c489f95-l2nnz to minikube</span>
+<span class="go">34m         Normal   Pulling             pod/hello-nginx-795c489f95-l2nnz    Pulling image "nginx"</span>
+<span class="go">33m         Normal   Pulled              pod/hello-nginx-795c489f95-l2nnz    Successfully pulled image "nginx" in 48.557620475s</span>
+<span class="go">33m         Normal   Created             pod/hello-nginx-795c489f95-l2nnz    Created container nginx</span>
+<span class="go">33m         Normal   Started             pod/hello-nginx-795c489f95-l2nnz    Started container nginx</span>
+<span class="go">22m         Normal   Killing             pod/hello-nginx-795c489f95-l2nnz    Stopping container nginx</span>
+<span class="go">34m         Normal   SuccessfulCreate    replicaset/hello-nginx-795c489f95   Created pod: hello-nginx-795c489f95-l2nnz</span>
+<span class="go">34m         Normal   ScalingReplicaSet   deployment/hello-nginx              Scaled up replica set hello-nginx-795c489f95 to 1</span>
+<span class="go">52m         Normal   Scheduled           pod/hello-node-7567d9fdc9-4p6rb     Successfully assigned default/hello-node-7567d9fdc9-4p6rb to minikube</span>
+<span class="go">52m         Normal   Pulled              pod/hello-node-7567d9fdc9-4p6rb     Container image "k8s.gcr.io/echoserver:1.4" already present on machine</span>
+<span class="go">52m         Normal   Created             pod/hello-node-7567d9fdc9-4p6rb     Created container echoserver</span>
+<span class="go">52m         Normal   Started             pod/hello-node-7567d9fdc9-4p6rb     Started container echoserver</span>
+<span class="go">9m4s        Normal   Killing             pod/hello-node-7567d9fdc9-4p6rb     Stopping container echoserver</span>
+<span class="go">23s         Normal   Scheduled           pod/hello-node-7567d9fdc9-6p26s     Successfully assigned default/hello-node-7567d9fdc9-6p26s to minikube</span>
+<span class="go">21s         Normal   Pulled              pod/hello-node-7567d9fdc9-6p26s     Container image "k8s.gcr.io/echoserver:1.4" already present on machine</span>
+<span class="go">21s         Normal   Created             pod/hello-node-7567d9fdc9-6p26s     Created container echoserver</span>
+<span class="go">21s         Normal   Started             pod/hello-node-7567d9fdc9-6p26s     Started container echoserver</span>
+<span class="go">4m10s       Normal   Scheduled           pod/hello-node-7567d9fdc9-6xxwz     Successfully assigned default/hello-node-7567d9fdc9-6xxwz to minikube</span>
+<span class="go">4m8s        Normal   Pulled              pod/hello-node-7567d9fdc9-6xxwz     Container image "k8s.gcr.io/echoserver:1.4" already present on machine</span>
+<span class="go">4m8s        Normal   Created             pod/hello-node-7567d9fdc9-6xxwz     Created container echoserver</span>
+<span class="go">4m8s        Normal   Started             pod/hello-node-7567d9fdc9-6xxwz     Started container echoserver</span>
+<span class="go">72s         Normal   Killing             pod/hello-node-7567d9fdc9-6xxwz     Stopping container echoserver</span>
+<span class="go">5m3s        Normal   Scheduled           pod/hello-node-7567d9fdc9-q7gsb     Successfully assigned default/hello-node-7567d9fdc9-q7gsb to minikube</span>
+<span class="go">5m2s        Normal   Pulled              pod/hello-node-7567d9fdc9-q7gsb     Container image "k8s.gcr.io/echoserver:1.4" already present on machine</span>
+<span class="go">5m2s        Normal   Created             pod/hello-node-7567d9fdc9-q7gsb     Created container echoserver</span>
+<span class="go">5m          Normal   Started             pod/hello-node-7567d9fdc9-q7gsb     Started container echoserver</span>
+<span class="go">4m33s       Normal   Killing             pod/hello-node-7567d9fdc9-q7gsb     Stopping container echoserver</span>
+<span class="go">52m         Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-4p6rb</span>
+<span class="go">5m3s        Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-q7gsb</span>
+<span class="go">4m10s       Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-6xxwz</span>
+<span class="go">23s         Normal   SuccessfulCreate    replicaset/hello-node-7567d9fdc9    Created pod: hello-node-7567d9fdc9-6p26s</span>
+<span class="go">52m         Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1</span>
+<span class="go">5m3s        Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1</span>
+<span class="go">4m10s       Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1</span>
+<span class="go">23s         Normal   ScalingReplicaSet   deployment/hello-node               Scaled up replica set hello-node-7567d9fdc9 to 1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl config view
+<span class="go">apiVersion: v1</span>
+<span class="go">clusters:</span>
+<span class="go">- cluster:</span>
+<span class="go">    certificate-authority: /home/vagrant/.minikube/ca.crt</span>
+<span class="go">    extensions:</span>
+<span class="go">    - extension:</span>
+<span class="go">        last-update: Sun, 30 Jan 2022 04:25:02 UTC</span>
+<span class="go">        provider: minikube.sigs.k8s.io</span>
+<span class="go">        version: v1.24.0</span>
+<span class="go">      name: cluster_info</span>
+<span class="go">    server: https://192.168.49.2:8443</span>
+<span class="go">  name: minikube</span>
+<span class="go">contexts:</span>
+<span class="go">- context:</span>
+<span class="go">    cluster: minikube</span>
+<span class="go">    extensions:</span>
+<span class="go">    - extension:</span>
+<span class="go">        last-update: Sun, 30 Jan 2022 04:25:02 UTC</span>
+<span class="go">        provider: minikube.sigs.k8s.io</span>
+<span class="go">        version: v1.24.0</span>
+<span class="go">      name: context_info</span>
+<span class="go">    namespace: default</span>
+<span class="go">    user: minikube</span>
+<span class="go">  name: minikube</span>
+<span class="go">current-context: minikube</span>
+<span class="go">kind: Config</span>
+<span class="go">preferences: {}</span>
+<span class="go">users:</span>
+<span class="go">- name: minikube</span>
+<span class="go">  user:</span>
+<span class="go">    client-certificate: /home/vagrant/.minikube/profiles/minikube/client.crt</span>
+<span class="go">    client-key: /home/vagrant/.minikube/profiles/minikube/client.key</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services
+<span class="go">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services -o yaml <span class="p">|</span> yq e . -
+<span class="go">apiVersion: v1</span>
+<span class="go">items:</span>
+<span class="go">  - apiVersion: v1</span>
+<span class="go">    kind: Service</span>
+<span class="go">    metadata:</span>
+<span class="go">      creationTimestamp: "2022-01-09T01:16:03Z"</span>
+<span class="go">      labels:</span>
+<span class="go">        component: apiserver</span>
+<span class="go">        provider: kubernetes</span>
+<span class="go">      name: kubernetes</span>
+<span class="go">      namespace: default</span>
+<span class="go">      resourceVersion: "206"</span>
+<span class="go">      uid: e82990e3-0c17-4ff3-96d0-3a69da6a957e</span>
+<span class="go">    spec:</span>
+<span class="go">      clusterIP: 10.96.0.1</span>
+<span class="go">      clusterIPs:</span>
+<span class="go">        - 10.96.0.1</span>
+<span class="go">      internalTrafficPolicy: Cluster</span>
+<span class="go">      ipFamilies:</span>
+<span class="go">        - IPv4</span>
+<span class="go">      ipFamilyPolicy: SingleStack</span>
+<span class="go">      ports:</span>
+<span class="go">        - name: https</span>
+<span class="go">          port: 443</span>
+<span class="go">          protocol: TCP</span>
+<span class="go">          targetPort: 8443</span>
+<span class="go">      sessionAffinity: None</span>
+<span class="go">      type: ClusterIP</span>
+<span class="go">    status:</span>
+<span class="go">      loadBalancer: {}</span>
+<span class="go">kind: List</span>
+<span class="go">metadata:</span>
+<span class="go">  resourceVersion: ""</span>
+<span class="go">  selfLink: ""</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl expose deployment hello-node --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">8080</span>
+<span class="go">service/hello-node exposed</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services
+<span class="go">NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE</span>
+<span class="go">hello-node   LoadBalancer   10.109.209.3   &lt;pending&gt;     8080:31550/TCP   4s</span>
+<span class="go">kubernetes   ClusterIP      10.96.0.1      &lt;none&gt;        443/TCP          21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services -o yaml <span class="p">|</span> yq e . -
+<span class="go">apiVersion: v1</span>
+<span class="go">items:</span>
+<span class="go">  - apiVersion: v1</span>
+<span class="go">    kind: Service</span>
+<span class="go">    metadata:</span>
+<span class="go">      creationTimestamp: "2022-01-30T05:53:51Z"</span>
+<span class="go">      labels:</span>
+<span class="go">        app: hello-node</span>
+<span class="go">      name: hello-node</span>
+<span class="go">      namespace: default</span>
+<span class="go">      resourceVersion: "28710"</span>
+<span class="go">      uid: 6ea5caba-9b15-46f2-8b4a-3e1e1ad4c55a</span>
+<span class="go">    spec:</span>
+<span class="go">      allocateLoadBalancerNodePorts: true</span>
+<span class="go">      clusterIP: 10.109.209.3</span>
+<span class="go">      clusterIPs:</span>
+<span class="go">        - 10.109.209.3</span>
+<span class="go">      externalTrafficPolicy: Cluster</span>
+<span class="go">      internalTrafficPolicy: Cluster</span>
+<span class="go">      ipFamilies:</span>
+<span class="go">        - IPv4</span>
+<span class="go">      ipFamilyPolicy: SingleStack</span>
+<span class="go">      ports:</span>
+<span class="go">        - nodePort: 31550</span>
+<span class="go">          port: 8080</span>
+<span class="go">          protocol: TCP</span>
+<span class="go">          targetPort: 8080</span>
+<span class="go">      selector:</span>
+<span class="go">        app: hello-node</span>
+<span class="go">      sessionAffinity: None</span>
+<span class="go">      type: LoadBalancer</span>
+<span class="go">    status:</span>
+<span class="go">      loadBalancer: {}</span>
+<span class="go">  - apiVersion: v1</span>
+<span class="go">    kind: Service</span>
+<span class="go">    metadata:</span>
+<span class="go">      creationTimestamp: "2022-01-09T01:16:03Z"</span>
+<span class="go">      labels:</span>
+<span class="go">        component: apiserver</span>
+<span class="go">        provider: kubernetes</span>
+<span class="go">      name: kubernetes</span>
+<span class="go">      namespace: default</span>
+<span class="go">      resourceVersion: "206"</span>
+<span class="go">      uid: e82990e3-0c17-4ff3-96d0-3a69da6a957e</span>
+<span class="go">    spec:</span>
+<span class="go">      clusterIP: 10.96.0.1</span>
+<span class="go">      clusterIPs:</span>
+<span class="go">        - 10.96.0.1</span>
+<span class="go">      internalTrafficPolicy: Cluster</span>
+<span class="go">      ipFamilies:</span>
+<span class="go">        - IPv4</span>
+<span class="go">      ipFamilyPolicy: SingleStack</span>
+<span class="go">      ports:</span>
+<span class="go">        - name: https</span>
+<span class="go">          port: 443</span>
+<span class="go">          protocol: TCP</span>
+<span class="go">          targetPort: 8443</span>
+<span class="go">      sessionAffinity: None</span>
+<span class="go">      type: ClusterIP</span>
+<span class="go">    status:</span>
+<span class="go">      loadBalancer: {}</span>
+<span class="go">kind: List</span>
+<span class="go">metadata:</span>
+<span class="go">  resourceVersion: ""</span>
+<span class="go">  selfLink: ""</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>minikube service hello-node
+<span class="go">|-----------|------------|-------------|---------------------------|</span>
+<span class="go">| NAMESPACE |    NAME    | TARGET PORT |            URL            |</span>
+<span class="go">|-----------|------------|-------------|---------------------------|</span>
+<span class="go">| default   | hello-node |        8080 | http://192.168.49.2:31550 |</span>
+<span class="go">|-----------|------------|-------------|---------------------------|</span>
+<span class="go">🎉  Opening service default/hello-node in default browser...</span>
+<span class="go">👉  http://192.168.49.2:31550</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services
+<span class="go">NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE</span>
+<span class="go">hello-node   LoadBalancer   10.109.209.3   &lt;pending&gt;     8080:31550/TCP   17s</span>
+<span class="go">kubernetes   ClusterIP      10.96.0.1      &lt;none&gt;        443/TCP          21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services -o yaml <span class="p">|</span> yq e . -
+<span class="go">apiVersion: v1</span>
+<span class="go">items:</span>
+<span class="go">  - apiVersion: v1</span>
+<span class="go">    kind: Service</span>
+<span class="go">    metadata:</span>
+<span class="go">      creationTimestamp: "2022-01-30T05:53:51Z"</span>
+<span class="go">      labels:</span>
+<span class="go">        app: hello-node</span>
+<span class="go">      name: hello-node</span>
+<span class="go">      namespace: default</span>
+<span class="go">      resourceVersion: "28710"</span>
+<span class="go">      uid: 6ea5caba-9b15-46f2-8b4a-3e1e1ad4c55a</span>
+<span class="go">    spec:</span>
+<span class="go">      allocateLoadBalancerNodePorts: true</span>
+<span class="go">      clusterIP: 10.109.209.3</span>
+<span class="go">      clusterIPs:</span>
+<span class="go">        - 10.109.209.3</span>
+<span class="go">      externalTrafficPolicy: Cluster</span>
+<span class="go">      internalTrafficPolicy: Cluster</span>
+<span class="go">      ipFamilies:</span>
+<span class="go">        - IPv4</span>
+<span class="go">      ipFamilyPolicy: SingleStack</span>
+<span class="go">      ports:</span>
+<span class="go">        - nodePort: 31550</span>
+<span class="go">          port: 8080</span>
+<span class="go">          protocol: TCP</span>
+<span class="go">          targetPort: 8080</span>
+<span class="go">      selector:</span>
+<span class="go">        app: hello-node</span>
+<span class="go">      sessionAffinity: None</span>
+<span class="go">      type: LoadBalancer</span>
+<span class="go">    status:</span>
+<span class="go">      loadBalancer: {}</span>
+<span class="go">  - apiVersion: v1</span>
+<span class="go">    kind: Service</span>
+<span class="go">    metadata:</span>
+<span class="go">      creationTimestamp: "2022-01-09T01:16:03Z"</span>
+<span class="go">      labels:</span>
+<span class="go">        component: apiserver</span>
+<span class="go">        provider: kubernetes</span>
+<span class="go">      name: kubernetes</span>
+<span class="go">      namespace: default</span>
+<span class="go">      resourceVersion: "206"</span>
+<span class="go">      uid: e82990e3-0c17-4ff3-96d0-3a69da6a957e</span>
+<span class="go">    spec:</span>
+<span class="go">      clusterIP: 10.96.0.1</span>
+<span class="go">      clusterIPs:</span>
+<span class="go">        - 10.96.0.1</span>
+<span class="go">      internalTrafficPolicy: Cluster</span>
+<span class="go">      ipFamilies:</span>
+<span class="go">        - IPv4</span>
+<span class="go">      ipFamilyPolicy: SingleStack</span>
+<span class="go">      ports:</span>
+<span class="go">        - name: https</span>
+<span class="go">          port: 443</span>
+<span class="go">          protocol: TCP</span>
+<span class="go">          targetPort: 8443</span>
+<span class="go">      sessionAffinity: None</span>
+<span class="go">      type: ClusterIP</span>
+<span class="go">    status:</span>
+<span class="go">      loadBalancer: {}</span>
+<span class="go">kind: List</span>
+<span class="go">metadata:</span>
+<span class="go">  resourceVersion: ""</span>
+<span class="go">  selfLink: ""</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services
+<span class="go">NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE</span>
+<span class="go">hello-node   LoadBalancer   10.109.209.3   &lt;pending&gt;     8080:31550/TCP   28s</span>
+<span class="go">kubernetes   ClusterIP      10.96.0.1      &lt;none&gt;        443/TCP          21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl delete service hello-node
+<span class="go">service "hello-node" deleted</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get services
+<span class="go">NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
+<span class="go">NAME                              READY   STATUS    RESTARTS   AGE</span>
+<span class="go">pod/hello-node-7567d9fdc9-6p26s   1/1     Running   0          79s</span>
+
+<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   21d</span>
+
+<span class="go">NAME                         READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">deployment.apps/hello-node   1/1     1            1           79s</span>
+
+<span class="go">NAME                                    DESIRED   CURRENT   READY   AGE</span>
+<span class="go">replicaset.apps/hello-node-7567d9fdc9   1         1         1       79s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get deployments
+<span class="go">NAME         READY   UP-TO-DATE   AVAILABLE   AGE</span>
+<span class="go">hello-node   1/1     1            1           82s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get pods
+<span class="go">NAME                          READY   STATUS    RESTARTS   AGE</span>
+<span class="go">hello-node-7567d9fdc9-6p26s   1/1     Running   0          85s</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl delete deployment hello-node
+<span class="go">deployment.apps "hello-node" deleted</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get all
+<span class="go">NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE</span>
+<span class="go">service/kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   21d</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get deployments
+<span class="go">No resources found in default namespace.</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>kubectl get pods
+<span class="go">No resources found in default namespace.</span>
 </pre></div>
 </div>
 <p>https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/</p>

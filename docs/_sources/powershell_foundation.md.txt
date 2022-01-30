@@ -7,4 +7,10 @@ Get-Module
 Get-InstalledModule
 ```
 
+## PAUSE する。
+
+```powershell
+Read-Host -Prompt "Press Enter to continue"
+```
+
 

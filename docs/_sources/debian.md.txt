@@ -87,3 +87,10 @@ iputils-ping: /bin/ping
 vagrant@ubuntu-focal:~$ dpkg -S /bin/ping
 iputils-ping: /bin/ping
 ```
+
+## yq をインストールする。
+
+```
+# ubuntu
+sudo snap install yq
+```
