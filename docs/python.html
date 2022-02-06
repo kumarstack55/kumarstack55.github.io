@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="コンテナ" href="container.html" /><link rel="prev" title="Git" href="git.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Node JS" href="nodejs.html" /><link rel="prev" title="Git" href="git.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>Python - Untitled ドキュメント</title>
@@ -177,6 +177,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
@@ -246,6 +247,106 @@ make altinstall
 </div>
 <p><a class="reference external" href="https://docs.python.org/3.9/using/unix.html#on-linux">Getting and installing the latest version of Python</a>を参照した。</p>
 </section>
+<section id="id1">
+<h2>ビット演算を行う。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mb">0b1010</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mb">0b1100</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'x      = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'y      = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'x &lt;&lt; 1 = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># bit shift</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'x &gt;&gt; 1 = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># bit shift</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'x &amp; y  = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># AND</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'x | y  = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span> <span class="o">|</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># OR</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'x ^ y  = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># XOR</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; x = 0b1010</span>
+<span class="go">&gt;&gt;&gt; y = 0b1100</span>
+<span class="go">&gt;&gt;&gt; print('x      = {:08b}'.format(x))</span>
+<span class="go">x      = 00001010</span>
+<span class="go">&gt;&gt;&gt; print('y      = {:08b}'.format(y))</span>
+<span class="go">y      = 00001100</span>
+<span class="go">&gt;&gt;&gt; print('x &lt;&lt; 1 = {:08b}'.format(x &lt;&lt; 1)) # bit shift</span>
+<span class="go">x &lt;&lt; 1 = 00010100</span>
+<span class="go">&gt;&gt;&gt; print('x &gt;&gt; 1 = {:08b}'.format(x &gt;&gt; 1)) # bit shift</span>
+<span class="go">x &gt;&gt; 1 = 00000101</span>
+<span class="go">&gt;&gt;&gt; print('x &amp; y  = {:08b}'.format(x &amp; y))  # AND</span>
+<span class="go">x &amp; y  = 00001000</span>
+<span class="go">&gt;&gt;&gt; print('x | y  = {:08b}'.format(x | y))  # OR</span>
+<span class="go">x | y  = 00001110</span>
+<span class="go">&gt;&gt;&gt; print('x ^ y  = {:08b}'.format(x ^ y))  # XOR</span>
+<span class="go">x ^ y  = 00000110</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="n">f</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; f(arg1=1, arg2=2)</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="go">  File "&lt;stdin&gt;", line 1, in &lt;module&gt;</span>
+<span class="go">TypeError: f() got an unexpected keyword argument 'arg2'</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="n">f</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arg1</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; f(arg1=1, arg1=2)</span>
+<span class="go">  File "&lt;stdin&gt;", line 1</span>
+<span class="go">SyntaxError: keyword argument repeated: arg1</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
+
+
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'arg1'</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">f</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; f(**kwargs)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="n">f</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">f</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">"arg2"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">f</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">"arg2"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"arg1"</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; f(arg1=1, arg2=2)</span>
+<span class="go">{'arg2': 2}</span>
+<span class="go">&gt;&gt;&gt; f(arg1=1, **{"arg2": 2})</span>
+<span class="go">{'arg2': 2}</span>
+<span class="go">&gt;&gt;&gt; f(arg1=1, **{"arg2": 2, "arg1": 3})</span>
+<span class="go">Traceback (most recent call last):</span>
+<span class="go">  File "&lt;stdin&gt;", line 1, in &lt;module&gt;</span>
+<span class="go">TypeError: __main__.f() got multiple values for keyword argument 'arg1'</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -253,12 +354,12 @@ make altinstall
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="container.html">
+          <a class="next-page" href="nodejs.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">コンテナ</div>
+                <div class="title">Node JS</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -303,6 +404,11 @@ make altinstall
             <ul>
 <li><a class="reference internal" href="#">Python</a><ul>
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
+<li><a class="reference internal" href="#id1">ビット演算を行う。</a></li>
+<li><a class="reference internal" href="#id2">ファンクションに定義されていない引数を与える。</a></li>
+<li><a class="reference internal" href="#id3">ファンクションに同一の引数を複数回指定する。</a></li>
+<li><a class="reference internal" href="#id4">ファンクションにディクショナリで引数を指定する。</a></li>
+<li><a class="reference internal" href="#id5">ファンクションで任意長の引数を受ける。</a></li>
 </ul>
 </li>
 </ul>

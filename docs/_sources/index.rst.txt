@@ -15,6 +15,7 @@ Untitled ドキュメント
    bats.md
    git.md
    python.md
+   nodejs.md
    container.md
    kubernetes.md
    prometheus.md

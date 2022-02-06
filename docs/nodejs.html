@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="停止しても再実行できるように、ファイルの一覧を出力する。" href="powershell_get_childitem.html" /><link rel="prev" title="PowerShell" href="powershell.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="コンテナ" href="container.html" /><link rel="prev" title="Python" href="python.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>PowerShell 基礎 - Untitled ドキュメント</title>
+        <title>Node JS - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -177,7 +177,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
@@ -191,8 +191,8 @@
 <li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">WSL2</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">PowerShell 基礎</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell_foundation.html">PowerShell 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="powershell_pester.html">Pester でテストする。</a></li>
 </ul>
@@ -223,18 +223,44 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="powershell">
-<h1>PowerShell 基礎<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="id1">
-<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Get</span><span class="o">-</span><span class="n">Module</span>
-<span class="n">Get</span><span class="o">-</span><span class="n">InstalledModule</span>
+          <section class="tex2jax_ignore mathjax_ignore" id="node-js">
+<h1>Node JS<a class="headerlink" href="#node-js" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="node-js-windows">
+<h2>Node JS を Windows にインストールする。<a class="headerlink" href="#node-js-windows" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">choco</span> <span class="n">install</span> <span class="n">nodejs</span>
 </pre></div>
 </div>
 </section>
-<section id="pause">
-<h2>PAUSE する。<a class="headerlink" href="#pause" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Read-Host</span> <span class="n">-Prompt</span> <span class="s2">"Press Enter to continue"</span>
+<section id="id1">
+<h2>Node JS のバージョンを確認する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; node --version</span>
+<span class="go">v17.4.0</span>
+</pre></div>
+</div>
+</section>
+<section id="npm">
+<h2>npm のバージョンを確認する。<a class="headerlink" href="#npm" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; npm version</span>
+<span class="go">{</span>
+<span class="go">  npm: '7.20.0',</span>
+<span class="go">  node: '17.4.0',</span>
+<span class="go">  v8: '9.6.180.15-node.13',</span>
+<span class="go">  uv: '1.43.0',</span>
+<span class="go">  zlib: '1.2.11',</span>
+<span class="go">  brotli: '1.0.9',</span>
+<span class="go">  ares: '1.18.1',</span>
+<span class="go">  modules: '102',</span>
+<span class="go">  nghttp2: '1.45.1',</span>
+<span class="go">  napi: '8',</span>
+<span class="go">  llhttp: '6.0.4',</span>
+<span class="go">  openssl: '3.0.1+quic',</span>
+<span class="go">  cldr: '40.0',</span>
+<span class="go">  icu: '70.1',</span>
+<span class="go">  tz: '2021a3',</span>
+<span class="go">  unicode: '14.0',</span>
+<span class="go">  ngtcp2: '0.1.0-DEV',</span>
+<span class="go">  nghttp3: '0.1.0-DEV'</span>
+<span class="go">}</span>
 </pre></div>
 </div>
 </section>
@@ -245,23 +271,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="powershell_get_childitem.html">
+          <a class="next-page" href="container.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">停止しても再実行できるように、ファイルの一覧を出力する。</div>
+                <div class="title">コンテナ</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="powershell.html">
+          <a class="prev-page" href="python.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">PowerShell</div>
+                <div class="title">Python</div>
                 
               </div>
             </a>
@@ -273,7 +299,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/powershell_foundation.md.txt"
+            <a class="muted-link" href="_sources/nodejs.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -293,9 +319,10 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">PowerShell 基礎</a><ul>
-<li><a class="reference internal" href="#id1">インストールしたモジュールの一覧を得る。</a></li>
-<li><a class="reference internal" href="#pause">PAUSE する。</a></li>
+<li><a class="reference internal" href="#">Node JS</a><ul>
+<li><a class="reference internal" href="#node-js-windows">Node JS を Windows にインストールする。</a></li>
+<li><a class="reference internal" href="#id1">Node JS のバージョンを確認する。</a></li>
+<li><a class="reference internal" href="#npm">npm のバージョンを確認する。</a></li>
 </ul>
 </li>
 </ul>

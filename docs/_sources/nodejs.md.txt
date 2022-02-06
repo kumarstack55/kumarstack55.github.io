@@ -1,0 +1,40 @@
+# Node JS
+
+## Node JS を Windows にインストールする。
+
+```powershell
+choco install nodejs
+```
+
+## Node JS のバージョンを確認する。
+
+```console
+PS > node --version
+v17.4.0
+```
+
+## npm のバージョンを確認する。
+
+```console
+PS > npm version
+{
+  npm: '7.20.0',
+  node: '17.4.0',
+  v8: '9.6.180.15-node.13',
+  uv: '1.43.0',
+  zlib: '1.2.11',
+  brotli: '1.0.9',
+  ares: '1.18.1',
+  modules: '102',
+  nghttp2: '1.45.1',
+  napi: '8',
+  llhttp: '6.0.4',
+  openssl: '3.0.1+quic',
+  cldr: '40.0',
+  icu: '70.1',
+  tz: '2021a3',
+  unicode: '14.0',
+  ngtcp2: '0.1.0-DEV',
+  nghttp3: '0.1.0-DEV'
+}
+```
