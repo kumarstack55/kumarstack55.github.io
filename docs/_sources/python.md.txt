@@ -167,3 +167,23 @@ https://www.fileformat.info/info/unicode/char/3042/index.htm
 ```
 
 https://docs.python.org/3/library/functions.html#ord
+
+## ロガーを利用する。
+
+```python
+import logging
+
+
+# ルートロガーの設定は、すべてのロガーに影響するので利用を回避する。
+# 回避するために、ルートロガーではないロガーを得る。
+# 一般的に、モジュール名をロガー名に使うことが多い。
+logger = logging.getLogger(__name__)
+
+# レベルは、ロガーとハンドラーの両方で設定する。
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+```
