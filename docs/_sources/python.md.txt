@@ -127,3 +127,43 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: __main__.f() got multiple values for keyword argument 'arg1'
 ```
+
+## utf-8 でエンコードされたとき何バイトかを得る。
+
+```python
+len('あ'.encode('utf-8'))
+```
+
+```console
+>>> len('あ'.encode('utf-8'))
+3
+```
+
+## Unicode のコードポイントを得る。
+
+```python
+def get_fileformat_info_url(cp: int):
+    return 'https://www.fileformat.info/info/unicode/char/{:x}/index.htm'.format(cp)
+
+
+string = 'あ'
+#string = '禰󠄀'
+
+for ch in list(string):
+    cp = ord(ch)
+    print('U+{:x}'.format(cp))
+    print(get_fileformat_info_url(cp))
+```
+
+```console
+>>> string = 'あ'
+>>> for ch in list(string):
+...     cp = ord(ch)
+...     print('U+{:x}'.format(cp))
+...     print(get_fileformat_info_url(cp))
+...
+U+3042
+https://www.fileformat.info/info/unicode/char/3042/index.htm
+```
+
+https://docs.python.org/3/library/functions.html#ord
