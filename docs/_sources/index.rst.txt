@@ -8,19 +8,19 @@ Untitled ドキュメント
    oci.md
    vagrant.md
    linux.rst
-   ssh.rst
+   windows.rst
+   container.md
+   kubernetes.md
    debian.md
    ubuntu.md
+   ssh.rst
    bash.rst
    bats.md
    git.md
    python.md
-   nodejs.md
-   container.md
-   kubernetes.md
-   prometheus.md
-   windows.rst
    powershell.rst
+   nodejs.md
+   prometheus.md
 
 Indices and tables
 ==================
