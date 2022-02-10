@@ -343,6 +343,26 @@
 </pre></div>
 </div>
 </section>
+<section id="pre-commit">
+<h2>pre-commit をインストールする。<a class="headerlink" href="#pre-commit" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">add</span> <span class="p">-</span><span class="n">-dev</span> <span class="n">pre-commit</span>
+<span class="n">poetry</span> <span class="n">run</span> <span class="n">pre-commit</span> <span class="p">-</span><span class="n">-version</span>
+<span class="n">poetry</span> <span class="n">run</span> <span class="n">pre-commit</span> <span class="n">install</span>
+<span class="nb">New-Item</span> <span class="p">.</span><span class="n">pre-commit-config</span><span class="p">.</span><span class="n">yaml</span>
+
+<span class="k">function</span> <span class="nb">Out-FileNoBom</span> <span class="p">{</span>
+    <span class="k">param</span><span class="p">(</span><span class="no">[String]</span><span class="nv">$LiteralPath</span><span class="p">,</span> <span class="nv">$InputObject</span><span class="p">)</span>
+    <span class="nv">$Path</span> <span class="p">=</span> <span class="no">[System.IO.Path]</span><span class="p">::</span><span class="n">GetFullPath</span><span class="p">(</span><span class="nv">$LiteralPath</span><span class="p">)</span>
+    <span class="no">[System.IO.File]</span><span class="p">::</span><span class="n">WriteAllLines</span><span class="p">(</span><span class="nv">$Path</span><span class="p">,</span> <span class="nv">$InputObject</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nv">$Path</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="p">(</span><span class="nb">Get-Location</span><span class="p">)</span> <span class="s2">".pre-commit-config.yaml"</span>
+<span class="nv">$Lines</span> <span class="p">=</span> <span class="n">poetry</span> <span class="n">run</span> <span class="n">pre-commit</span> <span class="n">sample-config</span>
+<span class="nb">Out-FileNoBom</span> <span class="n">-LiteralPath</span> <span class="nv">$Path</span> <span class="n">-InputObject</span> <span class="nv">$Lines</span>
+</pre></div>
+</div>
+<p>https://pre-commit.com/</p>
+</section>
 </section>
 
         </article>
@@ -401,6 +421,7 @@
 <li><a class="reference internal" href="#">Git</a><ul>
 <li><a class="reference internal" href="#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a></li>
 <li><a class="reference internal" href="#git-submodule">git submodule の機能一覧</a></li>
+<li><a class="reference internal" href="#pre-commit">pre-commit をインストールする。</a></li>
 </ul>
 </li>
 </ul>

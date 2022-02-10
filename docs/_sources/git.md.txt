@@ -117,3 +117,24 @@ usage: git submodule [--quiet] [--cached]
    or: git submodule [--quiet] sync [--recursive] [--] [<path>...]
    or: git submodule [--quiet] absorbgitdirs [--] [<path>...]
 ```
+
+## pre-commit をインストールする。
+
+```powershell
+poetry add --dev pre-commit
+poetry run pre-commit --version
+poetry run pre-commit install
+New-Item .pre-commit-config.yaml
+
+function Out-FileNoBom {
+    param([String]$LiteralPath, $InputObject)
+    $Path = [System.IO.Path]::GetFullPath($LiteralPath)
+    [System.IO.File]::WriteAllLines($Path, $InputObject)
+}
+
+$Path = Join-Path (Get-Location) ".pre-commit-config.yaml"
+$Lines = poetry run pre-commit sample-config
+Out-FileNoBom -LiteralPath $Path -InputObject $Lines
+```
+
+https://pre-commit.com/
