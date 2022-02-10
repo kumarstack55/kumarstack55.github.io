@@ -231,6 +231,24 @@
 </pre></div>
 </div>
 </section>
+<section id="id1">
+<h2>ファイル名を指定して実行する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>powershell.exe を実行する例:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Win</span> <span class="pre">+</span> <span class="pre">R</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">powershell.exe</span></code></p></li>
+<li><p>Enter</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>ファイル名を指定して管理者権限で実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>powershell.exe を実行する例:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Win</span> <span class="pre">+</span> <span class="pre">R</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">powershell.exe</span></code></p></li>
+<li><p>Ctrl + Shift + Enter</p></li>
+</ul>
+</section>
 <section id="listen">
 <h2>LISTEN しているポートを得る。<a class="headerlink" href="#listen" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">netstat</span> <span class="n">-anp</span> <span class="n">TCP</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="n">LISTENING</span>
@@ -250,8 +268,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h2>プロセス一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h2>プロセス一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span>
 </pre></div>
 </div>
@@ -267,8 +285,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>指定コマンドのパスを得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>指定コマンドのパスを得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; where.exe ssh.exe</span>
 <span class="go">C:\Windows\System32\OpenSSH\ssh.exe</span>
 </pre></div>
@@ -276,8 +294,8 @@
 </section>
 <section id="bcdedit">
 <h2>BCDEDIT - ブート構成データ ストア エディター<a class="headerlink" href="#bcdedit" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id3">
-<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id5">
+<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cmd.exe</span>
 <span class="n">bcdedit</span><span class="o">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">enum</span>
 </pre></div>
@@ -321,8 +339,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>参考: bcdedit /?<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id6">
+<h3>参考: bcdedit /?<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;bcdedit /?</span>
 
 <span class="go">BCDEDIT - ブート構成データ ストア エディター</span>
@@ -486,14 +504,16 @@
             <ul>
 <li><a class="reference internal" href="#">Microsoft Windows 基礎</a><ul>
 <li><a class="reference internal" href="#windows">Windows のバージョン情報を表示する。</a></li>
+<li><a class="reference internal" href="#id1">ファイル名を指定して実行する。</a></li>
+<li><a class="reference internal" href="#id2">ファイル名を指定して管理者権限で実行する。</a></li>
 <li><a class="reference internal" href="#listen">LISTEN しているポートを得る。</a></li>
 <li><a class="reference internal" href="#tcp-id">TCP のポートを利用するプロセスIDを得る。</a></li>
-<li><a class="reference internal" href="#id1">プロセス一覧を得る。</a></li>
+<li><a class="reference internal" href="#id3">プロセス一覧を得る。</a></li>
 <li><a class="reference internal" href="#id">指定したプロセスIDを得る。</a></li>
-<li><a class="reference internal" href="#id2">指定コマンドのパスを得る。</a></li>
+<li><a class="reference internal" href="#id4">指定コマンドのパスを得る。</a></li>
 <li><a class="reference internal" href="#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
-<li><a class="reference internal" href="#id3">ストアのエントリを一覧表示する。</a></li>
-<li><a class="reference internal" href="#id4">参考: bcdedit /?</a></li>
+<li><a class="reference internal" href="#id5">ストアのエントリを一覧表示する。</a></li>
+<li><a class="reference internal" href="#id6">参考: bcdedit /?</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#microsoft">Microsoft 以外</a><ul>

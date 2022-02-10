@@ -6,6 +6,22 @@
 winver.exe
 ```
 
+## ファイル名を指定して実行する。
+
+powershell.exe を実行する例:
+
+* `Win + R`
+* `powershell.exe`
+* Enter
+
+## ファイル名を指定して管理者権限で実行する。
+
+powershell.exe を実行する例:
+
+* `Win + R`
+* `powershell.exe`
+* Ctrl + Shift + Enter
+
 ## LISTEN しているポートを得る。
 
 ```powershell
