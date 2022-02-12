@@ -21,6 +21,7 @@ Untitled ドキュメント
    powershell.rst
    nodejs.md
    prometheus.md
+   japanese_imperial_year.md
 
 Indices and tables
 ==================

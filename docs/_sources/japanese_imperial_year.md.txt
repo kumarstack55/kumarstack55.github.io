@@ -1,0 +1,7 @@
+# 西暦、和暦
+
+```{eval-rst}
+.. csv-table:: 西暦、和暦の対応一覧表
+   :file: japanese_imperial_year/japanese_imperial_year.csv
+   :header-rows: 1
+```

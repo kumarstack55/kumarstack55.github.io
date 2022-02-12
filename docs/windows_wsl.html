@@ -197,6 +197,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
 
 </div>
@@ -323,7 +324,7 @@ Running でなければ、自動的に Running になる。</p>
       <span class="n">gateway</span>
       <span class="o">|</span> <span class="mf">172.17.96.1</span>
       <span class="o">|</span>
-     <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span> <span class="mf">172.19.64.0</span><span class="o">/</span><span class="mi">20</span>
+     <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span> <span class="mf">172.17.96.0</span><span class="o">/</span><span class="mi">20</span>
         <span class="o">|</span>
         <span class="o">|</span> <span class="mf">172.17.101.87</span><span class="o">/</span><span class="mi">20</span>
         <span class="n">eth0</span>
@@ -350,6 +351,20 @@ Running でなければ、自動的に Running になる。</p>
 <span class="go">       valid_lft forever preferred_lft forever</span>
 <span class="go">    inet6 fe80::215:5dff:fe37:f094/64 scope link</span>
 <span class="go">       valid_lft forever preferred_lft forever</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./ipv4_calc.py <span class="m">172</span>.17.103.28/20
+<span class="go">address           : 172.17.103.28</span>
+<span class="go">network           : 172.17.96.0</span>
+<span class="go">netmask           : 255.255.240.0</span>
+<span class="go">broadcast         : 172.17.111.255</span>
+<span class="go">addressPrefix     : 20</span>
+<span class="go">numAddresses      : 4096</span>
+<span class="go">numHostAddresses  : 4094</span>
+<span class="go">address           : 10101100.00010001.01100111.00011100</span>
+<span class="go">network           : 10101100.00010001.01100000.00000000</span>
+<span class="go">netmask           : 11111111.11111111.11110000.00000000</span>
+<span class="go">broadcast         : 10101100.00010001.01101111.11111111</span>
 </pre></div>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cat /etc/resolv.conf

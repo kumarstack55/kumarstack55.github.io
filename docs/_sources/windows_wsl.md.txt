@@ -103,7 +103,7 @@ wsl --shutdown
       gateway
       | 172.17.96.1
       |
-     -o-o- 172.19.64.0/20
+     -o-o- 172.17.96.0/20
         |
         | 172.17.101.87/20
         eth0
@@ -134,6 +134,20 @@ $ ip address show dev eth0
        valid_lft forever preferred_lft forever
 ```
 
+```console
+$ ./ipv4_calc.py 172.17.103.28/20
+address           : 172.17.103.28
+network           : 172.17.96.0
+netmask           : 255.255.240.0
+broadcast         : 172.17.111.255
+addressPrefix     : 20
+numAddresses      : 4096
+numHostAddresses  : 4094
+address           : 10101100.00010001.01100111.00011100
+network           : 10101100.00010001.01100000.00000000
+netmask           : 11111111.11111111.11110000.00000000
+broadcast         : 10101100.00010001.01101111.11111111
+```
 
 ```console
 $ cat /etc/resolv.conf
