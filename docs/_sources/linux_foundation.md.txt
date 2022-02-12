@@ -45,6 +45,18 @@ vagrant@ubuntu-focal:~$ diff -u <(echo "$out") <(f)
 +Sun 30 Jan 2022 04:48:43 AM UTC
 ```
 
+## 指定行番号から指定行番号の範囲を出力する。
+
+```bash
+seq 1 4 | sed -n -e '2,3p'
+```
+
+```console
+$ seq 1 4 | sed -n -e '2,3p'
+2
+3
+```
+
 ## 参考: brctl -h
 
 ```console
@@ -73,4 +85,3 @@ commands:
         showstp         <bridge>                show bridge stp info
         stp             <bridge> {on|off}       turn stp on/off
 ```
-

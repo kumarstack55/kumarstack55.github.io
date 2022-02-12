@@ -404,6 +404,70 @@ make altinstall
 </pre></div>
 </div>
 </section>
+<section id="ip">
+<h2>IPアドレスを計算する。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;__PYTHON__ | tee /tmp/ipv4_calc.py</span>
+<span class="s">#!/usr/bin/env python3</span>
+<span class="s">from ipaddress import IPv4Interface</span>
+<span class="s">import argparse</span>
+<span class="s">import json</span>
+
+
+<span class="s">def to_bin(network):</span>
+<span class="s">    packed = network.packed</span>
+<span class="s">    return '.'.join(map(lambda o: '{:08b}'.format(o), map(int, packed)))</span>
+
+
+<span class="s">def print_key_value(key, value):</span>
+<span class="s">    print('%-18s: %s' % (key, value))</span>
+
+
+<span class="s">if __name__ == '__main__':</span>
+<span class="s">    parser = argparse.ArgumentParser()</span>
+<span class="s">    parser.add_argument(</span>
+<span class="s">            'ipaddr_prefix', nargs=1,</span>
+<span class="s">            help='x.x.x.x/xx')</span>
+<span class="s">    args = parser.parse_args()</span>
+<span class="s">    interface = IPv4Interface(args.ipaddr_prefix[0])</span>
+
+<span class="s">    print_key_value('address', interface.ip)</span>
+<span class="s">    print_key_value('network', interface.network.network_address)</span>
+<span class="s">    print_key_value('netmask', interface.network.netmask)</span>
+<span class="s">    print_key_value('broadcast', interface.network.broadcast_address)</span>
+
+<span class="s">    print_key_value('addressPrefix', interface.network.prefixlen)</span>
+<span class="s">    print_key_value('numAddresses', interface.network.num_addresses)</span>
+
+<span class="s">    if interface.network.prefixlen &lt; 32:</span>
+<span class="s">        numHostAddresses = interface.network.num_addresses - 2</span>
+<span class="s">    else:</span>
+<span class="s">        numHostAddresses = 1</span>
+<span class="s">    print_key_value('numHostAddresses', numHostAddresses)</span>
+
+<span class="s">    print_key_value('address', to_bin(interface.ip))</span>
+<span class="s">    print_key_value('network', to_bin(interface.network.network_address))</span>
+<span class="s">    print_key_value('netmask', to_bin(interface.network.netmask))</span>
+<span class="s">    print_key_value('broadcast', to_bin(interface.network.broadcast_address))</span>
+<span class="s">__PYTHON__</span>
+chmod +x /tmp/ipv4_calc.py
+./ipv4_calc.py <span class="m">172</span>.17.103.28/20
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./ipv4_calc.py <span class="m">172</span>.17.103.28/20
+<span class="go">address           : 172.17.103.28</span>
+<span class="go">network           : 172.17.96.0</span>
+<span class="go">netmask           : 255.255.240.0</span>
+<span class="go">broadcast         : 172.17.111.255</span>
+<span class="go">addressPrefix     : 20</span>
+<span class="go">numAddresses      : 4096</span>
+<span class="go">numHostAddresses  : 4094</span>
+<span class="go">address           : 10101100.00010001.01100111.00011100</span>
+<span class="go">network           : 10101100.00010001.01100000.00000000</span>
+<span class="go">netmask           : 11111111.11111111.11110000.00000000</span>
+<span class="go">broadcast         : 10101100.00010001.01101111.11111111</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -469,6 +533,7 @@ make altinstall
 <li><a class="reference internal" href="#utf-8">utf-8 でエンコードされたとき何バイトかを得る。</a></li>
 <li><a class="reference internal" href="#unicode">Unicode のコードポイントを得る。</a></li>
 <li><a class="reference internal" href="#id6">ロガーを利用する。</a></li>
+<li><a class="reference internal" href="#ip">IPアドレスを計算する。</a></li>
 </ul>
 </li>
 </ul>

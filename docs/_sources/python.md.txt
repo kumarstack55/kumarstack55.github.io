@@ -187,3 +187,68 @@ formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 ```
+
+## IPアドレスを計算する。
+
+```bash
+cat <<__PYTHON__ | tee /tmp/ipv4_calc.py
+#!/usr/bin/env python3
+from ipaddress import IPv4Interface
+import argparse
+import json
+
+
+def to_bin(network):
+    packed = network.packed
+    return '.'.join(map(lambda o: '{:08b}'.format(o), map(int, packed)))
+
+
+def print_key_value(key, value):
+    print('%-18s: %s' % (key, value))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+            'ipaddr_prefix', nargs=1,
+            help='x.x.x.x/xx')
+    args = parser.parse_args()
+    interface = IPv4Interface(args.ipaddr_prefix[0])
+
+    print_key_value('address', interface.ip)
+    print_key_value('network', interface.network.network_address)
+    print_key_value('netmask', interface.network.netmask)
+    print_key_value('broadcast', interface.network.broadcast_address)
+
+    print_key_value('addressPrefix', interface.network.prefixlen)
+    print_key_value('numAddresses', interface.network.num_addresses)
+
+    if interface.network.prefixlen < 32:
+        numHostAddresses = interface.network.num_addresses - 2
+    else:
+        numHostAddresses = 1
+    print_key_value('numHostAddresses', numHostAddresses)
+
+    print_key_value('address', to_bin(interface.ip))
+    print_key_value('network', to_bin(interface.network.network_address))
+    print_key_value('netmask', to_bin(interface.network.netmask))
+    print_key_value('broadcast', to_bin(interface.network.broadcast_address))
+__PYTHON__
+chmod +x /tmp/ipv4_calc.py
+./ipv4_calc.py 172.17.103.28/20
+```
+
+```console
+$ ./ipv4_calc.py 172.17.103.28/20
+address           : 172.17.103.28
+network           : 172.17.96.0
+netmask           : 255.255.240.0
+broadcast         : 172.17.111.255
+addressPrefix     : 20
+numAddresses      : 4096
+numHostAddresses  : 4094
+address           : 10101100.00010001.01100111.00011100
+network           : 10101100.00010001.01100000.00000000
+netmask           : 11111111.11111111.11110000.00000000
+broadcast         : 10101100.00010001.01101111.11111111
+```

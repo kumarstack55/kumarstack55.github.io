@@ -233,13 +233,19 @@
 </div>
 </section>
 <section id="id1">
-<h2>ディストリビューションの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
+<h2>WSLをアップデートする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-update</span>
 </pre></div>
 </div>
 </section>
 <section id="id2">
-<h2>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>ディストリビューションの一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
 </pre></div>
 </div>
@@ -250,30 +256,52 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>インストールしたディストリビューションを消す。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>インストールしたディストリビューションを消す。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-unregister</span> <span class="n">Ubuntu</span>
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="p">~</span>
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>指定コマンドを実行し、 State を Running にする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="sudo-root">
+<h2>sudo でパスワード入力なしに root 権限でコマンドを実行できるようにする。<a class="headerlink" href="#sudo-root" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># powershell</span>
+<span class="nv">$User</span> <span class="p">=</span> <span class="n">wsl</span> <span class="n">whoami</span>
+<span class="nv">$Line</span> <span class="p">=</span> <span class="s2">"${User} ALL=(ALL) NOPASSWD: ALL"</span>
+<span class="n">wsl</span> <span class="n">-u</span> <span class="n">root</span> <span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">bash</span> <span class="n">-c</span> <span class="s2">"echo '$Line' | sudo tee '/etc/sudoers.d/$User'"</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; wsl sudo whoami</span>
+<span class="go">root</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>既存ウィンドウでルート権限でシェルを起動する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-u</span> <span class="n">root</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>指定コマンドを実行する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>あらかじめ State を Running にする必要はない。
+Running でなければ、自動的に Running になる。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-exec</span> <span class="n">uname</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="n">uname</span>
 </pre></div>
 </div>
+<p>実行後、 <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">-l</span> <span class="pre">-v</span></code> を実行するとわかるが Status は Running となる。</p>
 </section>
-<section id="id6">
-<h2>ディストリビューションを指定する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>ディストリビューションを指定する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span>
 </pre></div>
 </div>
@@ -284,24 +312,93 @@
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>参考: ネットワーク構成<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>参考: ネットワーク構成<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">|</span>
    <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span>
       <span class="o">|</span>
       <span class="n">vEthernet</span> <span class="p">(</span><span class="n">WSL</span><span class="p">)</span>
       <span class="n">ip</span> <span class="n">address</span><span class="p">:</span> <span class="mf">172.19.64.1</span>
       <span class="o">|</span>
+      <span class="n">gateway</span>
+      <span class="o">|</span> <span class="mf">172.17.96.1</span>
+      <span class="o">|</span>
      <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span> <span class="mf">172.19.64.0</span><span class="o">/</span><span class="mi">20</span>
         <span class="o">|</span>
+        <span class="o">|</span> <span class="mf">172.17.101.87</span><span class="o">/</span><span class="mi">20</span>
         <span class="n">eth0</span>
         <span class="n">Ubuntu</span>
         <span class="n">nameserver</span><span class="p">:</span> <span class="mf">172.19.64.1</span>
 </pre></div>
 </div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; wsl --status</span>
+<span class="go">既定の配布: Ubuntu-20.04</span>
+<span class="go">既定のバージョン: 2</span>
+
+<span class="go">Linux 用 Windows サブシステムの最終更新日: 2021/12/05</span>
+<span class="go">Windows Subsystem for Linux カーネルは、'wsl --update' を使用して手動で更新できますが、システム設定が原因で自動更新が発生することはありません。</span>
+<span class="go">カーネルの自動更新を受け取るには、 Windows Update の設定を有効にしてください:' Windowsの更新に、その他のMicrosoftの製品の更新情報を受け取る'。</span>
+<span class="go">詳細については、 https://aka.ms/wsl2kernel.</span>
+<span class="go"> を参照してください</span>
+<span class="go">カーネル バージョン: 5.10.60.1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ip address show dev eth0
+<span class="go">6: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000</span>
+<span class="go">    link/ether 00:15:5d:37:f0:94 brd ff:ff:ff:ff:ff:ff</span>
+<span class="go">    inet 172.17.103.28/20 brd 172.17.111.255 scope global eth0</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+<span class="go">    inet6 fe80::215:5dff:fe37:f094/64 scope link</span>
+<span class="go">       valid_lft forever preferred_lft forever</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cat /etc/resolv.conf
+<span class="gp"># </span>This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:
+<span class="gp"># </span><span class="o">[</span>network<span class="o">]</span>
+<span class="gp"># </span><span class="nv">generateResolvConf</span> <span class="o">=</span> <span class="nb">false</span>
+<span class="go">nameserver 172.17.96.1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ip route
+<span class="go">default via 172.17.96.1 dev eth0</span>
+<span class="go">172.17.96.0/20 dev eth0 proto kernel scope link src 172.17.101.87</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-NetIPAddress | Where-Object { $_.InterfaceAlias.Contains('WSL') }</span>
+
+
+<span class="go">IPAddress         : fe80::46a:95e1:992b:8e68%49</span>
+<span class="go">InterfaceIndex    : 49</span>
+<span class="go">InterfaceAlias    : vEthernet (WSL)</span>
+<span class="go">AddressFamily     : IPv6</span>
+<span class="go">Type              : Unicast</span>
+<span class="go">PrefixLength      : 64</span>
+<span class="go">PrefixOrigin      : WellKnown</span>
+<span class="go">SuffixOrigin      : Link</span>
+<span class="go">AddressState      : Preferred</span>
+<span class="go">ValidLifetime     : Infinite ([TimeSpan]::MaxValue)</span>
+<span class="go">PreferredLifetime : Infinite ([TimeSpan]::MaxValue)</span>
+<span class="go">SkipAsSource      : False</span>
+<span class="go">PolicyStore       : ActiveStore</span>
+
+<span class="go">IPAddress         : 172.17.96.1</span>
+<span class="go">InterfaceIndex    : 49</span>
+<span class="go">InterfaceAlias    : vEthernet (WSL)</span>
+<span class="go">AddressFamily     : IPv4</span>
+<span class="go">Type              : Unicast</span>
+<span class="go">PrefixLength      : 20</span>
+<span class="go">PrefixOrigin      : Manual</span>
+<span class="go">SuffixOrigin      : Manual</span>
+<span class="go">AddressState      : Preferred</span>
+<span class="go">ValidLifetime     : Infinite ([TimeSpan]::MaxValue)</span>
+<span class="go">PreferredLifetime : Infinite ([TimeSpan]::MaxValue)</span>
+<span class="go">SkipAsSource      : False</span>
+<span class="go">PolicyStore       : ActiveStore</span>
+</pre></div>
+</div>
 </section>
-<section id="id8">
-<h2>参考: wsl機能一覧<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>参考: wsl機能一覧<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; wsl --status</span>
 <span class="go">既定のバージョン: 2</span>
 
@@ -506,16 +603,19 @@
             <ul>
 <li><a class="reference internal" href="#">WSL2</a><ul>
 <li><a class="reference internal" href="#wsl">WSLのステータスを得る。</a></li>
-<li><a class="reference internal" href="#id1">ディストリビューションの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id2">ローカルのディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id1">WSLをアップデートする。</a></li>
+<li><a class="reference internal" href="#id2">ディストリビューションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id3">ローカルのディストリビューションの一覧を得る。</a></li>
 <li><a class="reference internal" href="#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
-<li><a class="reference internal" href="#id3">インストールしたディストリビューションを消す。</a></li>
-<li><a class="reference internal" href="#id4">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
-<li><a class="reference internal" href="#id5">指定コマンドを実行し、 State を Running にする。</a></li>
-<li><a class="reference internal" href="#id6">ディストリビューションを指定する。</a></li>
+<li><a class="reference internal" href="#id4">インストールしたディストリビューションを消す。</a></li>
+<li><a class="reference internal" href="#id5">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#sudo-root">sudo でパスワード入力なしに root 権限でコマンドを実行できるようにする。</a></li>
+<li><a class="reference internal" href="#id6">既存ウィンドウでルート権限でシェルを起動する。</a></li>
+<li><a class="reference internal" href="#id7">指定コマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id8">ディストリビューションを指定する。</a></li>
 <li><a class="reference internal" href="#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
-<li><a class="reference internal" href="#id7">参考: ネットワーク構成</a></li>
-<li><a class="reference internal" href="#id8">参考: wsl機能一覧</a></li>
+<li><a class="reference internal" href="#id9">参考: ネットワーク構成</a></li>
+<li><a class="reference internal" href="#id10">参考: wsl機能一覧</a></li>
 </ul>
 </li>
 </ul>

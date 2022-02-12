@@ -269,6 +269,17 @@ diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2
 </pre></div>
 </div>
 </section>
+<section id="id3">
+<h2>指定行番号から指定行番号の範囲を出力する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>seq <span class="m">1</span> <span class="m">4</span> <span class="p">|</span> sed -n -e <span class="s1">'2,3p'</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>seq <span class="m">1</span> <span class="m">4</span> <span class="p">|</span> sed -n -e <span class="s1">'2,3p'</span>
+<span class="go">2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</section>
 <section id="brctl-h">
 <h2>参考: brctl -h<a class="headerlink" href="#brctl-h" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>brctl --version
@@ -357,6 +368,7 @@ diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2
 <li><a class="reference internal" href="#id1">スワップを加える。</a></li>
 <li><a class="reference internal" href="#strace">strace する。</a></li>
 <li><a class="reference internal" href="#id2">差分を確認する。</a></li>
+<li><a class="reference internal" href="#id3">指定行番号から指定行番号の範囲を出力する。</a></li>
 <li><a class="reference internal" href="#brctl-h">参考: brctl -h</a></li>
 </ul>
 </li>
