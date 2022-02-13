@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Kubernetes 基礎" href="kubernetes_foundation.html" /><link rel="prev" title="コンテナ" href="container.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="prev" title="西暦、和暦" href="japanese_imperial_year.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Kubernetes - Untitled ドキュメント</title>
+        <title>決算書 - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -169,7 +169,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Kubernetes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
-<li class="toctree-l1"><a class="reference internal" href="financial_statements.html">決算書</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">決算書</a></li>
 </ul>
 
 </div>
@@ -219,73 +219,115 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="kubernetes">
-<h1>Kubernetes<a class="headerlink" href="#kubernetes" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+          <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>決算書<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id2">
+<h2>企業が公開する書類<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>上場企業</p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id1">クライアントとサーバのバージョンを確認する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id2">設定のコンテキストを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id3">設定を見る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id4">イベントを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#api">名前空間にあるAPIリソースを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id5">名前空間にないAPIリソースを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id6">名前空間</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id7">名前空間の一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id8">名前空間を作る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id9">名前空間を消す。</a></li>
+<li><p>有価証券報告書(年1回)</p></li>
+<li><p>四半期報告書(3カ月に1回)</p></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id10">リソースの一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#pod">Pod</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id11">Pod を作る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id12">ログを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id13">Podの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id14">Podの情報を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pod-yaml">Pod の YAML を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id15">Pod の YAMLを得て、編集し、反映する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#pods">Pods 内でコマンドを実行する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id16">Pods を消す。</a></li>
+<li><p>非上場企業</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>決算書の中身<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>財務3表</p>
+<ul>
+<li><p>貸借対照表(=B/S)</p></li>
+<li><p>損益計算書(=P/L)</p></li>
+<li><p>キャッシュフロー計算書(=C/S)</p></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#deployment">Deployment</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#id17">Deploymentを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#deploymentpods">Deploymentを作ることで、Podsを作る。</a></li>
+<li><p>株主資本など変動計算書(=S/S)</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>決算書の想定読者<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>例: 企業内部</p>
+<ul>
+<li><p>現金、売掛金、借入金がどの程度かなど、今後の打ち手を考える上で考慮すべき重要な事項だから。</p></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#service">Service</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="kubernetes_foundation.html#expose-service">expose で Service を作る。</a></li>
+<li><p>例: 銀行・投資家</p>
+<ul>
+<li><p>利息、配当金、株価の値上がり益などのリターンを見込む検討材料になるから。</p></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#id18">リソースの情報を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html#kubectl-get-pods-h">参考: kubectl get pods -h</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html#id1">kubectl をインストールする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html#id2">kubectl でクラスタの状態を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html#kubectl-bash">kubectl を bash で補完する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html#id3">kubectlの機能一覧</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html#minikube-windows-virtualbox-vagrant">Minikube 用のマシンを Windows + VirtualBox + Vagrant で用意する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html#id1">Minikube を動かす。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html#id2">ダッシュボードを動かす。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html#hello-minikube">Hello Minikube</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html#minikube-pod">参考: Minikube の Pod 内のネットワーク</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html#id3">参考: minikube の機能一覧</a></li>
+<li><p>例: 企業間取引</p>
+<ul>
+<li><p>財政、経営成績から企業の安定性を分析するため。</p></li>
 </ul>
 </li>
 </ul>
+</section>
+<section id="b-s">
+<h2>貸借対照表(B/S)<a class="headerlink" href="#b-s" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>左側: 借方, 右側: 貸方</p></li>
+<li><p>左側: 資産の部 (運用状況)</p>
+<ul>
+<li><p>流動資産 ≒だいたい1年いないに資金回収できるもの。</p>
+<ul>
+<li><p>例: 現金、銀行の預金、受取手形、製品など</p></li>
+</ul>
+</li>
+<li><p>固定資産</p></li>
+</ul>
+</li>
+<li><p>右側: 負債の部 (調達状況)</p>
+<ul>
+<li><p>負債</p>
+<ul>
+<li><p>流動負債</p>
+<ul>
+<li><p>例: 支払い手形、買掛金、短期借入金など</p></li>
+</ul>
+</li>
+<li><p>固定負債</p>
+<ul>
+<li><p>例: 長期借入金、社債、退職給付引当金など</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>純資産 ≒返済が不要な資金</p>
+<ul>
+<li><p>株主資本(株主に帰属する)</p>
+<ul>
+<li><p>株主資本は、その企業が真に自由に使うことができるお金</p></li>
+</ul>
+</li>
+<li><p>その他(含み益など)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id5">
+<h2>債務超過<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">資産</span> <span class="pre">=</span> <span class="pre">負債</span> <span class="pre">+</span> <span class="pre">純資産</span></code> であるため、
+もし <code class="docutils literal notranslate"><span class="pre">資産</span> <span class="pre">&lt;</span> <span class="pre">負債</span></code> のとき、純資産はマイナスとなる。</p>
+<p>この状態を債務超過という。</p>
+</section>
+<section id="id6">
+<h2>原価率<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">原価率</span><span class="p">(</span><span class="o">%</span><span class="p">)</span> <span class="o">=</span> <span class="n">売上原価</span> <span class="o">/</span> <span class="n">売上高</span> <span class="o">*</span> <span class="mi">100</span>
+</pre></div>
 </div>
+</section>
 </section>
 
         </article>
@@ -293,23 +335,15 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="kubernetes_foundation.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Kubernetes 基礎</div>
-              </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="container.html">
+          
+          <a class="prev-page" href="japanese_imperial_year.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">コンテナ</div>
+                <div class="title">西暦、和暦</div>
                 
               </div>
             </a>
@@ -321,7 +355,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/kubernetes.rst.txt"
+            <a class="muted-link" href="_sources/financial_statements.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -329,8 +363,32 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">決算書</a><ul>
+<li><a class="reference internal" href="#id2">企業が公開する書類</a></li>
+<li><a class="reference internal" href="#id3">決算書の中身</a></li>
+<li><a class="reference internal" href="#id4">決算書の想定読者</a></li>
+<li><a class="reference internal" href="#b-s">貸借対照表(B/S)</a></li>
+<li><a class="reference internal" href="#id5">債務超過</a></li>
+<li><a class="reference internal" href="#id6">原価率</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

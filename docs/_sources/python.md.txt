@@ -252,3 +252,46 @@ network           : 10101100.00010001.01100000.00000000
 netmask           : 11111111.11111111.11110000.00000000
 broadcast         : 10101100.00010001.01101111.11111111
 ```
+
+## argparse でファイルのエンコーディングを指定する。
+
+指定なしの場合、環境によっては cp932 が選択されることがある。
+対象のエンコーディングがわかっていれば、明示的に指定したほうがよい。
+
+```python
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--f1', type=argparse.FileType('w'))
+parser.add_argument('--f2', type=argparse.FileType('w', encoding='UTF-8'))
+parser.add_argument('--f3', type=argparse.FileType('r'))
+parser.add_argument('--f4', type=argparse.FileType('r', encoding='UTF-8'))
+args1 = ['--f1', '1.txt', '--f2', '2.txt', '--f3', '3.txt', '--f4', '4.txt']
+args2 = parser.parse_args(args1)
+
+args2.f1
+args2.f2
+args2.f3
+args2.f4
+```
+
+```console
+PS > (Get-WmiObject Win32_OperatingSystem).Version
+10.0.22000
+```
+
+```console
+PS > python --version
+Python 3.9.4
+```
+
+```console
+>>> args2.f1
+<_io.TextIOWrapper name='1.txt' mode='w' encoding='cp932'>
+>>> args2.f2
+<_io.TextIOWrapper name='2.txt' mode='w' encoding='UTF-8'>
+>>> args2.f3
+<_io.TextIOWrapper name='3.txt' mode='r' encoding='cp932'>
+>>> args2.f4
+<_io.TextIOWrapper name='4.txt' mode='r' encoding='UTF-8'>
+```
