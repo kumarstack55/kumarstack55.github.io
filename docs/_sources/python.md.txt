@@ -168,7 +168,7 @@ https://www.fileformat.info/info/unicode/char/3042/index.htm
 
 https://docs.python.org/3/library/functions.html#ord
 
-## ロガーを利用する。
+## logging でロガーを利用する。
 
 ```python
 import logging
@@ -190,67 +190,20 @@ logger.addHandler(handler)
 
 ## IPアドレスを計算する。
 
-```bash
-cat <<__PYTHON__ | tee /tmp/ipv4_calc.py
-#!/usr/bin/env python3
-from ipaddress import IPv4Interface
-import argparse
-import json
-
-
-def to_bin(network):
-    packed = network.packed
-    return '.'.join(map(lambda o: '{:08b}'.format(o), map(int, packed)))
-
-
-def print_key_value(key, value):
-    print('%-18s: %s' % (key, value))
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-            'ipaddr_prefix', nargs=1,
-            help='x.x.x.x/xx')
-    args = parser.parse_args()
-    interface = IPv4Interface(args.ipaddr_prefix[0])
-
-    print_key_value('address', interface.ip)
-    print_key_value('network', interface.network.network_address)
-    print_key_value('netmask', interface.network.netmask)
-    print_key_value('broadcast', interface.network.broadcast_address)
-
-    print_key_value('addressPrefix', interface.network.prefixlen)
-    print_key_value('numAddresses', interface.network.num_addresses)
-
-    if interface.network.prefixlen < 32:
-        numHostAddresses = interface.network.num_addresses - 2
-    else:
-        numHostAddresses = 1
-    print_key_value('numHostAddresses', numHostAddresses)
-
-    print_key_value('address', to_bin(interface.ip))
-    print_key_value('network', to_bin(interface.network.network_address))
-    print_key_value('netmask', to_bin(interface.network.netmask))
-    print_key_value('broadcast', to_bin(interface.network.broadcast_address))
-__PYTHON__
-chmod +x /tmp/ipv4_calc.py
-./ipv4_calc.py 172.17.103.28/20
-```
+https://github.com/kumarstack55/python-ipv4calc
 
 ```console
-$ ./ipv4_calc.py 172.17.103.28/20
-address           : 172.17.103.28
-network           : 172.17.96.0
-netmask           : 255.255.240.0
-broadcast         : 172.17.111.255
-addressPrefix     : 20
-numAddresses      : 4096
-numHostAddresses  : 4094
-address           : 10101100.00010001.01100111.00011100
-network           : 10101100.00010001.01100000.00000000
-netmask           : 11111111.11111111.11110000.00000000
-broadcast         : 10101100.00010001.01101111.11111111
+PS > poetry run ipv4calc 192.168.0.1/24
+address         : 192.168.0.1
+network         : 192.168.0.0
+netmask         : 255.255.255.0
+broadcast       : 192.168.0.255
+addressPrefix   : 24
+numAddresses    : 256
+addressBinary   : 11000000.10101000.00000000.00000001
+networkBinary   : 11000000.10101000.00000000.00000000
+netmaskBinary   : 11111111.11111111.11111111.00000000
+broadcastBinary : 11000000.10101000.00000000.11111111
 ```
 
 ## argparse でファイルのエンコーディングを指定する。
@@ -295,3 +248,37 @@ Python 3.9.4
 >>> args2.f4
 <_io.TextIOWrapper name='4.txt' mode='r' encoding='UTF-8'>
 ```
+
+## Jupyter Lab をインストールする。
+
+```powershell
+$Directory = "$HOME\Documents\sandbox-jupyterlab"
+New-Item -Type Directory -Force $Directory
+cd $Directory
+poetry init
+```
+
+```console
+PS > Get-Content .\pyproject.toml
+[tool.poetry]
+name = "sandbox-jupyterlab"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+```
+
+```powershell
+poetry add jupyterlab
+poetry run jupyter-lab
+```
+
+`Shift + Enter` で実行する。

@@ -198,7 +198,6 @@
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
-<li class="toctree-l1"><a class="reference internal" href="financial_statements.html">決算書</a></li>
 </ul>
 
 </div>
@@ -386,8 +385,8 @@ make altinstall
 </div>
 <p>https://docs.python.org/3/library/functions.html#ord</p>
 </section>
-<section id="id6">
-<h2>ロガーを利用する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="logging">
+<h2>logging でロガーを利用する。<a class="headerlink" href="#logging" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
 
 
@@ -408,65 +407,18 @@ make altinstall
 </section>
 <section id="ip">
 <h2>IPアドレスを計算する。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat <span class="s">&lt;&lt;__PYTHON__ | tee /tmp/ipv4_calc.py</span>
-<span class="s">#!/usr/bin/env python3</span>
-<span class="s">from ipaddress import IPv4Interface</span>
-<span class="s">import argparse</span>
-<span class="s">import json</span>
-
-
-<span class="s">def to_bin(network):</span>
-<span class="s">    packed = network.packed</span>
-<span class="s">    return '.'.join(map(lambda o: '{:08b}'.format(o), map(int, packed)))</span>
-
-
-<span class="s">def print_key_value(key, value):</span>
-<span class="s">    print('%-18s: %s' % (key, value))</span>
-
-
-<span class="s">if __name__ == '__main__':</span>
-<span class="s">    parser = argparse.ArgumentParser()</span>
-<span class="s">    parser.add_argument(</span>
-<span class="s">            'ipaddr_prefix', nargs=1,</span>
-<span class="s">            help='x.x.x.x/xx')</span>
-<span class="s">    args = parser.parse_args()</span>
-<span class="s">    interface = IPv4Interface(args.ipaddr_prefix[0])</span>
-
-<span class="s">    print_key_value('address', interface.ip)</span>
-<span class="s">    print_key_value('network', interface.network.network_address)</span>
-<span class="s">    print_key_value('netmask', interface.network.netmask)</span>
-<span class="s">    print_key_value('broadcast', interface.network.broadcast_address)</span>
-
-<span class="s">    print_key_value('addressPrefix', interface.network.prefixlen)</span>
-<span class="s">    print_key_value('numAddresses', interface.network.num_addresses)</span>
-
-<span class="s">    if interface.network.prefixlen &lt; 32:</span>
-<span class="s">        numHostAddresses = interface.network.num_addresses - 2</span>
-<span class="s">    else:</span>
-<span class="s">        numHostAddresses = 1</span>
-<span class="s">    print_key_value('numHostAddresses', numHostAddresses)</span>
-
-<span class="s">    print_key_value('address', to_bin(interface.ip))</span>
-<span class="s">    print_key_value('network', to_bin(interface.network.network_address))</span>
-<span class="s">    print_key_value('netmask', to_bin(interface.network.netmask))</span>
-<span class="s">    print_key_value('broadcast', to_bin(interface.network.broadcast_address))</span>
-<span class="s">__PYTHON__</span>
-chmod +x /tmp/ipv4_calc.py
-./ipv4_calc.py <span class="m">172</span>.17.103.28/20
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./ipv4_calc.py <span class="m">172</span>.17.103.28/20
-<span class="go">address           : 172.17.103.28</span>
-<span class="go">network           : 172.17.96.0</span>
-<span class="go">netmask           : 255.255.240.0</span>
-<span class="go">broadcast         : 172.17.111.255</span>
-<span class="go">addressPrefix     : 20</span>
-<span class="go">numAddresses      : 4096</span>
-<span class="go">numHostAddresses  : 4094</span>
-<span class="go">address           : 10101100.00010001.01100111.00011100</span>
-<span class="go">network           : 10101100.00010001.01100000.00000000</span>
-<span class="go">netmask           : 11111111.11111111.11110000.00000000</span>
-<span class="go">broadcast         : 10101100.00010001.01101111.11111111</span>
+<p>https://github.com/kumarstack55/python-ipv4calc</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; poetry run ipv4calc 192.168.0.1/24</span>
+<span class="go">address         : 192.168.0.1</span>
+<span class="go">network         : 192.168.0.0</span>
+<span class="go">netmask         : 255.255.255.0</span>
+<span class="go">broadcast       : 192.168.0.255</span>
+<span class="go">addressPrefix   : 24</span>
+<span class="go">numAddresses    : 256</span>
+<span class="go">addressBinary   : 11000000.10101000.00000000.00000001</span>
+<span class="go">networkBinary   : 11000000.10101000.00000000.00000000</span>
+<span class="go">netmaskBinary   : 11111111.11111111.11111111.00000000</span>
+<span class="go">broadcastBinary : 11000000.10101000.00000000.11111111</span>
 </pre></div>
 </div>
 </section>
@@ -508,6 +460,37 @@ chmod +x /tmp/ipv4_calc.py
 <span class="go">&lt;_io.TextIOWrapper name='4.txt' mode='r' encoding='UTF-8'&gt;</span>
 </pre></div>
 </div>
+</section>
+<section id="jupyter-lab">
+<h2>Jupyter Lab をインストールする。<a class="headerlink" href="#jupyter-lab" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Directory</span> <span class="p">=</span> <span class="s2">"$HOME\Documents\sandbox-jupyterlab"</span>
+<span class="nb">New-Item</span> <span class="n">-Type</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="nv">$Directory</span>
+<span class="nb">cd </span><span class="nv">$Directory</span>
+<span class="n">poetry</span> <span class="n">init</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Content .\pyproject.toml</span>
+<span class="go">[tool.poetry]</span>
+<span class="go">name = "sandbox-jupyterlab"</span>
+<span class="go">version = "0.1.0"</span>
+<span class="go">description = ""</span>
+<span class="go">authors = ["Your Name &lt;you@example.com&gt;"]</span>
+
+<span class="go">[tool.poetry.dependencies]</span>
+<span class="go">python = "^3.9"</span>
+
+<span class="go">[tool.poetry.dev-dependencies]</span>
+
+<span class="go">[build-system]</span>
+<span class="go">requires = ["poetry-core&gt;=1.0.0"]</span>
+<span class="go">build-backend = "poetry.core.masonry.api"</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">add</span> <span class="n">jupyterlab</span>
+<span class="n">poetry</span> <span class="n">run</span> <span class="n">jupyter-lab</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> で実行する。</p>
 </section>
 </section>
 
@@ -573,9 +556,10 @@ chmod +x /tmp/ipv4_calc.py
 <li><a class="reference internal" href="#id5">ファンクションで任意長の引数を受ける。</a></li>
 <li><a class="reference internal" href="#utf-8">utf-8 でエンコードされたとき何バイトかを得る。</a></li>
 <li><a class="reference internal" href="#unicode">Unicode のコードポイントを得る。</a></li>
-<li><a class="reference internal" href="#id6">ロガーを利用する。</a></li>
+<li><a class="reference internal" href="#logging">logging でロガーを利用する。</a></li>
 <li><a class="reference internal" href="#ip">IPアドレスを計算する。</a></li>
 <li><a class="reference internal" href="#argparse">argparse でファイルのエンコーディングを指定する。</a></li>
+<li><a class="reference internal" href="#jupyter-lab">Jupyter Lab をインストールする。</a></li>
 </ul>
 </li>
 </ul>
