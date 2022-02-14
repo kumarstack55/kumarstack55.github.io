@@ -226,14 +226,31 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="linux">
 <h1>Linux 基礎<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>ディストリビューション、バージョンを判定する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ubuntu or Debian</span>
+cat /etc/os-release
+
+<span class="c1"># EL</span>
+cat /etc/centos-release
+cat /etc/redhat-release
+</pre></div>
+</div>
+</section>
+<section id="wsl2">
+<h2>WSL2 かどうかを判定する。<a class="headerlink" href="#wsl2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">uname -r | grep -i microsoft</span>
+</pre></div>
+</div>
+</section>
 <section id="namespace">
 <h2>namespace の一覧を得る。<a class="headerlink" href="#namespace" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo lsns
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h2>スワップを加える。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h2>スワップを加える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /proc/swaps
 free -h
 
@@ -250,8 +267,8 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
 <h2>strace する。<a class="headerlink" href="#strace" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>TODO</p>
 </section>
-<section id="id2">
-<h2>差分を確認する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h2>差分を確認する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   date<span class="p">;</span> sleep <span class="m">1</span><span class="p">;</span> date
 <span class="o">}</span>
@@ -270,8 +287,8 @@ diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>指定行番号から指定行番号の範囲を出力する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>指定行番号から指定行番号の範囲を出力する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>seq <span class="m">1</span> <span class="m">4</span> <span class="p">|</span> sed -n -e <span class="s1">'2,3p'</span>
 </pre></div>
 </div>
@@ -365,11 +382,13 @@ diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Linux 基礎</a><ul>
+<li><a class="reference internal" href="#id1">ディストリビューション、バージョンを判定する。</a></li>
+<li><a class="reference internal" href="#wsl2">WSL2 かどうかを判定する。</a></li>
 <li><a class="reference internal" href="#namespace">namespace の一覧を得る。</a></li>
-<li><a class="reference internal" href="#id1">スワップを加える。</a></li>
+<li><a class="reference internal" href="#id2">スワップを加える。</a></li>
 <li><a class="reference internal" href="#strace">strace する。</a></li>
-<li><a class="reference internal" href="#id2">差分を確認する。</a></li>
-<li><a class="reference internal" href="#id3">指定行番号から指定行番号の範囲を出力する。</a></li>
+<li><a class="reference internal" href="#id3">差分を確認する。</a></li>
+<li><a class="reference internal" href="#id4">指定行番号から指定行番号の範囲を出力する。</a></li>
 <li><a class="reference internal" href="#brctl-h">参考: brctl -h</a></li>
 </ul>
 </li>

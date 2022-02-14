@@ -1,5 +1,22 @@
 # Linux 基礎
 
+## ディストリビューション、バージョンを判定する。
+
+```bash
+# Ubuntu or Debian
+cat /etc/os-release
+
+# EL
+cat /etc/centos-release
+cat /etc/redhat-release
+```
+
+## WSL2 かどうかを判定する。
+
+```console
+uname -r | grep -i microsoft
+```
+
 ## namespace の一覧を得る。
 
 ```bash

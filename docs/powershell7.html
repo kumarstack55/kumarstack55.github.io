@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Linux 基礎" href="linux_foundation.html" /><link rel="prev" title="Vagrant" href="vagrant.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Linux - Untitled ドキュメント</title>
+        <title>PowerShell 7 - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -155,10 +155,10 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Linux</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxのネットワーク管理</a></li>
 </ul>
@@ -218,43 +218,48 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="linux">
-<h1>Linux<a class="headerlink" href="#linux" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#id1">ディストリビューション、バージョンを判定する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#wsl2">WSL2 かどうかを判定する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#namespace">namespace の一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#id2">スワップを加える。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#strace">strace する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#id3">差分を確認する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#id4">指定行番号から指定行番号の範囲を出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html#brctl-h">参考: brctl -h</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="linux_network.html">Linuxのネットワーク管理</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#network-namespace">Network namespace の情報を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#pid-network-namespace-exec">指定PIDの Network namespace に exec できるようにする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#veth">veth の一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#id1">veth の情報を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#id2">ネットワークデバイス一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#ip">IPアドレス一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#id3">IPルーティングテーブルを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#id4">ブリッジの一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#id5">指定ブリッジの情報を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#tcplisten">TCPのListenしているポート一覧を得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linux_network.html#iptables">iptables のルールを得る。</a></li>
-</ul>
-</li>
-</ul>
+          <section class="tex2jax_ignore mathjax_ignore" id="powershell-7">
+<h1>PowerShell 7<a class="headerlink" href="#powershell-7" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="powershell-ubuntu">
+<h2>PowerShell を Ubuntu にインストールする。<a class="headerlink" href="#powershell-ubuntu" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install -y wget apt-transport-https software-properties-common
+
+<span class="nb">cd</span> /tmp
+wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y powershell
+
+pwsh
+</pre></div>
 </div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $PSVersionTable</span>
+
+<span class="go">Name                           Value</span>
+<span class="go">----                           -----</span>
+<span class="go">PSVersion                      7.2.1</span>
+<span class="go">PSEdition                      Core</span>
+<span class="go">GitCommitId                    7.2.1</span>
+<span class="go">OS                             Linux 5.10.60.1-microsoft-standard-WSL2 #1 SMP Wed Aug 25 23:20:18 UTC 2021</span>
+<span class="go">Platform                       Unix</span>
+<span class="go">PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}</span>
+<span class="go">PSRemotingProtocolVersion      2.3</span>
+<span class="go">SerializationVersion           1.1.0.1</span>
+<span class="go">WSManStackVersion              3.0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.microsoft.com/ja-jp/powershell/scripting/install/install-ubuntu?view=powershell-7.2">Ubuntu への PowerShell のインストール</a></p></li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -262,26 +267,8 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="linux_foundation.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Linux 基礎</div>
-              </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="vagrant.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Vagrant</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
 
         <div class="related-information">
@@ -290,7 +277,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/linux.rst.txt"
+            <a class="muted-link" href="_sources/powershell7.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -298,8 +285,27 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">PowerShell 7</a><ul>
+<li><a class="reference internal" href="#powershell-ubuntu">PowerShell を Ubuntu にインストールする。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
