@@ -240,6 +240,50 @@
 </pre></div>
 </div>
 </section>
+<section id="id2">
+<h2>文字列の末尾を除去する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">%%xyz</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
+
+<span class="nv">b</span><span class="o">=</span><span class="s2">"xyz:xyz"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">b</span><span class="p">%%:*</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="nv">c</span><span class="o">=</span><span class="s2">"xyz:xyz xyz"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">c</span><span class="p">%%:*</span><span class="si">}</span><span class="s2">"</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">%%xyz</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">xyz1</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
+<span class="go">xyz1xyz</span>
+
+<span class="gp">$ </span><span class="nv">b</span><span class="o">=</span><span class="s2">"xyz:xyz"</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">b</span><span class="p">%%:*</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">xyz</span>
+
+<span class="gp">$ </span><span class="nv">c</span><span class="o">=</span><span class="s2">"xyz:xyz xyz"</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">c</span><span class="p">%%:*</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">xyz</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>文字列を置換する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">/z/Z</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">/z/Z</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">xyZ1xyz</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
+<span class="go">xyz1xyz</span>
+</pre></div>
+</div>
+</section>
 <section id="bool">
 <h2>変数で bool 相当の表現を行う。<a class="headerlink" href="#bool" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>方法は複数あるが、次の記述が最もシンプルそう。</p>
@@ -315,6 +359,8 @@ Exit true (0) if $1 is not null; otherwise, exit false.</p>
             <ul>
 <li><a class="reference internal" href="#">bash基礎</a><ul>
 <li><a class="reference internal" href="#id1">ファンクションを定義する。</a></li>
+<li><a class="reference internal" href="#id2">文字列の末尾を除去する。</a></li>
+<li><a class="reference internal" href="#id3">文字列を置換する。</a></li>
 <li><a class="reference internal" href="#bool">変数で bool 相当の表現を行う。</a></li>
 </ul>
 </li>

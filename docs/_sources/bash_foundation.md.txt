@@ -10,6 +10,52 @@ f() {
 }
 ```
 
+## 文字列の末尾を除去する。
+
+```bash
+a="xyz1xyz"
+echo "${a%%xyz}"
+echo "$a"
+
+b="xyz:xyz"
+echo "${b%%:*}"
+
+c="xyz:xyz xyz"
+echo "${c%%:*}"
+```
+
+```console
+$ a="xyz1xyz"
+$ echo "${a%%xyz}"
+xyz1
+$ echo "$a"
+xyz1xyz
+
+$ b="xyz:xyz"
+$ echo "${b%%:*}"
+xyz
+
+$ c="xyz:xyz xyz"
+$ echo "${c%%:*}"
+xyz
+```
+
+## 文字列を置換する。
+
+```bash
+a="xyz1xyz"
+echo "${a/z/Z}"
+echo "$a"
+```
+
+```console
+$ a="xyz1xyz"
+$ echo "${a/z/Z}"
+xyZ1xyz
+$ echo "$a"
+xyz1xyz
+```
+
 ## 変数で bool 相当の表現を行う。
 
 方法は複数あるが、次の記述が最もシンプルそう。
