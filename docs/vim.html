@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Ubuntu" href="ubuntu.html" /><link rel="prev" title="Minikube" href="kubernetes_minikube.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Python" href="python.html" /><link rel="prev" title="Git" href="git.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Debian - Untitled ドキュメント</title>
+        <title>Vim - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -175,7 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Debian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="ssh.html">SSH</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
@@ -188,7 +188,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Vim</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python_jupyterlab.html">Jupyter Lab</a></li>
@@ -229,95 +229,12 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="debian">
-<h1>Debian<a class="headerlink" href="#debian" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="en-us-utf-8">
-<h2>ロケール en_US.UTF-8 を作る。<a class="headerlink" href="#en-us-utf-8" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LANG</span><span class="o">=</span>C locale -a
-cat /etc/locale.gen
-ansible -b -m lineinfile -a <span class="s2">"path=/etc/locale.gen regexp='^(?:#\s*|)(en_US\.UTF-8\s*UTF-8)</span>$<span class="s2">' backrefs=yes line='\1' backup=yes"</span> localhost
-sudo locale-gen
-</pre></div>
-</div>
-</section>
+          <section class="tex2jax_ignore mathjax_ignore" id="vim">
+<h1>Vim<a class="headerlink" href="#vim" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>タイムゾーンを設定する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo timedatectl set-timezone Asia/Tokyo
-</pre></div>
-</div>
-</section>
-<section id="id2">
-<h2>パッケージをインストールする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 依存関係として推奨パッケージをインストールしない。</span>
-sudo apt --no-install-recommends install ansible
-</pre></div>
-</div>
-</section>
-<section id="ansible">
-<h2>Ansible をインストールする。<a class="headerlink" href="#ansible" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt update
-sudo apt install ansible -y
-</pre></div>
-</div>
-</section>
-<section id="deb">
-<h2>ローカルに存在する指定パスがどの deb パッケージで管理されているかを得る。<a class="headerlink" href="#deb" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dpkg -S /bin/ls
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>dpkg -S /bin/ls
-<span class="go">coreutils: /bin/ls</span>
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h2>インストールされたパッケージ一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt list --installed
-</pre></div>
-</div>
-</section>
-<section id="id4">
-<h2>ファイル名を含む deb パッケージを検索する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># apt-file をインストールする。</span>
-sudo apt install apt-file -y
-
-<span class="c1"># アップデートする。</span>
-sudo apt-file update
-
-<span class="c1"># 探す。</span>
-apt-file search /apt-file
-
-<span class="c1"># 正規表現で探す。</span>
-apt-file search -x bin/python$
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>apt-file search bin/apt-file
-<span class="go">apt-file: /usr/bin/apt-file</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>apt-file search -x bin/python$
-<span class="go">python-is-python2: /usr/bin/python</span>
-<span class="go">python-is-python3: /usr/bin/python</span>
-<span class="go">wims: /var/lib/wims/public_html/bin/python</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>apt-file search -x bin/brctl$
-<span class="go">bridge-utils: /sbin/brctl</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>apt-file search -x bin/ping$
-<span class="go">inetutils-ping: /bin/ping</span>
-<span class="go">iputils-ping: /bin/ping</span>
-
-<span class="gp">vagrant@ubuntu-focal:~$ </span>dpkg -S /bin/ping
-<span class="go">iputils-ping: /bin/ping</span>
-</pre></div>
-</div>
-</section>
-<section id="yq">
-<h2>yq をインストールする。<a class="headerlink" href="#yq" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ubuntu</span>
-<span class="n">sudo</span> <span class="n">snap</span> <span class="n">install</span> <span class="n">yq</span>
+<h2>ファイルの末尾の改行を保存しない。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="k">set</span> <span class="nb">binary</span>
+<span class="p">:</span><span class="k">set</span> <span class="nb">noeol</span>
 </pre></div>
 </div>
 </section>
@@ -328,23 +245,23 @@ apt-file search -x bin/python$
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="ubuntu.html">
+          <a class="next-page" href="python.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Ubuntu</div>
+                <div class="title">Python</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="kubernetes_minikube.html">
+          <a class="prev-page" href="git.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Minikube</div>
+                <div class="title">Git</div>
                 
               </div>
             </a>
@@ -356,7 +273,7 @@ apt-file search -x bin/python$
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/debian.md.txt"
+            <a class="muted-link" href="_sources/vim.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -376,15 +293,8 @@ apt-file search -x bin/python$
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Debian</a><ul>
-<li><a class="reference internal" href="#en-us-utf-8">ロケール en_US.UTF-8 を作る。</a></li>
-<li><a class="reference internal" href="#id1">タイムゾーンを設定する。</a></li>
-<li><a class="reference internal" href="#id2">パッケージをインストールする。</a></li>
-<li><a class="reference internal" href="#ansible">Ansible をインストールする。</a></li>
-<li><a class="reference internal" href="#deb">ローカルに存在する指定パスがどの deb パッケージで管理されているかを得る。</a></li>
-<li><a class="reference internal" href="#id3">インストールされたパッケージ一覧を得る。</a></li>
-<li><a class="reference internal" href="#id4">ファイル名を含む deb パッケージを検索する。</a></li>
-<li><a class="reference internal" href="#yq">yq をインストールする。</a></li>
+<li><a class="reference internal" href="#">Vim</a><ul>
+<li><a class="reference internal" href="#id1">ファイルの末尾の改行を保存しない。</a></li>
 </ul>
 </li>
 </ul>

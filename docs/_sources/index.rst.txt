@@ -17,6 +17,7 @@ Untitled ドキュメント
    bash.rst
    bats.md
    git.md
+   vim.md
    python.md
    powershell.rst
    nodejs.md

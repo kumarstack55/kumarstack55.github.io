@@ -1,0 +1,8 @@
+# Vim
+
+## ファイルの末尾の改行を保存しない。
+
+```vim
+:set binary
+:set noeol
+```
