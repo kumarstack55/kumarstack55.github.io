@@ -248,37 +248,3 @@ Python 3.9.4
 >>> args2.f4
 <_io.TextIOWrapper name='4.txt' mode='r' encoding='UTF-8'>
 ```
-
-## Jupyter Lab をインストールする。
-
-```powershell
-$Directory = "$HOME\Documents\sandbox-jupyterlab"
-New-Item -Type Directory -Force $Directory
-cd $Directory
-poetry init
-```
-
-```console
-PS > Get-Content .\pyproject.toml
-[tool.poetry]
-name = "sandbox-jupyterlab"
-version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
-
-[tool.poetry.dependencies]
-python = "^3.9"
-
-[tool.poetry.dev-dependencies]
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-```
-
-```powershell
-poetry add jupyterlab
-poetry run jupyter-lab
-```
-
-`Shift + Enter` で実行する。

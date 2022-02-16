@@ -1,0 +1,7 @@
+Python
+======
+
+.. toctree::
+
+   python_foundation.md
+   python_jupyterlab.md

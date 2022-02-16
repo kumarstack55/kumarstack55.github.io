@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="bash基礎" href="bash_foundation.html" /><link rel="prev" title="SSHクライアント" href="ssh_client.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="PowerShell" href="powershell.html" /><link rel="prev" title="Python" href="python_foundation.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Bash - Untitled ドキュメント</title>
+        <title>Jupyter Lab - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -181,16 +181,16 @@
 <li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Bash</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="bash_foundation.html">bash基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bash_application.html">bash応用</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="python.html">Python</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python</a></li>
-<li class="toctree-l2"><a class="reference internal" href="python_jupyterlab.html">Jupyter Lab</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Jupyter Lab</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -222,37 +222,72 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="bash">
-<h1>Bash<a class="headerlink" href="#bash" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="bash_foundation.html">bash基礎</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bash_foundation.html#id1">ファンクションを定義する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_foundation.html#bool">変数で bool 相当の表現を行う。</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="bash_application.html">bash応用</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#shellcheck">ShellCheck をインストールする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id1">スクリプトの絶対パスを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id2">標準エラーに出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id3">ログを出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id4">異常終了する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id5">コマンド実行が失敗したら異常終了する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id6">コマンド実行が失敗しても無視することを明示する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id7">実行可能なコマンドがあるか確認する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id8">チェックモードで実行する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id9">スタックトレースを出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash_application.html#id10">左端の空白を除去する。</a></li>
-</ul>
-</li>
-</ul>
+          <section class="tex2jax_ignore mathjax_ignore" id="jupyter-lab">
+<h1>Jupyter Lab<a class="headerlink" href="#jupyter-lab" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>Jupyter Lab をインストールする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Directory</span> <span class="p">=</span> <span class="s2">"$HOME\Documents\sandbox-jupyterlab"</span>
+<span class="nb">New-Item</span> <span class="n">-Type</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="nv">$Directory</span>
+<span class="nb">cd </span><span class="nv">$Directory</span>
+<span class="n">poetry</span> <span class="n">init</span>
+</pre></div>
 </div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Content .\pyproject.toml</span>
+<span class="go">[tool.poetry]</span>
+<span class="go">name = "sandbox-jupyterlab"</span>
+<span class="go">version = "0.1.0"</span>
+<span class="go">description = ""</span>
+<span class="go">authors = ["Your Name &lt;you@example.com&gt;"]</span>
+
+<span class="go">[tool.poetry.dependencies]</span>
+<span class="go">python = "^3.9"</span>
+
+<span class="go">[tool.poetry.dev-dependencies]</span>
+
+<span class="go">[build-system]</span>
+<span class="go">requires = ["poetry-core&gt;=1.0.0"]</span>
+<span class="go">build-backend = "poetry.core.masonry.api"</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">add</span> <span class="n">jupyterlab</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Jupyter Lab を起動する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">jupyter-lab</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> で実行する。</p>
+</section>
+<section id="id3">
+<h2>Jupyter Lab を終了する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>コンソールを <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> で止まる。</p>
+</section>
+<section id="id4">
+<h2>シェルでコマンドを実行する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!echo a
+</pre></div>
+</div>
+</section>
+<section id="python">
+<h2>Pythonパッケージをリストする。<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!pip freeze
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Pythonパッケージをインストールする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!pip install pandas
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -260,23 +295,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="bash_foundation.html">
+          <a class="next-page" href="powershell.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">bash基礎</div>
+                <div class="title">PowerShell</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="ssh_client.html">
+          <a class="prev-page" href="python_foundation.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">SSHクライアント</div>
+                <div class="title">Python</div>
                 
               </div>
             </a>
@@ -288,7 +323,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/bash.rst.txt"
+            <a class="muted-link" href="_sources/python_jupyterlab.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -296,8 +331,32 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Jupyter Lab</a><ul>
+<li><a class="reference internal" href="#id1">Jupyter Lab をインストールする。</a></li>
+<li><a class="reference internal" href="#id2">Jupyter Lab を起動する。</a></li>
+<li><a class="reference internal" href="#id3">Jupyter Lab を終了する。</a></li>
+<li><a class="reference internal" href="#id4">シェルでコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#python">Pythonパッケージをリストする。</a></li>
+<li><a class="reference internal" href="#id5">Pythonパッケージをインストールする。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
