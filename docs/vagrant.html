@@ -190,7 +190,8 @@
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python_jupyterlab.html">Jupyter Lab</a></li>
 </ul>
 </li>
@@ -231,6 +232,19 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="vagrant">
 <h1>Vagrant<a class="headerlink" href="#vagrant" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>Vagrant のバージョンを得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; vagrant --version</span>
+<span class="go">Vagrant 2.2.15</span>
+</pre></div>
+</div>
+</section>
+<section id="box">
+<h2>box 一覧を得る。<a class="headerlink" href="#box" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">box</span> <span class="n">list</span>
+</pre></div>
+</div>
+</section>
 <section id="ssh">
 <h2>ホストのエージェントをSSHログイン先に転送する。<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
@@ -238,8 +252,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h2>プロビジョンでシェルのコマンドを実行する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h2>プロビジョンでシェルのコマンドを実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">"shell"</span><span class="p">,</span> <span class="ss">inline</span><span class="p">:</span> <span class="o">&lt;&lt;-</span><span class="dl">SHELL</span>
 <span class="sh">    apt-get update</span>
@@ -247,15 +261,15 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>同期フォルダを無効にする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h2>同期フォルダを無効にする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s2">"."</span><span class="p">,</span> <span class="s2">"/vagrant"</span><span class="p">,</span> <span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span>
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>転送されたポートを確認する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>転送されたポートを確認する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">port</span>
 </pre></div>
 </div>
@@ -387,10 +401,12 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Vagrant</a><ul>
+<li><a class="reference internal" href="#id1">Vagrant のバージョンを得る。</a></li>
+<li><a class="reference internal" href="#box">box 一覧を得る。</a></li>
 <li><a class="reference internal" href="#ssh">ホストのエージェントをSSHログイン先に転送する。</a></li>
-<li><a class="reference internal" href="#id1">プロビジョンでシェルのコマンドを実行する。</a></li>
-<li><a class="reference internal" href="#id2">同期フォルダを無効にする。</a></li>
-<li><a class="reference internal" href="#id3">転送されたポートを確認する。</a></li>
+<li><a class="reference internal" href="#id2">プロビジョンでシェルのコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id3">同期フォルダを無効にする。</a></li>
+<li><a class="reference internal" href="#id4">転送されたポートを確認する。</a></li>
 <li><a class="reference internal" href="#virtualbox-public-network">VirtualBox: public_network を使う。</a></li>
 <li><a class="reference internal" href="#virtualbox-box-ssh">VirtualBox: ホストから Box に SSH ログインする。</a></li>
 <li><a class="reference internal" href="#virtualbox-gui">VirtualBox: GUIを有効にする。</a></li>

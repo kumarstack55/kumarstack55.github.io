@@ -190,7 +190,8 @@
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python_jupyterlab.html">Jupyter Lab</a></li>
 </ul>
 </li>
@@ -236,10 +237,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id1">Vagrant のバージョンを得る。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#box">box 一覧を得る。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vagrant.html#ssh">ホストのエージェントをSSHログイン先に転送する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id1">プロビジョンでシェルのコマンドを実行する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id2">同期フォルダを無効にする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id3">転送されたポートを確認する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id2">プロビジョンでシェルのコマンドを実行する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id3">同期フォルダを無効にする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vagrant.html#id4">転送されたポートを確認する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vagrant.html#virtualbox-public-network">VirtualBox: public_network を使う。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vagrant.html#virtualbox-box-ssh">VirtualBox: ホストから Box に SSH ログインする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vagrant.html#virtualbox-gui">VirtualBox: GUIを有効にする。</a></li>
@@ -312,6 +315,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="container.html#docker-engine-community-edition-debian">Docker Engine の Community Edition を Debian にインストールする。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container.html#docker-desktop-windows">Docker Desktop を Windows にインストールする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="container.html#root">root ではないユーザでコンテナを実行できるようにする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="container.html#podman">Podman をインストールする。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="container.html#id2">コンテナを実行する。</a></li>
@@ -397,6 +401,7 @@
 <li class="toctree-l3"><a class="reference internal" href="bash_application.html#id8">チェックモードで実行する。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bash_application.html#id9">スタックトレースを出力する。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="bash_application.html#id10">左端の空白を除去する。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bash_application.html#grep-h-1">grep -H の出力を1行にまとめる。</a></li>
 </ul>
 </li>
 </ul>
@@ -419,7 +424,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Python</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python基礎</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="python_foundation.html#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="python_foundation.html#id1">ビット演算を行う。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="python_foundation.html#id2">ファンクションに定義されていない引数を与える。</a></li>
@@ -433,6 +438,7 @@
 <li class="toctree-l3"><a class="reference internal" href="python_foundation.html#argparse">argparse でファイルのエンコーディングを指定する。</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="python_application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python_jupyterlab.html">Jupyter Lab</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="python_jupyterlab.html#id1">Jupyter Lab をインストールする。</a></li>
 <li class="toctree-l3"><a class="reference internal" href="python_jupyterlab.html#id2">Jupyter Lab を起動する。</a></li>

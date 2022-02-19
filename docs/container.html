@@ -190,7 +190,8 @@
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_foundation.html">Python基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python_jupyterlab.html">Jupyter Lab</a></li>
 </ul>
 </li>
@@ -249,6 +250,27 @@ sudo docker run hello-world
 </pre></div>
 </div>
 <p>https://docs.docker.com/engine/install/debian/</p>
+</section>
+<section id="docker-desktop-windows">
+<h2>Docker Desktop を Windows にインストールする。<a class="headerlink" href="#docker-desktop-windows" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">name</span> <span class="n">repo</span> <span class="n">alpine</span><span class="o">/</span><span class="n">git</span> <span class="n">clone</span> \
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">.</span><span class="n">git</span>
+
+<span class="n">docker</span> <span class="n">cp</span> <span class="n">repo</span><span class="p">:</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span> <span class="o">.</span>
+
+<span class="n">cd</span> <span class="n">getting</span><span class="o">-</span><span class="n">started</span>
+
+<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">docker101tutorial</span> <span class="o">.</span>
+
+<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="p">:</span><span class="mi">80</span> \
+<span class="o">--</span><span class="n">name</span> <span class="n">docker</span><span class="o">-</span><span class="n">tutorial</span> <span class="n">docker101tutorial</span>
+
+<span class="n">docker</span> <span class="n">tag</span> <span class="n">docker101tutorial</span> <span class="n">kumarstack55</span><span class="o">/</span><span class="n">docker101tutorial</span>
+
+<span class="n">docker</span> <span class="n">push</span> <span class="n">kumarstack55</span><span class="o">/</span><span class="n">docker101tutorial</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://hub.docker.com/repository/docker/kumarstack55/docker101tutorial">See what you've saved on Hub</a></p>
 </section>
 <section id="root">
 <h2>root ではないユーザでコンテナを実行できるようにする。<a class="headerlink" href="#root" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -339,6 +361,7 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
             <ul>
 <li><a class="reference internal" href="#">コンテナ</a><ul>
 <li><a class="reference internal" href="#docker-engine-community-edition-debian">Docker Engine の Community Edition を Debian にインストールする。</a></li>
+<li><a class="reference internal" href="#docker-desktop-windows">Docker Desktop を Windows にインストールする。</a></li>
 <li><a class="reference internal" href="#root">root ではないユーザでコンテナを実行できるようにする。</a></li>
 <li><a class="reference internal" href="#podman">Podman をインストールする。</a></li>
 <li><a class="reference internal" href="#id2">コンテナを実行する。</a></li>

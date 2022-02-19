@@ -4,4 +4,5 @@ Python
 .. toctree::
 
    python_foundation.md
+   python_application.md
    python_jupyterlab.md

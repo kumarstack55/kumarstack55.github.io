@@ -182,3 +182,71 @@ a b c
 $ f "a b c"
 a b c
 ```
+
+## grep -H の出力を1行にまとめる。
+
+```bash
+#!/bin/bash
+readonly marker="_NL_"
+
+grep_h_output_to_block() {
+  local prev_fname fname matched not_first
+  while read -r line; do
+    IFS=':' read -r fname matched < <(echo "$line")
+    if [[ "$fname" != "$prev_fname" ]]; then
+      [[ $not_first ]] && echo
+      echo "$fname"
+      prev_fname="$fname"
+    fi
+    echo "$matched"
+    not_first=1
+  done
+  echo
+}
+
+block_to_oneline() {
+  while read -r line; do echo -n "${line}${marker}"; done
+  echo
+}
+
+oneline_to_lines() {
+  while read -r line; do echo "${line//${marker}${marker}/$'\n'}"; done
+}
+
+add_separator_for_each_lines() {
+  while read -r line; do echo "${line/${marker}/:}"; done
+}
+
+remove_marker() {
+  while read -r line; do echo "${line//${marker}/}"; done
+}
+
+remove_empty_line() {
+  while read -r line; do [[ $line ]] && echo "$line"; done
+}
+
+grep_one_line() {
+  grep_h_output_to_block \
+    | block_to_oneline \
+    | oneline_to_lines \
+    | add_separator_for_each_lines \
+    | remove_marker \
+    | remove_empty_line
+}
+```
+
+```console
+$ cat grep_one_line2.sh
+...
+$ source grep_one_line2.sh
+$ cat grep-H.out
+a.txt:10
+b.txt:10
+b.txt:11
+c.txt:1 3
+c.txt:14
+$ cat grep-H.out | grep_one_line
+a.txt:10
+b.txt:1011
+c.txt:1 314
+```

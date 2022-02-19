@@ -1,5 +1,18 @@
 # Vagrant
 
+## Vagrant のバージョンを得る。
+
+```console
+PS > vagrant --version
+Vagrant 2.2.15
+```
+
+## box 一覧を得る。
+
+```powershell
+vagrant box list
+```
+
 ## ホストのエージェントをSSHログイン先に転送する。
 
 ```ruby
