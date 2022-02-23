@@ -239,7 +239,80 @@
 </div>
 </section>
 <section id="id1">
-<h2>ファイル名を指定して実行する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>システム構成情報を表示する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">systeminfo</span><span class="p">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; systeminfo</span>
+
+<span class="go">ホスト名:               xxx</span>
+<span class="go">OS 名:                  Microsoft Windows 11 Home</span>
+<span class="go">OS バージョン:          10.0.22000 N/A ビルド 22000</span>
+<span class="go">OS 製造元:              Microsoft Corporation</span>
+<span class="go">OS 構成:                スタンドアロン ワークステーション</span>
+<span class="go">OS ビルドの種類:        Multiprocessor Free</span>
+<span class="go">登録されている所有者:   xxx@xxx</span>
+<span class="go">登録されている組織:     N/A</span>
+<span class="go">プロダクト ID:          00325-xxx</span>
+<span class="go">最初のインストール日付: 2021/10/31, 0:47:38</span>
+<span class="go">システム起動時間:       2022/02/20, 19:11:57</span>
+<span class="go">システム製造元:         Dell Inc.</span>
+<span class="go">システム モデル:        Inspiron 5502</span>
+<span class="go">システムの種類:         x64-based PC</span>
+<span class="go">プロセッサ:             1 プロセッサインストール済みです。</span>
+<span class="go">                        [01]: Intel64 Family 6 Model 140 Stepping 1 GenuineIntel ~1690 Mhz</span>
+<span class="go">BIOS バージョン:        Dell Inc. 1.9.0, 2021/12/08</span>
+<span class="go">Windows ディレクトリ:   C:\WINDOWS</span>
+<span class="go">システム ディレクトリ:  C:\WINDOWS\system32</span>
+<span class="go">起動デバイス:           \Device\HarddiskVolume1</span>
+<span class="go">システム ロケール:      ja;日本語</span>
+<span class="go">入力ロケール:           ja;日本語</span>
+<span class="go">タイム ゾーン:          (UTC+09:00) 大阪、札幌、東京</span>
+<span class="go">物理メモリの合計:       16,107 MB</span>
+<span class="go">利用できる物理メモリ:   7,875 MB</span>
+<span class="go">仮想メモリ: 最大サイズ: 18,539 MB</span>
+<span class="go">仮想メモリ: 利用可能:   7,985 MB</span>
+<span class="go">仮想メモリ: 使用中:     10,554 MB</span>
+<span class="go">ページ ファイルの場所:  C:\pagefile.sys</span>
+<span class="go">ドメイン:               WORKGROUP</span>
+<span class="go">ログオン サーバー:      \\xxx</span>
+<span class="go">ホットフィックス:       5 ホットフィックスがインストールされています。</span>
+<span class="go">                        [01]: KB5009469</span>
+<span class="go">                        [02]: KB5004567</span>
+<span class="go">                        [03]: KB5008295</span>
+<span class="go">                        [04]: KB5010386</span>
+<span class="go">                        [05]: KB5009641</span>
+<span class="go">ネットワーク カード:    4 NIC(s) インストール済みです。</span>
+<span class="go">                        [01]: VirtualBox Host-Only Ethernet Adapter</span>
+<span class="go">                              接続名:           VirtualBox Host-Only Network</span>
+<span class="go">                              DHCP が有効:      いいえ</span>
+<span class="go">                              IP アドレス</span>
+<span class="go">                              [01]: 192.168.56.1</span>
+<span class="go">                              [02]: fe80::e8c6:2b77:c39a:70e5</span>
+<span class="go">                        [02]: Intel(R) Wi-Fi 6 AX201 160MHz</span>
+<span class="go">                              接続名:           Wi-Fi</span>
+<span class="go">                              DHCP が有効:      はい</span>
+<span class="go">                              DHCP サーバー:    x.x.x.x</span>
+<span class="go">                              IP アドレス</span>
+<span class="go">                              [01]: x.x.x.x</span>
+<span class="go">                              [02]: fe80::e172:97f:b52:9ece</span>
+<span class="go">                              [03]: 240d:xxx</span>
+<span class="go">                              [04]: 240d:xxx</span>
+<span class="go">                        [03]: Bluetooth Device (Personal Area Network)</span>
+<span class="go">                              接続名:           Bluetooth ネットワーク接続</span>
+<span class="go">                              状態:          メディアは接続されていません</span>
+<span class="go">                        [04]: VirtualBox Host-Only Ethernet Adapter</span>
+<span class="go">                              接続名:           VirtualBox Host-Only Network #2</span>
+<span class="go">                              DHCP が有効:      いいえ</span>
+<span class="go">                              IP アドレス</span>
+<span class="go">                              [01]: 172.28.128.1</span>
+<span class="go">                              [02]: fe80::f58b:87c7:bdae:d45e</span>
+<span class="go">Hyper-V の要件:         ハイパーバイザーが検出されました。Hyper-V に必要な機能は表示されません。</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>ファイル名を指定して実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>powershell.exe を実行する例:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Win</span> <span class="pre">+</span> <span class="pre">R</span></code></p></li>
@@ -247,8 +320,8 @@
 <li><p>Enter</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>ファイル名を指定して管理者権限で実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h2>ファイル名を指定して管理者権限で実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>powershell.exe を実行する例:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Win</span> <span class="pre">+</span> <span class="pre">R</span></code></p></li>
@@ -275,8 +348,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>プロセス一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>プロセス一覧を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span>
 </pre></div>
 </div>
@@ -292,22 +365,61 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>指定コマンドのパスを得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>指定コマンドのパスを得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS tmp&gt; where.exe ssh.exe</span>
 <span class="go">C:\Windows\System32\OpenSSH\ssh.exe</span>
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>Windows ストアのキャッシュを削除する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>Windows ストアのキャッシュを削除する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">WSReset.exe</span>
 </pre></div>
 </div>
 <p>https://answers.microsoft.com/ja-jp/windows/forum/all/windows-81-tips-%e9%9b%86-windows/4529d6bb-cccf-4a2b-930d-60ed2970c09a</p>
 </section>
+<section id="systeminfo">
+<h2>参考: systeminfo /?<a class="headerlink" href="#systeminfo" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PS &gt; systeminfo /?
+
+SYSTEMINFO [/S システム [/U ユーザー名 [/P パスワード]]] [/FO 形式] [/NH]
+
+説明:
+    ローカル コンピューターまたはリモート コンピューターの、オペレーティング
+    システム構成情報 (Service Pack のレベルを含む) を表示します。
+
+パラメーター一覧:
+    /S    システム            接続先のリモート システムを指定します。
+
+    /U    [ドメイン\]ユーザー 実行するコマンドのユーザー コンテキストを指定
+                              します。
+
+    /P    [パスワード]        提供されたユーザー コンテキストのパスワードを指定
+                              します。省略された場合は、入力を要求します。
+
+    /FO    形式               表示される形式を指定します。
+                              有効な値: "TABLE", "LIST", "CSV"。
+
+    /NH                       出力しない "カラム ヘッダー" を指定します。
+
+                              "TABLE"と "CSV" の形式のみ有効です。
+
+    /?                        ヘルプを表示します。
+
+例:
+    SYSTEMINFO
+    SYSTEMINFO /?
+    SYSTEMINFO /S システム
+    SYSTEMINFO /S システム /U ユーザー
+    SYSTEMINFO /S システム /U ドメイン\ユーザー /P パスワード /FO TABLE
+    SYSTEMINFO /S システム /FO LIST
+    SYSTEMINFO /S システム /FO CSV /NH
+</pre></div>
+</div>
+</section>
 <section id="dism">
-<h2>DISM - 展開イメージのサービスと管理ツール<a class="headerlink" href="#dism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>参考: dism /?<a class="headerlink" href="#dism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; dism /?</span>
 
 <span class="go">展開イメージのサービスと管理ツール</span>
@@ -417,8 +529,8 @@
 </section>
 <section id="bcdedit">
 <h2>BCDEDIT - ブート構成データ ストア エディター<a class="headerlink" href="#bcdedit" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id6">
-<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cmd.exe</span>
 <span class="n">bcdedit</span><span class="o">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">enum</span>
 </pre></div>
@@ -462,8 +574,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h3>参考: bcdedit /?<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id8">
+<h3>参考: bcdedit /?<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;bcdedit /?</span>
 
 <span class="go">BCDEDIT - ブート構成データ ストア エディター</span>
@@ -557,8 +669,8 @@
 </div>
 </section>
 </section>
-<section id="id8">
-<h2>ショートカット<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>ショートカット<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>Windows 10</p>
 <ul>
@@ -650,21 +762,23 @@
             <ul>
 <li><a class="reference internal" href="#">Microsoft Windows 基礎</a><ul>
 <li><a class="reference internal" href="#windows">Windows のバージョン情報を表示する。</a></li>
-<li><a class="reference internal" href="#id1">ファイル名を指定して実行する。</a></li>
-<li><a class="reference internal" href="#id2">ファイル名を指定して管理者権限で実行する。</a></li>
+<li><a class="reference internal" href="#id1">システム構成情報を表示する。</a></li>
+<li><a class="reference internal" href="#id2">ファイル名を指定して実行する。</a></li>
+<li><a class="reference internal" href="#id3">ファイル名を指定して管理者権限で実行する。</a></li>
 <li><a class="reference internal" href="#listen">LISTEN しているポートを得る。</a></li>
 <li><a class="reference internal" href="#tcp-id">TCP のポートを利用するプロセスIDを得る。</a></li>
-<li><a class="reference internal" href="#id3">プロセス一覧を得る。</a></li>
+<li><a class="reference internal" href="#id4">プロセス一覧を得る。</a></li>
 <li><a class="reference internal" href="#id">指定したプロセスIDを得る。</a></li>
-<li><a class="reference internal" href="#id4">指定コマンドのパスを得る。</a></li>
-<li><a class="reference internal" href="#id5">Windows ストアのキャッシュを削除する。</a></li>
-<li><a class="reference internal" href="#dism">DISM - 展開イメージのサービスと管理ツール</a></li>
+<li><a class="reference internal" href="#id5">指定コマンドのパスを得る。</a></li>
+<li><a class="reference internal" href="#id6">Windows ストアのキャッシュを削除する。</a></li>
+<li><a class="reference internal" href="#systeminfo">参考: systeminfo /?</a></li>
+<li><a class="reference internal" href="#dism">参考: dism /?</a></li>
 <li><a class="reference internal" href="#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
-<li><a class="reference internal" href="#id6">ストアのエントリを一覧表示する。</a></li>
-<li><a class="reference internal" href="#id7">参考: bcdedit /?</a></li>
+<li><a class="reference internal" href="#id7">ストアのエントリを一覧表示する。</a></li>
+<li><a class="reference internal" href="#id8">参考: bcdedit /?</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id8">ショートカット</a></li>
+<li><a class="reference internal" href="#id9">ショートカット</a></li>
 <li><a class="reference internal" href="#microsoft">Microsoft 以外</a><ul>
 <li><a class="reference internal" href="#devtoys">DevToys をインストールする。</a></li>
 </ul>

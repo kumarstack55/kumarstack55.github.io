@@ -6,6 +6,80 @@
 winver.exe
 ```
 
+## システム構成情報を表示する。
+
+```powershell
+systeminfo.exe
+```
+
+```console
+PS > systeminfo
+
+ホスト名:               xxx
+OS 名:                  Microsoft Windows 11 Home
+OS バージョン:          10.0.22000 N/A ビルド 22000
+OS 製造元:              Microsoft Corporation
+OS 構成:                スタンドアロン ワークステーション
+OS ビルドの種類:        Multiprocessor Free
+登録されている所有者:   xxx@xxx
+登録されている組織:     N/A
+プロダクト ID:          00325-xxx
+最初のインストール日付: 2021/10/31, 0:47:38
+システム起動時間:       2022/02/20, 19:11:57
+システム製造元:         Dell Inc.
+システム モデル:        Inspiron 5502
+システムの種類:         x64-based PC
+プロセッサ:             1 プロセッサインストール済みです。
+                        [01]: Intel64 Family 6 Model 140 Stepping 1 GenuineIntel ~1690 Mhz
+BIOS バージョン:        Dell Inc. 1.9.0, 2021/12/08
+Windows ディレクトリ:   C:\WINDOWS
+システム ディレクトリ:  C:\WINDOWS\system32
+起動デバイス:           \Device\HarddiskVolume1
+システム ロケール:      ja;日本語
+入力ロケール:           ja;日本語
+タイム ゾーン:          (UTC+09:00) 大阪、札幌、東京
+物理メモリの合計:       16,107 MB
+利用できる物理メモリ:   7,875 MB
+仮想メモリ: 最大サイズ: 18,539 MB
+仮想メモリ: 利用可能:   7,985 MB
+仮想メモリ: 使用中:     10,554 MB
+ページ ファイルの場所:  C:\pagefile.sys
+ドメイン:               WORKGROUP
+ログオン サーバー:      \\xxx
+ホットフィックス:       5 ホットフィックスがインストールされています。
+                        [01]: KB5009469
+                        [02]: KB5004567
+                        [03]: KB5008295
+                        [04]: KB5010386
+                        [05]: KB5009641
+ネットワーク カード:    4 NIC(s) インストール済みです。
+                        [01]: VirtualBox Host-Only Ethernet Adapter
+                              接続名:           VirtualBox Host-Only Network
+                              DHCP が有効:      いいえ
+                              IP アドレス
+                              [01]: 192.168.56.1
+                              [02]: fe80::e8c6:2b77:c39a:70e5
+                        [02]: Intel(R) Wi-Fi 6 AX201 160MHz
+                              接続名:           Wi-Fi
+                              DHCP が有効:      はい
+                              DHCP サーバー:    x.x.x.x
+                              IP アドレス
+                              [01]: x.x.x.x
+                              [02]: fe80::e172:97f:b52:9ece
+                              [03]: 240d:xxx
+                              [04]: 240d:xxx
+                        [03]: Bluetooth Device (Personal Area Network)
+                              接続名:           Bluetooth ネットワーク接続
+                              状態:          メディアは接続されていません
+                        [04]: VirtualBox Host-Only Ethernet Adapter
+                              接続名:           VirtualBox Host-Only Network #2
+                              DHCP が有効:      いいえ
+                              IP アドレス
+                              [01]: 172.28.128.1
+                              [02]: fe80::f58b:87c7:bdae:d45e
+Hyper-V の要件:         ハイパーバイザーが検出されました。Hyper-V に必要な機能は表示されません。
+```
+
 ## ファイル名を指定して実行する。
 
 powershell.exe を実行する例:
@@ -73,7 +147,46 @@ WSReset.exe
 
 https://answers.microsoft.com/ja-jp/windows/forum/all/windows-81-tips-%e9%9b%86-windows/4529d6bb-cccf-4a2b-930d-60ed2970c09a
 
-## DISM - 展開イメージのサービスと管理ツール
+## 参考: systeminfo /?
+
+```
+PS > systeminfo /?
+
+SYSTEMINFO [/S システム [/U ユーザー名 [/P パスワード]]] [/FO 形式] [/NH]
+
+説明:
+    ローカル コンピューターまたはリモート コンピューターの、オペレーティング
+    システム構成情報 (Service Pack のレベルを含む) を表示します。
+
+パラメーター一覧:
+    /S    システム            接続先のリモート システムを指定します。
+
+    /U    [ドメイン\]ユーザー 実行するコマンドのユーザー コンテキストを指定
+                              します。
+
+    /P    [パスワード]        提供されたユーザー コンテキストのパスワードを指定
+                              します。省略された場合は、入力を要求します。
+
+    /FO    形式               表示される形式を指定します。
+                              有効な値: "TABLE", "LIST", "CSV"。
+
+    /NH                       出力しない "カラム ヘッダー" を指定します。
+
+                              "TABLE"と "CSV" の形式のみ有効です。
+
+    /?                        ヘルプを表示します。
+
+例:
+    SYSTEMINFO
+    SYSTEMINFO /?
+    SYSTEMINFO /S システム
+    SYSTEMINFO /S システム /U ユーザー
+    SYSTEMINFO /S システム /U ドメイン\ユーザー /P パスワード /FO TABLE
+    SYSTEMINFO /S システム /FO LIST
+    SYSTEMINFO /S システム /FO CSV /NH
+```
+
+## 参考: dism /?
 
 ```console
 PS > dism /?
