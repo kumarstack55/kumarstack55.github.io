@@ -299,10 +299,126 @@
 </pre></div>
 </div>
 </section>
+<section id="id5">
+<h2>Windows ストアのキャッシュを削除する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">WSReset.exe</span>
+</pre></div>
+</div>
+<p>https://answers.microsoft.com/ja-jp/windows/forum/all/windows-81-tips-%e9%9b%86-windows/4529d6bb-cccf-4a2b-930d-60ed2970c09a</p>
+</section>
+<section id="dism">
+<h2>DISM - 展開イメージのサービスと管理ツール<a class="headerlink" href="#dism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; dism /?</span>
+
+<span class="go">展開イメージのサービスと管理ツール</span>
+<span class="go">バージョン: 10.0.22000.1</span>
+
+
+<span class="go">DISM.exe [dism_options] {Imaging_command} [&lt;イメージング引数&gt;]</span>
+<span class="go">DISM.exe {/Image:&lt;オフライン イメージのパス&gt; | /Online} [dism_options]</span>
+<span class="go">         {servicing_command} [&lt;サービス引数&gt;]</span>
+
+<span class="go">説明:</span>
+
+<span class="go">  DISM は、Windows イメージの機能とパッケージを列挙、インストール、</span>
+<span class="go">  アンインストール、構成、および更新します。使用できるコマンドは、サービス</span>
+<span class="go">  するイメージによって、またイメージがオフラインか実行中かによって異なります。</span>
+
+
+<span class="go">FFU コマンド:</span>
+
+<span class="go">  /Capture-Ffu            - 物理ディスク イメージを新しい FFU ファイルにキャプチャします。</span>
+<span class="go">  /Apply-Ffu              - .ffu イメージを適用します。</span>
+<span class="go">  /Split-Ffu              - 既存の .ffu ファイルを複数の読み取り専用の</span>
+<span class="go">分割 FFU ファイルに分割します。</span>
+<span class="go">  /Optimize-Ffu           - FFU ファイルを最適化して、異なるサイズのストレージ</span>
+<span class="go">に適用できるようにします。</span>
+
+<span class="go">WIM コマンド:</span>
+
+<span class="go">  /Apply-CustomDataImage  - カスタム データ イメージに含まれているファイルを退避します。</span>
+<span class="go">  /Capture-CustomImage    - カスタマイズを WIMBoot システム上のデルタ WIM</span>
+<span class="go">                            ファイルにキャプチャします。キャプチャされる</span>
+<span class="go">                            ディレクトリには、すべてのサブフォルダーとデータが</span>
+<span class="go">                            含まれます。</span>
+<span class="go">  /Get-WIMBootEntry       - 指定したディスク ボリュームの</span>
+<span class="go">                            WIMBoot 構成エントリを表示します。</span>
+<span class="go">  /Update-WIMBootEntry    - 指定したディスク ボリュームの</span>
+<span class="go">                            WIMBoot 構成エントリを更新します。</span>
+<span class="go">  /List-Image             - 指定したイメージ内のファイルとフォルダーの一覧を</span>
+<span class="go">                            表示します。</span>
+<span class="go">  /Delete-Image           - 指定したボリューム イメージを、複数のボリューム</span>
+<span class="go">                            イメージがある WIM ファイルから削除します。</span>
+<span class="go">  /Export-Image           - 指定したイメージのコピーを別のファイルにエクスポート</span>
+<span class="go">                            します。</span>
+<span class="go">  /Append-Image           - 別のイメージを WIM ファイルに追加します。</span>
+<span class="go">  /Capture-Image          - ドライブのイメージを新しい WIM ファイルに</span>
+<span class="go">                            キャプチャします。</span>
+<span class="go">                            キャプチャされるディレクトリには、すべての</span>
+<span class="go">                            サブフォルダーとデータが含まれます。</span>
+<span class="go">  /Get-MountedWimInfo     - マウントされた WIM イメージに関する情報を表示します</span>
+<span class="go">  /Get-WimInfo            - WIM ファイル内のイメージに関する情報を表示します。</span>
+<span class="go">  /Commit-Wim             - マウントされた WIM イメージへの変更を保存します。</span>
+<span class="go">  /Unmount-Wim            - マウントされた WIM イメージのマウントを解除します。</span>
+<span class="go">  /Mount-Wim              - WIM ファイルからイメージをマウントします。</span>
+<span class="go">  /Remount-Wim            - 孤立した WIM マウント ディレクトリを回復します。</span>
+<span class="go">  /Cleanup-Wim            - マウント済みの破損した WIM イメージに関連付けられ</span>
+<span class="go">                            ているリソースを削除します。</span>
+
+<span class="go">汎用イメージング コマンド:</span>
+
+<span class="go">  /Split-Image            - 既存の .wim ファイルを複数の読み取り専用の</span>
+<span class="go">                            分割 WIM (SWM) ファイルに分割します。</span>
+<span class="go">  /Apply-Image            - イメージを適用します。</span>
+<span class="go">  /Get-MountedImageInfo   - マウントされた WIM および VHD イメージに関する</span>
+<span class="go">                            情報を表示します。</span>
+<span class="go">  /Get-ImageInfo          - WIM、VHD、または FFU ファイル内のイメージに関する情 報を</span>
+<span class="go">                            表示します。</span>
+<span class="go">  /Commit-Image           - マウントされた WIM または VHD イメージへの変更を</span>
+<span class="go">                            保存します。</span>
+<span class="go">  /Unmount-Image          - マウントされた WIM または VHD イメージのマウントを</span>
+<span class="go">                            解除します。</span>
+<span class="go">  /Mount-Image            - WIM または VHD ファイルからイメージをマウント</span>
+<span class="go">                            します。</span>
+<span class="go">  /Remount-Image          - 孤立したイメージ マウント ディレクトリを回復します。</span>
+<span class="go">  /Cleanup-Mountpoints    - マウント済みの破損したイメージに関連付けられ</span>
+<span class="go">                            ているリソースを削除します。</span>
+
+<span class="go">イメージの指定:</span>
+
+<span class="go">  /Online                 - 実行中のオペレーティング システムをターゲットに</span>
+<span class="go">                            します。</span>
+<span class="go">  /Image                  - オフライン Windows イメージのルート ディレクトリ</span>
+<span class="go">                            へのパスを指定します。</span>
+
+<span class="go">DISM オプション:</span>
+
+<span class="go">  /English                - コマンド ライン出力を英語で表示します。</span>
+<span class="go">  /Format                 - レポートの出力形式を指定します。</span>
+<span class="go">  /WinDir                 - Windows ディレクトリへのパスを指定します。</span>
+<span class="go">  /SysDriveDir            - BootMgr という名前のシステム ローダー ファイルへの</span>
+<span class="go">                            パスを指定します。</span>
+<span class="go">  /LogPath                - ログ ファイルのパスを指定します。</span>
+<span class="go">  /LogLevel               - ログに表示する出力レベルを指定します (1-4)。</span>
+<span class="go">  /NoRestart              - 自動再起動と再起動の確認要求を抑制します。</span>
+<span class="go">  /Quiet                  - エラー メッセージを除き、すべての出力を抑制します。</span>
+<span class="go">  /ScratchDir             - スクラッチ ディレクトリへのパスを指定します。</span>
+
+<span class="go">これらの DISM オプションおよびその引数の詳細については、オプションの</span>
+<span class="go">直後に /? を指定してください。</span>
+
+<span class="go">  例:</span>
+<span class="go">    DISM.exe /Mount-Wim /?</span>
+<span class="go">    DISM.exe /ScratchDir /?</span>
+<span class="go">    DISM.exe /Image:C:\test\offline /?</span>
+<span class="go">    DISM.exe /Online /?</span>
+</pre></div>
+</div>
+</section>
 <section id="bcdedit">
 <h2>BCDEDIT - ブート構成データ ストア エディター<a class="headerlink" href="#bcdedit" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id5">
-<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id6">
+<h3>ストアのエントリを一覧表示する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cmd.exe</span>
 <span class="n">bcdedit</span><span class="o">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">enum</span>
 </pre></div>
@@ -346,8 +462,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>参考: bcdedit /?<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h3>参考: bcdedit /?<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;bcdedit /?</span>
 
 <span class="go">BCDEDIT - ブート構成データ ストア エディター</span>
@@ -441,8 +557,8 @@
 </div>
 </section>
 </section>
-<section id="id7">
-<h2>ショートカット<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>ショートカット<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>Windows 10</p>
 <ul>
@@ -541,12 +657,14 @@
 <li><a class="reference internal" href="#id3">プロセス一覧を得る。</a></li>
 <li><a class="reference internal" href="#id">指定したプロセスIDを得る。</a></li>
 <li><a class="reference internal" href="#id4">指定コマンドのパスを得る。</a></li>
+<li><a class="reference internal" href="#id5">Windows ストアのキャッシュを削除する。</a></li>
+<li><a class="reference internal" href="#dism">DISM - 展開イメージのサービスと管理ツール</a></li>
 <li><a class="reference internal" href="#bcdedit">BCDEDIT - ブート構成データ ストア エディター</a><ul>
-<li><a class="reference internal" href="#id5">ストアのエントリを一覧表示する。</a></li>
-<li><a class="reference internal" href="#id6">参考: bcdedit /?</a></li>
+<li><a class="reference internal" href="#id6">ストアのエントリを一覧表示する。</a></li>
+<li><a class="reference internal" href="#id7">参考: bcdedit /?</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id7">ショートカット</a></li>
+<li><a class="reference internal" href="#id8">ショートカット</a></li>
 <li><a class="reference internal" href="#microsoft">Microsoft 以外</a><ul>
 <li><a class="reference internal" href="#devtoys">DevToys をインストールする。</a></li>
 </ul>

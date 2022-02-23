@@ -65,6 +65,123 @@ PS tmp> where.exe ssh.exe
 C:\Windows\System32\OpenSSH\ssh.exe
 ```
 
+## Windows ストアのキャッシュを削除する。
+
+```console
+WSReset.exe
+```
+
+https://answers.microsoft.com/ja-jp/windows/forum/all/windows-81-tips-%e9%9b%86-windows/4529d6bb-cccf-4a2b-930d-60ed2970c09a
+
+## DISM - 展開イメージのサービスと管理ツール
+
+```console
+PS > dism /?
+
+展開イメージのサービスと管理ツール
+バージョン: 10.0.22000.1
+
+
+DISM.exe [dism_options] {Imaging_command} [<イメージング引数>]
+DISM.exe {/Image:<オフライン イメージのパス> | /Online} [dism_options]
+         {servicing_command} [<サービス引数>]
+
+説明:
+
+  DISM は、Windows イメージの機能とパッケージを列挙、インストール、
+  アンインストール、構成、および更新します。使用できるコマンドは、サービス
+  するイメージによって、またイメージがオフラインか実行中かによって異なります。
+
+
+FFU コマンド:
+
+  /Capture-Ffu            - 物理ディスク イメージを新しい FFU ファイルにキャプチャします。
+  /Apply-Ffu              - .ffu イメージを適用します。
+  /Split-Ffu              - 既存の .ffu ファイルを複数の読み取り専用の
+分割 FFU ファイルに分割します。
+  /Optimize-Ffu           - FFU ファイルを最適化して、異なるサイズのストレージ
+に適用できるようにします。
+
+WIM コマンド:
+
+  /Apply-CustomDataImage  - カスタム データ イメージに含まれているファイルを退避します。
+  /Capture-CustomImage    - カスタマイズを WIMBoot システム上のデルタ WIM
+                            ファイルにキャプチャします。キャプチャされる
+                            ディレクトリには、すべてのサブフォルダーとデータが
+                            含まれます。
+  /Get-WIMBootEntry       - 指定したディスク ボリュームの
+                            WIMBoot 構成エントリを表示します。
+  /Update-WIMBootEntry    - 指定したディスク ボリュームの
+                            WIMBoot 構成エントリを更新します。
+  /List-Image             - 指定したイメージ内のファイルとフォルダーの一覧を
+                            表示します。
+  /Delete-Image           - 指定したボリューム イメージを、複数のボリューム
+                            イメージがある WIM ファイルから削除します。
+  /Export-Image           - 指定したイメージのコピーを別のファイルにエクスポート
+                            します。
+  /Append-Image           - 別のイメージを WIM ファイルに追加します。
+  /Capture-Image          - ドライブのイメージを新しい WIM ファイルに
+                            キャプチャします。
+                            キャプチャされるディレクトリには、すべての
+                            サブフォルダーとデータが含まれます。
+  /Get-MountedWimInfo     - マウントされた WIM イメージに関する情報を表示します
+  /Get-WimInfo            - WIM ファイル内のイメージに関する情報を表示します。
+  /Commit-Wim             - マウントされた WIM イメージへの変更を保存します。
+  /Unmount-Wim            - マウントされた WIM イメージのマウントを解除します。
+  /Mount-Wim              - WIM ファイルからイメージをマウントします。
+  /Remount-Wim            - 孤立した WIM マウント ディレクトリを回復します。
+  /Cleanup-Wim            - マウント済みの破損した WIM イメージに関連付けられ
+                            ているリソースを削除します。
+
+汎用イメージング コマンド:
+
+  /Split-Image            - 既存の .wim ファイルを複数の読み取り専用の
+                            分割 WIM (SWM) ファイルに分割します。
+  /Apply-Image            - イメージを適用します。
+  /Get-MountedImageInfo   - マウントされた WIM および VHD イメージに関する
+                            情報を表示します。
+  /Get-ImageInfo          - WIM、VHD、または FFU ファイル内のイメージに関する情 報を
+                            表示します。
+  /Commit-Image           - マウントされた WIM または VHD イメージへの変更を
+                            保存します。
+  /Unmount-Image          - マウントされた WIM または VHD イメージのマウントを
+                            解除します。
+  /Mount-Image            - WIM または VHD ファイルからイメージをマウント
+                            します。
+  /Remount-Image          - 孤立したイメージ マウント ディレクトリを回復します。
+  /Cleanup-Mountpoints    - マウント済みの破損したイメージに関連付けられ
+                            ているリソースを削除します。
+
+イメージの指定:
+
+  /Online                 - 実行中のオペレーティング システムをターゲットに
+                            します。
+  /Image                  - オフライン Windows イメージのルート ディレクトリ
+                            へのパスを指定します。
+
+DISM オプション:
+
+  /English                - コマンド ライン出力を英語で表示します。
+  /Format                 - レポートの出力形式を指定します。
+  /WinDir                 - Windows ディレクトリへのパスを指定します。
+  /SysDriveDir            - BootMgr という名前のシステム ローダー ファイルへの
+                            パスを指定します。
+  /LogPath                - ログ ファイルのパスを指定します。
+  /LogLevel               - ログに表示する出力レベルを指定します (1-4)。
+  /NoRestart              - 自動再起動と再起動の確認要求を抑制します。
+  /Quiet                  - エラー メッセージを除き、すべての出力を抑制します。
+  /ScratchDir             - スクラッチ ディレクトリへのパスを指定します。
+
+これらの DISM オプションおよびその引数の詳細については、オプションの
+直後に /? を指定してください。
+
+  例:
+    DISM.exe /Mount-Wim /?
+    DISM.exe /ScratchDir /?
+    DISM.exe /Image:C:\test\offline /?
+    DISM.exe /Online /?
+```
+
 ## BCDEDIT - ブート構成データ ストア エディター
 
 ### ストアのエントリを一覧表示する。
