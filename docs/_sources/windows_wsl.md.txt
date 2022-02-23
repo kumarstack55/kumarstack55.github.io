@@ -2,6 +2,32 @@
 
 https://docs.microsoft.com/en-us/windows/wsl/install
 
+## WSLが有効か確認する。
+
+```powershell
+Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+```
+
+```console
+PS > Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+
+
+FeatureName      : Microsoft-Windows-Subsystem-Linux
+DisplayName      : Linux 用 Windows サブシステム
+Description      : ネイティブなユーザー モードの Linux シェルおよびツールを Windows で実行
+                   するためのサービスと環境を提供します。
+RestartRequired  : Possible
+State            : Enabled
+CustomProperties :
+                   ServerComponent\Description : ネイティブなユーザー モードの Linux シェ
+                   ルおよびツールを Windows で実行するためのサービスと環境を提供します。
+                   ServerComponent\DisplayName : Linux 用 Windows サブシステム
+                   ServerComponent\Id : 1033
+                   ServerComponent\Type : Feature
+                   ServerComponent\UniqueName : Microsoft-Windows-Subsystem-Linux
+                   ServerComponent\Deploys\Update\Name : Microsoft-Windows-Subsystem-Linux
+```
+
 ## WSLのステータスを得る。
 
 ```powershell
