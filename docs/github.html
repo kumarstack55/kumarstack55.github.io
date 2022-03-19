@@ -2,9 +2,12 @@
 <html class="no-js" lang="ja">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="#" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="西暦、和暦" href="japanese_imperial_year.html" /><link rel="prev" title="Prometheus" href="prometheus.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/><title>検索 - Untitled  ドキュメント</title><link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>GitHub - Untitled ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
@@ -131,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -145,14 +148,14 @@
   
   <span class="sidebar-brand-text">Untitled  ドキュメント</span>
   
-</a><form class="sidebar-search-container" method="get" action="#" role="search">
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=検索 name="q" aria-label="検索">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -200,7 +203,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
 
@@ -222,31 +225,88 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          
-<noscript>
-<div class="admonition error">
-  <p class="admonition-title">エラー</p>
-  <p>
-    Please activate JavaScript to enable the search functionality.
-  </p>
+          <section class="tex2jax_ignore mathjax_ignore" id="github">
+<h1>GitHub<a class="headerlink" href="#github" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="windows-gh">
+<h2>Windows で gh クライアントをインストールする。<a class="headerlink" href="#windows-gh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">scoop</span> <span class="n">install</span> <span class="n">gh</span>
+</pre></div>
 </div>
-</noscript>
+</section>
+<section id="ubuntu-gh">
+<h2>Ubuntu で gh クライアントをインストールする。<a class="headerlink" href="#ubuntu-gh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">curl </span><span class="n">-fsSL</span> <span class="n">https</span><span class="p">://</span><span class="n">cli</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">packages</span><span class="p">/</span><span class="n">githubcli-archive-keyring</span><span class="p">.</span><span class="n">gpg</span> <span class="p">|</span> <span class="n">sudo</span> <span class="n">dd</span> <span class="n">of</span><span class="p">=/</span><span class="n">usr</span><span class="p">/</span><span class="n">share</span><span class="p">/</span><span class="n">keyrings</span><span class="p">/</span><span class="n">githubcli-archive-keyring</span><span class="p">.</span><span class="n">gpg</span>
+<span class="nb">echo </span><span class="s2">"deb [arch=</span><span class="p">$(</span><span class="n">dpkg</span> <span class="p">-</span><span class="n">-print-architecture</span><span class="p">)</span><span class="s2"> signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"</span> <span class="p">|</span> <span class="n">sudo</span> <span class="nb">tee </span><span class="p">/</span><span class="n">etc</span><span class="p">/</span><span class="n">apt</span><span class="p">/</span><span class="n">sources</span><span class="p">.</span><span class="n">list</span><span class="p">.</span><span class="n">d</span><span class="p">/</span><span class="n">github-cli</span><span class="p">.</span><span class="n">list</span> <span class="p">&gt;</span> <span class="p">/</span><span class="n">dev</span><span class="p">/</span><span class="n">null</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">gh</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/cli/cli/blob/trunk/docs/install_linux.md">Installing gh on Linux and BSD</a></p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>認証する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test_wsl<span class="o">()</span> <span class="o">{</span>
+  <span class="o">[[</span> <span class="k">$(</span>uname -r<span class="k">)</span> <span class="o">=</span>~ -microsoft- <span class="o">]]</span>
+<span class="o">}</span>
 
-<div id="search-results"></div>
+echo_note<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">user</span><span class="o">=</span><span class="k">$(</span>whoami<span class="k">)</span>
+  <span class="nb">local</span> <span class="nv">nodename</span><span class="o">=</span><span class="k">$(</span>uname -n<span class="k">)</span>
+  <span class="nb">local</span> <span class="nv">today</span><span class="o">=</span><span class="k">$(</span>date <span class="s1">'+%F'</span><span class="k">)</span>
+  <span class="nb">local</span> <span class="nv">note</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">user</span><span class="si">}</span><span class="s2">@</span><span class="si">${</span><span class="nv">nodename</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">today</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">if</span> test_wsl<span class="p">;</span> <span class="k">then</span>
+    <span class="nv">note</span><span class="o">=</span><span class="s2">"</span><span class="nv">$note</span><span class="s2"> wsl"</span>
+  <span class="k">fi</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$note</span><span class="s2">"</span>
+<span class="o">}</span>
+
+echo_note
+
+gh auth login
+</pre></div>
+</div>
+</section>
+<section id="url">
+<h2>リポジトリのURL一覧を得る。<a class="headerlink" href="#url" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">gh</span> <span class="n">repo</span> <span class="n">list</span> <span class="p">-</span><span class="n">-json</span> <span class="n">url</span>
+</pre></div>
+</div>
+</section>
+</section>
 
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="japanese_imperial_year.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">西暦、和暦</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="prometheus.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Prometheus</div>
+                
+              </div>
+            </a>
         </div>
 
         <div class="related-information">
@@ -254,13 +314,39 @@
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/github.md.txt"
+               rel="nofollow">
+              ソースコードを表示
+            </a>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">GitHub</a><ul>
+<li><a class="reference internal" href="#windows-gh">Windows で gh クライアントをインストールする。</a></li>
+<li><a class="reference internal" href="#ubuntu-gh">Ubuntu で gh クライアントをインストールする。</a></li>
+<li><a class="reference internal" href="#id1">認証する。</a></li>
+<li><a class="reference internal" href="#url">リポジトリのURL一覧を得る。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -271,8 +357,5 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/main.js"></script>
     <script src="_static/translations.js"></script>
-    
-<script src="_static/searchtools.js"></script>
-<script src="_static/language_data.js"></script>
-<script src="searchindex.js"></script></body>
+    </body>
 </html>

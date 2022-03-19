@@ -2,100 +2,477 @@
 
 ## リポジトリとリポジトリの依存関係を submodule で管理する。
 
+* `git submodule` でリポジトリの下に別のリポジトリをサブモジュールとして登録できる。
+    * リポジトリ内で、別のリポジトリのURLが `.gitmodules` ファイルに保管される。
+    * .gitmodules には保管されないが、 commit ハッシュが管理される。
+    * commit ハッシュは `git submodule status` や `git diff` で出力できる。
+
+### リポジトリ sandbox-repo-main にリポジトリ sandbox-repo-sub を加える。
+
 ```powershell
-# GitHub上のリポジトリを消す。
-#gh repo delete submodule-parent --confirm
-#gh repo delete submodule-child --confirm
+# リポジトリがあれば消す。
+repo_main="sandbox-repo-main"
+repo_sub="sandbox-repo-sub"
 
-# 子リポジトリを作る。
-gh repo create submodule-child --public
-$ChildRepoUrl = $(gh repo view submodule-child --json sshUrl -q ".sshUrl")
-git clone $ChildRepoUrl
+test_sandbox() {
+  [[ "$1" =~ ^sandbox- ]]
+}
 
-# 子リポジトリにファイルを加える。
-Set-Location submodule-child
-New-Item child.txt
-git add child.txt
-git commit -m "fix"
-git push
+delete_sandbox_repo() {
+  if ! test_sandbox "$1"; then
+    echo "ERROR: repo is not sandbox." >&2
+    return 1
+  fi
+  gh repo list --json name -q "map(select(.name==\"$1\")) | length == 1" \
+    | grep -q true \
+    && gh repo delete "$1" --confirm
+}
 
-git log
-  # commit f13673f55c71c3ce313435af54bb06274a9f6565 (HEAD -> main, origin/main)
+delete_sandbox_repo "$repo_main"
+delete_sandbox_repo "$repo_sub"
 
-Set-Location ..
+# リポジトリを作る。
+gh repo create "$repo_main" --private
+gh repo create "$repo_sub" --private
 
-# 親リポジトリを作る。
-gh repo create submodule-parent --public
-$ParentRepoUrl = $(gh repo view submodule-parent --json sshUrl -q ".sshUrl")
-git clone $ParentRepoUrl
+tmp_dir="$(mktemp -d)"
+cd "$tmp_dir"
 
-# 親リポジトリに子リポジトリを加える。
-Set-Location submodule-parent
-git submodule add $ChildRepoUrl
+# リポジトリにファイルを作る。
+add_readme_into_repo() {
+  git clone "$(gh repo view "$1" --json sshUrl -q '.sshUrl')"
+  (
+    cd "$1"
+    echo "# $1" >README.md
+    git add README.md
+    git commit -m "Add README.md"
+    git push
+  )
+}
+add_readme_into_repo "$repo_main"
+add_readme_into_repo "$repo_sub"
+
+# リポジトリに submodule を加える。
+cd "$tmp_dir/$repo_sub"
+
+mkdir -pv "$tmp_dir/$repo_main/depends_on"
+cd "$tmp_dir/$repo_main/depends_on"
 
 git status
+cat "$tmp_dir/$repo_main/.git/config"
+git diff --cached
+git submodule status
+  # $ git status
+  # On branch master
+  # Your branch is up to date with 'origin/master'.
+  #
+  # nothing to commit, working tree clean
+  # $ cat "$tmp_dir/$repo_main/.git/config"
+  # [core]
+  #         repositoryformatversion = 0
+  #         filemode = true
+  #         bare = false
+  #         logallrefupdates = true
+  # [remote "origin"]
+  #         url = git@github.com:kumarstack55/sandbox-repo-main.git
+  #         fetch = +refs/heads/*:refs/remotes/origin/*
+  # [branch "master"]
+  #         remote = origin
+  #         merge = refs/heads/master
+  # $ git diff --cached
+  # $ git submodule status
+
+repo_url="$(gh repo view "$repo_sub" --json sshUrl -q ".sshUrl")"
+git submodule add "$repo_url"
+  # $ git submodule add "$repo_url"
+  # Cloning into '/tmp/tmp.t3q2JZ21Yw/sandbox-repo-main/depends_on/sandbox-repo-sub'...
+  # remote: Enumerating objects: 3, done.
+  # remote: Counting objects: 100% (3/3), done.
+  # Receiving objects: 100% (3/3), done.
+  # remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
+
+git status
+cat "$tmp_dir/$repo_main/.git/config"
+git diff --cached
+git submodule status
+  # $ git status
+  # On branch master
+  # Your branch is up to date with 'origin/master'.
+  #
   # Changes to be committed:
-  #   (use "git rm --cached <file>..." to unstage)
-  #         new file:   .gitmodules
-  #         new file:   submodule-child
-git diff --staged
+  #   (use "git restore --staged <file>..." to unstage)
+  #         new file:   ../.gitmodules
+  #         new file:   sandbox-repo-sub
+  #
+  # $ cat "$tmp_dir/$repo_main/.git/config"
+  # [core]
+  #         repositoryformatversion = 0
+  #         filemode = true
+  #         bare = false
+  #         logallrefupdates = true
+  # [remote "origin"]
+  #         url = git@github.com:kumarstack55/sandbox-repo-main.git
+  #         fetch = +refs/heads/*:refs/remotes/origin/*
+  # [branch "master"]
+  #         remote = origin
+  #         merge = refs/heads/master
+  # [submodule "depends_on/sandbox-repo-sub"]
+  #         url = git@github.com:kumarstack55/sandbox-repo-sub.git
+  #         active = true
+  # $ git diff --cached
   # diff --git a/.gitmodules b/.gitmodules
   # new file mode 100644
-  # index 0000000..bd93a86
+  # index 0000000..1714231
   # --- /dev/null
   # +++ b/.gitmodules
   # @@ -0,0 +1,3 @@
-  # +[submodule "submodule-child"]
-  # +       path = submodule-child
-  # +       url = git@github.com:kumarstack55/submodule-child.git
-  # diff --git a/submodule-child b/submodule-child
+  # +[submodule "depends_on/sandbox-repo-sub"]
+  # +       path = depends_on/sandbox-repo-sub
+  # +       url = git@github.com:kumarstack55/sandbox-repo-sub.git
+  # diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub
   # new file mode 160000
-  # index 0000000..f13673f
+  # index 0000000..8984b69
   # --- /dev/null
-  # +++ b/submodule-child
+  # +++ b/depends_on/sandbox-repo-sub
   # @@ -0,0 +1 @@
-  # +Subproject commit f13673f55c71c3ce313435af54bb06274a9f6565
+  # +Subproject commit 8984b6939db28ac7bb181efb3a9564f7405c3ef4
+  # $ git submodule status
+  #  8984b6939db28ac7bb181efb3a9564f7405c3ef4 sandbox-repo-sub (heads/master)
 
-git commit -m "fix"
-git submodule status
-  # f13673f55c71c3ce313435af54bb06274a9f6565 submodule-child (heads/main)
+git commit -m "Add submodule $repo_sub"
+  # $ git commit -m "Add submodule $repo_sub"
+  # [master ab32493] Add submodule sandbox-repo-sub
+  #  2 files changed, 4 insertions(+)
+  #  create mode 100644 .gitmodules
+  #  create mode 160000 depends_on/sandbox-repo-sub
+
 git push
+  # $ git push
+  # Enumerating objects: 5, done.
+  # Counting objects: 100% (5/5), done.
+  # Delta compression using up to 8 threads
+  # Compressing objects: 100% (3/3), done.
+  # Writing objects: 100% (4/4), 471 bytes | 471.00 KiB/s, done.
+  # Total 4 (delta 0), reused 0 (delta 0)
+  # To github.com:kumarstack55/sandbox-repo-main.git
+  #    a0e8e89..ab32493  master -> master
+```
 
-# 子リポジトリを更新する。
-Set-Location ..\submodule-child\
+### リポジトリ sandbox-repo-main をクローンする。
 
-New-Item child2.txt
-git add child2.txt
-git commit -m "fix"
-git log
-  # commit 50ef740e602beb2d96ca7d40ebb1101f52a7bf2c (HEAD -> main)
-git push
+```bash
+tmp_dir="$(mktemp -d)"
+cd "$tmp_dir"
 
-# 親リポジトリ内の状態を確認する。
-Set-Location ..\submodule-parent\
+repo_url="$(gh repo view "$repo_main" --json sshUrl -q ".sshUrl")"
+git clone --recurse-submodules "$repo_url"
+  # $ git clone --recurse-submodules "$repo_url"
+  # Cloning into 'sandbox-repo-main'...
+  # remote: Enumerating objects: 7, done.
+  # remote: Counting objects: 100% (7/7), done.
+  # remote: Compressing objects: 100% (4/4), done.
+  # remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0
+  # Receiving objects: 100% (7/7), done.
+  # Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) registered for path 'depends_on/sandbox-repo-sub'
+  # Cloning into '/tmp/tmp.Y6cobs6LU0/sandbox-repo-main/depends_on/sandbox-repo-sub'...
+  # remote: Enumerating objects: 3, done.
+  # remote: Counting objects: 100% (3/3), done.
+  # remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
+  # Receiving objects: 100% (3/3), done.
+  # Submodule path 'depends_on/sandbox-repo-sub': checked out '8984b6939db28ac7bb181efb3a9564f7405c3ef4'
 
-Get-ChildItem .\submodule-child\
-  # --> child.txt が存在する。
-  # --> child2.txt が存在しない。
+# または
+#git clone "$repo_url"
+#cd "$repo_main"
+#git submodule update --init
 
-git submodule update --remote
+cd "$tmp_dir/$repo_main/depends_on/$repo_sub"
 git status
+  # $ git status
+  # HEAD detached at 8984b69
+  # nothing to commit, working tree clean
+```
+
+### リポジトリ sandbox-repo-main のリポジトリ sandbox-repo-sub の commit を更新する。
+
+#### sandbox-repo-sub で commit を指定して更新する。
+
+```bash
+tmp_dir="$(mktemp -d)"
+cd "$tmp_dir"
+
+# リポジトリ sandbox-repo-sub にファイルを加える。
+repo_url="$(gh repo view "$repo_sub" --json sshUrl -q ".sshUrl")"
+git clone "$repo_url"
+
+cd "$tmp_dir/$repo_sub"
+
+echo "# b" >b.txt
+git add "b.txt"
+git commit -m "Add b.txt"
+  # $ git commit -m "Add b.txt"
+  # [master 0eade58] Add b.txt
+  #  1 file changed, 1 insertion(+)
+  #  create mode 100644 b.txt
+git log --pretty=format:"%H %s"
+  # $ git log --pretty=format:"%H %s"
+  # 0eade58d0d7485282b2d2ef45e4046790643d031 Add b.txt
+  # 8984b6939db28ac7bb181efb3a9564f7405c3ef4 Add README.md
+
+git push
+  # $ git push
+  # Enumerating objects: 4, done.
+  # Counting objects: 100% (4/4), done.
+  # Delta compression using up to 8 threads
+  # Compressing objects: 100% (2/2), done.
+  # Writing objects: 100% (3/3), 273 bytes | 273.00 KiB/s, done.
+  # Total 3 (delta 0), reused 0 (delta 0)
+  # To github.com:kumarstack55/sandbox-repo-sub.git
+  #    8984b69..0eade58  master -> master
+
+commit_hash=$(git log --pretty=format:"%H" -1)
+echo "$commit_hash"
+  # $ echo "$commit_hash"
+  # 0eade58d0d7485282b2d2ef45e4046790643d031
+
+# リポジトリ sandbox-repo-main の commit を変更する。
+cd "$tmp_dir"
+repo_url="$(gh repo view "$repo_main" --json sshUrl -q ".sshUrl")"
+git clone --recurse-submodules "$repo_url"
+  # $ git clone --recurse-submodules "$repo_url"
+  # Cloning into 'sandbox-repo-main'...
+  # remote: Enumerating objects: 7, done.
+  # remote: Counting objects: 100% (7/7), done.
+  # remote: Compressing objects: 100% (4/4), done.
+  # remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0
+  # Receiving objects: 100% (7/7), done.
+  # Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) registered for path 'depends_on/sandbox-repo-sub'
+  # Cloning into '/tmp/tmp.vF55SDwV5c/sandbox-repo-main/depends_on/sandbox-repo-sub'...
+  # remote: Enumerating objects: 6, done.
+  # remote: Counting objects: 100% (6/6), done.
+  # remote: Compressing objects: 100% (3/3), done.
+  # remote: Total 6 (delta 0), reused 6 (delta 0), pack-reused 0
+  # Receiving objects: 100% (6/6), done.
+  # Submodule path 'depends_on/sandbox-repo-sub': checked out '8984b6939db28ac7bb181efb3a9564f7405c3ef4'
+
+cd "$tmp_dir/$repo_main/depends_on/$repo_sub"
+git status
+  # $ git status
+  # HEAD detached at 8984b69
+  # nothing to commit, working tree clean
+git log --oneline
+  # $ git log --oneline
+  # 8984b69 (HEAD) Add README.md
+
+# 変更したいコミット番号に変える。
+git fetch
+git reset --hard origin/master
+  # $ git reset --hard origin/master
+  # HEAD is now at 0eade58 Add b.txt
+#git checkout "$commit_hash"
+
+git status
+  # HEAD detached from 8984b69
+  # nothing to commit, working tree clean
+git log --oneline
+  # $ git log --oneline
+  # 0eade58 (HEAD, origin/master, origin/HEAD, master) Add b.txt
+  # 8984b69 Add README.md
+
+cd "$tmp_dir/$repo_main"
+git status
+  # $ git status
+  # On branch master
+  # Your branch is up to date with 'origin/master'.
+  #
   # Changes not staged for commit:
   #   (use "git add <file>..." to update what will be committed)
   #   (use "git restore <file>..." to discard changes in working directory)
-  #         modified:   submodule-child (new commits)
+  #         modified:   depends_on/sandbox-repo-sub (new commits)
+  #
+  # no changes added to commit (use "git add" and/or "git commit -a")
 git diff
-  # diff --git a/submodule-child b/submodule-child
-  # index f13673f..50ef740 160000
-  # --- a/submodule-child
-  # +++ b/submodule-child
+  # $ git diff
+  # diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub
+  # index 8984b69..0eade58 160000
+  # --- a/depends_on/sandbox-repo-sub
+  # +++ b/depends_on/sandbox-repo-sub
   # @@ -1 +1 @@
-  # -Subproject commit f13673f55c71c3ce313435af54bb06274a9f6565
-  # +Subproject commit 50ef740e602beb2d96ca7d40ebb1101f52a7bf2c
+  # -Subproject commit 8984b6939db28ac7bb181efb3a9564f7405c3ef4
+  # +Subproject commit 0eade58d0d7485282b2d2ef45e4046790643d031
 
-Get-ChildItem .\submodule-child\
-  # --> child.txt が存在する。
-  # --> child2.txt が存在する。
+git add "depends_on/$repo_sub"
+git commit -m 'Update submodule commit'
+
+cd "$tmp_dir/$repo_sub"
+git status
+
+#git push
+```
+
+#### sandbox-repo-main で commit を指定して更新する。
+
+```bash
+tmp_dir="$(mktemp -d)"
+
+cd "$tmp_dir"
+repo_url="$(gh repo view "$repo_main" --json sshUrl -q ".sshUrl")"
+git clone --recurse-submodules "$repo_url"
+  # $ git clone --recurse-submodules "$repo_url"
+  # Cloning into 'sandbox-repo-main'...
+  # remote: Enumerating objects: 7, done.
+  # remote: Counting objects: 100% (7/7), done.
+  # remote: Compressing objects: 100% (4/4), done.
+  # remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0
+  # Receiving objects: 100% (7/7), done.
+  # Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) registered for path 'depends_on/sandbox-repo-sub'
+  # Cloning into '/tmp/tmp.3MPcH185en/sandbox-repo-main/depends_on/sandbox-repo-sub'...
+  # remote: Enumerating objects: 6, done.
+  # remote: Counting objects: 100% (6/6), done.
+  # remote: Compressing objects: 100% (3/3), done.
+  # remote: Total 6 (delta 0), reused 6 (delta 0), pack-reused 0
+  # Receiving objects: 100% (6/6), done.
+  # Submodule path 'depends_on/sandbox-repo-sub': checked out '8984b6939db28ac7bb181efb3a9564f7405c3ef4'
+
+cd "$tmp_dir/$repo_main/depends_on/$repo_sub"
+git status
+  # $ git status
+  # HEAD detached at 8984b69
+  # nothing to commit, working tree clean
+
+cd "$tmp_dir/$repo_main"
+git submodule update --remote "depends_on/$repo_sub"
+  # $ git submodule update --remote "depends_on/$repo_sub"
+  # Submodule path 'depends_on/sandbox-repo-sub': checked out '0eade58d0d7485282b2d2ef45e4046790643d031'
+git status
+  # $ git status
+  # On branch master
+  # Your branch is up to date with 'origin/master'.
+  #
+  # Changes not staged for commit:
+  #   (use "git add <file>..." to update what will be committed)
+  #   (use "git restore <file>..." to discard changes in working directory)
+  #         modified:   depends_on/sandbox-repo-sub (new commits)
+  #
+  # no changes added to commit (use "git add" and/or "git commit -a")
+git diff
+  # $ git diff
+  # diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub
+  # index 8984b69..0eade58 160000
+  # --- a/depends_on/sandbox-repo-sub
+  # +++ b/depends_on/sandbox-repo-sub
+  # @@ -1 +1 @@
+  # -Subproject commit 8984b6939db28ac7bb181efb3a9564f7405c3ef4
+  # +Subproject commit 0eade58d0d7485282b2d2ef45e4046790643d031
+
+git add "depends_on/$repo_sub"
+git commit -m 'Update submodule commit'
+
+cd "$tmp_dir/$repo_main/depends_on/$repo_sub"
+git status
+  # $ git status
+  # HEAD detached at 0eade58
+
+cd "$tmp_dir/$repo_main"
+#git push
+```
+
+### リポジトリ module-main からリポジトリ module-sub を消す。
+
+```bash
+tmp_dir="$(mktemp -d)"
+
+cd "$tmp_dir"
+repo_url="$(gh repo view "$repo_main" --json sshUrl -q ".sshUrl")"
+git clone --recurse-submodules "$repo_url"
+
+cd "$tmp_dir/$repo_main"
+
+git status
+git diff --cached
+cat .git/config
+git submodule status
+  # $ git status
+  # On branch master
+  # Your branch is up to date with 'origin/master'.
+  #
+  # nothing to commit, working tree clean
+  # $ git diff --cached
+  # $ cat .git/config
+  # [core]
+  #         repositoryformatversion = 0
+  #         filemode = true
+  #         bare = false
+  #         logallrefupdates = true
+  # [submodule]
+  #         active = .
+  # [remote "origin"]
+  #         url = git@github.com:kumarstack55/sandbox-repo-main.git
+  #         fetch = +refs/heads/*:refs/remotes/origin/*
+  # [branch "master"]
+  #         remote = origin
+  #         merge = refs/heads/master
+  # [submodule "depends_on/sandbox-repo-sub"]
+  #         url = git@github.com:kumarstack55/sandbox-repo-sub.git
+  # $ git submodule status
+  #  0eade58d0d7485282b2d2ef45e4046790643d031 depends_on/sandbox-repo-sub (heads/master)
+
+git submodule deinit --force "depends_on/$repo_sub"
+  # $ git submodule deinit --force "depends_on/$repo_sub"
+  # Cleared directory 'depends_on/sandbox-repo-sub'
+  # Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) unregistered for path 'depends_on/sandbox-repo-sub'
+git rm -f depends_on/sandbox-repo-sub
+  # $ git rm -f depends_on/sandbox-repo-sub
+  # rm 'depends_on/sandbox-repo-sub'
+
+git status
+git diff --cached
+cat .git/config
+git submodule status
+  # $ git status
+  # On branch master
+  # Your branch is up to date with 'origin/master'.
+  #
+  # Changes to be committed:
+  #   (use "git restore --staged <file>..." to unstage)
+  #         modified:   .gitmodules
+  #         deleted:    depends_on/sandbox-repo-sub
+  # $ git diff --cached
+  # diff --git a/.gitmodules b/.gitmodules
+  # index 1714231..e69de29 100644
+  # --- a/.gitmodules
+  # +++ b/.gitmodules
+  # @@ -1,3 +0,0 @@
+  # -[submodule "depends_on/sandbox-repo-sub"]
+  # -       path = depends_on/sandbox-repo-sub
+  # -       url = git@github.com:kumarstack55/sandbox-repo-sub.git
+  # diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub
+  # deleted file mode 160000
+  # index 0eade58..0000000
+  # --- a/depends_on/sandbox-repo-sub
+  # +++ /dev/null
+  # @@ -1 +0,0 @@
+  # -Subproject commit 0eade58d0d7485282b2d2ef45e4046790643d031
+  # $ cat .git/config
+  # [core]
+  #         repositoryformatversion = 0
+  #         filemode = true
+  #         bare = false
+  #         logallrefupdates = true
+  # [submodule]
+  #         active = .
+  # [remote "origin"]
+  #         url = git@github.com:kumarstack55/sandbox-repo-main.git
+  #         fetch = +refs/heads/*:refs/remotes/origin/*
+  # [branch "master"]
+  #         remote = origin
+  #         merge = refs/heads/master
+  # $ git submodule status
+  # $
+
+git commit -m "Remove submodule ${repo_sub}"
+
+#git push
 ```
 
 ## git submodule の機能一覧

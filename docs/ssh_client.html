@@ -203,6 +203,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
 
@@ -232,6 +233,35 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="ssh">
 <h1>SSHクライアント<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>鍵ペアを作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test_wsl<span class="o">()</span> <span class="o">{</span>
+  <span class="o">[[</span> <span class="k">$(</span>uname -r<span class="k">)</span> <span class="o">=</span>~ -microsoft- <span class="o">]]</span>
+<span class="o">}</span>
+
+echo_comment<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">user</span><span class="o">=</span><span class="k">$(</span>whoami<span class="k">)</span>
+  <span class="nb">local</span> <span class="nv">nodename</span><span class="o">=</span><span class="k">$(</span>uname -n<span class="k">)</span>
+  <span class="nb">local</span> <span class="nv">today</span><span class="o">=</span><span class="k">$(</span>date <span class="s1">'+%F'</span><span class="k">)</span>
+  <span class="nb">local</span> <span class="nv">comment</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">user</span><span class="si">}</span><span class="s2">@</span><span class="si">${</span><span class="nv">nodename</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">today</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">if</span> test_wsl<span class="p">;</span> <span class="k">then</span>
+    <span class="nv">comment</span><span class="o">=</span><span class="s2">"</span><span class="nv">$comment</span><span class="s2"> wsl"</span>
+  <span class="k">fi</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$comment</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="nv">homedir</span><span class="o">=</span><span class="k">$(</span>
+  getent passwd <span class="s2">"</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">"</span> <span class="p">|</span> cut -d: -f <span class="m">6</span>
+<span class="k">)</span>
+
+<span class="nv">output_keyfile</span><span class="o">=</span><span class="s2">"</span><span class="nv">$homedir</span><span class="s2">/.ssh/id_rsa"</span>
+<span class="nv">comment</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>echo_comment<span class="k">)</span><span class="s2">"</span>
+
+<span class="o">[</span> ! -e <span class="s2">"</span><span class="nv">$output_keyfile</span><span class="s2">"</span> <span class="o">]</span> <span class="se">\</span>
+  <span class="o">&amp;&amp;</span> ssh-keygen -C <span class="s2">"</span><span class="nv">$comment</span><span class="s2">"</span> -f <span class="s2">"</span><span class="nv">$output_keyfile</span><span class="s2">"</span> -N <span class="s1">''</span>
+</pre></div>
+</div>
+</section>
 <section id="windows-openssh-ssh-exe-pageant">
 <h2>Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。<a class="headerlink" href="#windows-openssh-ssh-exe-pageant" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><a class="reference external" href="https://github.com/benpye/wsl-ssh-pageant">wsl-ssh-pageant</a>を使う。
@@ -312,6 +342,7 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">SSHクライアント</a><ul>
+<li><a class="reference internal" href="#id1">鍵ペアを作る。</a></li>
 <li><a class="reference internal" href="#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
 <li><a class="reference internal" href="#authorized-keys">エージェントが管理する全ての公開鍵を authorized_keys に加える。</a></li>
 </ul>

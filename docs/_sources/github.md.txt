@@ -1,0 +1,47 @@
+# GitHub
+
+## Windows で gh クライアントをインストールする。
+
+```powershell
+scoop install gh
+```
+
+## Ubuntu で gh クライアントをインストールする。
+
+```powershell
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
+sudo apt install gh
+```
+
+* [Installing gh on Linux and BSD](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
+
+## 認証する。
+
+```bash
+test_wsl() {
+  [[ $(uname -r) =~ -microsoft- ]]
+}
+
+echo_note() {
+  local user=$(whoami)
+  local nodename=$(uname -n)
+  local today=$(date '+%F')
+  local note="${user}@${nodename} ${today}"
+  if test_wsl; then
+    note="$note wsl"
+  fi
+  echo "$note"
+}
+
+echo_note
+
+gh auth login
+```
+
+## リポジトリのURL一覧を得る。
+
+```powershell
+gh repo list --json url
+```

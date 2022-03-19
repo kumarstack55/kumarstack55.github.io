@@ -147,6 +147,35 @@ WSReset.exe
 
 https://answers.microsoft.com/ja-jp/windows/forum/all/windows-81-tips-%e9%9b%86-windows/4529d6bb-cccf-4a2b-930d-60ed2970c09a
 
+## 参考: fsutil.exe
+
+```console
+PS > fsutil.exe
+---- サポートされているコマンド ----
+
+8dot3name         8dot3name の管理
+behavior          ファイル システムの動作の制御
+bypassIo          BypassIo の管理
+dax               DAX ボリュームの管理
+dirty             ボリュームの不良ビットの管理
+file              ファイルに固有のコマンド
+fsInfo            ファイル システム情報
+hardlink          ハードリンクの管理
+objectID          オブジェクト ID の管理
+quota             クォータの管理
+repair            自己復旧の管理
+reparsePoint      再解析ポイントの管理
+storageReserve    記憶域予約の管理
+resource          トランザクション リソース マネージャーの管理
+sparse            スパース ファイルの管理
+tiering           記憶域階層化プロパティの管理
+trace             ファイル システム トレースの管理
+transaction       トランザクションの管理
+usn               USN の管理
+volume            ボリュームの管理
+wim               透過的な wim ホスティングの管理
+```
+
 ## 参考: systeminfo /?
 
 ```

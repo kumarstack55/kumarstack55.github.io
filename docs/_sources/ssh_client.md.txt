@@ -1,5 +1,34 @@
 # SSHクライアント
 
+## 鍵ペアを作る。
+
+```bash
+test_wsl() {
+  [[ $(uname -r) =~ -microsoft- ]]
+}
+
+echo_comment() {
+  local user=$(whoami)
+  local nodename=$(uname -n)
+  local today=$(date '+%F')
+  local comment="${user}@${nodename} ${today}"
+  if test_wsl; then
+    comment="$comment wsl"
+  fi
+  echo "$comment"
+}
+
+homedir=$(
+  getent passwd "$(whoami)" | cut -d: -f 6
+)
+
+output_keyfile="$homedir/.ssh/id_rsa"
+comment="$(echo_comment)"
+
+[ ! -e "$output_keyfile" ] \
+  && ssh-keygen -C "$comment" -f "$output_keyfile" -N ''
+```
+
 ## Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。
 
 [wsl-ssh-pageant](https://github.com/benpye/wsl-ssh-pageant)を使う。

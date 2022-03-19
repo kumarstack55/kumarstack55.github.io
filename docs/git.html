@@ -203,6 +203,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
 
@@ -234,101 +235,484 @@
 <h1>Git<a class="headerlink" href="#git" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="submodule">
 <h2>リポジトリとリポジトリの依存関係を submodule で管理する。<a class="headerlink" href="#submodule" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># GitHub上のリポジトリを消す。</span>
-<span class="c">#gh repo delete submodule-parent --confirm</span>
-<span class="c">#gh repo delete submodule-child --confirm</span>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span></code> でリポジトリの下に別のリポジトリをサブモジュールとして登録できる。</p>
+<ul>
+<li><p>リポジトリ内で、別のリポジトリのURLが <code class="docutils literal notranslate"><span class="pre">.gitmodules</span></code> ファイルに保管される。</p></li>
+<li><p>.gitmodules には保管されないが、 commit ハッシュが管理される。</p></li>
+<li><p>commit ハッシュは <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">status</span></code> や <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code> で出力できる。</p></li>
+</ul>
+</li>
+</ul>
+<section id="sandbox-repo-main-sandbox-repo-sub">
+<h3>リポジトリ sandbox-repo-main にリポジトリ sandbox-repo-sub を加える。<a class="headerlink" href="#sandbox-repo-main-sandbox-repo-sub" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># リポジトリがあれば消す。</span>
+<span class="n">repo_main</span><span class="p">=</span><span class="s2">"sandbox-repo-main"</span>
+<span class="n">repo_sub</span><span class="p">=</span><span class="s2">"sandbox-repo-sub"</span>
 
-<span class="c"># 子リポジトリを作る。</span>
-<span class="n">gh</span> <span class="n">repo</span> <span class="n">create</span> <span class="n">submodule-child</span> <span class="p">-</span><span class="n">-public</span>
-<span class="nv">$ChildRepoUrl</span> <span class="p">=</span> <span class="p">$(</span><span class="n">gh</span> <span class="n">repo</span> <span class="n">view</span> <span class="n">submodule-child</span> <span class="p">-</span><span class="n">-json</span> <span class="n">sshUrl</span> <span class="n">-q</span> <span class="s2">".sshUrl"</span><span class="p">)</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="nv">$ChildRepoUrl</span>
+<span class="n">test_sandbox</span><span class="p">()</span> <span class="p">{</span>
+  <span class="p">[[</span> <span class="s2">"$1"</span> <span class="p">=~</span> <span class="p">^</span><span class="n">sandbox</span><span class="p">-</span> <span class="p">]]</span>
+<span class="p">}</span>
 
-<span class="c"># 子リポジトリにファイルを加える。</span>
-<span class="nb">Set-Location</span> <span class="n">submodule-child</span>
-<span class="nb">New-Item</span> <span class="n">child</span><span class="p">.</span><span class="n">txt</span>
-<span class="n">git</span> <span class="n">add</span> <span class="n">child</span><span class="p">.</span><span class="n">txt</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"fix"</span>
-<span class="n">git</span> <span class="n">push</span>
+<span class="n">delete_sandbox_repo</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">!</span> <span class="n">test_sandbox</span> <span class="s2">"$1"</span><span class="p">;</span> <span class="n">then</span>
+    <span class="nb">echo </span><span class="s2">"ERROR: repo is not sandbox."</span> <span class="p">&gt;&amp;</span><span class="n">2</span>
+    <span class="k">return</span> <span class="n">1</span>
+  <span class="n">fi</span>
+  <span class="n">gh</span> <span class="n">repo</span> <span class="n">list</span> <span class="p">-</span><span class="n">-json</span> <span class="n">name</span> <span class="n">-q</span> <span class="s2">"map(select(.name==\"</span><span class="nv">$1</span><span class="p">\</span><span class="s2">")) | length == 1"</span> <span class="p">\</span>
+    <span class="p">|</span> <span class="n">grep</span> <span class="n">-q</span> <span class="n">true</span> <span class="p">\</span>
+    <span class="p">&amp;&amp;</span> <span class="n">gh</span> <span class="n">repo</span> <span class="n">delete</span> <span class="s2">"$1"</span> <span class="p">-</span><span class="n">-confirm</span>
+<span class="p">}</span>
 
-<span class="n">git</span> <span class="n">log</span>
-  <span class="c"># commit f13673f55c71c3ce313435af54bb06274a9f6565 (HEAD -&gt; main, origin/main)</span>
+<span class="n">delete_sandbox_repo</span> <span class="s2">"$repo_main"</span>
+<span class="n">delete_sandbox_repo</span> <span class="s2">"$repo_sub"</span>
 
-<span class="nb">Set-Location</span> <span class="p">..</span>
+<span class="c"># リポジトリを作る。</span>
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">create</span> <span class="s2">"$repo_main"</span> <span class="p">-</span><span class="n">-private</span>
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">create</span> <span class="s2">"$repo_sub"</span> <span class="p">-</span><span class="n">-private</span>
 
-<span class="c"># 親リポジトリを作る。</span>
-<span class="n">gh</span> <span class="n">repo</span> <span class="n">create</span> <span class="n">submodule-parent</span> <span class="p">-</span><span class="n">-public</span>
-<span class="nv">$ParentRepoUrl</span> <span class="p">=</span> <span class="p">$(</span><span class="n">gh</span> <span class="n">repo</span> <span class="n">view</span> <span class="n">submodule-parent</span> <span class="p">-</span><span class="n">-json</span> <span class="n">sshUrl</span> <span class="n">-q</span> <span class="s2">".sshUrl"</span><span class="p">)</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="nv">$ParentRepoUrl</span>
+<span class="n">tmp_dir</span><span class="p">=</span><span class="s2">"</span><span class="p">$(</span><span class="n">mktemp</span> <span class="n">-d</span><span class="p">)</span><span class="s2">"</span>
+<span class="nb">cd </span><span class="s2">"$tmp_dir"</span>
 
-<span class="c"># 親リポジトリに子リポジトリを加える。</span>
-<span class="nb">Set-Location</span> <span class="n">submodule-parent</span>
-<span class="n">git</span> <span class="n">submodule</span> <span class="n">add</span> <span class="nv">$ChildRepoUrl</span>
+<span class="c"># リポジトリにファイルを作る。</span>
+<span class="n">add_readme_into_repo</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">git</span> <span class="n">clone</span> <span class="s2">"</span><span class="p">$(</span><span class="n">gh</span> <span class="n">repo</span> <span class="n">view</span> <span class="s2">"$1"</span> <span class="p">-</span><span class="n">-json</span> <span class="n">sshUrl</span> <span class="n">-q</span> <span class="s1">'.sshUrl'</span><span class="p">)</span><span class="s2">"</span>
+  <span class="p">(</span>
+    <span class="nb">cd </span><span class="s2">"$1"</span>
+    <span class="nb">echo </span><span class="s2">"# $1"</span> <span class="p">&gt;</span><span class="n">README</span><span class="p">.</span><span class="nb">md</span>
+    <span class="n">git</span> <span class="n">add</span> <span class="n">README</span><span class="p">.</span><span class="nb">md</span>
+    <span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add README.md"</span>
+    <span class="n">git</span> <span class="n">push</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="n">add_readme_into_repo</span> <span class="s2">"$repo_main"</span>
+<span class="n">add_readme_into_repo</span> <span class="s2">"$repo_sub"</span>
+
+<span class="c"># リポジトリに submodule を加える。</span>
+<span class="nb">cd </span><span class="s2">"$tmp_dir/$repo_sub"</span>
+
+<span class="n">mkdir</span> <span class="n">-pv</span> <span class="s2">"$tmp_dir/$repo_main/depends_on"</span>
+<span class="nb">cd </span><span class="s2">"$tmp_dir/$repo_main/depends_on"</span>
 
 <span class="n">git</span> <span class="n">status</span>
+<span class="nb">cat </span><span class="s2">"$tmp_dir/$repo_main/.git/config"</span>
+<span class="n">git</span> <span class="nb">diff </span><span class="p">-</span><span class="n">-cached</span>
+<span class="n">git</span> <span class="n">submodule</span> <span class="n">status</span>
+  <span class="c"># $ git status</span>
+  <span class="c"># On branch master</span>
+  <span class="c"># Your branch is up to date with 'origin/master'.</span>
+  <span class="c">#</span>
+  <span class="c"># nothing to commit, working tree clean</span>
+  <span class="c"># $ cat "$tmp_dir/$repo_main/.git/config"</span>
+  <span class="c"># [core]</span>
+  <span class="c">#         repositoryformatversion = 0</span>
+  <span class="c">#         filemode = true</span>
+  <span class="c">#         bare = false</span>
+  <span class="c">#         logallrefupdates = true</span>
+  <span class="c"># [remote "origin"]</span>
+  <span class="c">#         url = git@github.com:kumarstack55/sandbox-repo-main.git</span>
+  <span class="c">#         fetch = +refs/heads/*:refs/remotes/origin/*</span>
+  <span class="c"># [branch "master"]</span>
+  <span class="c">#         remote = origin</span>
+  <span class="c">#         merge = refs/heads/master</span>
+  <span class="c"># $ git diff --cached</span>
+  <span class="c"># $ git submodule status</span>
+
+<span class="n">repo_url</span><span class="p">=</span><span class="s2">"</span><span class="p">$(</span><span class="n">gh</span> <span class="n">repo</span> <span class="n">view</span> <span class="s2">"$repo_sub"</span> <span class="p">-</span><span class="n">-json</span> <span class="n">sshUrl</span> <span class="n">-q</span> <span class="s2">".sshUrl"</span><span class="p">)</span><span class="s2">"</span>
+<span class="n">git</span> <span class="n">submodule</span> <span class="n">add</span> <span class="s2">"$repo_url"</span>
+  <span class="c"># $ git submodule add "$repo_url"</span>
+  <span class="c"># Cloning into '/tmp/tmp.t3q2JZ21Yw/sandbox-repo-main/depends_on/sandbox-repo-sub'...</span>
+  <span class="c"># remote: Enumerating objects: 3, done.</span>
+  <span class="c"># remote: Counting objects: 100% (3/3), done.</span>
+  <span class="c"># Receiving objects: 100% (3/3), done.</span>
+  <span class="c"># remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0</span>
+
+<span class="n">git</span> <span class="n">status</span>
+<span class="nb">cat </span><span class="s2">"$tmp_dir/$repo_main/.git/config"</span>
+<span class="n">git</span> <span class="nb">diff </span><span class="p">-</span><span class="n">-cached</span>
+<span class="n">git</span> <span class="n">submodule</span> <span class="n">status</span>
+  <span class="c"># $ git status</span>
+  <span class="c"># On branch master</span>
+  <span class="c"># Your branch is up to date with 'origin/master'.</span>
+  <span class="c">#</span>
   <span class="c"># Changes to be committed:</span>
-  <span class="c">#   (use "git rm --cached &lt;file&gt;..." to unstage)</span>
-  <span class="c">#         new file:   .gitmodules</span>
-  <span class="c">#         new file:   submodule-child</span>
-<span class="n">git</span> <span class="nb">diff </span><span class="p">-</span><span class="n">-staged</span>
+  <span class="c">#   (use "git restore --staged &lt;file&gt;..." to unstage)</span>
+  <span class="c">#         new file:   ../.gitmodules</span>
+  <span class="c">#         new file:   sandbox-repo-sub</span>
+  <span class="c">#</span>
+  <span class="c"># $ cat "$tmp_dir/$repo_main/.git/config"</span>
+  <span class="c"># [core]</span>
+  <span class="c">#         repositoryformatversion = 0</span>
+  <span class="c">#         filemode = true</span>
+  <span class="c">#         bare = false</span>
+  <span class="c">#         logallrefupdates = true</span>
+  <span class="c"># [remote "origin"]</span>
+  <span class="c">#         url = git@github.com:kumarstack55/sandbox-repo-main.git</span>
+  <span class="c">#         fetch = +refs/heads/*:refs/remotes/origin/*</span>
+  <span class="c"># [branch "master"]</span>
+  <span class="c">#         remote = origin</span>
+  <span class="c">#         merge = refs/heads/master</span>
+  <span class="c"># [submodule "depends_on/sandbox-repo-sub"]</span>
+  <span class="c">#         url = git@github.com:kumarstack55/sandbox-repo-sub.git</span>
+  <span class="c">#         active = true</span>
+  <span class="c"># $ git diff --cached</span>
   <span class="c"># diff --git a/.gitmodules b/.gitmodules</span>
   <span class="c"># new file mode 100644</span>
-  <span class="c"># index 0000000..bd93a86</span>
+  <span class="c"># index 0000000..1714231</span>
   <span class="c"># --- /dev/null</span>
   <span class="c"># +++ b/.gitmodules</span>
   <span class="c"># @@ -0,0 +1,3 @@</span>
-  <span class="c"># +[submodule "submodule-child"]</span>
-  <span class="c"># +       path = submodule-child</span>
-  <span class="c"># +       url = git@github.com:kumarstack55/submodule-child.git</span>
-  <span class="c"># diff --git a/submodule-child b/submodule-child</span>
+  <span class="c"># +[submodule "depends_on/sandbox-repo-sub"]</span>
+  <span class="c"># +       path = depends_on/sandbox-repo-sub</span>
+  <span class="c"># +       url = git@github.com:kumarstack55/sandbox-repo-sub.git</span>
+  <span class="c"># diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub</span>
   <span class="c"># new file mode 160000</span>
-  <span class="c"># index 0000000..f13673f</span>
+  <span class="c"># index 0000000..8984b69</span>
   <span class="c"># --- /dev/null</span>
-  <span class="c"># +++ b/submodule-child</span>
+  <span class="c"># +++ b/depends_on/sandbox-repo-sub</span>
   <span class="c"># @@ -0,0 +1 @@</span>
-  <span class="c"># +Subproject commit f13673f55c71c3ce313435af54bb06274a9f6565</span>
+  <span class="c"># +Subproject commit 8984b6939db28ac7bb181efb3a9564f7405c3ef4</span>
+  <span class="c"># $ git submodule status</span>
+  <span class="c">#  8984b6939db28ac7bb181efb3a9564f7405c3ef4 sandbox-repo-sub (heads/master)</span>
 
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"fix"</span>
-<span class="n">git</span> <span class="n">submodule</span> <span class="n">status</span>
-  <span class="c"># f13673f55c71c3ce313435af54bb06274a9f6565 submodule-child (heads/main)</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add submodule $repo_sub"</span>
+  <span class="c"># $ git commit -m "Add submodule $repo_sub"</span>
+  <span class="c"># [master ab32493] Add submodule sandbox-repo-sub</span>
+  <span class="c">#  2 files changed, 4 insertions(+)</span>
+  <span class="c">#  create mode 100644 .gitmodules</span>
+  <span class="c">#  create mode 160000 depends_on/sandbox-repo-sub</span>
+
 <span class="n">git</span> <span class="n">push</span>
-
-<span class="c"># 子リポジトリを更新する。</span>
-<span class="nb">Set-Location</span> <span class="p">..\</span><span class="n">submodule-child</span><span class="p">\</span>
-
-<span class="nb">New-Item</span> <span class="n">child2</span><span class="p">.</span><span class="n">txt</span>
-<span class="n">git</span> <span class="n">add</span> <span class="n">child2</span><span class="p">.</span><span class="n">txt</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"fix"</span>
-<span class="n">git</span> <span class="n">log</span>
-  <span class="c"># commit 50ef740e602beb2d96ca7d40ebb1101f52a7bf2c (HEAD -&gt; main)</span>
-<span class="n">git</span> <span class="n">push</span>
-
-<span class="c"># 親リポジトリ内の状態を確認する。</span>
-<span class="nb">Set-Location</span> <span class="p">..\</span><span class="n">submodule-parent</span><span class="p">\</span>
-
-<span class="nb">Get-ChildItem</span> <span class="p">.\</span><span class="n">submodule-child</span><span class="p">\</span>
-  <span class="c"># --&gt; child.txt が存在する。</span>
-  <span class="c"># --&gt; child2.txt が存在しない。</span>
-
-<span class="n">git</span> <span class="n">submodule</span> <span class="n">update</span> <span class="p">-</span><span class="n">-remote</span>
-<span class="n">git</span> <span class="n">status</span>
-  <span class="c"># Changes not staged for commit:</span>
-  <span class="c">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
-  <span class="c">#   (use "git restore &lt;file&gt;..." to discard changes in working directory)</span>
-  <span class="c">#         modified:   submodule-child (new commits)</span>
-<span class="n">git</span> <span class="nb">diff</span>
-  <span class="c"># diff --git a/submodule-child b/submodule-child</span>
-  <span class="c"># index f13673f..50ef740 160000</span>
-  <span class="c"># --- a/submodule-child</span>
-  <span class="c"># +++ b/submodule-child</span>
-  <span class="c"># @@ -1 +1 @@</span>
-  <span class="c"># -Subproject commit f13673f55c71c3ce313435af54bb06274a9f6565</span>
-  <span class="c"># +Subproject commit 50ef740e602beb2d96ca7d40ebb1101f52a7bf2c</span>
-
-<span class="nb">Get-ChildItem</span> <span class="p">.\</span><span class="n">submodule-child</span><span class="p">\</span>
-  <span class="c"># --&gt; child.txt が存在する。</span>
-  <span class="c"># --&gt; child2.txt が存在する。</span>
+  <span class="c"># $ git push</span>
+  <span class="c"># Enumerating objects: 5, done.</span>
+  <span class="c"># Counting objects: 100% (5/5), done.</span>
+  <span class="c"># Delta compression using up to 8 threads</span>
+  <span class="c"># Compressing objects: 100% (3/3), done.</span>
+  <span class="c"># Writing objects: 100% (4/4), 471 bytes | 471.00 KiB/s, done.</span>
+  <span class="c"># Total 4 (delta 0), reused 0 (delta 0)</span>
+  <span class="c"># To github.com:kumarstack55/sandbox-repo-main.git</span>
+  <span class="c">#    a0e8e89..ab32493  master -&gt; master</span>
 </pre></div>
 </div>
+</section>
+<section id="sandbox-repo-main">
+<h3>リポジトリ sandbox-repo-main をクローンする。<a class="headerlink" href="#sandbox-repo-main" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp -d<span class="k">)</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+
+<span class="nv">repo_url</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>gh repo view <span class="s2">"</span><span class="nv">$repo_main</span><span class="s2">"</span> --json sshUrl -q <span class="s2">".sshUrl"</span><span class="k">)</span><span class="s2">"</span>
+git clone --recurse-submodules <span class="s2">"</span><span class="nv">$repo_url</span><span class="s2">"</span>
+  <span class="c1"># $ git clone --recurse-submodules "$repo_url"</span>
+  <span class="c1"># Cloning into 'sandbox-repo-main'...</span>
+  <span class="c1"># remote: Enumerating objects: 7, done.</span>
+  <span class="c1"># remote: Counting objects: 100% (7/7), done.</span>
+  <span class="c1"># remote: Compressing objects: 100% (4/4), done.</span>
+  <span class="c1"># remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0</span>
+  <span class="c1"># Receiving objects: 100% (7/7), done.</span>
+  <span class="c1"># Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) registered for path 'depends_on/sandbox-repo-sub'</span>
+  <span class="c1"># Cloning into '/tmp/tmp.Y6cobs6LU0/sandbox-repo-main/depends_on/sandbox-repo-sub'...</span>
+  <span class="c1"># remote: Enumerating objects: 3, done.</span>
+  <span class="c1"># remote: Counting objects: 100% (3/3), done.</span>
+  <span class="c1"># remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0</span>
+  <span class="c1"># Receiving objects: 100% (3/3), done.</span>
+  <span class="c1"># Submodule path 'depends_on/sandbox-repo-sub': checked out '8984b6939db28ac7bb181efb3a9564f7405c3ef4'</span>
+
+<span class="c1"># または</span>
+<span class="c1">#git clone "$repo_url"</span>
+<span class="c1">#cd "$repo_main"</span>
+<span class="c1">#git submodule update --init</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">/depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># HEAD detached at 8984b69</span>
+  <span class="c1"># nothing to commit, working tree clean</span>
+</pre></div>
+</div>
+</section>
+<section id="sandbox-repo-main-sandbox-repo-sub-commit">
+<h3>リポジトリ sandbox-repo-main のリポジトリ sandbox-repo-sub の commit を更新する。<a class="headerlink" href="#sandbox-repo-main-sandbox-repo-sub-commit" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="sandbox-repo-sub-commit">
+<h4>sandbox-repo-sub で commit を指定して更新する。<a class="headerlink" href="#sandbox-repo-sub-commit" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp -d<span class="k">)</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+
+<span class="c1"># リポジトリ sandbox-repo-sub にファイルを加える。</span>
+<span class="nv">repo_url</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>gh repo view <span class="s2">"</span><span class="nv">$repo_sub</span><span class="s2">"</span> --json sshUrl -q <span class="s2">".sshUrl"</span><span class="k">)</span><span class="s2">"</span>
+git clone <span class="s2">"</span><span class="nv">$repo_url</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+
+<span class="nb">echo</span> <span class="s2">"# b"</span> &gt;b.txt
+git add <span class="s2">"b.txt"</span>
+git commit -m <span class="s2">"Add b.txt"</span>
+  <span class="c1"># $ git commit -m "Add b.txt"</span>
+  <span class="c1"># [master 0eade58] Add b.txt</span>
+  <span class="c1">#  1 file changed, 1 insertion(+)</span>
+  <span class="c1">#  create mode 100644 b.txt</span>
+git log --pretty<span class="o">=</span>format:<span class="s2">"%H %s"</span>
+  <span class="c1"># $ git log --pretty=format:"%H %s"</span>
+  <span class="c1"># 0eade58d0d7485282b2d2ef45e4046790643d031 Add b.txt</span>
+  <span class="c1"># 8984b6939db28ac7bb181efb3a9564f7405c3ef4 Add README.md</span>
+
+git push
+  <span class="c1"># $ git push</span>
+  <span class="c1"># Enumerating objects: 4, done.</span>
+  <span class="c1"># Counting objects: 100% (4/4), done.</span>
+  <span class="c1"># Delta compression using up to 8 threads</span>
+  <span class="c1"># Compressing objects: 100% (2/2), done.</span>
+  <span class="c1"># Writing objects: 100% (3/3), 273 bytes | 273.00 KiB/s, done.</span>
+  <span class="c1"># Total 3 (delta 0), reused 0 (delta 0)</span>
+  <span class="c1"># To github.com:kumarstack55/sandbox-repo-sub.git</span>
+  <span class="c1">#    8984b69..0eade58  master -&gt; master</span>
+
+<span class="nv">commit_hash</span><span class="o">=</span><span class="k">$(</span>git log --pretty<span class="o">=</span>format:<span class="s2">"%H"</span> -1<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit_hash</span><span class="s2">"</span>
+  <span class="c1"># $ echo "$commit_hash"</span>
+  <span class="c1"># 0eade58d0d7485282b2d2ef45e4046790643d031</span>
+
+<span class="c1"># リポジトリ sandbox-repo-main の commit を変更する。</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+<span class="nv">repo_url</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>gh repo view <span class="s2">"</span><span class="nv">$repo_main</span><span class="s2">"</span> --json sshUrl -q <span class="s2">".sshUrl"</span><span class="k">)</span><span class="s2">"</span>
+git clone --recurse-submodules <span class="s2">"</span><span class="nv">$repo_url</span><span class="s2">"</span>
+  <span class="c1"># $ git clone --recurse-submodules "$repo_url"</span>
+  <span class="c1"># Cloning into 'sandbox-repo-main'...</span>
+  <span class="c1"># remote: Enumerating objects: 7, done.</span>
+  <span class="c1"># remote: Counting objects: 100% (7/7), done.</span>
+  <span class="c1"># remote: Compressing objects: 100% (4/4), done.</span>
+  <span class="c1"># remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0</span>
+  <span class="c1"># Receiving objects: 100% (7/7), done.</span>
+  <span class="c1"># Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) registered for path 'depends_on/sandbox-repo-sub'</span>
+  <span class="c1"># Cloning into '/tmp/tmp.vF55SDwV5c/sandbox-repo-main/depends_on/sandbox-repo-sub'...</span>
+  <span class="c1"># remote: Enumerating objects: 6, done.</span>
+  <span class="c1"># remote: Counting objects: 100% (6/6), done.</span>
+  <span class="c1"># remote: Compressing objects: 100% (3/3), done.</span>
+  <span class="c1"># remote: Total 6 (delta 0), reused 6 (delta 0), pack-reused 0</span>
+  <span class="c1"># Receiving objects: 100% (6/6), done.</span>
+  <span class="c1"># Submodule path 'depends_on/sandbox-repo-sub': checked out '8984b6939db28ac7bb181efb3a9564f7405c3ef4'</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">/depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># HEAD detached at 8984b69</span>
+  <span class="c1"># nothing to commit, working tree clean</span>
+git log --oneline
+  <span class="c1"># $ git log --oneline</span>
+  <span class="c1"># 8984b69 (HEAD) Add README.md</span>
+
+<span class="c1"># 変更したいコミット番号に変える。</span>
+git fetch
+git reset --hard origin/master
+  <span class="c1"># $ git reset --hard origin/master</span>
+  <span class="c1"># HEAD is now at 0eade58 Add b.txt</span>
+<span class="c1">#git checkout "$commit_hash"</span>
+
+git status
+  <span class="c1"># HEAD detached from 8984b69</span>
+  <span class="c1"># nothing to commit, working tree clean</span>
+git log --oneline
+  <span class="c1"># $ git log --oneline</span>
+  <span class="c1"># 0eade58 (HEAD, origin/master, origin/HEAD, master) Add b.txt</span>
+  <span class="c1"># 8984b69 Add README.md</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">"</span>
+git status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># On branch master</span>
+  <span class="c1"># Your branch is up to date with 'origin/master'.</span>
+  <span class="c1">#</span>
+  <span class="c1"># Changes not staged for commit:</span>
+  <span class="c1">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
+  <span class="c1">#   (use "git restore &lt;file&gt;..." to discard changes in working directory)</span>
+  <span class="c1">#         modified:   depends_on/sandbox-repo-sub (new commits)</span>
+  <span class="c1">#</span>
+  <span class="c1"># no changes added to commit (use "git add" and/or "git commit -a")</span>
+git diff
+  <span class="c1"># $ git diff</span>
+  <span class="c1"># diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># index 8984b69..0eade58 160000</span>
+  <span class="c1"># --- a/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># +++ b/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># @@ -1 +1 @@</span>
+  <span class="c1"># -Subproject commit 8984b6939db28ac7bb181efb3a9564f7405c3ef4</span>
+  <span class="c1"># +Subproject commit 0eade58d0d7485282b2d2ef45e4046790643d031</span>
+
+git add <span class="s2">"depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git commit -m <span class="s1">'Update submodule commit'</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git status
+
+<span class="c1">#git push</span>
+</pre></div>
+</div>
+</section>
+<section id="sandbox-repo-main-commit">
+<h4>sandbox-repo-main で commit を指定して更新する。<a class="headerlink" href="#sandbox-repo-main-commit" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp -d<span class="k">)</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+<span class="nv">repo_url</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>gh repo view <span class="s2">"</span><span class="nv">$repo_main</span><span class="s2">"</span> --json sshUrl -q <span class="s2">".sshUrl"</span><span class="k">)</span><span class="s2">"</span>
+git clone --recurse-submodules <span class="s2">"</span><span class="nv">$repo_url</span><span class="s2">"</span>
+  <span class="c1"># $ git clone --recurse-submodules "$repo_url"</span>
+  <span class="c1"># Cloning into 'sandbox-repo-main'...</span>
+  <span class="c1"># remote: Enumerating objects: 7, done.</span>
+  <span class="c1"># remote: Counting objects: 100% (7/7), done.</span>
+  <span class="c1"># remote: Compressing objects: 100% (4/4), done.</span>
+  <span class="c1"># remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0</span>
+  <span class="c1"># Receiving objects: 100% (7/7), done.</span>
+  <span class="c1"># Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) registered for path 'depends_on/sandbox-repo-sub'</span>
+  <span class="c1"># Cloning into '/tmp/tmp.3MPcH185en/sandbox-repo-main/depends_on/sandbox-repo-sub'...</span>
+  <span class="c1"># remote: Enumerating objects: 6, done.</span>
+  <span class="c1"># remote: Counting objects: 100% (6/6), done.</span>
+  <span class="c1"># remote: Compressing objects: 100% (3/3), done.</span>
+  <span class="c1"># remote: Total 6 (delta 0), reused 6 (delta 0), pack-reused 0</span>
+  <span class="c1"># Receiving objects: 100% (6/6), done.</span>
+  <span class="c1"># Submodule path 'depends_on/sandbox-repo-sub': checked out '8984b6939db28ac7bb181efb3a9564f7405c3ef4'</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">/depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># HEAD detached at 8984b69</span>
+  <span class="c1"># nothing to commit, working tree clean</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">"</span>
+git submodule update --remote <span class="s2">"depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+  <span class="c1"># $ git submodule update --remote "depends_on/$repo_sub"</span>
+  <span class="c1"># Submodule path 'depends_on/sandbox-repo-sub': checked out '0eade58d0d7485282b2d2ef45e4046790643d031'</span>
+git status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># On branch master</span>
+  <span class="c1"># Your branch is up to date with 'origin/master'.</span>
+  <span class="c1">#</span>
+  <span class="c1"># Changes not staged for commit:</span>
+  <span class="c1">#   (use "git add &lt;file&gt;..." to update what will be committed)</span>
+  <span class="c1">#   (use "git restore &lt;file&gt;..." to discard changes in working directory)</span>
+  <span class="c1">#         modified:   depends_on/sandbox-repo-sub (new commits)</span>
+  <span class="c1">#</span>
+  <span class="c1"># no changes added to commit (use "git add" and/or "git commit -a")</span>
+git diff
+  <span class="c1"># $ git diff</span>
+  <span class="c1"># diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># index 8984b69..0eade58 160000</span>
+  <span class="c1"># --- a/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># +++ b/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># @@ -1 +1 @@</span>
+  <span class="c1"># -Subproject commit 8984b6939db28ac7bb181efb3a9564f7405c3ef4</span>
+  <span class="c1"># +Subproject commit 0eade58d0d7485282b2d2ef45e4046790643d031</span>
+
+git add <span class="s2">"depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git commit -m <span class="s1">'Update submodule commit'</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">/depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+git status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># HEAD detached at 0eade58</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">"</span>
+<span class="c1">#git push</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="module-main-module-sub">
+<h3>リポジトリ module-main からリポジトリ module-sub を消す。<a class="headerlink" href="#module-main-module-sub" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp -d<span class="k">)</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+<span class="nv">repo_url</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>gh repo view <span class="s2">"</span><span class="nv">$repo_main</span><span class="s2">"</span> --json sshUrl -q <span class="s2">".sshUrl"</span><span class="k">)</span><span class="s2">"</span>
+git clone --recurse-submodules <span class="s2">"</span><span class="nv">$repo_url</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo_main</span><span class="s2">"</span>
+
+git status
+git diff --cached
+cat .git/config
+git submodule status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># On branch master</span>
+  <span class="c1"># Your branch is up to date with 'origin/master'.</span>
+  <span class="c1">#</span>
+  <span class="c1"># nothing to commit, working tree clean</span>
+  <span class="c1"># $ git diff --cached</span>
+  <span class="c1"># $ cat .git/config</span>
+  <span class="c1"># [core]</span>
+  <span class="c1">#         repositoryformatversion = 0</span>
+  <span class="c1">#         filemode = true</span>
+  <span class="c1">#         bare = false</span>
+  <span class="c1">#         logallrefupdates = true</span>
+  <span class="c1"># [submodule]</span>
+  <span class="c1">#         active = .</span>
+  <span class="c1"># [remote "origin"]</span>
+  <span class="c1">#         url = git@github.com:kumarstack55/sandbox-repo-main.git</span>
+  <span class="c1">#         fetch = +refs/heads/*:refs/remotes/origin/*</span>
+  <span class="c1"># [branch "master"]</span>
+  <span class="c1">#         remote = origin</span>
+  <span class="c1">#         merge = refs/heads/master</span>
+  <span class="c1"># [submodule "depends_on/sandbox-repo-sub"]</span>
+  <span class="c1">#         url = git@github.com:kumarstack55/sandbox-repo-sub.git</span>
+  <span class="c1"># $ git submodule status</span>
+  <span class="c1">#  0eade58d0d7485282b2d2ef45e4046790643d031 depends_on/sandbox-repo-sub (heads/master)</span>
+
+git submodule deinit --force <span class="s2">"depends_on/</span><span class="nv">$repo_sub</span><span class="s2">"</span>
+  <span class="c1"># $ git submodule deinit --force "depends_on/$repo_sub"</span>
+  <span class="c1"># Cleared directory 'depends_on/sandbox-repo-sub'</span>
+  <span class="c1"># Submodule 'depends_on/sandbox-repo-sub' (git@github.com:kumarstack55/sandbox-repo-sub.git) unregistered for path 'depends_on/sandbox-repo-sub'</span>
+git rm -f depends_on/sandbox-repo-sub
+  <span class="c1"># $ git rm -f depends_on/sandbox-repo-sub</span>
+  <span class="c1"># rm 'depends_on/sandbox-repo-sub'</span>
+
+git status
+git diff --cached
+cat .git/config
+git submodule status
+  <span class="c1"># $ git status</span>
+  <span class="c1"># On branch master</span>
+  <span class="c1"># Your branch is up to date with 'origin/master'.</span>
+  <span class="c1">#</span>
+  <span class="c1"># Changes to be committed:</span>
+  <span class="c1">#   (use "git restore --staged &lt;file&gt;..." to unstage)</span>
+  <span class="c1">#         modified:   .gitmodules</span>
+  <span class="c1">#         deleted:    depends_on/sandbox-repo-sub</span>
+  <span class="c1"># $ git diff --cached</span>
+  <span class="c1"># diff --git a/.gitmodules b/.gitmodules</span>
+  <span class="c1"># index 1714231..e69de29 100644</span>
+  <span class="c1"># --- a/.gitmodules</span>
+  <span class="c1"># +++ b/.gitmodules</span>
+  <span class="c1"># @@ -1,3 +0,0 @@</span>
+  <span class="c1"># -[submodule "depends_on/sandbox-repo-sub"]</span>
+  <span class="c1"># -       path = depends_on/sandbox-repo-sub</span>
+  <span class="c1"># -       url = git@github.com:kumarstack55/sandbox-repo-sub.git</span>
+  <span class="c1"># diff --git a/depends_on/sandbox-repo-sub b/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># deleted file mode 160000</span>
+  <span class="c1"># index 0eade58..0000000</span>
+  <span class="c1"># --- a/depends_on/sandbox-repo-sub</span>
+  <span class="c1"># +++ /dev/null</span>
+  <span class="c1"># @@ -1 +0,0 @@</span>
+  <span class="c1"># -Subproject commit 0eade58d0d7485282b2d2ef45e4046790643d031</span>
+  <span class="c1"># $ cat .git/config</span>
+  <span class="c1"># [core]</span>
+  <span class="c1">#         repositoryformatversion = 0</span>
+  <span class="c1">#         filemode = true</span>
+  <span class="c1">#         bare = false</span>
+  <span class="c1">#         logallrefupdates = true</span>
+  <span class="c1"># [submodule]</span>
+  <span class="c1">#         active = .</span>
+  <span class="c1"># [remote "origin"]</span>
+  <span class="c1">#         url = git@github.com:kumarstack55/sandbox-repo-main.git</span>
+  <span class="c1">#         fetch = +refs/heads/*:refs/remotes/origin/*</span>
+  <span class="c1"># [branch "master"]</span>
+  <span class="c1">#         remote = origin</span>
+  <span class="c1">#         merge = refs/heads/master</span>
+  <span class="c1"># $ git submodule status</span>
+  <span class="c1"># $</span>
+
+git commit -m <span class="s2">"Remove submodule </span><span class="si">${</span><span class="nv">repo_sub</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="c1">#git push</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="git-submodule">
 <h2>git submodule の機能一覧<a class="headerlink" href="#git-submodule" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -424,7 +808,17 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
-<li><a class="reference internal" href="#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a></li>
+<li><a class="reference internal" href="#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a><ul>
+<li><a class="reference internal" href="#sandbox-repo-main-sandbox-repo-sub">リポジトリ sandbox-repo-main にリポジトリ sandbox-repo-sub を加える。</a></li>
+<li><a class="reference internal" href="#sandbox-repo-main">リポジトリ sandbox-repo-main をクローンする。</a></li>
+<li><a class="reference internal" href="#sandbox-repo-main-sandbox-repo-sub-commit">リポジトリ sandbox-repo-main のリポジトリ sandbox-repo-sub の commit を更新する。</a><ul>
+<li><a class="reference internal" href="#sandbox-repo-sub-commit">sandbox-repo-sub で commit を指定して更新する。</a></li>
+<li><a class="reference internal" href="#sandbox-repo-main-commit">sandbox-repo-main で commit を指定して更新する。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-main-module-sub">リポジトリ module-main からリポジトリ module-sub を消す。</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#git-submodule">git submodule の機能一覧</a></li>
 <li><a class="reference internal" href="#pre-commit">pre-commit をインストールする。</a></li>
 </ul>
