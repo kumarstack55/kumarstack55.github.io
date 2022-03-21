@@ -2,12 +2,164 @@
 
 https://www.gnu.org/software/bash/manual/bash.html
 
+## バージョンがリリースされた日付、バージョンの変更内容
+
+* [Is there a list of which features were added to specific releases (versions) of Bash?](https://mywiki.wooledge.org/BashFAQ/061)
+
+## 連想配列を使う。
+
+Bash version 4 以降では連想配列を利用できる。
+他の言語でハッシュマップ、辞書などで呼ばれる変数を定義できる。
+
+### 連想配列を定義する。
+
+```bash
+declare -A associative_array
+```
+
+### 連想配列にキーに対応する値を入れる。
+
+```bash
+declare -A associative_array
+associative_array["key1"]="value1"
+echo "key1: '${associative_array["key1"]}'"
+```
+
+```console
+$ associative_array["key1"]="value1"
+$ echo "key1: '${associative_array["key1"]}'"
+key1: 'value1'
+```
+
+### 連想配列のキーから値を得る。
+
+直前の項目を参照してください。
+
+### 連想配列の定義時に代入する。
+
+```bash
+declare -A associative_array=(
+  ["key1"]="value1"
+  ["key2"]="value2"
+)
+echo "key1: '${associative_array["key1"]}'"
+```
+
+```console
+$ declare -A associative_array=(
+>   ["key1"]="value1"
+>   ["key2"]="value2"
+> )
+$ echo "key1: '${associative_array["key1"]}'"
+key1: 'value1'
+```
+
+### 連想配列にキーが存在するか確認する。
+
+```bash
+declare -A associative_array=(["key1"]="value1")
+
+key="key1"
+if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+
+key="key2"
+if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+```
+
+```console
+$ declare -A associative_array=(["key1"]="value1")
+$ key="key1"
+$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+The key 'key1' exists.
+$ key="key2"
+$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+The key 'key2' does not exists.
+```
+
+### 連想配列のすべてのキーを得る。
+
+```bash
+declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
+echo "${!associative_array[@]}"
+associative_array["key3 containing spaces"]="value3"
+for k in "${!associative_array[@]}"; do echo "k: '$k'"; done
+```
+
+```console
+$ declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
+$ echo "${!associative_array[@]}"
+key2 key1
+$ associative_array["key3 containing spaces"]="value3"
+$ for k in "${!associative_array[@]}"; do echo "k: '$k'"; done
+k: 'key2'
+k: 'key1'
+k: 'key3 containing spaces'
+```
+
+### 連想配列からキーとその値を消す。
+
+```bash
+declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
+unset associative_array["key1"]
+echo "${!associative_array[@]}"
+```
+
+```console
+$ declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
+$ unset associative_array["key1"]
+$ echo "${!associative_array[@]}"
+key2
+```
+
+### 連想配列のキーの数を得る。
+
+```bash
+declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
+echo "${#associative_array[@]}"
+```
+
+```console
+$ declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
+$ echo "${#associative_array[@]}"
+2
+```
+
 ## ファンクションを定義する。
 
 ```bash
 f() {
   true
 }
+f
+echo $?
+```
+
+```console
+$ f() {
+>   true
+> }
+$ f
+$ echo $?
+0
+```
+
+## ファンクション実行後のステータスを制御する。
+
+```bash
+f() {
+  return 1
+}
+f
+echo $?
+```
+
+```console
+$ f() {
+>   return 1
+> }
+$ f
+$ echo $?
+1
 ```
 
 ## 文字列の末尾を除去する。
@@ -40,7 +192,7 @@ $ echo "${c%%:*}"
 xyz
 ```
 
-## 文字列を置換する。
+## 文字列を1箇所置換する。
 
 ```bash
 a="xyz1xyz"
@@ -52,6 +204,22 @@ echo "$a"
 $ a="xyz1xyz"
 $ echo "${a/z/Z}"
 xyZ1xyz
+$ echo "$a"
+xyz1xyz
+```
+
+## 文字列をすべて置換する。
+
+```bash
+a="xyz1xyz"
+echo "${a//z/Z}"
+echo "$a"
+```
+
+```console
+$ a="xyz1xyz"
+$ echo "${a//z/Z}"
+xyZ1xyZ
 $ echo "$a"
 xyz1xyz
 ```
