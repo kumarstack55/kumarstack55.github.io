@@ -17,24 +17,6 @@ Bash version 4 以降では連想配列を利用できる。
 declare -A associative_array
 ```
 
-### 連想配列にキーに対応する値を入れる。
-
-```bash
-declare -A associative_array
-associative_array["key1"]="value1"
-echo "key1: '${associative_array["key1"]}'"
-```
-
-```console
-$ associative_array["key1"]="value1"
-$ echo "key1: '${associative_array["key1"]}'"
-key1: 'value1'
-```
-
-### 連想配列のキーから値を得る。
-
-直前の項目を参照してください。
-
 ### 連想配列の定義時に代入する。
 
 ```bash
@@ -54,26 +36,76 @@ $ echo "key1: '${associative_array["key1"]}'"
 key1: 'value1'
 ```
 
-### 連想配列にキーが存在するか確認する。
+### 連想配列に値を入れる。
 
 ```bash
-declare -A associative_array=(["key1"]="value1")
+declare -A associative_array
+associative_array["key1"]="value1"
+echo "key1: '${associative_array["key1"]}'"
 
-key="key1"
-if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+associative_array[key2]="value2"
+echo "key2: '${associative_array["key2"]}'"
 
-key="key2"
-if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+associative_array[ key3]="value3"
+echo "key3: '${associative_array[key3]}'"
+echo "key3: '${associative_array["key3"]}'"
+echo "key3: '${associative_array[ key3]}'"
+echo "key3: '${associative_array[" key3"]}'"
 ```
 
 ```console
-$ declare -A associative_array=(["key1"]="value1")
-$ key="key1"
-$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
-The key 'key1' exists.
-$ key="key2"
-$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
-The key 'key2' does not exists.
+$ declare -A associative_array
+$ associative_array["key1"]="value1"
+$ echo "key1: '${associative_array["key1"]}'"
+key1: 'value1'
+$ associative_array[key2]="value2"
+$ echo "key2: '${associative_array["key2"]}'"
+key2: 'value2'
+$ associative_array[ key3]="value3"
+$ echo "key3: '${associative_array[key3]}'"
+key3: ''
+$ echo "key3: '${associative_array["key3"]}'"
+key3: ''
+$ echo "key3: '${associative_array[ key3]}'"
+key3: 'value3'
+$ echo "key3: '${associative_array[" key3"]}'"
+key3: 'value3'
+```
+
+連想配列のキーのダブルクォートを入れても動作する。
+
+```bash
+declare -A associative_array
+
+associative_array[key1]="key1"
+echo "key1: '${associative_array[key1]}'"
+
+associative_array[key contains double quote \"]="value2"
+echo "key2: '${associative_array[key contains double quote \"]}'"
+echo "key2: '${associative_array["key contains double quote \""]}'"
+```
+
+```console
+$ declare -A associative_array
+$ associative_array[key1]="key1"
+$ echo "key1: '${associative_array[key1]}'"
+key1: 'key1'
+$ echo "key2: '${associative_array["key contains double quote \""]}'"
+key2: 'value2'
+```
+
+### 連想配列から値を得る。
+
+```bash
+declare -A associative_array
+associative_array["key1"]="value1"
+echo "key1: '${associative_array["key1"]}'"
+```
+
+```console
+$ associative_array["key1"]="value1"
+$ echo "key1: '${associative_array["key1"]}'"
+key1: 'value1'
 ```
 
 ### 連想配列のすべてのキーを得る。
@@ -96,7 +128,7 @@ k: 'key1'
 k: 'key3 containing spaces'
 ```
 
-### 連想配列からキーとその値を消す。
+### 連想配列から値を消す。
 
 ```bash
 declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
@@ -109,6 +141,49 @@ $ declare -A associative_array=(["key1"]="value1" ["key2"]="value2")
 $ unset associative_array["key1"]
 $ echo "${!associative_array[@]}"
 key2
+```
+
+### 連想配列にキーが存在するか判定する。
+
+```bash
+declare -A associative_array=(["key1"]="value1" ["key2"]="")
+
+key="key1"
+if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+
+key=" key1"
+if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+
+key="key2"
+if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+
+key="key3"
+if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+```
+
+```console
+$ declare -A associative_array=(["key1"]="value1" ["key2"]="")
+$ key="key1"
+$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+The key 'key1' exists.
+```
+
+```console
+$ key=" key1"
+$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+The key ' key1' does not exists.
+```
+
+```console
+$ key="key2"
+$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+The key 'key2' exists.
+```
+
+```console
+$ key="key3"
+$ if [ "${associative_array[$key]+x}" ]; then echo "The key '$key' exists."; else echo "The key '$key' does not exists."; fi
+The key 'key3' does not exists.
 ```
 
 ### 連想配列のキーの数を得る。
