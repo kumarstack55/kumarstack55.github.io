@@ -1,0 +1,238 @@
+# Python2
+
+## Python2 のサポートは 2020-01-01 で終了となる。
+
+* [Sunsetting Python 2](https://www.python.org/doc/sunset-python-2/)
+
+> Sunsetting Python 2
+> We are volunteers who make and take care of the Python programming language. We have decided that January 1, 2020, was the day that we sunset Python 2. That means that we will not improve it anymore after that day, even if someone finds a security problem in it. You should upgrade to Python 3 as soon as you can.
+
+## datetime で現在日時を得る。
+
+```python
+#!/usr/bin/env python2
+import datetime
+import time
+
+
+class TzinfoUTC(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=0)
+
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+    def tzname(self, dt):
+        return "UTC"
+
+
+class TzinfoJST(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=9)
+
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+    def tzname(self, dt):
+        return "JST"
+
+
+def print_datetime(dt, msg=None):
+    print('# %s' % (msg))
+    print('dt            : ' + str(dt))
+    print('dt.__repr__() : ' + dt.__repr__())
+    print('')
+
+
+tz_utc = TzinfoUTC()
+tz_jst = TzinfoJST()
+
+# --- datetime.now()
+now_utc = datetime.datetime.now(tz_utc)
+print_datetime(now_utc, 'now_utc')
+
+now_local = datetime.datetime.now(tz_jst)
+print_datetime(now_local, 'now_local')
+
+# --- datetime.utcnow()
+utcnow = datetime.datetime.utcnow()
+print_datetime(utcnow, 'utcnow')
+
+# --- datetime.fromtimestamp()
+timestamp_local = time.time()
+
+fromts = datetime.datetime.fromtimestamp(timestamp_local)
+print_datetime(fromts, 'fromts')
+
+fromts_utc = datetime.datetime.fromtimestamp(timestamp_local, tz=tz_utc)
+print_datetime(fromts_utc, 'fromts_utc')
+
+fromts_local = datetime.datetime.fromtimestamp(timestamp_local, tz=tz_jst)
+print_datetime(fromts_local, 'fromts_local')
+```
+
+```console
+$ ./a.py
+# now_utc
+dt            : 2022-03-25 23:58:08.727042+00:00
+dt.__repr__() : datetime.datetime(2022, 3, 25, 23, 58, 8, 727042, tzinfo=<__main__.TzinfoUTC object at 0x7f4e61d8c6d0>)
+
+# now_local
+dt            : 2022-03-26 08:58:08.727099+09:00
+dt.__repr__() : datetime.datetime(2022, 3, 26, 8, 58, 8, 727099, tzinfo=<__main__.TzinfoJST object at 0x7f4e61d8c710>)
+
+# utcnow
+dt            : 2022-03-25 23:58:08.727109
+dt.__repr__() : datetime.datetime(2022, 3, 25, 23, 58, 8, 727109)
+
+# fromts
+dt            : 2022-03-26 08:58:08.727114
+dt.__repr__() : datetime.datetime(2022, 3, 26, 8, 58, 8, 727114)
+
+# fromts_utc
+dt            : 2022-03-25 23:58:08.727114+00:00
+dt.__repr__() : datetime.datetime(2022, 3, 25, 23, 58, 8, 727114, tzinfo=<__main__.TzinfoUTC object at 0x7f4e61d8c6d0>)
+
+# fromts_local
+dt            : 2022-03-26 08:58:08.727114+09:00
+dt.__repr__() : datetime.datetime(2022, 3, 26, 8, 58, 8, 727114, tzinfo=<__main__.TzinfoJST object at 0x7f4e61d8c710>)
+```
+
+https://docs.python.org/ja/2.7/library/datetime.html
+
+## datetime で timetuple を得る。
+
+```python
+#!/usr/bin/env python2
+import datetime
+import time
+
+
+class TzinfoUTC(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=0)
+
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+    def tzname(self, dt):
+        return "UTC"
+
+
+class TzinfoJST(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=9)
+
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+    def tzname(self, dt):
+        return "JST"
+
+
+def print_datetime(dt, msg=None):
+    print('# %s' % (msg))
+    print('dt                : ' + str(dt))
+    print('dt.__repr__()     : ' + dt.__repr__())
+    print('dt.timetuple()    : ' + dt.timetuple().__repr__())
+    print('dt.utctimetuple() : ' + dt.utctimetuple().__repr__())
+    print('')
+
+
+tz_utc = TzinfoUTC()
+tz_jst = TzinfoJST()
+
+# --- datetime.now()
+now_utc = datetime.datetime.now(tz_utc)
+print_datetime(now_utc, 'now_utc')
+
+now_local = datetime.datetime.now(tz_jst)
+print_datetime(now_local, 'now_local')
+
+# --- datetime.utcnow()
+utcnow = datetime.datetime.utcnow()
+print_datetime(utcnow, 'utcnow')
+```
+
+```console
+# now_utc
+dt                : 2022-03-26 00:05:59.694683+00:00
+dt.__repr__()     : datetime.datetime(2022, 3, 26, 0, 5, 59, 694683, tzinfo=<__main__.TzinfoUTC object at 0x7efcd6c2d7d0>)
+dt.timetuple()    : time.struct_time(tm_year=2022, tm_mon=3, tm_mday=26, tm_hour=0, tm_min=5, tm_sec=59, tm_wday=5, tm_yday=85, tm_isdst=0)
+dt.utctimetuple() : time.struct_time(tm_year=2022, tm_mon=3, tm_mday=26, tm_hour=0, tm_min=5, tm_sec=59, tm_wday=5, tm_yday=85, tm_isdst=0)
+
+# now_local
+dt                : 2022-03-26 09:05:59.700421+09:00
+dt.__repr__()     : datetime.datetime(2022, 3, 26, 9, 5, 59, 700421, tzinfo=<__main__.TzinfoJST object at 0x7efcd6c2d810>)
+dt.timetuple()    : time.struct_time(tm_year=2022, tm_mon=3, tm_mday=26, tm_hour=9, tm_min=5, tm_sec=59, tm_wday=5, tm_yday=85, tm_isdst=0)
+dt.utctimetuple() : time.struct_time(tm_year=2022, tm_mon=3, tm_mday=26, tm_hour=0, tm_min=5, tm_sec=59, tm_wday=5, tm_yday=85, tm_isdst=0)
+
+# utcnow
+dt                : 2022-03-26 00:05:59.700571
+dt.__repr__()     : datetime.datetime(2022, 3, 26, 0, 5, 59, 700571)
+dt.timetuple()    : time.struct_time(tm_year=2022, tm_mon=3, tm_mday=26, tm_hour=0, tm_min=5, tm_sec=59, tm_wday=5, tm_yday=85, tm_isdst=-1)
+dt.utctimetuple() : time.struct_time(tm_year=2022, tm_mon=3, tm_mday=26, tm_hour=0, tm_min=5, tm_sec=59, tm_wday=5, tm_yday=85, tm_isdst=0)
+```
+
+## datetime でタイムゾーンを変える。
+
+```python
+#!/usr/bin/env python2
+import datetime
+
+
+class TzinfoUTC(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=0)
+
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+    def tzname(self, dt):
+        return "UTC"
+
+
+class TzinfoJST(datetime.tzinfo):
+    def utcoffset(self, dt):
+        return datetime.timedelta(hours=9)
+
+    def dst(self, dt):
+        return datetime.timedelta(0)
+
+    def tzname(self, dt):
+        return "JST"
+
+
+def print_datetime(dt, msg=None):
+    print('# %s' % (msg))
+    print('dt                : ' + str(dt))
+    print('dt.__repr__()     : ' + dt.__repr__())
+    print('')
+
+
+tz_utc = TzinfoUTC()
+tz_jst = TzinfoJST()
+
+now_utc = datetime.datetime.now(tz_utc)
+print_datetime(now_utc, 'now_utc')
+
+now_local = datetime.datetime.now(tz_jst)
+print_datetime(now_local, 'now_local')
+
+now_utc2 = now_local.astimezone(tz_utc)
+print_datetime(now_utc2, 'now_utc2')
+```
+
+```console
+# now_utc
+dt                : 2022-03-26 00:09:01.804627+00:00
+dt.__repr__()     : datetime.datetime(2022, 3, 26, 0, 9, 1, 804627, tzinfo=<__main__.TzinfoUTC object at 0x7fe7347e4590>)
+
+# now_local
+dt                : 2022-03-26 09:09:01.804695+09:00
+dt.__repr__()     : datetime.datetime(2022, 3, 26, 9, 9, 1, 804695, tzinfo=<__main__.TzinfoJST object at 0x7fe7347e45d0>)
+
+# now_utc2
+dt                : 2022-03-26 00:09:01.804695+00:00
+dt.__repr__()     : datetime.datetime(2022, 3, 26, 0, 9, 1, 804695, tzinfo=<__main__.TzinfoUTC object at 0x7fe7347e4590>)
+```
