@@ -422,7 +422,9 @@ associative_array<span class="o">[</span><span class="s2">"key3 containing space
 </section>
 </section>
 <section id="id11">
-<h2>ファンクションを定義する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>ファンクションを使う。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h3>ファンクションを定義する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">true</span>
 <span class="o">}</span>
@@ -439,8 +441,35 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h2>ファンクション実行後のステータスを制御する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id13">
+<h3>ファンクションの一覧を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -F
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>指定したファンクション定義を得る。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span> <span class="nb">echo</span> a<span class="p">;</span> <span class="o">}</span>
+<span class="nb">declare</span> -f f
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>f<span class="o">()</span> <span class="o">{</span> <span class="nb">echo</span> a<span class="p">;</span> <span class="o">}</span>
+<span class="gp">$ </span><span class="nb">declare</span> -f f
+<span class="go">f ()</span>
+<span class="go">{</span>
+<span class="go">    echo a</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>すべてのファンクション定義を得る。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -f
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>ファンクション実行後のステータスを制御する。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="k">return</span> <span class="m">1</span>
 <span class="o">}</span>
@@ -457,8 +486,9 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id13">
-<h2>文字列の末尾を除去する。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</section>
+<section id="id17">
+<h2>文字列の末尾を除去する。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">%%xyz</span><span class="si">}</span><span class="s2">"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
@@ -486,8 +516,8 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id14">
-<h2>文字列を1箇所置換する。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id18">
+<h2>文字列を1箇所置換する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">/z/Z</span><span class="si">}</span><span class="s2">"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
@@ -501,8 +531,8 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id15">
-<h2>文字列をすべて置換する。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id19">
+<h2>文字列をすべて置換する。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">//z/Z</span><span class="si">}</span><span class="s2">"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
@@ -602,11 +632,17 @@ Exit true (0) if $1 is not null; otherwise, exit false.</p>
 <li><a class="reference internal" href="#id10">連想配列のキーの数を得る。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id11">ファンクションを定義する。</a></li>
-<li><a class="reference internal" href="#id12">ファンクション実行後のステータスを制御する。</a></li>
-<li><a class="reference internal" href="#id13">文字列の末尾を除去する。</a></li>
-<li><a class="reference internal" href="#id14">文字列を1箇所置換する。</a></li>
-<li><a class="reference internal" href="#id15">文字列をすべて置換する。</a></li>
+<li><a class="reference internal" href="#id11">ファンクションを使う。</a><ul>
+<li><a class="reference internal" href="#id12">ファンクションを定義する。</a></li>
+<li><a class="reference internal" href="#id13">ファンクションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id14">指定したファンクション定義を得る。</a></li>
+<li><a class="reference internal" href="#id15">すべてのファンクション定義を得る。</a></li>
+<li><a class="reference internal" href="#id16">ファンクション実行後のステータスを制御する。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id17">文字列の末尾を除去する。</a></li>
+<li><a class="reference internal" href="#id18">文字列を1箇所置換する。</a></li>
+<li><a class="reference internal" href="#id19">文字列をすべて置換する。</a></li>
 <li><a class="reference internal" href="#bool">変数で bool 相当の表現を行う。</a></li>
 </ul>
 </li>

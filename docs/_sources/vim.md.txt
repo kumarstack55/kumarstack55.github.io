@@ -6,3 +6,13 @@
 :set binary
 :set noeol
 ```
+
+## vim 起動時にコマンドを実行する。
+
+```vim
+vim -u NONE -N --noplugin -c 'qa!'
+```
+
+```vim
+vim -u NONE -N --noplugin -c 'execute("normal! iabc\<esc>")' -c 'w! /tmp/a.txt' -c 'qa'
+```

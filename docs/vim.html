@@ -241,6 +241,15 @@
 </pre></div>
 </div>
 </section>
+<section id="id2">
+<h2>vim 起動時にコマンドを実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">vim</span> <span class="p">-</span><span class="k">u</span> <span class="nb">NONE</span> <span class="p">-</span>N <span class="p">--</span>noplugin <span class="p">-</span><span class="k">c</span> <span class="s1">'qa!'</span>
+</pre></div>
+</div>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">vim</span> <span class="p">-</span><span class="k">u</span> <span class="nb">NONE</span> <span class="p">-</span>N <span class="p">--</span>noplugin <span class="p">-</span><span class="k">c</span> <span class="s1">'execute("normal! iabc\&lt;esc&gt;")'</span> <span class="p">-</span><span class="k">c</span> <span class="s1">'w! /tmp/a.txt'</span> <span class="p">-</span><span class="k">c</span> <span class="s1">'qa'</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -298,6 +307,7 @@
             <ul>
 <li><a class="reference internal" href="#">Vim</a><ul>
 <li><a class="reference internal" href="#id1">ファイルの末尾の改行を保存しない。</a></li>
+<li><a class="reference internal" href="#id2">vim 起動時にコマンドを実行する。</a></li>
 </ul>
 </li>
 </ul>
