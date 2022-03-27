@@ -234,6 +234,7 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="python">
 <h1>Python基礎<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Python そのものと、標準で同梱されるモジュールについて、ここに含める。</p>
 <section id="debian-10-buster-python-3-9-7">
 <h2>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -i
@@ -469,6 +470,32 @@ make altinstall
 </pre></div>
 </div>
 </section>
+<section id="functools">
+<h2>functools で既存関数の一部の変数を指定した関数相当を作る。<a class="headerlink" href="#functools" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="n">debug_print</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"stdout"</span><span class="p">)</span>
+<span class="n">debug_print</span><span class="p">(</span><span class="s2">"stderr"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./a.py
+./a.py &gt;/dev/null
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.py
+<span class="go">stdout</span>
+<span class="go">stderr</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.py &gt;/dev/null
+<span class="go">stderr</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -536,6 +563,7 @@ make altinstall
 <li><a class="reference internal" href="#logging">logging でロガーを利用する。</a></li>
 <li><a class="reference internal" href="#ip">IPアドレスを計算する。</a></li>
 <li><a class="reference internal" href="#argparse">argparse でファイルのエンコーディングを指定する。</a></li>
+<li><a class="reference internal" href="#functools">functools で既存関数の一部の変数を指定した関数相当を作る。</a></li>
 </ul>
 </li>
 </ul>

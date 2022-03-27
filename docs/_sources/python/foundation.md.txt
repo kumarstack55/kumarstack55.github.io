@@ -1,5 +1,7 @@
 # Python基礎
 
+Python そのものと、標準で同梱されるモジュールについて、ここに含める。
+
 ## Debian 10 (buster) に Python 3.9.7 をインストールする。
 
 ```bash
@@ -247,4 +249,33 @@ Python 3.9.4
 <_io.TextIOWrapper name='3.txt' mode='r' encoding='cp932'>
 >>> args2.f4
 <_io.TextIOWrapper name='4.txt' mode='r' encoding='UTF-8'>
+```
+
+## functools で既存関数の一部の変数を指定した関数相当を作る。
+
+```python
+#!/usr/bin/env python3
+from functools import partial
+import sys
+
+
+debug_print = partial(print, file=sys.stderr)
+print("stdout")
+debug_print("stderr")
+```
+
+```bash
+./a.py
+./a.py >/dev/null
+```
+
+```console
+$ ./a.py
+stdout
+stderr
+```
+
+```console
+$ ./a.py >/dev/null
+stderr
 ```
