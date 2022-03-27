@@ -3,7 +3,7 @@ Python
 
 .. toctree::
 
-   python_foundation.md
-   python_application.md
-   python_jupyterlab.md
-   python2.md
+   python/foundation.md
+   python/application.md
+   python/jupyterlab.md
+   python/python2.md

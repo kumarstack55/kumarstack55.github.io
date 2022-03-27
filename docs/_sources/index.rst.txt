@@ -5,25 +5,25 @@ Untitled ドキュメント
    :maxdepth: 3
    :caption: Contents:
 
-   oci.md
-   vagrant.md
-   linux.rst
-   windows.rst
-   container.md
-   kubernetes.md
-   debian.md
-   ubuntu.md
-   ssh.rst
-   bash.rst
-   bats.md
-   git.md
-   vim.md
-   python.md
-   powershell.rst
-   nodejs.md
-   prometheus.md
-   github.md
-   japanese_imperial_year.md
+   oci
+   vagrant
+   linux
+   windows
+   container
+   kubernetes
+   debian
+   ubuntu
+   ssh
+   bash
+   bats
+   git
+   vim
+   python
+   powershell
+   nodejs
+   prometheus
+   github
+   japanese_imperial_year
 
 ..
    financial_statements.md
