@@ -290,7 +290,24 @@ make altinstall
 </div>
 </section>
 <section id="id2">
-<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>複数の変数を入れ替える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">a,</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">b,</span> <span class="pre">a</span></code> で入れ替えできる。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; a = {'a':True}</span>
+<span class="go">&gt;&gt;&gt; b = {'b':True}</span>
+<span class="go">&gt;&gt;&gt; a</span>
+<span class="go">{'a': True}</span>
+<span class="go">&gt;&gt;&gt; b</span>
+<span class="go">{'b': True}</span>
+<span class="go">&gt;&gt;&gt; a, b = b, a</span>
+<span class="go">&gt;&gt;&gt; a</span>
+<span class="go">{'b': True}</span>
+<span class="go">&gt;&gt;&gt; b</span>
+<span class="go">{'a': True}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -305,8 +322,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -320,8 +337,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
 
@@ -335,8 +352,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -554,10 +571,11 @@ make altinstall
 <li><a class="reference internal" href="#">Python基礎</a><ul>
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li><a class="reference internal" href="#id1">ビット演算を行う。</a></li>
-<li><a class="reference internal" href="#id2">ファンクションに定義されていない引数を与える。</a></li>
-<li><a class="reference internal" href="#id3">ファンクションに同一の引数を複数回指定する。</a></li>
-<li><a class="reference internal" href="#id4">ファンクションにディクショナリで引数を指定する。</a></li>
-<li><a class="reference internal" href="#id5">ファンクションで任意長の引数を受ける。</a></li>
+<li><a class="reference internal" href="#id2">複数の変数を入れ替える。</a></li>
+<li><a class="reference internal" href="#id3">ファンクションに定義されていない引数を与える。</a></li>
+<li><a class="reference internal" href="#id4">ファンクションに同一の引数を複数回指定する。</a></li>
+<li><a class="reference internal" href="#id5">ファンクションにディクショナリで引数を指定する。</a></li>
+<li><a class="reference internal" href="#id6">ファンクションで任意長の引数を受ける。</a></li>
 <li><a class="reference internal" href="#utf-8">utf-8 でエンコードされたとき何バイトかを得る。</a></li>
 <li><a class="reference internal" href="#unicode">Unicode のコードポイントを得る。</a></li>
 <li><a class="reference internal" href="#logging">logging でロガーを利用する。</a></li>
