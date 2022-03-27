@@ -4,6 +4,7 @@ PowerShell
 .. toctree::
    :maxdepth: 2
 
-   powershell_foundation.md
-   powershell_get_childitem.md
-   powershell_pester.md
+   powershell/powershell7.md
+   powershell/foundation.md
+   powershell/get_childitem.md
+   powershell/pester.md

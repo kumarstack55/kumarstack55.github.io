@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Jupyter Lab" href="jupyterlab.html" /><link rel="prev" title="Python3 の標準ライブラリ" href="standard_library.html" />
+<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Python 応用" href="application.html" /><link rel="prev" title="Python基礎" href="foundation.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Python 応用 - Untitled ドキュメント</title>
+        <title>Python3 の標準ライブラリ - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -191,8 +191,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../vim.html">Vim</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../python.html">Python</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="foundation.html">Python基礎</a></li>
-<li class="toctree-l2"><a class="reference internal" href="standard_library.html">Python3 の標準ライブラリ</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Python 応用</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Python3 の標準ライブラリ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jupyterlab.html">Jupyter Lab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python2.html">Python2</a></li>
 </ul>
@@ -234,22 +234,90 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="python">
-<h1>Python 応用<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="ip">
-<h2>IPアドレスを計算する。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>https://github.com/kumarstack55/python-ipv4calc</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; poetry run ipv4calc 192.168.0.1/24</span>
-<span class="go">address         : 192.168.0.1</span>
-<span class="go">network         : 192.168.0.0</span>
-<span class="go">netmask         : 255.255.255.0</span>
-<span class="go">broadcast       : 192.168.0.255</span>
-<span class="go">addressPrefix   : 24</span>
-<span class="go">numAddresses    : 256</span>
-<span class="go">addressBinary   : 11000000.10101000.00000000.00000001</span>
-<span class="go">networkBinary   : 11000000.10101000.00000000.00000000</span>
-<span class="go">netmaskBinary   : 11111111.11111111.11111111.00000000</span>
-<span class="go">broadcastBinary : 11000000.10101000.00000000.11111111</span>
+          <section class="tex2jax_ignore mathjax_ignore" id="python3">
+<h1>Python3 の標準ライブラリ<a class="headerlink" href="#python3" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="argparse">
+<h2>argparse でファイルのエンコーディングを指定する。<a class="headerlink" href="#argparse" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>指定なしの場合、環境によっては cp932 が選択されることがある。
+対象のエンコーディングがわかっていれば、明示的に指定したほうがよい。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--f1'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">'w'</span><span class="p">))</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--f2'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'UTF-8'</span><span class="p">))</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--f3'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">'r'</span><span class="p">))</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--f4'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">FileType</span><span class="p">(</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'UTF-8'</span><span class="p">))</span>
+<span class="n">args1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'--f1'</span><span class="p">,</span> <span class="s1">'1.txt'</span><span class="p">,</span> <span class="s1">'--f2'</span><span class="p">,</span> <span class="s1">'2.txt'</span><span class="p">,</span> <span class="s1">'--f3'</span><span class="p">,</span> <span class="s1">'3.txt'</span><span class="p">,</span> <span class="s1">'--f4'</span><span class="p">,</span> <span class="s1">'4.txt'</span><span class="p">]</span>
+<span class="n">args2</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args1</span><span class="p">)</span>
+
+<span class="n">args2</span><span class="o">.</span><span class="n">f1</span>
+<span class="n">args2</span><span class="o">.</span><span class="n">f2</span>
+<span class="n">args2</span><span class="o">.</span><span class="n">f3</span>
+<span class="n">args2</span><span class="o">.</span><span class="n">f4</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; (Get-WmiObject Win32_OperatingSystem).Version</span>
+<span class="go">10.0.22000</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; python --version</span>
+<span class="go">Python 3.9.4</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; args2.f1</span>
+<span class="go">&lt;_io.TextIOWrapper name='1.txt' mode='w' encoding='cp932'&gt;</span>
+<span class="go">&gt;&gt;&gt; args2.f2</span>
+<span class="go">&lt;_io.TextIOWrapper name='2.txt' mode='w' encoding='UTF-8'&gt;</span>
+<span class="go">&gt;&gt;&gt; args2.f3</span>
+<span class="go">&lt;_io.TextIOWrapper name='3.txt' mode='r' encoding='cp932'&gt;</span>
+<span class="go">&gt;&gt;&gt; args2.f4</span>
+<span class="go">&lt;_io.TextIOWrapper name='4.txt' mode='r' encoding='UTF-8'&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="logging">
+<h2>logging でロガーを利用する。<a class="headerlink" href="#logging" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+
+<span class="c1"># ルートロガーの設定は、すべてのロガーに影響するので利用を回避する。</span>
+<span class="c1"># 回避するために、ルートロガーではないロガーを得る。</span>
+<span class="c1"># 一般的に、モジュール名をロガー名に使う。</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># レベルは、ロガーとハンドラーの両方で設定する。</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1"> </span><span class="si">%(name)s</span><span class="s1"> </span><span class="si">%(levelname)s</span><span class="s1"> </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="functools">
+<h2>functools で既存関数の一部の変数を指定した関数相当を作る。<a class="headerlink" href="#functools" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="n">debug_print</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"stdout"</span><span class="p">)</span>
+<span class="n">debug_print</span><span class="p">(</span><span class="s2">"stderr"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./a.py
+./a.py &gt;/dev/null
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.py
+<span class="go">stdout</span>
+<span class="go">stderr</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.py &gt;/dev/null
+<span class="go">stderr</span>
 </pre></div>
 </div>
 </section>
@@ -260,23 +328,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="jupyterlab.html">
+          <a class="next-page" href="application.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Jupyter Lab</div>
+                <div class="title">Python 応用</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="standard_library.html">
+          <a class="prev-page" href="foundation.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Python3 の標準ライブラリ</div>
+                <div class="title">Python基礎</div>
                 
               </div>
             </a>
@@ -288,7 +356,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/python/application.md.txt"
+            <a class="muted-link" href="../_sources/python/standard_library.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -308,8 +376,10 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Python 応用</a><ul>
-<li><a class="reference internal" href="#ip">IPアドレスを計算する。</a></li>
+<li><a class="reference internal" href="#">Python3 の標準ライブラリ</a><ul>
+<li><a class="reference internal" href="#argparse">argparse でファイルのエンコーディングを指定する。</a></li>
+<li><a class="reference internal" href="#logging">logging でロガーを利用する。</a></li>
+<li><a class="reference internal" href="#functools">functools で既存関数の一部の変数を指定した関数相当を作る。</a></li>
 </ul>
 </li>
 </ul>

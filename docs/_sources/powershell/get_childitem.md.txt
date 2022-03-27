@@ -5,13 +5,13 @@
 ## ロールバック可能なキューのクラス。
 
 ```{eval-rst}
-.. literalinclude:: snippets/powershell/export-childitemcsv/CommitQueue.ps1
+.. literalinclude:: /snippets/powershell/export-childitemcsv/CommitQueue.ps1
    :language: powershell
 ```
 
 ## 一覧を出力する。
 
 ```{eval-rst}
-.. literalinclude:: snippets/powershell/export-childitemcsv/Export-ChildItemCsv.ps1
+.. literalinclude:: /snippets/powershell/export-childitemcsv/Export-ChildItemCsv.ps1
    :language: powershell
 ```
