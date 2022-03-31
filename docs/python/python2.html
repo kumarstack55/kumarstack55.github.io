@@ -246,6 +246,61 @@
 We are volunteers who make and take care of the Python programming language. We have decided that January 1, 2020, was the day that we sunset Python 2. That means that we will not improve it anymore after that day, even if someone finds a security problem in it. You should upgrade to Python 3 as soon as you can.</p>
 </div></blockquote>
 </section>
+<section id="subprocess-popen">
+<h2>subprocess の Popen でパイプ処理を行う。<a class="headerlink" href="#subprocess-popen" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python2</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">PIPE</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">'sort'</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">writelines</span><span class="p">([</span><span class="s2">"line3</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"line1</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"line2</span><span class="se">\n</span><span class="s2">"</span><span class="p">])</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.py
+<span class="go">['line1\n', 'line2\n', 'line3\n']</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://docs.python.org/ja/2.7/library/subprocess.html#subprocess.Popen</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>subprocess の Popen でエラー処理を行う。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python2</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">PIPE</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">pipe</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s1">'false'</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">writelines</span><span class="p">([</span><span class="s2">"line3</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"line1</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"line2</span><span class="se">\n</span><span class="s2">"</span><span class="p">])</span>
+    <span class="n">pipe</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="n">pipe</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./a.py
+<span class="go">[Errno 32] Broken pipe</span>
+<span class="go">[]</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://docs.python.org/ja/2.7/library/subprocess.html#subprocess.Popen</p></li>
+</ul>
+</section>
 <section id="datetime">
 <h2>datetime で現在日時を得る。<a class="headerlink" href="#datetime" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python2</span>
@@ -410,8 +465,8 @@ We are volunteers who make and take care of the Python programming language. We 
 </pre></div>
 </div>
 </section>
-<section id="id1">
-<h2>datetime でタイムゾーンを変える。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h2>datetime でタイムゾーンを変える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python2</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 
@@ -529,9 +584,11 @@ We are volunteers who make and take care of the Python programming language. We 
             <ul>
 <li><a class="reference internal" href="#">Python2</a><ul>
 <li><a class="reference internal" href="#python2-2020-01-01">Python2 のサポートは 2020-01-01 で終了となる。</a></li>
+<li><a class="reference internal" href="#subprocess-popen">subprocess の Popen でパイプ処理を行う。</a></li>
+<li><a class="reference internal" href="#id1">subprocess の Popen でエラー処理を行う。</a></li>
 <li><a class="reference internal" href="#datetime">datetime で現在日時を得る。</a></li>
 <li><a class="reference internal" href="#datetime-timetuple">datetime で timetuple を得る。</a></li>
-<li><a class="reference internal" href="#id1">datetime でタイムゾーンを変える。</a></li>
+<li><a class="reference internal" href="#id2">datetime でタイムゾーンを変える。</a></li>
 </ul>
 </li>
 </ul>

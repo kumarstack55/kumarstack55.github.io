@@ -7,6 +7,61 @@
 > Sunsetting Python 2
 > We are volunteers who make and take care of the Python programming language. We have decided that January 1, 2020, was the day that we sunset Python 2. That means that we will not improve it anymore after that day, even if someone finds a security problem in it. You should upgrade to Python 3 as soon as you can.
 
+## subprocess の Popen でパイプ処理を行う。
+
+```python
+#!/usr/bin/env python2
+from subprocess import PIPE
+import subprocess
+
+
+try:
+    pipe = subprocess.Popen('sort', stdin=PIPE, stdout=PIPE)
+    pipe.stdin.writelines(["line3\n", "line1\n", "line2\n"])
+    pipe.stdin.close()
+except IOError as e:
+    print(e)
+pipe.wait()
+print(pipe.stdout.readlines())
+print(pipe.returncode)
+```
+
+```console
+$ ./a.py
+['line1\n', 'line2\n', 'line3\n']
+0
+```
+
+* https://docs.python.org/ja/2.7/library/subprocess.html#subprocess.Popen
+
+## subprocess の Popen でエラー処理を行う。
+
+```python
+#!/usr/bin/env python2
+from subprocess import PIPE
+import subprocess
+
+
+try:
+    pipe = subprocess.Popen('false', stdin=PIPE, stdout=PIPE)
+    pipe.stdin.writelines(["line3\n", "line1\n", "line2\n"])
+    pipe.stdin.close()
+except IOError as e:
+    print(e)
+pipe.wait()
+print(pipe.stdout.readlines())
+print(pipe.returncode)
+```
+
+```console
+$ ./a.py
+[Errno 32] Broken pipe
+[]
+1
+```
+
+* https://docs.python.org/ja/2.7/library/subprocess.html#subprocess.Popen
+
 ## datetime で現在日時を得る。
 
 ```python
