@@ -1,0 +1,80 @@
+# PowerShell応用
+
+## コーディングのルール
+
+こうすると良さそう、というものを書きためておく。
+
+## PowerShell のキーワードや名前の大文字・小文字
+
+* 制御構造
+    * 小文字にする。
+        * `while`
+        * `if`
+        * `switch`
+* クラス
+    * クラス名
+        * `class PascalCase {`
+    * メソッド名
+        * `camelCase()`
+    * プロパティ
+        * `$PascalCase`
+* 関数
+    * コマンドレットの関数名
+        * 利用: `ForEach-Object {`
+        * 定義: `function Verb-PascalCase {`
+    * コマンドレットではない関数名
+        * 定義: `Verb-PascalCase {` または
+        * 定義: `PascalCase {`
+* 変数
+    * 定数
+        * 宣言:`New-Variable -Name PascalCase -Value 1 -Option Constant`
+        * 参照:`$PascalCase`
+    * 変数
+        * `$PascalCase`
+    * 関数のパラメータ
+        * `parameter($PascalCase)`
+* 値
+    * `$null`
+    * `$true`
+    * `$false`
+* 型
+    * エイリアスがあればエイリアスを使う。(int, long, string, bool, ...)
+        * `[bool]$Enabled`
+        * `[string]$Enabled`
+    * なければ、定義通りのものにする。
+        * `[MessageBox]::Show('Hello')`
+
+* [Types](https://docs.microsoft.com/en-us/powershell/scripting/lang-spec/chapter-04?view=powershell-5.1)
+
+## PowerShell の省略記法
+
+* 使わない。
+
+## PowerShell のインデント
+
+* 半角スペースのみを使う。タブは使用しない。
+* インデントは 4 つのスペース。
+
+## PowerShell のコメント
+
+```powershell
+function Add-Extension {
+    <#
+        .SYNOPSIS
+        Adds a file name extension to a supplied name.
+
+        .DESCRIPTION
+        Adds a file name extension to a supplied name.
+        Takes any strings for the file name or extension.
+    #>
+    param ([string]$Name,[string]$Extension = "txt")
+```
+
+これは [Examples of Comment-Based Help](https://docs.microsoft.com/en-us/powershell/scripting/developer/help/examples-of-comment-based-help?view=powershell-5.1`) の関数の後方に書くスタイルと異なる。異なるのは、フルセットのヘルプを書く場合は後ろに書いたほうがいいとは思うが、フルセットのヘルプをほぼ書かず、 SYNOPSIS と、さらに書いたとして DESCRIPTION までなので、後方におかずとも十分に可読性があるため。また、少量のドキュメントなら冒頭のほうが可読性が良いように見える。
+
+## TODO
+
+* ディレクトリ構造
+* ファイル名
+* 型の省略
+    * https://stackoverflow.com/a/66265888/12786161
