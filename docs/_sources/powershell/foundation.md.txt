@@ -19,6 +19,55 @@ Read-Host -Prompt "Press Enter to continue"
 Get-NetIPAddress
 ```
 
+## 一定間隔のスリープ後、繰り返し実行する。
+
+```powershell
+class IntervalTimerRecipient {
+    notify([IntervalTimer]$IntervalTimer) {
+        throw
+    }
+}
+
+class IntervalTimer {
+    [int]$Milliseconds
+    [System.Collections.ArrayList]$Recipients
+    [bool]$Enabled
+        IntervalTimer([int]$Milliseconds) {
+        $this.Milliseconds = $Milliseconds
+        $this.Recipients = New-Object System.Collections.ArrayList
+        $this.Enabled = $false
+    }
+    add($Recipient) {
+        $this.Recipients.add($Recipient)
+    }
+    start() {
+        $this.Enabled = $true
+        while ($this.Enabled) {
+            $this.Recipients |
+                ForEach-Object {
+                    $_.notify($this)
+                }
+            Start-Sleep -Milliseconds $this.Milliseconds
+        }
+    }
+    stop() {
+        $this.Enabled = $false
+    }
+}
+
+class Writer : IntervalTimerRecipient {
+    notify([IntervalTimer]$IntervalTimer) {
+        write-host "x"
+    }
+}
+
+$Milliseconds = 1000
+$IntervalTimer = [IntervalTimer]::new($Milliseconds)
+$Recipient = [Writer]::new()
+$IntervalTimer.add($Recipient)
+$IntervalTimer.start()
+```
+
 ## 参考: ネットワーク関連のファンクション一覧
 
 ```powershell
