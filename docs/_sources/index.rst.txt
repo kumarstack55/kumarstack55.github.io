@@ -20,6 +20,8 @@ Untitled ドキュメント
    vim
    python
    powershell
+   mariadb
+   sql
    nodejs
    prometheus
    github
