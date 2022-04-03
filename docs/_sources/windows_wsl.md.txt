@@ -43,12 +43,18 @@ wsl --update
 ## ディストリビューションの一覧を得る。
 
 ```powershell
+wsl --list --online
+# または
 wsl -l -o
 ```
+
+なお、 `wsl -lo` は利用できず、実行に失敗する。
 
 ## ローカルのディストリビューションの一覧を得る。
 
 ```powershell
+wsl -l --verbose
+# または
 wsl -l -v
 ```
 
@@ -58,10 +64,28 @@ wsl -l -v
 wsl --install -d Ubuntu
 ```
 
+この時、ユーザとパスワードの設定が求められる。
+
+```console
+Enter new UNIX username: xxx
+New password:
+Retype new password:
+```
+
 ## インストールしたディストリビューションを消す。
 
 ```powershell
 wsl --unregister Ubuntu
+```
+
+もし複数のディストリビューションが存在し、既定を削除したとき、
+既定は別のディストリビューションとなる。
+
+## デフォルトのディストリビューションを設定する。
+
+```powershell
+wsl --set-default Ubuntu
+wsl -l -v
 ```
 
 ## 既存ウィンドウでシェルを起動し、 State を Running にする。

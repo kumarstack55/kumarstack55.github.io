@@ -276,13 +276,18 @@
 </section>
 <section id="id3">
 <h2>ディストリビューションの一覧を得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-list</span> <span class="p">-</span><span class="n">-online</span>
+<span class="c"># または</span>
+<span class="n">wsl</span> <span class="n">-l</span> <span class="n">-o</span>
 </pre></div>
 </div>
+<p>なお、 <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">-lo</span></code> は利用できず、実行に失敗する。</p>
 </section>
 <section id="id4">
 <h2>ローカルのディストリビューションの一覧を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-l</span> <span class="p">-</span><span class="n">-verbose</span>
+<span class="c"># または</span>
+<span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
 </pre></div>
 </div>
 </section>
@@ -291,15 +296,30 @@
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span> <span class="n">-d</span> <span class="n">Ubuntu</span>
 </pre></div>
 </div>
+<p>この時、ユーザとパスワードの設定が求められる。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Enter new UNIX username: xxx</span>
+<span class="go">New password:</span>
+<span class="go">Retype new password:</span>
+</pre></div>
+</div>
 </section>
 <section id="id5">
 <h2>インストールしたディストリビューションを消す。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-unregister</span> <span class="n">Ubuntu</span>
 </pre></div>
 </div>
+<p>もし複数のディストリビューションが存在し、既定を削除したとき、
+既定は別のディストリビューションとなる。</p>
 </section>
 <section id="id6">
-<h2>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>デフォルトのディストリビューションを設定する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-set-default</span> <span class="n">Ubuntu</span>
+<span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>既存ウィンドウでシェルを起動し、 State を Running にする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span>
 <span class="c"># または</span>
 <span class="n">wsl</span> <span class="p">~</span>
@@ -319,14 +339,14 @@
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>既存ウィンドウでルート権限でシェルを起動する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>既存ウィンドウでルート権限でシェルを起動する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-u</span> <span class="n">root</span>
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>指定コマンドを実行する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>指定コマンドを実行する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>あらかじめ State を Running にする必要はない。
 Running でなければ、自動的に Running になる。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="p">-</span><span class="n">-exec</span> <span class="n">uname</span>
@@ -336,8 +356,8 @@ Running でなければ、自動的に Running になる。</p>
 </div>
 <p>実行後、 <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">-l</span> <span class="pre">-v</span></code> を実行するとわかるが Status は Running となる。</p>
 </section>
-<section id="id9">
-<h2>ディストリビューションを指定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>ディストリビューションを指定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl</span> <span class="n">-d</span> <span class="n">Ubuntu</span><span class="p">-</span><span class="n">20</span><span class="p">.</span><span class="n">04</span>
 </pre></div>
 </div>
@@ -348,8 +368,8 @@ Running でなければ、自動的に Running になる。</p>
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h2>参考: ネットワーク構成<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>参考: ネットワーク構成<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="o">|</span>
    <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">o</span><span class="o">-</span>
       <span class="o">|</span>
@@ -447,8 +467,8 @@ Running でなければ、自動的に Running になる。</p>
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h2>参考: wsl機能一覧<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h2>参考: wsl機能一覧<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; wsl --status</span>
 <span class="go">既定のバージョン: 2</span>
 
@@ -659,14 +679,15 @@ Running でなければ、自動的に Running になる。</p>
 <li><a class="reference internal" href="#id4">ローカルのディストリビューションの一覧を得る。</a></li>
 <li><a class="reference internal" href="#state-running">ディストリビューションをインストールし、State を Running にする。</a></li>
 <li><a class="reference internal" href="#id5">インストールしたディストリビューションを消す。</a></li>
-<li><a class="reference internal" href="#id6">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
+<li><a class="reference internal" href="#id6">デフォルトのディストリビューションを設定する。</a></li>
+<li><a class="reference internal" href="#id7">既存ウィンドウでシェルを起動し、 State を Running にする。</a></li>
 <li><a class="reference internal" href="#sudo-root">sudo でパスワード入力なしに root 権限でコマンドを実行できるようにする。</a></li>
-<li><a class="reference internal" href="#id7">既存ウィンドウでルート権限でシェルを起動する。</a></li>
-<li><a class="reference internal" href="#id8">指定コマンドを実行する。</a></li>
-<li><a class="reference internal" href="#id9">ディストリビューションを指定する。</a></li>
+<li><a class="reference internal" href="#id8">既存ウィンドウでルート権限でシェルを起動する。</a></li>
+<li><a class="reference internal" href="#id9">指定コマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id10">ディストリビューションを指定する。</a></li>
 <li><a class="reference internal" href="#state-stopped">すべてのディストリビューションの State を Stopped にする。</a></li>
-<li><a class="reference internal" href="#id10">参考: ネットワーク構成</a></li>
-<li><a class="reference internal" href="#id11">参考: wsl機能一覧</a></li>
+<li><a class="reference internal" href="#id11">参考: ネットワーク構成</a></li>
+<li><a class="reference internal" href="#id12">参考: wsl機能一覧</a></li>
 </ul>
 </li>
 </ul>
