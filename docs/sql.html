@@ -278,6 +278,33 @@
 </section>
 <section id="id4">
 <h3>内部結合<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="where">
+<h4>WHERE句で内部結合する。<a class="headerlink" href="#where" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">select</span>
+    <span class="n">t1</span><span class="p">.</span><span class="n">uuid</span> <span class="k">as</span> <span class="n">t1_uuid</span>
+    <span class="p">,</span><span class="n">t1</span><span class="p">.</span><span class="n">deleted</span> <span class="k">as</span> <span class="n">t1_deleted</span>
+    <span class="p">,</span><span class="n">t2</span><span class="p">.</span><span class="n">uuid</span> <span class="k">as</span> <span class="n">t2_uuid</span>
+    <span class="p">,</span><span class="n">t2</span><span class="p">.</span><span class="n">deleted</span> <span class="k">as</span> <span class="n">t2_deleted</span>
+<span class="k">from</span> <span class="n">t1</span>
+<span class="k">join</span> <span class="n">t2</span>
+<span class="k">where</span>
+    <span class="n">t1</span><span class="p">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">t2</span><span class="p">.</span><span class="n">t1_uuid</span>
+    <span class="k">and</span> <span class="n">t1</span><span class="p">.</span><span class="n">deleted</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">and</span> <span class="n">t2</span><span class="p">.</span><span class="n">deleted</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">+---------+------------+---------+------------+</span>
+<span class="go">| t1_uuid | t1_deleted | t2_uuid | t2_deleted |</span>
+<span class="go">+---------+------------+---------+------------+</span>
+<span class="go">|    1001 |          0 |    2001 |          0 |</span>
+<span class="go">+---------+------------+---------+------------+</span>
+<span class="go">1 row in set (0.001 sec)</span>
+</pre></div>
+</div>
+</section>
+<section id="on">
+<h4>ON句で内部結合する。<a class="headerlink" href="#on" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">select</span>
     <span class="n">t1</span><span class="p">.</span><span class="n">uuid</span> <span class="k">as</span> <span class="n">t1_uuid</span>
     <span class="p">,</span><span class="n">t1</span><span class="p">.</span><span class="n">deleted</span> <span class="k">as</span> <span class="n">t1_deleted</span>
@@ -300,10 +327,11 @@
 </pre></div>
 </div>
 </section>
+</section>
 <section id="id5">
 <h3>外部結合<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<section id="where">
-<h4>WHERE句で条件を書いた外部結合<a class="headerlink" href="#where" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<section id="id6">
+<h4>WHERE句に条件式を書いて、外部結合する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">select</span>
     <span class="n">t1</span><span class="p">.</span><span class="n">uuid</span> <span class="k">as</span> <span class="n">t1_uuid</span>
     <span class="p">,</span><span class="n">t1</span><span class="p">.</span><span class="n">deleted</span> <span class="k">as</span> <span class="n">t1_deleted</span>
@@ -326,8 +354,8 @@
 </pre></div>
 </div>
 </section>
-<section id="on">
-<h4>ON句で条件を書いた外部結合<a class="headerlink" href="#on" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<section id="id7">
+<h4>ON句に条件式を書いて、外部結合する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">select</span>
     <span class="n">t1</span><span class="p">.</span><span class="n">uuid</span> <span class="k">as</span> <span class="n">t1_uuid</span>
     <span class="p">,</span><span class="n">t1</span><span class="p">.</span><span class="n">deleted</span> <span class="k">as</span> <span class="n">t1_deleted</span>
@@ -393,10 +421,14 @@
 <li><a class="reference internal" href="#id1">外部結合する。</a><ul>
 <li><a class="reference internal" href="#id2">テーブル定義</a></li>
 <li><a class="reference internal" href="#id3">レコード定義</a></li>
-<li><a class="reference internal" href="#id4">内部結合</a></li>
+<li><a class="reference internal" href="#id4">内部結合</a><ul>
+<li><a class="reference internal" href="#where">WHERE句で内部結合する。</a></li>
+<li><a class="reference internal" href="#on">ON句で内部結合する。</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#id5">外部結合</a><ul>
-<li><a class="reference internal" href="#where">WHERE句で条件を書いた外部結合</a></li>
-<li><a class="reference internal" href="#on">ON句で条件を書いた外部結合</a></li>
+<li><a class="reference internal" href="#id6">WHERE句に条件式を書いて、外部結合する。</a></li>
+<li><a class="reference internal" href="#id7">ON句に条件式を書いて、外部結合する。</a></li>
 </ul>
 </li>
 </ul>
