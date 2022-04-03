@@ -1,0 +1,124 @@
+# MariaDB
+
+## Ubuntu に MariaDB をインストールする。
+
+```bash
+sudo apt install mariadb-server
+
+sudo service mysql status
+sudo service mysql start
+sudo service mysql status
+
+sudo mysql --defaults-file=/etc/mysql/debian.cnf
+
+select 1;
+```
+
+## データベースを作る。
+
+```sql
+create database db1;
+show databases;
+```
+
+## データベースを使う。
+
+```sql
+use db1
+```
+
+## テーブルを作る。
+
+```sql
+drop table if exists t1;
+create table if not exists t1 (
+  id int
+);
+show tables;
+
+desc t1;
+show create table t1\G
+```
+
+```console
+MariaDB [db1]> desc t1;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| id    | int(11) | YES  |     | NULL    |       |
++-------+---------+------+-----+---------+-------+
+1 row in set (0.001 sec)
+```
+
+```console
+MariaDB [db1]> show create table t1\G
+*************************** 1. row ***************************
+       Table: t1
+Create Table: CREATE TABLE `t1` (
+  `id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+1 row in set (0.000 sec)
+```
+
+* https://mariadb.com/kb/en/create-table/
+* https://mariadb.com/kb/en/drop-table/
+
+## テーブルに主キー制約を加える。
+
+```sql
+alter table t1 add primary key (id);
+
+desc t1;
+show create table t1\G
+```
+
+```console
+MariaDB [db1]> desc t1;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| id    | int(11) | NO   | PRI | NULL    |       |
++-------+---------+------+-----+---------+-------+
+1 row in set (0.001 sec)
+```
+
+```console
+MariaDB [db1]> show create table t1\G
+*************************** 1. row ***************************
+       Table: t1
+Create Table: CREATE TABLE `t1` (
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+1 row in set (0.000 sec)
+```
+
+* https://mariadb.com/kb/en/alter-table/
+
+## テーブルから主キー制約を消す。
+
+```sql
+alter table t1 drop primary key;
+
+desc t1;
+show create table t1\G
+```
+
+## 警告を表示する。
+
+```sql
+show warnings;
+```
+
+```console
+MariaDB [d]> drop table if exists t1;
+Query OK, 0 rows affected, 1 warning (0.000 sec)
+
+MariaDB [d]> show warnings;
++-------+------+----------------------+
+| Level | Code | Message              |
++-------+------+----------------------+
+| Note  | 1051 | Unknown table 'd.t1' |
++-------+------+----------------------+
+1 row in set (0.000 sec)
+```

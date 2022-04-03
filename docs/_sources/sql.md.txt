@@ -1,0 +1,119 @@
+# SQL
+
+## 外部結合する。
+
+MariaDB で動作確認した。
+
+### テーブル定義
+
+```sql
+drop table if exists t1;
+create table if not exists t1 (
+  id int
+  ,uuid int
+  ,deleted int
+);
+alter table t1 add primary key (id);
+
+drop table if exists t2;
+create table if not exists t2 (
+  id int
+  ,uuid int
+  ,t1_uuid int
+  ,deleted int
+);
+alter table t2 add primary key (id);
+```
+
+### レコード定義
+
+```sql
+truncate table t1;
+insert into t1 values (1, 1001, 1);
+insert into t1 values (2, 1001, 0);
+insert into t1 values (3, 1002, 1);
+insert into t1 values (4, 1002, 0);
+select * from t1;
+
+truncate table t2;
+insert into t2 values (1, 2001, 1001, 1);
+insert into t2 values (2, 2001, 1001, 0);
+select * from t2;
+```
+
+### 内部結合
+
+```sql
+select
+    t1.uuid as t1_uuid
+    ,t1.deleted as t1_deleted
+    ,t2.uuid as t2_uuid
+    ,t2.deleted as t2_deleted
+from t1
+join t2 on (t1.uuid = t2.t1_uuid)
+where
+    t1.deleted = 0
+    and t2.deleted = 0
+;
+```
+
+```console
++---------+------------+---------+------------+
+| t1_uuid | t1_deleted | t2_uuid | t2_deleted |
++---------+------------+---------+------------+
+|    1001 |          0 |    2001 |          0 |
++---------+------------+---------+------------+
+1 row in set (0.000 sec)
+```
+
+### 外部結合
+
+#### WHERE句で条件を書いた外部結合
+
+```sql
+select
+    t1.uuid as t1_uuid
+    ,t1.deleted as t1_deleted
+    ,t2.uuid as t2_uuid
+    ,t2.deleted as t2_deleted
+from t1
+left outer join t2 on (t1.uuid = t2.t1_uuid)
+where
+    t1.deleted = 0
+    and t2.deleted = 0
+;
+```
+
+```console
++---------+------------+---------+------------+
+| t1_uuid | t1_deleted | t2_uuid | t2_deleted |
++---------+------------+---------+------------+
+|    1001 |          0 |    2001 |          0 |
++---------+------------+---------+------------+
+1 row in set (0.000 sec)
+```
+
+#### ON句で条件を書いた外部結合
+
+```sql
+select
+    t1.uuid as t1_uuid
+    ,t1.deleted as t1_deleted
+    ,t2.uuid as t2_uuid
+    ,t2.deleted as t2_deleted
+from t1
+left outer join t2 on (t1.uuid = t2.t1_uuid and t2.deleted = 0)
+where
+    t1.deleted = 0
+;
+```
+
+```console
++---------+------------+---------+------------+
+| t1_uuid | t1_deleted | t2_uuid | t2_deleted |
++---------+------------+---------+------------+
+|    1001 |          0 |    2001 |          0 |
+|    1002 |          0 |    NULL |       NULL |
++---------+------------+---------+------------+
+2 rows in set (0.000 sec)
+```
