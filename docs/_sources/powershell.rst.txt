@@ -6,5 +6,6 @@ PowerShell
 
    powershell/powershell7.md
    powershell/foundation.md
+   powershell/application.md
    powershell/get_childitem.md
    powershell/pester.md

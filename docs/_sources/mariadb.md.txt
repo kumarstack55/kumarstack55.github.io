@@ -1,6 +1,6 @@
 # MariaDB
 
-## Ubuntu に MariaDB をインストールする。
+## WSL の Ubuntu に MariaDB をインストールする。
 
 ```bash
 sudo apt install mariadb-server

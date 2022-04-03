@@ -3,5 +3,5 @@ Bash
 
 .. toctree::
 
-   bash_foundation.md
-   bash_application.md
+   bash/foundation.md
+   bash/application.md
