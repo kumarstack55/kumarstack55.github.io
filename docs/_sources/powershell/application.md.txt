@@ -6,14 +6,15 @@
 
 ## PowerShell のキーワードや名前の大文字・小文字
 
-* 制御構造
+* 予約語
     * 小文字にする。
         * `while`
         * `if`
         * `switch`
+        * `function`
 * クラス
     * クラス名
-        * `class PascalCase {`
+        * `class PascalCaseSuper : PascalCase {`
     * メソッド名
         * `camelCase()`
     * プロパティ
