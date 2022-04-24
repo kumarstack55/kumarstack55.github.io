@@ -277,32 +277,34 @@ ansible -m lineinfile -a <span class="s2">"path=/etc/fstab line='/swap1 swap swa
 </pre></div>
 </div>
 </section>
+<section id="id3">
+<h2>16進数でダンプを得る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xxd
+</pre></div>
+</div>
+</section>
 <section id="strace">
 <h2>strace する。<a class="headerlink" href="#strace" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>TODO</p>
 </section>
-<section id="id3">
-<h2>差分を確認する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
-  date<span class="p">;</span> sleep <span class="m">1</span><span class="p">;</span> date
-<span class="o">}</span>
-
-<span class="nv">out</span><span class="o">=</span><span class="k">$(</span>f<span class="k">)</span>
-diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$out</span><span class="s2">"</span><span class="o">)</span> &lt;<span class="o">(</span>f<span class="o">)</span>
+<section id="id4">
+<h2>前回実行結果と今回出力の差分を確認する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">prev</span><span class="o">=</span><span class="k">$(</span>seq <span class="m">1</span> <span class="m">2</span><span class="k">)</span>
+diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$prev</span><span class="s2">"</span><span class="o">)</span> &lt;<span class="o">(</span>seq <span class="m">2</span> <span class="m">3</span><span class="o">)</span>
 </pre></div>
 </div>
-<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>vagrant@ubuntu-focal:~$ diff -u &lt;(echo "$out") &lt;(f)
-<span class="gd">--- /dev/fd/63  2022-01-30 04:48:42.637832176 +0000</span>
-<span class="gi">+++ /dev/fd/62  2022-01-30 04:48:42.633830176 +0000</span>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>$ diff -u &lt;(echo "$prev") &lt;(seq 2 3)
+<span class="gd">--- /dev/fd/63  2022-04-24 20:27:04.321971056 +0900</span>
+<span class="gi">+++ /dev/fd/62  2022-04-24 20:27:04.321971056 +0900</span>
 <span class="gu">@@ -1,2 +1,2 @@</span>
-<span class="gd">-Sun 30 Jan 2022 04:48:41 AM UTC</span>
- Sun 30 Jan 2022 04:48:42 AM UTC
-<span class="gi">+Sun 30 Jan 2022 04:48:43 AM UTC</span>
+<span class="gd">-1</span>
+ 2
+<span class="gi">+3</span>
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>指定行番号から指定行番号の範囲を出力する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>指定行番号から指定行番号の範囲を出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>seq <span class="m">1</span> <span class="m">4</span> <span class="p">|</span> sed -n -e <span class="s1">'2,3p'</span>
 </pre></div>
 </div>
@@ -400,9 +402,10 @@ diff -u &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2
 <li><a class="reference internal" href="#wsl2">WSL2 かどうかを判定する。</a></li>
 <li><a class="reference internal" href="#namespace">namespace の一覧を得る。</a></li>
 <li><a class="reference internal" href="#id2">スワップを加える。</a></li>
+<li><a class="reference internal" href="#id3">16進数でダンプを得る。</a></li>
 <li><a class="reference internal" href="#strace">strace する。</a></li>
-<li><a class="reference internal" href="#id3">差分を確認する。</a></li>
-<li><a class="reference internal" href="#id4">指定行番号から指定行番号の範囲を出力する。</a></li>
+<li><a class="reference internal" href="#id4">前回実行結果と今回出力の差分を確認する。</a></li>
+<li><a class="reference internal" href="#id5">指定行番号から指定行番号の範囲を出力する。</a></li>
 <li><a class="reference internal" href="#brctl-h">参考: brctl -h</a></li>
 </ul>
 </li>

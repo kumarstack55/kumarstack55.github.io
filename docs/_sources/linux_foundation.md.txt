@@ -37,29 +37,31 @@ swapon /swap1
 ansible -m lineinfile -a "path=/etc/fstab line='/swap1 swap swap defaults 0 0' backup=yes" localhost
 ```
 
+## 16進数でダンプを得る。
+
+```bash
+xxd
+```
+
 ## strace する。
 
 TODO
 
-## 差分を確認する。
+## 前回実行結果と今回出力の差分を確認する。
 
 ```bash
-f() {
-  date; sleep 1; date
-}
-
-out=$(f)
-diff -u <(echo "$out") <(f)
+prev=$(seq 1 2)
+diff -u <(echo "$prev") <(seq 2 3)
 ```
 
 ```diff
-vagrant@ubuntu-focal:~$ diff -u <(echo "$out") <(f)
---- /dev/fd/63  2022-01-30 04:48:42.637832176 +0000
-+++ /dev/fd/62  2022-01-30 04:48:42.633830176 +0000
+$ diff -u <(echo "$prev") <(seq 2 3)
+--- /dev/fd/63  2022-04-24 20:27:04.321971056 +0900
++++ /dev/fd/62  2022-04-24 20:27:04.321971056 +0900
 @@ -1,2 +1,2 @@
--Sun 30 Jan 2022 04:48:41 AM UTC
- Sun 30 Jan 2022 04:48:42 AM UTC
-+Sun 30 Jan 2022 04:48:43 AM UTC
+-1
+ 2
++3
 ```
 
 ## 指定行番号から指定行番号の範囲を出力する。
