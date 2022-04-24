@@ -195,6 +195,7 @@
 <li class="toctree-l2"><a class="reference internal" href="python/application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python/jupyterlab.html">Jupyter Lab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="python/python2.html">Python2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/math.html">Python応用(数学)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -239,6 +240,45 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="git">
 <h1>Git<a class="headerlink" href="#git" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>直前のブランチにスイッチする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-</span></code> で直前のブランチに変更できる。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span>
+
+git init
+touch a
+git add a
+git commit -m fix
+git checkout -b branch1
+
+git branch
+git checkout -
+git branch
+git checkout -
+git branch
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git branch
+<span class="go">* branch1</span>
+<span class="go">  master</span>
+<span class="gp">$ </span>git checkout -
+<span class="go">Switched to branch 'master'</span>
+<span class="gp">$ </span>git branch
+<span class="go">  branch1</span>
+<span class="go">* master</span>
+<span class="gp">$ </span>git checkout -
+<span class="go">Switched to branch 'branch1'</span>
+<span class="gp">$ </span>git branch
+<span class="go">* branch1</span>
+<span class="go">  master</span>
+</pre></div>
+</div>
+<p>https://git-scm.com/docs/git-switch</p>
+<blockquote>
+<div><p>To switch back to the previous branch before we switched to mytopic (i.e. "master" branch):</p>
+<p>$ git switch -</p>
+</div></blockquote>
+</section>
 <section id="submodule">
 <h2>リポジトリとリポジトリの依存関係を submodule で管理する。<a class="headerlink" href="#submodule" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
@@ -814,6 +854,7 @@ git commit -m <span class="s2">"Remove submodule </span><span class="si">${</spa
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
+<li><a class="reference internal" href="#id1">直前のブランチにスイッチする。</a></li>
 <li><a class="reference internal" href="#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a><ul>
 <li><a class="reference internal" href="#sandbox-repo-main-sandbox-repo-sub">リポジトリ sandbox-repo-main にリポジトリ sandbox-repo-sub を加える。</a></li>
 <li><a class="reference internal" href="#sandbox-repo-main">リポジトリ sandbox-repo-main をクローンする。</a></li>

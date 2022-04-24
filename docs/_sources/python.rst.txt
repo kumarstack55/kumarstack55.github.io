@@ -8,3 +8,4 @@ Python
    python/application.md
    python/jupyterlab.md
    python/python2.md
+   python/math.md

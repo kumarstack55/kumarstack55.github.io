@@ -195,6 +195,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../python/application.html">Python 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../python/jupyterlab.html">Jupyter Lab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../python/python2.html">Python2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/math.html">Python応用(数学)</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -250,8 +251,9 @@
 <ul>
 <li><p>小文字にする。</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">while</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foreach</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">while</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">switch</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">function</span></code></p></li>
 </ul>
@@ -268,6 +270,11 @@
 <li><p>メソッド名</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">camelCase()</span></code></p></li>
+</ul>
+</li>
+<li><p>クラスのオブジェクト</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
 </ul>
 </li>
 <li><p>プロパティ</p>
@@ -308,7 +315,9 @@
 </li>
 <li><p>関数のパラメータ</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">parameter($PascalCase)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">param($PascalCase)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">param([Parameter(Mandatory)][ClassName]$PascalCase)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">param([Parameter(Mandatory)][string]$PascalCase)</span></code></p></li>
 </ul>
 </li>
 </ul>
@@ -336,23 +345,45 @@
 </ul>
 </li>
 <li><p><a class="reference external" href="https://docs.microsoft.com/en-us/powershell/scripting/lang-spec/chapter-04?view=powershell-5.1">Types</a></p></li>
+<li><p><a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters?view=powershell-5.1">about_Functions_Advanced_Parameters</a></p></li>
 </ul>
 </section>
 <section id="id3">
-<h2>PowerShell の省略記法<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>PowerShell の空行の位置<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>クラスとクラスの間: 1行</p></li>
+<li><p>クラス</p>
+<ul>
+<li><p>クラス定義とプロパティの間: 0行</p></li>
+<li><p>プロパティとメソッドの間: 1行</p></li>
+<li><p>メソッドとメソッドの間: 1行</p></li>
+<li><p>メソッド</p>
+<ul>
+<li><p>メソッド定義と <code class="docutils literal notranslate"><span class="pre">param()</span></code> の間: 0行</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">param()</span></code> とコードの間: 0-1行</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>クラスとファンクションの間: 1行</p></li>
+<li><p>ファンクションの <code class="docutils literal notranslate"><span class="pre">param()</span></code> とコードの間: メソッドと同じ。</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>PowerShell の省略記法<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>使わない。</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>PowerShell のインデント<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>PowerShell のインデント<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>半角スペースのみを使う。タブは使用しない。</p></li>
 <li><p>インデントは 4 つのスペース。</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>PowerShell のコメント<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>PowerShell のコメント<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nb">Add-Extension</span> <span class="p">{</span>
     <span class="cm">&lt;#</span>
 <span class="cm">        </span><span class="sd">.SYNOPSIS</span><span class="cm"></span>
@@ -437,9 +468,10 @@
 <li><a class="reference internal" href="#">PowerShell 応用</a><ul>
 <li><a class="reference internal" href="#id1">コーディングのルール</a></li>
 <li><a class="reference internal" href="#id2">PowerShell のキーワードや名前の大文字・小文字</a></li>
-<li><a class="reference internal" href="#id3">PowerShell の省略記法</a></li>
-<li><a class="reference internal" href="#id4">PowerShell のインデント</a></li>
-<li><a class="reference internal" href="#id5">PowerShell のコメント</a></li>
+<li><a class="reference internal" href="#id3">PowerShell の空行の位置</a></li>
+<li><a class="reference internal" href="#id4">PowerShell の省略記法</a></li>
+<li><a class="reference internal" href="#id5">PowerShell のインデント</a></li>
+<li><a class="reference internal" href="#id6">PowerShell のコメント</a></li>
 <li><a class="reference internal" href="#todo">TODO</a></li>
 </ul>
 </li>
