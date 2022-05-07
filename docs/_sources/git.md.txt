@@ -42,6 +42,322 @@ https://git-scm.com/docs/git-switch
 >
 > $ git switch -
 
+## タグを利用する。
+
+### 手順
+
+```bash
+get_commit_hash() {
+  git rev-parse HEAD
+}
+
+tmpdir=$(mktemp -d)
+cd "$tmpdir"
+
+git init
+
+git config user.email "you@example.com"
+git config user.name "Your Name"
+
+echo a >file1.txt
+git add file1.txt
+git commit -m 'commit1'
+git log --pretty=short
+commit1_hash=$(get_commit_hash)
+echo "$commit1_hash"
+
+echo b >file2.txt
+git add file2.txt
+git commit -m 'commit2'
+commit2_hash=$(get_commit_hash)
+echo "$commit2_hash"
+git log --pretty=short
+
+git tag
+git tag -a 'tagname1' -m 'tag message1'
+git tag
+git show 'tagname1'
+git log --pretty=short
+
+git tag -a 'tagname1' -m 'tag message1'
+  # --> fatal: tag 'tagname1' already exists
+
+echo c >file3.txt
+git add file3.txt
+git commit -m 'commit3'
+commit3_hash=$(get_commit_hash)
+echo "$commit3_hash"
+git log --pretty=short
+
+git branch
+  # --> master
+git log --pretty=short
+git checkout 'tagname1'
+git log --pretty=short
+git checkout master
+git log --pretty=short
+
+git branch
+  # --> master
+git log --pretty=short
+git checkout -b 'tagname1'
+git log --pretty=short
+git checkout master
+git log --pretty=short
+git branch
+
+# 今回はローカルのリポジトリだが origin が別にあるなら：
+#git push origin --tags
+```
+
+### 手順を実行した結果
+
+#### commit1 を行う。
+
+```console
+$ echo a >file1.txt
+$ git add file1.txt
+$ git commit -m 'commit1'
+[master (root-commit) aa0e88d] commit1
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file1.txt
+$ git log --pretty=short
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1 (HEAD -> master)
+Author: Your Name <you@example.com>
+
+    commit1
+$ commit1_hash=$(get_commit_hash)
+$ echo "$commit1_hash"
+aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+```
+
+#### commit2 を行う。
+
+```console
+$ echo b >file2.txt
+$ git add file2.txt
+$ git commit -m 'commit2'
+[master 62ce6b0] commit2
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file2.txt
+$ commit2_hash=$(get_commit_hash)
+$ echo "$commit2_hash"
+62ce6b0f1beea6d27c16225d60057c6e5d9f79d6
+$ git log --pretty=short
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD -> master)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+```
+
+#### タグを作る。
+
+```console
+$ git tag
+$ git tag -a 'tagname1' -m 'tag message1'
+$ git tag
+tagname1
+$ git show 'tagname1'
+tag tagname1
+Tagger: Your Name <you@example.com>
+Date:   Sat May 7 10:16:08 2022 +0900
+
+tag message1
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD -> master, tag: tagname1)
+Author: Your Name <you@example.com>
+Date:   Sat May 7 10:15:41 2022 +0900
+
+    commit2
+
+diff --git a/file2.txt b/file2.txt
+new file mode 100644
+index 0000000..6178079
+--- /dev/null
++++ b/file2.txt
+@@ -0,0 +1 @@
++b
+$ git log --pretty=short
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD -> master, tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+$ git tag -a 'tagname1' -m 'tag message1'
+fatal: tag 'tagname1' already exists
+```
+
+#### commit3 を行う。
+
+```console
+$ echo c >file3.txt
+$ git add file3.txt
+$ git commit -m 'commit3'
+[master c7e9303] commit3
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file3.txt
+$ commit3_hash=$(get_commit_hash)
+$ echo "$commit3_hash"
+c7e930316bb8b7ae700f5fefcd473d806392cc8f
+$ git log --pretty=short
+commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -> master)
+Author: Your Name <you@example.com>
+
+    commit3
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+```
+
+#### ブランチ作成なしの checkout を行う。
+
+```console
+$ git branch
+* master
+$ git log --pretty=short
+commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -> master)
+Author: Your Name <you@example.com>
+
+    commit3
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+$ git checkout 'tagname1'
+Note: switching to 'tagname1'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 62ce6b0 commit2
+$ git log --pretty=short
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD, tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+$ git checkout master
+Previous HEAD position was 62ce6b0 commit2
+Switched to branch 'master'
+$ git log --pretty=short
+commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -> master)
+Author: Your Name <you@example.com>
+
+    commit3
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+```
+
+#### ブランチ作成ありの checkout を行う。
+
+```console
+$ git branch
+* master
+$ git log --pretty=short
+commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -> master)
+Author: Your Name <you@example.com>
+
+    commit3
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+$ git checkout -b 'tagname1'
+Switched to a new branch 'tagname1'
+$ git log --pretty=short
+commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -> tagname1, master)
+Author: Your Name <you@example.com>
+
+    commit3
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+$ git checkout master
+Switched to branch 'master'
+$ git log --pretty=short
+commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -> master, tagname1)
+Author: Your Name <you@example.com>
+
+    commit3
+
+commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)
+Author: Your Name <you@example.com>
+
+    commit2
+
+commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1
+Author: Your Name <you@example.com>
+
+    commit1
+$ git branch
+* master
+  tagname1
+```
+
+### 参考資料
+
+* [Git Basics - Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+* [Git の基本 - タグ](https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%BF%E3%82%B0)
+
 
 ## リポジトリとリポジトリの依存関係を submodule で管理する。
 

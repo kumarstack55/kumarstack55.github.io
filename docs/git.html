@@ -279,6 +279,326 @@ git branch
 <p>$ git switch -</p>
 </div></blockquote>
 </section>
+<section id="id2">
+<h2>タグを利用する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h3>手順<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>get_commit_hash<span class="o">()</span> <span class="o">{</span>
+  git rev-parse HEAD
+<span class="o">}</span>
+
+<span class="nv">tmpdir</span><span class="o">=</span><span class="k">$(</span>mktemp -d<span class="k">)</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmpdir</span><span class="s2">"</span>
+
+git init
+
+git config user.email <span class="s2">"you@example.com"</span>
+git config user.name <span class="s2">"Your Name"</span>
+
+<span class="nb">echo</span> a &gt;file1.txt
+git add file1.txt
+git commit -m <span class="s1">'commit1'</span>
+git log --pretty<span class="o">=</span>short
+<span class="nv">commit1_hash</span><span class="o">=</span><span class="k">$(</span>get_commit_hash<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit1_hash</span><span class="s2">"</span>
+
+<span class="nb">echo</span> b &gt;file2.txt
+git add file2.txt
+git commit -m <span class="s1">'commit2'</span>
+<span class="nv">commit2_hash</span><span class="o">=</span><span class="k">$(</span>get_commit_hash<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit2_hash</span><span class="s2">"</span>
+git log --pretty<span class="o">=</span>short
+
+git tag
+git tag -a <span class="s1">'tagname1'</span> -m <span class="s1">'tag message1'</span>
+git tag
+git show <span class="s1">'tagname1'</span>
+git log --pretty<span class="o">=</span>short
+
+git tag -a <span class="s1">'tagname1'</span> -m <span class="s1">'tag message1'</span>
+  <span class="c1"># --&gt; fatal: tag 'tagname1' already exists</span>
+
+<span class="nb">echo</span> c &gt;file3.txt
+git add file3.txt
+git commit -m <span class="s1">'commit3'</span>
+<span class="nv">commit3_hash</span><span class="o">=</span><span class="k">$(</span>get_commit_hash<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit3_hash</span><span class="s2">"</span>
+git log --pretty<span class="o">=</span>short
+
+git branch
+  <span class="c1"># --&gt; master</span>
+git log --pretty<span class="o">=</span>short
+git checkout <span class="s1">'tagname1'</span>
+git log --pretty<span class="o">=</span>short
+git checkout master
+git log --pretty<span class="o">=</span>short
+
+git branch
+  <span class="c1"># --&gt; master</span>
+git log --pretty<span class="o">=</span>short
+git checkout -b <span class="s1">'tagname1'</span>
+git log --pretty<span class="o">=</span>short
+git checkout master
+git log --pretty<span class="o">=</span>short
+git branch
+
+<span class="c1"># 今回はローカルのリポジトリだが origin が別にあるなら：</span>
+<span class="c1">#git push origin --tags</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>手順を実行した結果<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="commit1">
+<h4>commit1 を行う。<a class="headerlink" href="#commit1" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span> a &gt;file1.txt
+<span class="gp">$ </span>git add file1.txt
+<span class="gp">$ </span>git commit -m <span class="s1">'commit1'</span>
+<span class="go">[master (root-commit) aa0e88d] commit1</span>
+<span class="go"> 1 file changed, 1 insertion(+)</span>
+<span class="go"> create mode 100644 file1.txt</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1 (HEAD -&gt; master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span><span class="nv">commit1_hash</span><span class="o">=</span><span class="k">$(</span>get_commit_hash<span class="k">)</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit1_hash</span><span class="s2">"</span>
+<span class="go">aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+</pre></div>
+</div>
+</section>
+<section id="commit2">
+<h4>commit2 を行う。<a class="headerlink" href="#commit2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span> b &gt;file2.txt
+<span class="gp">$ </span>git add file2.txt
+<span class="gp">$ </span>git commit -m <span class="s1">'commit2'</span>
+<span class="go">[master 62ce6b0] commit2</span>
+<span class="go"> 1 file changed, 1 insertion(+)</span>
+<span class="go"> create mode 100644 file2.txt</span>
+<span class="gp">$ </span><span class="nv">commit2_hash</span><span class="o">=</span><span class="k">$(</span>get_commit_hash<span class="k">)</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit2_hash</span><span class="s2">"</span>
+<span class="go">62ce6b0f1beea6d27c16225d60057c6e5d9f79d6</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD -&gt; master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h4>タグを作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git tag
+<span class="gp">$ </span>git tag -a <span class="s1">'tagname1'</span> -m <span class="s1">'tag message1'</span>
+<span class="gp">$ </span>git tag
+<span class="go">tagname1</span>
+<span class="gp">$ </span>git show <span class="s1">'tagname1'</span>
+<span class="go">tag tagname1</span>
+<span class="go">Tagger: Your Name &lt;you@example.com&gt;</span>
+<span class="go">Date:   Sat May 7 10:16:08 2022 +0900</span>
+
+<span class="go">tag message1</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD -&gt; master, tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+<span class="go">Date:   Sat May 7 10:15:41 2022 +0900</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">diff --git a/file2.txt b/file2.txt</span>
+<span class="go">new file mode 100644</span>
+<span class="go">index 0000000..6178079</span>
+<span class="go">--- /dev/null</span>
+<span class="go">+++ b/file2.txt</span>
+<span class="go">@@ -0,0 +1 @@</span>
+<span class="go">+b</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD -&gt; master, tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span>git tag -a <span class="s1">'tagname1'</span> -m <span class="s1">'tag message1'</span>
+<span class="go">fatal: tag 'tagname1' already exists</span>
+</pre></div>
+</div>
+</section>
+<section id="commit3">
+<h4>commit3 を行う。<a class="headerlink" href="#commit3" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span> c &gt;file3.txt
+<span class="gp">$ </span>git add file3.txt
+<span class="gp">$ </span>git commit -m <span class="s1">'commit3'</span>
+<span class="go">[master c7e9303] commit3</span>
+<span class="go"> 1 file changed, 1 insertion(+)</span>
+<span class="go"> create mode 100644 file3.txt</span>
+<span class="gp">$ </span><span class="nv">commit3_hash</span><span class="o">=</span><span class="k">$(</span>get_commit_hash<span class="k">)</span>
+<span class="gp">$ </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$commit3_hash</span><span class="s2">"</span>
+<span class="go">c7e930316bb8b7ae700f5fefcd473d806392cc8f</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -&gt; master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit3</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+</pre></div>
+</div>
+</section>
+<section id="checkout">
+<h4>ブランチ作成なしの checkout を行う。<a class="headerlink" href="#checkout" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git branch
+<span class="go">* master</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -&gt; master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit3</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span>git checkout <span class="s1">'tagname1'</span>
+<span class="go">Note: switching to 'tagname1'.</span>
+
+<span class="go">You are in 'detached HEAD' state. You can look around, make experimental</span>
+<span class="go">changes and commit them, and you can discard any commits you make in this</span>
+<span class="go">state without impacting any branches by switching back to a branch.</span>
+
+<span class="go">If you want to create a new branch to retain commits you create, you may</span>
+<span class="go">do so (now or later) by using -c with the switch command. Example:</span>
+
+<span class="go">  git switch -c &lt;new-branch-name&gt;</span>
+
+<span class="go">Or undo this operation with:</span>
+
+<span class="go">  git switch -</span>
+
+<span class="go">Turn off this advice by setting config variable advice.detachedHead to false</span>
+
+<span class="go">HEAD is now at 62ce6b0 commit2</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (HEAD, tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span>git checkout master
+<span class="go">Previous HEAD position was 62ce6b0 commit2</span>
+<span class="go">Switched to branch 'master'</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -&gt; master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit3</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h4>ブランチ作成ありの checkout を行う。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git branch
+<span class="go">* master</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -&gt; master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit3</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span>git checkout -b <span class="s1">'tagname1'</span>
+<span class="go">Switched to a new branch 'tagname1'</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -&gt; tagname1, master)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit3</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span>git checkout master
+<span class="go">Switched to branch 'master'</span>
+<span class="gp">$ </span>git log --pretty<span class="o">=</span>short
+<span class="go">commit c7e930316bb8b7ae700f5fefcd473d806392cc8f (HEAD -&gt; master, tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit3</span>
+
+<span class="go">commit 62ce6b0f1beea6d27c16225d60057c6e5d9f79d6 (tag: tagname1)</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit2</span>
+
+<span class="go">commit aa0e88d4ed59914a29a40c3b17e29c88ecfd69f1</span>
+<span class="go">Author: Your Name &lt;you@example.com&gt;</span>
+
+<span class="go">    commit1</span>
+<span class="gp">$ </span>git branch
+<span class="go">* master</span>
+<span class="go">  tagname1</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h3>参考資料<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">Git Basics - Tagging</a></p></li>
+<li><p><a class="reference external" href="https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%BF%E3%82%B0">Git の基本 - タグ</a></p></li>
+</ul>
+</section>
+</section>
 <section id="submodule">
 <h2>リポジトリとリポジトリの依存関係を submodule で管理する。<a class="headerlink" href="#submodule" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
@@ -855,6 +1175,20 @@ git commit -m <span class="s2">"Remove submodule </span><span class="si">${</spa
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
 <li><a class="reference internal" href="#id1">直前のブランチにスイッチする。</a></li>
+<li><a class="reference internal" href="#id2">タグを利用する。</a><ul>
+<li><a class="reference internal" href="#id3">手順</a></li>
+<li><a class="reference internal" href="#id4">手順を実行した結果</a><ul>
+<li><a class="reference internal" href="#commit1">commit1 を行う。</a></li>
+<li><a class="reference internal" href="#commit2">commit2 を行う。</a></li>
+<li><a class="reference internal" href="#id5">タグを作る。</a></li>
+<li><a class="reference internal" href="#commit3">commit3 を行う。</a></li>
+<li><a class="reference internal" href="#checkout">ブランチ作成なしの checkout を行う。</a></li>
+<li><a class="reference internal" href="#id6">ブランチ作成ありの checkout を行う。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">参考資料</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a><ul>
 <li><a class="reference internal" href="#sandbox-repo-main-sandbox-repo-sub">リポジトリ sandbox-repo-main にリポジトリ sandbox-repo-sub を加える。</a></li>
 <li><a class="reference internal" href="#sandbox-repo-main">リポジトリ sandbox-repo-main をクローンする。</a></li>
