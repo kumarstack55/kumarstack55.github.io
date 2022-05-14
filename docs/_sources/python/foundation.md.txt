@@ -103,6 +103,91 @@ x | y  = 00001110
 x ^ y  = 00000110
 ```
 
+## クラスに __eq__, __hash__ を定義する。
+
+`__eq__` で同値性を定義できる。
+
+ただし、 `__eq__` を定義すると `__hash__` は `None` となり、 `dict` に格納できなくなる。
+
+`__hash__` を定義すればよい。
+
+`__hash__` の実装は [ドキュメントの hash() を参考](https://docs.python.org/3/reference/datamodel.html#object.__hash__)に作るとよい。
+
+以下は、クラスA が `__eq__` を実装しないクラス、クラスB が `__eq__` を実装した結果 `dict` に格納できなくなったクラス、クラスC が `__eq__` と `__hash__` を実装したクラスである。
+
+
+```python
+PS > py
+Python 3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> class A(object):
+...     def __init__(self, n: int):
+...         self._n = n
+...     @property
+...     def value(self):
+...         return self._n
+...
+>>> a1 = A(10)
+>>> a2 = A(10)
+>>> a1 == a2
+False
+>>> class B(object):
+...     def __init__(self, n: int):
+...         self._n = n
+...     @property
+...     def value(self):
+...         return self._n
+...     def __eq__(self, other):
+...         return self.value == other.value
+...
+>>> b1 = B(10)
+>>> b2 = B(10)
+>>> b1 == b2
+True
+>>> b3 = B(20)
+>>> b1 == b3
+False
+>>> a1.__hash__ is None
+False
+>>> b1.__hash__ is None
+True
+>>> class C(object):
+...     def __init__(self, n: int):
+...         self._n = n
+...     @property
+...     def value(self):
+...         return self._n
+...     def __eq__(self, other):
+...         return self.value == other.value
+...     def __hash__(self):
+...         return hash((self._n,))
+...
+>>> c1 = C(10)
+>>> c2 = C(10)
+>>> c1 == c2
+True
+>>> c3 = C(20)
+>>> c1 == c3
+False
+>>> a1.__hash__ is None
+False
+>>> b1.__hash__ is None
+True
+>>> c1.__hash__ is None
+False
+>>> dic = dict()
+>>> dic[a1] = 1
+>>> dic[a2] = 1
+>>> dic[b1] = 1
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'B'
+>>> dic[c1] = 1
+>>> dic[c2] = 1
+>>> dic
+{<__main__.A object at 0x0000021607DBE0B0>: 1, <__main__.A object at 0x0000021607DBE1D0>: 1, <__main__.C object at 0x0000021607DBE890>: 1}
+```
+
 ## 複数の変数を入れ替える。
 
 `a, b = b, a` で入れ替えできる。

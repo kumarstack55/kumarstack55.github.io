@@ -332,6 +332,85 @@ make altinstall
 </pre></div>
 </div>
 </section>
+<section id="eq-hash">
+<h2>クラスに <strong>eq</strong>, <strong>hash</strong> を定義する。<a class="headerlink" href="#eq-hash" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> で同値性を定義できる。</p>
+<p>ただし、 <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を定義すると <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> は <code class="docutils literal notranslate"><span class="pre">None</span></code> となり、 <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できなくなる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を定義すればよい。</p>
+<p><code class="docutils literal notranslate"><span class="pre">__hash__</span></code> の実装は <a class="reference external" href="https://docs.python.org/3/reference/datamodel.html#object.__hash__">ドキュメントの hash() を参考</a>に作るとよい。</p>
+<p>以下は、クラスA が <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を実装しないクラス、クラスB が <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を実装した結果 <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できなくなったクラス、クラスC が <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> と <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を実装したクラスである。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span> <span class="o">&gt;</span> <span class="n">py</span>
+<span class="n">Python</span> <span class="mf">3.10.0</span> <span class="p">(</span><span class="n">tags</span><span class="o">/</span><span class="n">v3</span><span class="mf">.10.0</span><span class="p">:</span><span class="n">b494f59</span><span class="p">,</span> <span class="n">Oct</span>  <span class="mi">4</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">19</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">18</span><span class="p">)</span> <span class="p">[</span><span class="n">MSC</span> <span class="n">v</span><span class="mf">.1929</span> <span class="mi">64</span> <span class="n">bit</span> <span class="p">(</span><span class="n">AMD64</span><span class="p">)]</span> <span class="n">on</span> <span class="n">win32</span>
+<span class="n">Type</span> <span class="s2">"help"</span><span class="p">,</span> <span class="s2">"copyright"</span><span class="p">,</span> <span class="s2">"credits"</span> <span class="ow">or</span> <span class="s2">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="o">...</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="o">...</span>     <span class="nd">@property</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span> <span class="o">==</span> <span class="n">a2</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="o">...</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="o">...</span>     <span class="nd">@property</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b1</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b2</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b1</span> <span class="o">==</span> <span class="n">b2</span>
+<span class="kc">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b3</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b1</span> <span class="o">==</span> <span class="n">b3</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="fm">__hash__</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b1</span><span class="o">.</span><span class="fm">__hash__</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="kc">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="o">...</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="o">...</span>     <span class="nd">@property</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
+<span class="o">...</span>     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">...</span>         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">,))</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c1</span> <span class="o">==</span> <span class="n">c2</span>
+<span class="kc">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c3</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c1</span> <span class="o">==</span> <span class="n">c3</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="fm">__hash__</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b1</span><span class="o">.</span><span class="fm">__hash__</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="kc">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c1</span><span class="o">.</span><span class="fm">__hash__</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span><span class="p">[</span><span class="n">a1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span><span class="p">[</span><span class="n">a2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span><span class="p">[</span><span class="n">b1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">"&lt;stdin&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">unhashable</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">'B'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span><span class="p">[</span><span class="n">c2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dic</span>
+<span class="p">{</span><span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">A</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x0000021607DBE0B0</span><span class="o">&gt;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">A</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x0000021607DBE1D0</span><span class="o">&gt;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">C</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x0000021607DBE890</span><span class="o">&gt;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
 <section id="id2">
 <h2>複数の変数を入れ替える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">a,</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">b,</span> <span class="pre">a</span></code> で入れ替えできる。</p>
@@ -513,6 +592,7 @@ make altinstall
 <li><a class="reference internal" href="#windows-python">Windows に複数のバージョンの Python をインストールする。</a></li>
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li><a class="reference internal" href="#id1">ビット演算を行う。</a></li>
+<li><a class="reference internal" href="#eq-hash">クラスに <strong>eq</strong>, <strong>hash</strong> を定義する。</a></li>
 <li><a class="reference internal" href="#id2">複数の変数を入れ替える。</a></li>
 <li><a class="reference internal" href="#id3">ファンクションに定義されていない引数を与える。</a></li>
 <li><a class="reference internal" href="#id4">ファンクションに同一の引数を複数回指定する。</a></li>
