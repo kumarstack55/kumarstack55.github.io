@@ -337,6 +337,13 @@
 <li><p>Ctrl + Shift + Enter</p></li>
 </ul>
 </section>
+<section id="ping">
+<h2>日時付きで ping を実行する。<a class="headerlink" href="#ping" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Target</span> <span class="p">=</span> <span class="s2">"www.google.com"</span>
+<span class="n">ping</span><span class="p">.</span><span class="n">exe</span> <span class="n">-t</span> <span class="nv">$Target</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span><span class="s2">"</span><span class="p">$(</span><span class="nb">Get-Date</span><span class="p">)</span><span class="s2"> $_"</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
 <section id="listen">
 <h2>LISTEN しているポートを得る。<a class="headerlink" href="#listen" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">netstat</span> <span class="n">-anp</span> <span class="n">TCP</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="n">LISTENING</span>
@@ -802,6 +809,7 @@ SYSTEMINFO [/S システム [/U ユーザー名 [/P パスワード]]] [/FO 形�
 <li><a class="reference internal" href="#id1">システム構成情報を表示する。</a></li>
 <li><a class="reference internal" href="#id2">ファイル名を指定して実行する。</a></li>
 <li><a class="reference internal" href="#id3">ファイル名を指定して管理者権限で実行する。</a></li>
+<li><a class="reference internal" href="#ping">日時付きで ping を実行する。</a></li>
 <li><a class="reference internal" href="#listen">LISTEN しているポートを得る。</a></li>
 <li><a class="reference internal" href="#tcp-id">TCP のポートを利用するプロセスIDを得る。</a></li>
 <li><a class="reference internal" href="#id4">プロセス一覧を得る。</a></li>

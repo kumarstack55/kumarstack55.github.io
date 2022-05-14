@@ -1,5 +1,51 @@
 # Python基礎
 
+## Windows に複数のバージョンの Python をインストールする。
+
+Chocolatey で `--sidebyside` オプションで同時に複数の Python を同居でインストールできる。
+
+インストール可能なバージョンの一覧は次の URL で得られる。
+
+https://community.chocolatey.org/packages/python#versionhistory
+
+すでに Python 導入済みの環境で 3.8.10 を加えるなら次のようにする。
+
+```powershell
+# 管理者権限
+choco install python3 --version=3.8.10 --sidebyside
+```
+
+インストール済みの Python は次のように一覧出力できる。
+
+```console
+PS > py --list
+Installed Pythons found by C:\WINDOWS\py.exe Launcher for Windows
+ -3.10-64 *
+ -3.9-64
+ -3.8-64
+ -3.7-64
+ -3.6-64
+```
+
+Python のバージョンは `py` でバージョン指定で切り替えできる。
+
+```console
+PS > py
+Python 3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> exit()
+
+PS > py -3.9
+Python 3.9.4 (tags/v3.9.4:1f2e308, Apr  4 2021, 13:27:16) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> exit()
+
+PS > py -3.8
+Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> exit()
+```
+
 ## Debian 10 (buster) に Python 3.9.7 をインストールする。
 
 ```bash

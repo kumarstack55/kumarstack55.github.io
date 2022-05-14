@@ -240,6 +240,44 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="python">
 <h1>Python基礎<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="windows-python">
+<h2>Windows に複数のバージョンの Python をインストールする。<a class="headerlink" href="#windows-python" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Chocolatey で <code class="docutils literal notranslate"><span class="pre">--sidebyside</span></code> オプションで同時に複数の Python を同居でインストールできる。</p>
+<p>インストール可能なバージョンの一覧は次の URL で得られる。</p>
+<p>https://community.chocolatey.org/packages/python#versionhistory</p>
+<p>すでに Python 導入済みの環境で 3.8.10 を加えるなら次のようにする。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 管理者権限</span>
+<span class="n">choco</span> <span class="n">install</span> <span class="n">python3</span> <span class="p">-</span><span class="n">-version</span><span class="p">=</span><span class="n">3</span><span class="p">.</span><span class="n">8</span><span class="p">.</span><span class="n">10</span> <span class="p">-</span><span class="n">-sidebyside</span>
+</pre></div>
+</div>
+<p>インストール済みの Python は次のように一覧出力できる。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; py --list</span>
+<span class="go">Installed Pythons found by C:\WINDOWS\py.exe Launcher for Windows</span>
+<span class="go"> -3.10-64 *</span>
+<span class="go"> -3.9-64</span>
+<span class="go"> -3.8-64</span>
+<span class="go"> -3.7-64</span>
+<span class="go"> -3.6-64</span>
+</pre></div>
+</div>
+<p>Python のバージョンは <code class="docutils literal notranslate"><span class="pre">py</span></code> でバージョン指定で切り替えできる。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; py</span>
+<span class="go">Python 3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)] on win32</span>
+<span class="go">Type "help", "copyright", "credits" or "license" for more information.</span>
+<span class="go">&gt;&gt;&gt; exit()</span>
+
+<span class="go">PS &gt; py -3.9</span>
+<span class="go">Python 3.9.4 (tags/v3.9.4:1f2e308, Apr  4 2021, 13:27:16) [MSC v.1928 64 bit (AMD64)] on win32</span>
+<span class="go">Type "help", "copyright", "credits" or "license" for more information.</span>
+<span class="go">&gt;&gt;&gt; exit()</span>
+
+<span class="go">PS &gt; py -3.8</span>
+<span class="go">Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)] on win32</span>
+<span class="go">Type "help", "copyright", "credits" or "license" for more information.</span>
+<span class="go">&gt;&gt;&gt; exit()</span>
+</pre></div>
+</div>
+</section>
 <section id="debian-10-buster-python-3-9-7">
 <h2>Debian 10 (buster) に Python 3.9.7 をインストールする。<a class="headerlink" href="#debian-10-buster-python-3-9-7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -i
@@ -472,6 +510,7 @@ make altinstall
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Python基礎</a><ul>
+<li><a class="reference internal" href="#windows-python">Windows に複数のバージョンの Python をインストールする。</a></li>
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li><a class="reference internal" href="#id1">ビット演算を行う。</a></li>
 <li><a class="reference internal" href="#id2">複数の変数を入れ替える。</a></li>

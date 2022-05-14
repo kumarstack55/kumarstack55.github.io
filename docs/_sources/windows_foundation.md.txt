@@ -96,6 +96,13 @@ powershell.exe を実行する例:
 * `powershell.exe`
 * Ctrl + Shift + Enter
 
+## 日時付きで ping を実行する。
+
+```powershell
+$Target = "www.google.com"
+ping.exe -t $Target | % {"$(Get-Date) $_"}
+```
+
 ## LISTEN しているポートを得る。
 
 ```powershell
