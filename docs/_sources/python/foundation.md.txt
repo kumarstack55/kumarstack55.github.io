@@ -103,13 +103,113 @@ x | y  = 00001110
 x ^ y  = 00000110
 ```
 
-## クラスに __eq__, __hash__ を定義する。
+## クラスにオブジェクトの文字列表現を定義する。
+
+```python
+class A(object):
+    def __init__(self, n):
+        self._n = n
+
+a1 = A(10)
+str(a1)
+a1.__repr__()
+
+class B(object):
+    def __init__(self, n):
+        self._n = n
+    def __repr__(self):
+        return '<{0} n:{1}>'.format(self.__class__.__name__, self._n)
+
+b1 = B(10)
+str(b1)
+b1.__repr__()
+```
+
+```python
+>>> class A(object):
+...     def __init__(self, n):
+...         self._n = n
+...
+>>> a1 = A(10)
+>>> str(a1)
+'<__main__.A object at 0x0000021607DBDE10>'
+>>> a1.__repr__()
+'<__main__.A object at 0x0000021607DBDE10>'
+```
+
+```python
+>>> class B(object):
+...     def __init__(self, n):
+...         self._n = n
+...     def __repr__(self):
+...         return '<{0} n:{1}>'.format(self.__class__.__name__, self._n)
+...
+>>> b1 = B(10)
+>>> str(b1)
+'<B n:10>'
+>>> b1.__repr__()
+'<B n:10>'
+```
+
+https://docs.python.org/3/reference/datamodel.html#object.__repr__
+
+## クラスに印字可能な文字列表現を定義する。
+
+```python
+class A(object):
+    def __init__(self, n):
+        self._n = n
+
+a1 = A(10)
+str(a1)
+a1.__repr__()
+
+class B(object):
+    def __init__(self, n):
+        self._n = n
+    def __str__(self):
+        return str(self._n)
+
+b1 = B(10)
+str(b1)
+b1.__repr__()
+```
+
+```python
+>>> class A(object):
+...     def __init__(self, n):
+...         self._n = n
+...
+>>> a1 = A(10)
+>>> str(a1)
+'<__main__.A object at 0x0000021607DBE350>'
+>>> a1.__repr__()
+'<__main__.A object at 0x0000021607DBE350>'
+```
+
+```python
+>>> class B(object):
+...     def __init__(self, n):
+...         self._n = n
+...     def __str__(self):
+...         return str(self._n)
+...
+>>> b1 = B(10)
+>>> str(b1)
+'10'
+>>> b1.__repr__()
+'<__main__.B object at 0x0000021607DBE3E0>'
+```
+
+https://docs.python.org/3/reference/datamodel.html#object.__str__
+
+## クラスに同値性を定義する。
 
 `__eq__` で同値性を定義できる。
 
 ただし、 `__eq__` を定義すると `__hash__` は `None` となり、 `dict` に格納できなくなる。
 
-`__hash__` を定義すればよい。
+`dict` に格納したいなら `__hash__` を定義する。
 
 `__hash__` の実装は [ドキュメントの hash() を参考](https://docs.python.org/3/reference/datamodel.html#object.__hash__)に作るとよい。
 
@@ -186,6 +286,97 @@ TypeError: unhashable type: 'B'
 >>> dic[c2] = 1
 >>> dic
 {<__main__.A object at 0x0000021607DBE0B0>: 1, <__main__.A object at 0x0000021607DBE1D0>: 1, <__main__.C object at 0x0000021607DBE890>: 1}
+```
+
+* `__eq__` も `__hash__` もない `A` は
+    * `==` で比較を試みたとき、オブジェクトごとに異なるものとして扱われる。
+    * `dict` に入れるとき、オブジェクトごとにキーが作られる。
+* `__eq__` があり `__hash__` がない `B` は
+    * `==` で比較を試みたとき、メンバの値をもとに比較できる。
+    * `dict` に格納できない。
+* `__eq__` と `__hash__` がある `C` は `dict` に格納できる。
+    * `==` で比較を試みたとき、メンバの値をもとに比較できる。
+    * `dict` に格納できる。
+
+## キャッチした例外のスタックトレースを出力する。
+
+```python
+import traceback
+
+class AppError(Exception):
+    pass
+
+class CustomError(AppError):
+    pass
+
+def f1():
+    raise CustomError('msg')
+
+def f2():
+    f1()
+
+def main():
+    try:
+        f2()
+    except AppError as e:
+        print(traceback.format_exc())
+
+main()
+```
+
+```python
+>>> main()
+Traceback (most recent call last):
+  File "<stdin>", line 3, in main
+  File "<stdin>", line 2, in f2
+  File "<stdin>", line 2, in f1
+CustomError: msg
+```
+
+## キャッチした例外を再発生させる。
+
+```python
+class AppError(Exception):
+    pass
+
+
+class CustomError(AppError):
+    pass
+
+
+def f1():
+    raise CustomError('msg')
+
+
+def main():
+    try:
+        print('begin try')
+        f1()
+        print('end try')
+    except AppError as e:
+        print('begin except')
+        raise e
+        print('end except')
+
+
+if __name__ == '__main__':
+    main()
+```
+
+```python
+PS > python .\a.py
+begin try
+begin except
+Traceback (most recent call last):
+  File ".\a.py", line 25, in <module>
+    main()
+  File ".\a.py", line 20, in main
+    raise e
+  File ".\a.py", line 16, in main
+    f1()
+  File ".\a.py", line 10, in f1
+    raise CustomError('msg')
+__main__.CustomError: msg
 ```
 
 ## 複数の変数を入れ替える。

@@ -332,11 +332,105 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="eq-hash">
-<h2>クラスに <strong>eq</strong>, <strong>hash</strong> を定義する。<a class="headerlink" href="#eq-hash" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h2>クラスにオブジェクトの文字列表現を定義する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+
+<span class="n">a1</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+<span class="n">a1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">'&lt;</span><span class="si">{0}</span><span class="s1"> n:</span><span class="si">{1}</span><span class="s1">&gt;'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">)</span>
+
+<span class="n">b1</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+<span class="n">b1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+<span class="go">'&lt;__main__.A object at 0x0000021607DBDE10&gt;'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+<span class="go">'&lt;__main__.A object at 0x0000021607DBDE10&gt;'</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s1">'&lt;</span><span class="si">{0}</span><span class="s1"> n:</span><span class="si">{1}</span><span class="s1">&gt;'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b1</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+<span class="go">'&lt;B n:10&gt;'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+<span class="go">'&lt;B n:10&gt;'</span>
+</pre></div>
+</div>
+<p>https://docs.python.org/3/reference/datamodel.html#object.<strong>repr</strong></p>
+</section>
+<section id="id3">
+<h2>クラスに印字可能な文字列表現を定義する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+
+<span class="n">a1</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+<span class="n">a1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">)</span>
+
+<span class="n">b1</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">str</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+<span class="n">b1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+<span class="go">'&lt;__main__.A object at 0x0000021607DBE350&gt;'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+<span class="go">'&lt;__main__.A object at 0x0000021607DBE350&gt;'</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b1</span> <span class="o">=</span> <span class="n">B</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+<span class="go">'10'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b1</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+<span class="go">'&lt;__main__.B object at 0x0000021607DBE3E0&gt;'</span>
+</pre></div>
+</div>
+<p>https://docs.python.org/3/reference/datamodel.html#object.<strong>str</strong></p>
+</section>
+<section id="id4">
+<h2>クラスに同値性を定義する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> で同値性を定義できる。</p>
 <p>ただし、 <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を定義すると <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> は <code class="docutils literal notranslate"><span class="pre">None</span></code> となり、 <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できなくなる。</p>
-<p><code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を定義すればよい。</p>
+<p><code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納したいなら <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を定義する。</p>
 <p><code class="docutils literal notranslate"><span class="pre">__hash__</span></code> の実装は <a class="reference external" href="https://docs.python.org/3/reference/datamodel.html#object.__hash__">ドキュメントの hash() を参考</a>に作るとよい。</p>
 <p>以下は、クラスA が <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を実装しないクラス、クラスB が <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を実装した結果 <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できなくなったクラス、クラスC が <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> と <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を実装したクラスである。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span> <span class="o">&gt;</span> <span class="n">py</span>
@@ -410,9 +504,108 @@ make altinstall
 <span class="p">{</span><span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">A</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x0000021607DBE0B0</span><span class="o">&gt;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">A</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x0000021607DBE1D0</span><span class="o">&gt;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">C</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x0000021607DBE890</span><span class="o">&gt;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 </pre></div>
 </div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> も <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> もない <code class="docutils literal notranslate"><span class="pre">A</span></code> は</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">==</span></code> で比較を試みたとき、オブジェクトごとに異なるものとして扱われる。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> に入れるとき、オブジェクトごとにキーが作られる。</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> があり <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> がない <code class="docutils literal notranslate"><span class="pre">B</span></code> は</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">==</span></code> で比較を試みたとき、メンバの値をもとに比較できる。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できない。</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> と <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> がある <code class="docutils literal notranslate"><span class="pre">C</span></code> は <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できる。</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">==</span></code> で比較を試みたとき、メンバの値をもとに比較できる。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できる。</p></li>
+</ul>
+</li>
+</ul>
 </section>
-<section id="id2">
-<h2>複数の変数を入れ替える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>キャッチした例外のスタックトレースを出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="k">class</span> <span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">CustomError</span><span class="p">(</span><span class="n">AppError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="n">CustomError</span><span class="p">(</span><span class="s1">'msg'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">f2</span><span class="p">():</span>
+    <span class="n">f1</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f2</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">AppError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">main</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">3</span>, in <span class="n">main</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">2</span>, in <span class="n">f2</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">2</span>, in <span class="n">f1</span>
+<span class="gr">CustomError</span>: <span class="n">msg</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>キャッチした例外を再発生させる。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">CustomError</span><span class="p">(</span><span class="n">AppError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="n">CustomError</span><span class="p">(</span><span class="s1">'msg'</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'begin try'</span><span class="p">)</span>
+        <span class="n">f1</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'end try'</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">AppError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'begin except'</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'end except'</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PS</span> <span class="o">&gt;</span> <span class="n">python</span> <span class="o">.</span>\<span class="n">a</span><span class="o">.</span><span class="n">py</span>
+<span class="n">begin</span> <span class="k">try</span>
+<span class="n">begin</span> <span class="k">except</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">".</span><span class="se">\a</span><span class="s2">.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">25</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">main</span><span class="p">()</span>
+  <span class="n">File</span> <span class="s2">".</span><span class="se">\a</span><span class="s2">.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="n">main</span>
+    <span class="k">raise</span> <span class="n">e</span>
+  <span class="n">File</span> <span class="s2">".</span><span class="se">\a</span><span class="s2">.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">16</span><span class="p">,</span> <span class="ow">in</span> <span class="n">main</span>
+    <span class="n">f1</span><span class="p">()</span>
+  <span class="n">File</span> <span class="s2">".</span><span class="se">\a</span><span class="s2">.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">10</span><span class="p">,</span> <span class="ow">in</span> <span class="n">f1</span>
+    <span class="k">raise</span> <span class="n">CustomError</span><span class="p">(</span><span class="s1">'msg'</span><span class="p">)</span>
+<span class="n">__main__</span><span class="o">.</span><span class="n">CustomError</span><span class="p">:</span> <span class="n">msg</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>複数の変数を入れ替える。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">a,</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">b,</span> <span class="pre">a</span></code> で入れ替えできる。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; a = {'a':True}</span>
 <span class="go">&gt;&gt;&gt; b = {'b':True}</span>
@@ -428,8 +621,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -444,8 +637,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -459,8 +652,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
 
@@ -474,8 +667,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -592,12 +785,16 @@ make altinstall
 <li><a class="reference internal" href="#windows-python">Windows に複数のバージョンの Python をインストールする。</a></li>
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li><a class="reference internal" href="#id1">ビット演算を行う。</a></li>
-<li><a class="reference internal" href="#eq-hash">クラスに <strong>eq</strong>, <strong>hash</strong> を定義する。</a></li>
-<li><a class="reference internal" href="#id2">複数の変数を入れ替える。</a></li>
-<li><a class="reference internal" href="#id3">ファンクションに定義されていない引数を与える。</a></li>
-<li><a class="reference internal" href="#id4">ファンクションに同一の引数を複数回指定する。</a></li>
-<li><a class="reference internal" href="#id5">ファンクションにディクショナリで引数を指定する。</a></li>
-<li><a class="reference internal" href="#id6">ファンクションで任意長の引数を受ける。</a></li>
+<li><a class="reference internal" href="#id2">クラスにオブジェクトの文字列表現を定義する。</a></li>
+<li><a class="reference internal" href="#id3">クラスに印字可能な文字列表現を定義する。</a></li>
+<li><a class="reference internal" href="#id4">クラスに同値性を定義する。</a></li>
+<li><a class="reference internal" href="#id5">キャッチした例外のスタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id6">キャッチした例外を再発生させる。</a></li>
+<li><a class="reference internal" href="#id7">複数の変数を入れ替える。</a></li>
+<li><a class="reference internal" href="#id8">ファンクションに定義されていない引数を与える。</a></li>
+<li><a class="reference internal" href="#id9">ファンクションに同一の引数を複数回指定する。</a></li>
+<li><a class="reference internal" href="#id10">ファンクションにディクショナリで引数を指定する。</a></li>
+<li><a class="reference internal" href="#id11">ファンクションで任意長の引数を受ける。</a></li>
 <li><a class="reference internal" href="#utf-8">utf-8 でエンコードされたとき何バイトかを得る。</a></li>
 <li><a class="reference internal" href="#unicode">Unicode のコードポイントを得る。</a></li>
 </ul>
