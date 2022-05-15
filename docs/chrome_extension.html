@@ -2,10 +2,12 @@
 <html class="no-js" lang="ja">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="#" /><link rel="search" title="検索" href="search.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="GitHub" href="github.html" /><link rel="prev" title="HTML" href="html.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/><title>索引 - Untitled ドキュメント</title>
-<link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>Chrome拡張 - Untitled ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
@@ -132,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -153,7 +155,7 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -209,7 +211,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="html.html">HTML</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chrome_extension.html">Chrome拡張</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Chrome拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
@@ -232,16 +234,138 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          
-<section class="genindex-section">
-  <h1 id="index">索引</h1>
-  <div class="genindex-jumpbox"></div>
+          <section class="tex2jax_ignore mathjax_ignore" id="chrome">
+<h1>Chrome拡張<a class="headerlink" href="#chrome" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="css-js">
+<h2>サイトのブロックと、 css, js の差し込みを行う拡張を作り、導入する。<a class="headerlink" href="#css-js" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id1">
+<h3>題材<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">127.0.0.1:8000</span></code> でホストされる HTML ファイルは css ファイル, js ファイルを参照している。</p></li>
+<li><p>このとき、次を行いたい。</p>
+<ul>
+<li><p>css ファイル、 js ファイルをブロックする。</p></li>
+<li><p>css ファイル、 js ファイルの代替するファイルを Chrome 拡張で埋め込む。</p></li>
+</ul>
+</li>
+</ul>
+<p>ただし、 js を熟知している必要がある。 css のブロックと差し替えは簡単だが、 js の差し替えは後述の備考の課題があり困難である。</p>
+</section>
+<section id="id2">
+<h3>ディレクトリ、ファイル構造<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>* chrome-my-first-extension/
+    * my-first-extension/
+        * manifest.json
+        * rules.json
+        * script/
+            * script.js
+        * css/
+            * dark.min.css
+</pre></div>
+</div>
+</section>
+<section id="manifest-json">
+<h3>manifest.json を作る。<a class="headerlink" href="#manifest-json" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"My First Extension"</span><span class="p">,</span>
+  <span class="nt">"description"</span><span class="p">:</span> <span class="s2">"Make something the best."</span><span class="p">,</span>
+  <span class="nt">"version"</span><span class="p">:</span> <span class="s2">"1.0"</span><span class="p">,</span>
+  <span class="nt">"manifest_version"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="nt">"declarative_net_request"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"rule_resources"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">"id"</span><span class="p">:</span> <span class="s2">"ruleset_1"</span><span class="p">,</span>
+        <span class="nt">"enabled"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">"path"</span><span class="p">:</span> <span class="s2">"rules.json"</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">"content_scripts"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">"matches"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"http://127.0.0.1:8000/*"</span><span class="p">],</span>
+      <span class="nt">"css"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"css/dark.min.css"</span><span class="p">],</span>
+      <span class="nt">"js"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"script/script.js"</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">"permissions"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"declarativeNetRequest"</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="rules-json">
+<h3>rules.json を作る。<a class="headerlink" href="#rules-json" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">domains</span></code> によって、リンク元を定義する。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nt">"priority"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nt">"action"</span><span class="p">:{</span>
+      <span class="nt">"type"</span><span class="p">:</span><span class="s2">"block"</span>
+    <span class="p">},</span>
+    <span class="nt">"condition"</span><span class="p">:{</span>
+      <span class="nt">"domains"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"127.0.0.1"</span><span class="p">],</span>
+      <span class="nt">"urlFilter"</span><span class="p">:</span><span class="s2">"cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"</span><span class="p">,</span>
+      <span class="nt">"resourceTypes"</span><span class="p">:[</span>
+        <span class="s2">"stylesheet"</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">"id"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+    <span class="nt">"priority"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nt">"action"</span><span class="p">:{</span>
+      <span class="nt">"type"</span><span class="p">:</span><span class="s2">"block"</span>
+    <span class="p">},</span>
+    <span class="nt">"condition"</span><span class="p">:{</span>
+      <span class="nt">"domains"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"127.0.0.1"</span><span class="p">],</span>
+      <span class="nt">"urlFilter"</span><span class="p">:</span><span class="s2">"127.0.0.1:8000/script.js"</span><span class="p">,</span>
+      <span class="nt">"resourceTypes"</span><span class="p">:[</span>
+        <span class="s2">"script"</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Chrome に拡張をインストールする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Chrome の場合、 <code class="docutils literal notranslate"><span class="pre">chrome://extensions/</span></code> でデベロッパーモードを有効にし、同画面に <code class="docutils literal notranslate"><span class="pre">my-first-extension</span></code> をドラッグ＆ドロップする。</p>
+</section>
+<section id="id4">
+<h3>拡張を変更後、更新する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Chrome の場合、 <code class="docutils literal notranslate"><span class="pre">chrome://extensions/</span></code> で拡張を再読み込みする。</p>
+</section>
+<section id="id5">
+<h3>備考<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><p>HTML 中の <code class="docutils literal notranslate"><span class="pre">xxx.js</span></code> をブロックして、 <code class="docutils literal notranslate"><span class="pre">xxx.js</span></code> に差し変わるファイルを拡張に加えても、正常に動作するかはわからない。</p>
+<ul>
+<li><p>1例として <code class="docutils literal notranslate"><span class="pre">xxx.js</span></code> で <code class="docutils literal notranslate"><span class="pre">DOMContentLoaded</span></code> などが利用される場合、拡張ではイベントリスナが実行されず、異なる挙動となる。</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_at</span></code> を <code class="docutils literal notranslate"><span class="pre">document_start</span></code> にすればできそうだが、期待する動作とならなかった。詳細は追ってない。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id6">
+<h3>参考<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><p>https://developer.chrome.com/docs/extensions/mv3/overview/</p></li>
+<li><p>https://zenn.dev/junkawa/articles/chrome-extension-mv3-siteblocker</p></li>
+<li><p>https://hira.page/blog/201809_chrome-stylize</p></li>
+<li><p>https://stackoverflow.com/questions/43233115/chrome-content-scripts-arent-working-domcontentloaded-listener-does-not-execut</p></li>
+</ul>
+</section>
+</section>
 </section>
 
         </article>
@@ -249,8 +373,26 @@
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="github.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">GitHub</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="html.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">HTML</div>
+                
+              </div>
+            </a>
         </div>
 
         <div class="related-information">
@@ -258,13 +400,46 @@
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/chrome_extension.md.txt"
+               rel="nofollow">
+              ソースコードを表示
+            </a>
         </div>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Chrome拡張</a><ul>
+<li><a class="reference internal" href="#css-js">サイトのブロックと、 css, js の差し込みを行う拡張を作り、導入する。</a><ul>
+<li><a class="reference internal" href="#id1">題材</a></li>
+<li><a class="reference internal" href="#id2">ディレクトリ、ファイル構造</a></li>
+<li><a class="reference internal" href="#manifest-json">manifest.json を作る。</a></li>
+<li><a class="reference internal" href="#rules-json">rules.json を作る。</a></li>
+<li><a class="reference internal" href="#id3">Chrome に拡張をインストールする。</a></li>
+<li><a class="reference internal" href="#id4">拡張を変更後、更新する。</a></li>
+<li><a class="reference internal" href="#id5">備考</a></li>
+<li><a class="reference internal" href="#id6">参考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

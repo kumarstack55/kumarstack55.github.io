@@ -14,6 +14,7 @@ Untitled ドキュメント
    debian
    ubuntu
    ssh
+   prometheus
    bash
    bats
    git
@@ -23,7 +24,8 @@ Untitled ドキュメント
    mariadb
    sql
    nodejs
-   prometheus
+   html
+   chrome_extension
    github
    japanese_imperial_year
 

@@ -16,3 +16,11 @@ vim -u NONE -N --noplugin -c 'qa!'
 ```vim
 vim -u NONE -N --noplugin -c 'execute("normal! iabc\<esc>")' -c 'w! /tmp/a.txt' -c 'qa'
 ```
+
+## 辞書に値を代入する。
+
+```vim
+:let d = {}
+:let d['k'] = 1
+:echo d
+```

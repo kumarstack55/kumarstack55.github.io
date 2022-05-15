@@ -181,6 +181,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../ssh_client.html">SSHクライアント</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../prometheus.html">Prometheus</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../bash/foundation.html">bash基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bash/application.html">bash応用</a></li>
@@ -209,7 +210,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../mariadb.html">MariaDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sql.html">SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nodejs.html">Node JS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html.html">HTML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chrome_extension.html">Chrome拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
@@ -333,7 +335,52 @@ make altinstall
 </div>
 </section>
 <section id="id2">
-<h2>クラスにオブジェクトの文字列表現を定義する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>クラス名を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">__class__.__name__</span></code> で得ることができるが、継承時の動作は直観的ではない部分があるので注意です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">f2</span><span class="p">()</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f1</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f2</span><span class="p">())</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">B</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">f1</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">f2</span><span class="p">())</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">f2</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f1</span><span class="p">())</span>
+<span class="go">A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">f2</span><span class="p">())</span>
+<span class="go">A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">B</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">f1</span><span class="p">())</span>
+<span class="go">B</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">f2</span><span class="p">())</span>
+<span class="go">B</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">f2</span><span class="p">())</span>
+<span class="go">C</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>クラスにオブジェクトの文字列表現を定義する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
@@ -379,8 +426,8 @@ make altinstall
 </div>
 <p>https://docs.python.org/3/reference/datamodel.html#object.<strong>repr</strong></p>
 </section>
-<section id="id3">
-<h2>クラスに印字可能な文字列表現を定義する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>クラスに印字可能な文字列表現を定義する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
@@ -426,8 +473,8 @@ make altinstall
 </div>
 <p>https://docs.python.org/3/reference/datamodel.html#object.<strong>str</strong></p>
 </section>
-<section id="id4">
-<h2>クラスに同値性を定義する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>クラスに同値性を定義する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> で同値性を定義できる。</p>
 <p>ただし、 <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を定義すると <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> は <code class="docutils literal notranslate"><span class="pre">None</span></code> となり、 <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できなくなる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納したいなら <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を定義する。</p>
@@ -525,8 +572,8 @@ make altinstall
 </li>
 </ul>
 </section>
-<section id="id5">
-<h2>キャッチした例外のスタックトレースを出力する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>キャッチした例外のスタックトレースを出力する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">traceback</span>
 
 <span class="k">class</span> <span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -559,8 +606,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>キャッチした例外を再発生させる。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>キャッチした例外を再発生させる。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -604,8 +651,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>複数の変数を入れ替える。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>複数の変数を入れ替える。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">a,</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">b,</span> <span class="pre">a</span></code> で入れ替えできる。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; a = {'a':True}</span>
 <span class="go">&gt;&gt;&gt; b = {'b':True}</span>
@@ -621,8 +668,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -637,8 +684,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -652,8 +699,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
 
@@ -667,8 +714,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -785,16 +832,17 @@ make altinstall
 <li><a class="reference internal" href="#windows-python">Windows に複数のバージョンの Python をインストールする。</a></li>
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li><a class="reference internal" href="#id1">ビット演算を行う。</a></li>
-<li><a class="reference internal" href="#id2">クラスにオブジェクトの文字列表現を定義する。</a></li>
-<li><a class="reference internal" href="#id3">クラスに印字可能な文字列表現を定義する。</a></li>
-<li><a class="reference internal" href="#id4">クラスに同値性を定義する。</a></li>
-<li><a class="reference internal" href="#id5">キャッチした例外のスタックトレースを出力する。</a></li>
-<li><a class="reference internal" href="#id6">キャッチした例外を再発生させる。</a></li>
-<li><a class="reference internal" href="#id7">複数の変数を入れ替える。</a></li>
-<li><a class="reference internal" href="#id8">ファンクションに定義されていない引数を与える。</a></li>
-<li><a class="reference internal" href="#id9">ファンクションに同一の引数を複数回指定する。</a></li>
-<li><a class="reference internal" href="#id10">ファンクションにディクショナリで引数を指定する。</a></li>
-<li><a class="reference internal" href="#id11">ファンクションで任意長の引数を受ける。</a></li>
+<li><a class="reference internal" href="#id2">クラス名を得る。</a></li>
+<li><a class="reference internal" href="#id3">クラスにオブジェクトの文字列表現を定義する。</a></li>
+<li><a class="reference internal" href="#id4">クラスに印字可能な文字列表現を定義する。</a></li>
+<li><a class="reference internal" href="#id5">クラスに同値性を定義する。</a></li>
+<li><a class="reference internal" href="#id6">キャッチした例外のスタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id7">キャッチした例外を再発生させる。</a></li>
+<li><a class="reference internal" href="#id8">複数の変数を入れ替える。</a></li>
+<li><a class="reference internal" href="#id9">ファンクションに定義されていない引数を与える。</a></li>
+<li><a class="reference internal" href="#id10">ファンクションに同一の引数を複数回指定する。</a></li>
+<li><a class="reference internal" href="#id11">ファンクションにディクショナリで引数を指定する。</a></li>
+<li><a class="reference internal" href="#id12">ファンクションで任意長の引数を受ける。</a></li>
 <li><a class="reference internal" href="#utf-8">utf-8 でエンコードされたとき何バイトかを得る。</a></li>
 <li><a class="reference internal" href="#unicode">Unicode のコードポイントを得る。</a></li>
 </ul>

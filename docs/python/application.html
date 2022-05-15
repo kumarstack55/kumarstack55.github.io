@@ -181,6 +181,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../ssh_client.html">SSHクライアント</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../prometheus.html">Prometheus</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../bash/foundation.html">bash基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../bash/application.html">bash応用</a></li>
@@ -209,7 +210,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../mariadb.html">MariaDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sql.html">SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nodejs.html">Node JS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../html.html">HTML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chrome_extension.html">Chrome拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
@@ -254,6 +256,17 @@
 <span class="go">networkBinary   : 11000000.10101000.00000000.00000000</span>
 <span class="go">netmaskBinary   : 11111111.11111111.11111111.00000000</span>
 <span class="go">broadcastBinary : 11000000.10101000.00000000.11111111</span>
+</pre></div>
+</div>
+</section>
+<section id="src-mypy">
+<h2>src ディレクトリ以下のコードに mypy を実行する。<a class="headerlink" href="#src-mypy" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd </span><span class="nv">$env:TMP</span>
+<span class="n">poetry</span> <span class="n">new</span> <span class="p">-</span><span class="n">-src</span> <span class="n">myproject</span>
+<span class="nb">cd </span><span class="n">myproject</span>
+<span class="n">poetry</span> <span class="n">run</span> <span class="n">powershell</span>
+<span class="n">poetry</span> <span class="n">add</span> <span class="p">-</span><span class="n">-dev</span> <span class="n">mypy</span>
+<span class="n">mypy</span> <span class="p">./</span><span class="n">src</span>
 </pre></div>
 </div>
 </section>
@@ -314,6 +327,7 @@
             <ul>
 <li><a class="reference internal" href="#">Python 応用</a><ul>
 <li><a class="reference internal" href="#ip">IPアドレスを計算する。</a></li>
+<li><a class="reference internal" href="#src-mypy">src ディレクトリ以下のコードに mypy を実行する。</a></li>
 </ul>
 </li>
 </ul>

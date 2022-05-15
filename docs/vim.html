@@ -181,6 +181,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="bash/foundation.html">bash基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bash/application.html">bash応用</a></li>
@@ -209,7 +210,8 @@
 <li class="toctree-l1"><a class="reference internal" href="mariadb.html">MariaDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="html.html">HTML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chrome_extension.html">Chrome拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
@@ -253,6 +255,14 @@
 </pre></div>
 </div>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">vim</span> <span class="p">-</span><span class="k">u</span> <span class="nb">NONE</span> <span class="p">-</span>N <span class="p">--</span>noplugin <span class="p">-</span><span class="k">c</span> <span class="s1">'execute("normal! iabc\&lt;esc&gt;")'</span> <span class="p">-</span><span class="k">c</span> <span class="s1">'w! /tmp/a.txt'</span> <span class="p">-</span><span class="k">c</span> <span class="s1">'qa'</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>辞書に値を代入する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="k">let</span> <span class="k">d</span> <span class="p">=</span> {}
+<span class="p">:</span><span class="k">let</span> <span class="k">d</span>[<span class="s1">'k'</span>] <span class="p">=</span> <span class="m">1</span>
+<span class="p">:</span>echo <span class="k">d</span>
 </pre></div>
 </div>
 </section>
@@ -314,6 +324,7 @@
 <li><a class="reference internal" href="#">Vim</a><ul>
 <li><a class="reference internal" href="#id1">ファイルの末尾の改行を保存しない。</a></li>
 <li><a class="reference internal" href="#id2">vim 起動時にコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id3">辞書に値を代入する。</a></li>
 </ul>
 </li>
 </ul>

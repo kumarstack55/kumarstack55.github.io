@@ -103,6 +103,53 @@ x | y  = 00001110
 x ^ y  = 00000110
 ```
 
+## クラス名を得る。
+
+`__class__.__name__` で得ることができるが、継承時の動作は直観的ではない部分があるので注意です。
+
+```python
+class A(object):
+    def f1(self):
+        return self.__class__.__name__
+    def f2(self):
+        return self.__class__.__name__
+
+class B(A):
+    def f2(self):
+        return self.__class__.__name__
+
+class C(A):
+    def f2(self):
+        return super().f2()
+
+a = A()
+print(a.f1())
+print(a.f2())
+
+b = B()
+print(b.f1())
+print(b.f2())
+
+c = C()
+print(c.f2())
+```
+
+```python
+>>> a = A()
+>>> print(a.f1())
+A
+>>> print(a.f2())
+A
+>>> b = B()
+>>> print(b.f1())
+B
+>>> print(b.f2())
+B
+>>> c = C()
+>>> print(c.f2())
+C
+```
+
 ## クラスにオブジェクトの文字列表現を定義する。
 
 ```python
