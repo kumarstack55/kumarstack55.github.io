@@ -13,20 +13,20 @@ Untitled ドキュメント
    kubernetes
    debian
    ubuntu
-   ssh
-   prometheus
    bash
-   bats
-   git
-   vim
-   python
    powershell
+   ssh
+   python
+   prometheus
+   vim
+   git
+   github
+   bats
    mariadb
    sql
    nodejs
    html
    chrome_extension
-   github
    japanese_imperial_year
 
 ..
