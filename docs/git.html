@@ -281,10 +281,677 @@ git branch
 <p>$ git switch -</p>
 </div></blockquote>
 </section>
+<section id="git-lfs">
+<h2>Git LFS を利用する。<a class="headerlink" href="#git-lfs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Git LFS はリモートの格納場所を指し示すテキストを git リポジトリに格納する仕組みのことです。
+Git で大きなファイルの格納ができるし、リポジトリの肥大化を回避できるようになる。</p>
+<p><a class="reference external" href="https://git-lfs.github.com/">Git Large File Storage</a> について次の記載がある:</p>
+<blockquote>
+<div><p>Git Large File Storage (LFS) replaces large files such as audio samples, videos, datasets, and graphics with text pointers inside Git, while storing the file contents on a remote server like GitHub.com or GitHub Enterprise.</p>
+</div></blockquote>
 <section id="id2">
-<h2>タグを利用する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h3>Git LFS でファイルを格納する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ユーザー3名のうち、 <code class="docutils literal notranslate"><span class="pre">user1</span></code>, <code class="docutils literal notranslate"><span class="pre">user2</span></code> が git-lfs をインストール済みであり、 <code class="docutils literal notranslate"><span class="pre">user3</span></code> はインストールしていないことを想定したとき、それぞれの操作でどのように LFS 管理下としたファイルが見えるか確認する。
+あらかじめ <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code> をインストール済みか、 pull 前にインストールすれば、特に意識せず利用できる。
+ところが <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code> をインストールしていないユーザがいると、見え方が異なる。</p>
+<p>git-lfs があれば、 lfs 管理下のファイルは意識せず編集できる。</p>
+<p>git-lfs がなければ、 lfs 管理下のファイルはポインタ情報が表示される。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># リポジトリが存在するか判定する。</span>
+gh_repo_exists<span class="o">()</span> <span class="o">{</span>
+  gh repo list --json name --jq <span class="s2">"map(select(.name == \"</span><span class="nv">$1</span><span class="s2">\")) | length == 1"</span> <span class="se">\</span>
+    <span class="p">|</span> grep -q <span class="nb">true</span>
+<span class="o">}</span>
+
+<span class="c1"># リポジトリを削除済みにする。</span>
+ensure_gh_repo_deleted<span class="o">()</span> <span class="o">{</span>
+  gh_repo_exists <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> gh repo delete --confirm <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="c1"># 指定パッケージがインストール済みか判定する。</span>
+is_deb_installed<span class="o">()</span> <span class="o">{</span>
+  dpkg -l <span class="se">\</span>
+    <span class="p">|</span> grep <span class="s1">'^ii'</span> <span class="se">\</span>
+    <span class="p">|</span> awk <span class="s1">'{print $2}'</span> <span class="se">\</span>
+    <span class="p">|</span> grep -Pq <span class="s2">"^\Q</span><span class="nv">$1</span><span class="s2">\E</span>$<span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="c1"># パッケージを削除済みにする。</span>
+ensure_deb_removed<span class="o">()</span> <span class="o">{</span>
+  is_deb_installed <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> sudo apt-get remove -y <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span> &gt;/dev/null
+<span class="o">}</span>
+
+<span class="c1"># パッケージをインストール済みにする。</span>
+ensure_deb_installed<span class="o">()</span> <span class="o">{</span>
+  is_deb_installed <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="o">||</span> sudo apt-get install <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> -y <span class="m">1</span>&gt;<span class="p">&amp;</span><span class="m">2</span> &gt;/dev/null
+<span class="o">}</span>
+
+<span class="nv">tmpdir</span><span class="o">=</span><span class="k">$(</span>mktemp -d<span class="k">)</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmpdir</span><span class="s2">"</span>
+
+<span class="nv">repos_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$tmpdir</span><span class="s2">"</span>
+<span class="nv">user1_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$repos_dir</span><span class="s2">/user1"</span>
+<span class="nv">user2_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$repos_dir</span><span class="s2">/user2"</span>
+<span class="nv">user3_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$repos_dir</span><span class="s2">/user3"</span>
+
+<span class="nv">user1_repo_name</span><span class="o">=</span><span class="s2">"repo_b"</span>
+<span class="nv">user2_repo_name</span><span class="o">=</span><span class="s2">"repo_c"</span>
+<span class="nv">user3_repo_name</span><span class="o">=</span><span class="s2">"repo_d"</span>
+
+<span class="nv">user1_repo_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$user1_dir</span><span class="s2">/</span><span class="nv">$user1_repo_name</span><span class="s2">"</span>
+<span class="nv">user2_repo_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$user2_dir</span><span class="s2">/</span><span class="nv">$user2_repo_name</span><span class="s2">"</span>
+<span class="nv">user3_repo_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$user3_dir</span><span class="s2">/</span><span class="nv">$user3_repo_name</span><span class="s2">"</span>
+
+mkdir -pv <span class="s2">"</span><span class="nv">$user1_repo_dir</span><span class="s2">"</span>
+mkdir -pv <span class="s2">"</span><span class="nv">$user2_repo_dir</span><span class="s2">"</span>
+mkdir -pv <span class="s2">"</span><span class="nv">$user3_repo_dir</span><span class="s2">"</span>
+
+ensure_gh_repo_deleted <span class="s2">"repo1"</span>
+ensure_deb_removed <span class="s2">"git-lfs"</span>
+
+<span class="c1"># GitHub のプロジェクト相当の git リポジトリを作る。</span>
+gh repo create --private <span class="s2">"repo1"</span>
+<span class="nv">remote_repo_url</span><span class="o">=</span><span class="k">$(</span>gh repo view repo1 --json sshUrl --jq .sshUrl<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ユーザー user1 がローカルリポジトリをクローン、コミット、プッシュする。</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_dir</span><span class="s2">"</span>
+git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user1_repo_name</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_repo_dir</span><span class="s2">"</span>
+git config user.email <span class="s2">"user1@example.com"</span>
+git config user.name <span class="s2">"user1"</span>
+<span class="nb">echo</span> a &gt;file1.txt
+<span class="nb">echo</span> a &gt;file1.bin
+git status
+git add .
+git status
+git commit -m <span class="s2">"commit1"</span>
+git status
+git push
+git status
+
+<span class="c1"># user1 が *.bin を LFS 管理下にしてプッシュする。</span>
+git lfs version
+ensure_deb_installed <span class="s2">"git-lfs"</span>
+git lfs version
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+git lfs ls-files
+
+git lfs track <span class="s2">"*.bin"</span>
+
+ls -ln
+  <span class="c1"># --&gt; ファイルサイズは 2</span>
+git status
+  <span class="c1"># --&gt; file1.bin, .gitattributes が変更されている。</span>
+git diff
+git diff --cached
+git lfs status
+  <span class="c1"># --&gt; not staged for commit に file1.bin が存在する。</span>
+git lfs ls-files
+  <span class="c1"># --&gt; 何も表示されない。</span>
+
+cat .gitattributes
+git add .
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+  <span class="c1"># --&gt; to be committed に file1.bin が存在する。</span>
+git lfs ls-files
+  <span class="c1"># --&gt; file1.bin が存在する。</span>
+
+git commit -m <span class="s2">"commit2"</span>
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+  <span class="c1"># --&gt; to be pushed に file1.bin が存在する。</span>
+git lfs ls-files
+  <span class="c1"># --&gt; file1.bin が存在する。</span>
+
+git push
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+  <span class="c1"># --&gt; 表示されない。</span>
+git lfs ls-files
+  <span class="c1"># --&gt; file1.bin が存在する。</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ユーザー user2 のローカルリポジトリを GitHub からクローンする。</span>
+<span class="c1"># このユーザは `ls -l` などの出力では相違がない状態となる。</span>
+ensure_deb_installed <span class="s2">"git-lfs"</span>
+git lfs version
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user2_dir</span><span class="s2">"</span>
+git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user2_repo_name</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user2_repo_dir</span><span class="s2">"</span>
+git config user.email <span class="s2">"user2@example.com"</span>
+git config user.name <span class="s2">"user2"</span>
+
+ls -ln
+  <span class="c1"># --&gt; ファイルサイズは2</span>
+git status
+git diff
+git diff --cached
+git lfs status
+git lfs ls-files
+
+cat file1.bin
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ユーザー user3 のローカルリポジトリを GitHub からクローンする。</span>
+<span class="c1"># このユーザは `ls -l` などの出力では別のファイルとして見える。</span>
+ensure_deb_removed <span class="s2">"git-lfs"</span>
+git lfs version
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user3_dir</span><span class="s2">"</span>
+git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user3_repo_name</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user3_repo_dir</span><span class="s2">"</span>
+git config user.email <span class="s2">"user3@example.com"</span>
+git config user.name <span class="s2">"user3"</span>
+
+ls -ln
+  <span class="c1"># --&gt; file1.bin のファイルサイズは2ではない。</span>
+git status
+git diff
+git diff --cached
+git lfs status
+git lfs ls-files
+
+cat file1.bin
+</pre></div>
+</div>
+</section>
 <section id="id3">
-<h3>手順<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>ユーザ1の操作<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_dir</span><span class="s2">"</span>
+<span class="gp">$ </span>git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user1_repo_name</span><span class="s2">"</span>
+<span class="go">Cloning into './repo_b'...</span>
+<span class="go">warning: You appear to have cloned an empty repository.</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_repo_dir</span><span class="s2">"</span>
+<span class="gp">$ </span>git config user.email <span class="s2">"user1@example.com"</span>
+<span class="gp">$ </span>git config user.name <span class="s2">"user1"</span>
+<span class="gp">$ </span><span class="nb">echo</span> a &gt;file1.txt
+<span class="gp">$ </span><span class="nb">echo</span> a &gt;file1.bin
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+
+<span class="go">No commits yet</span>
+
+<span class="go">Untracked files:</span>
+<span class="go">  (use "git add &lt;file&gt;..." to include in what will be committed)</span>
+<span class="go">        file1.bin</span>
+<span class="go">        file1.txt</span>
+
+<span class="go">nothing added to commit but untracked files present (use "git add" to track)</span>
+<span class="gp">$ </span>git add .
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+
+<span class="go">No commits yet</span>
+
+<span class="go">Changes to be committed:</span>
+<span class="go">  (use "git rm --cached &lt;file&gt;..." to unstage)</span>
+<span class="go">        new file:   file1.bin</span>
+<span class="go">        new file:   file1.txt</span>
+
+<span class="gp">$ </span>git commit -m <span class="s2">"commit1"</span>
+<span class="go">[master (root-commit) d18764c] commit1</span>
+<span class="go"> 2 files changed, 2 insertions(+)</span>
+<span class="go"> create mode 100644 file1.bin</span>
+<span class="go"> create mode 100644 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is based on 'origin/master', but the upstream is gone.</span>
+<span class="go">  (use "git branch --unset-upstream" to fixup)</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$ </span>git push
+<span class="go">Enumerating objects: 3, done.</span>
+<span class="go">Counting objects: 100% (3/3), done.</span>
+<span class="go">Delta compression using up to 8 threads</span>
+<span class="go">Compressing objects: 100% (2/2), done.</span>
+<span class="go">Writing objects: 100% (3/3), 211 bytes | 211.00 KiB/s, done.</span>
+<span class="go">Total 3 (delta 0), reused 0 (delta 0)</span>
+<span class="go">git status</span>
+<span class="go">To github.com:kumarstack55/repo1.git</span>
+<span class="go"> * [new branch]      master -&gt; master</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git lfs version
+<span class="go">fatal: 'lfs' appears to be a git command, but we were not</span>
+<span class="go">able to execute it. Maybe git-lfs is broken?</span>
+<span class="gp">$ </span>ensure_deb_installed <span class="s2">"git-lfs"</span>
+<span class="gp">$ </span>git lfs version
+<span class="go">git-lfs/2.9.2 (GitHub; linux amd64; go 1.13.5)</span>
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$ </span>git diff
+<span class="gp">$ </span>git diff --cached
+<span class="gp">$ </span>git lfs status
+<span class="go">On branch master</span>
+<span class="go">Git LFS objects to be pushed to origin/master:</span>
+
+
+<span class="go">Git LFS objects to be committed:</span>
+
+
+<span class="go">Git LFS objects not staged for commit:</span>
+
+
+<span class="gp">$ </span>git lfs ls-files
+<span class="gp">$ </span>git lfs track <span class="s2">"*.bin"</span>
+<span class="go">Tracking "*.bin"</span>
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">Changes not staged for commit:</span>
+<span class="go">  (use "git add &lt;file&gt;..." to update what will be committed)</span>
+<span class="go">  (use "git restore &lt;file&gt;..." to discard changes in working directory)</span>
+<span class="go">        modified:   file1.bin</span>
+
+<span class="go">Untracked files:</span>
+<span class="go">  (use "git add &lt;file&gt;..." to include in what will be committed)</span>
+<span class="go">        .gitattributes</span>
+
+<span class="go">no changes added to commit (use "git add" and/or "git commit -a")</span>
+<span class="gp">$ </span>git diff
+<span class="go">diff --git a/file1.bin b/file1.bin</span>
+<span class="go">index 7898192..0638816 100644</span>
+<span class="go">--- a/file1.bin</span>
+<span class="go">+++ b/file1.bin</span>
+<span class="go">@@ -1 +1,3 @@</span>
+<span class="go">-a</span>
+<span class="go">+version https://git-lfs.github.com/spec/v1</span>
+<span class="go">+oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7</span>
+<span class="go">+size 2</span>
+<span class="gp">$ </span>git diff --cached
+<span class="gp">$ </span>git lfs status
+<span class="go">On branch master</span>
+<span class="go">Git LFS objects to be pushed to origin/master:</span>
+
+
+<span class="go">Git LFS objects to be committed:</span>
+
+
+<span class="go">Git LFS objects not staged for commit:</span>
+
+<span class="go">        file1.bin (Git: 87428fc -&gt; File: 87428fc)</span>
+
+<span class="gp">$ </span>git lfs ls-files
+<span class="gp">$ </span>cat .gitattributes
+<span class="go">*.bin filter=lfs diff=lfs merge=lfs -text</span>
+<span class="gp">$ </span>git add .
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">Changes to be committed:</span>
+<span class="go">  (use "git restore --staged &lt;file&gt;..." to unstage)</span>
+<span class="go">        new file:   .gitattributes</span>
+<span class="go">        modified:   file1.bin</span>
+
+<span class="gp">$ </span>git diff
+<span class="gp">$ </span>git diff --cached
+<span class="go">diff --git a/.gitattributes b/.gitattributes</span>
+<span class="go">new file mode 100644</span>
+<span class="go">index 0000000..4edd5ac</span>
+<span class="go">--- /dev/null</span>
+<span class="go">+++ b/.gitattributes</span>
+<span class="go">@@ -0,0 +1 @@</span>
+<span class="go">+*.bin filter=lfs diff=lfs merge=lfs -text</span>
+<span class="go">diff --git a/file1.bin b/file1.bin</span>
+<span class="go">index 7898192..0638816 100644</span>
+<span class="go">--- a/file1.bin</span>
+<span class="go">+++ b/file1.bin</span>
+<span class="go">@@ -1 +1,3 @@</span>
+<span class="go">-a</span>
+<span class="go">+version https://git-lfs.github.com/spec/v1</span>
+<span class="go">+oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7</span>
+<span class="go">+size 2</span>
+<span class="gp">$ </span>git lfs status
+<span class="go">On branch master</span>
+<span class="go">Git LFS objects to be pushed to origin/master:</span>
+
+
+<span class="go">Git LFS objects to be committed:</span>
+
+<span class="go">        .gitattributes (Git: 35c9aa1)</span>
+<span class="go">        file1.bin (Git: 87428fc -&gt; LFS: 87428fc)</span>
+
+<span class="go">Git LFS objects not staged for commit:</span>
+
+
+<span class="gp">$ </span>git lfs ls-files
+<span class="go">87428fc522 * file1.bin</span>
+<span class="gp">$ </span>git commit -m <span class="s2">"commit2"</span>
+<span class="go">[master 8ab6bda] commit2</span>
+<span class="go"> 2 files changed, 4 insertions(+), 1 deletion(-)</span>
+<span class="go"> create mode 100644 .gitattributes</span>
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is ahead of 'origin/master' by 1 commit.</span>
+<span class="go">  (use "git push" to publish your local commits)</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$ </span>git diff
+<span class="gp">$ </span>git diff --cached
+<span class="gp">$ </span>git lfs status
+<span class="go">On branch master</span>
+<span class="go">Git LFS objects to be pushed to origin/master:</span>
+
+<span class="go">        file1.bin (87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7)</span>
+
+<span class="go">Git LFS objects to be committed:</span>
+
+
+<span class="go">Git LFS objects not staged for commit:</span>
+
+
+<span class="gp">$ </span>git lfs ls-files
+<span class="go">87428fc522 * file1.bin</span>
+<span class="gp">$ </span>git push
+<span class="go">Uploading LFS objects: 100% (1/1), 2 B | 0 B/s, done.</span>
+<span class="go">Enumerating objects: 6, done.</span>
+<span class="go">Counting objects: 100% (6/6), done.</span>
+<span class="go">Delta compression using up to 8 threads</span>
+<span class="go">Compressing objects: 100% (3/3), done.</span>
+<span class="go">Writing objects: 100% (4/4), 449 bytes | 449.00 KiB/s, done.</span>
+<span class="go">Total 4 (delta 0), reused 0 (delta 0)</span>
+<span class="go">To github.com:kumarstack55/repo1.git</span>
+<span class="go">   d18764c..8ab6bda  master -&gt; master</span>
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$ </span>git diff
+<span class="gp">$ </span>git diff --cached
+<span class="gp">$ </span>git lfs status
+<span class="go">On branch master</span>
+<span class="go">Git LFS objects to be pushed to origin/master:</span>
+
+
+<span class="go">Git LFS objects to be committed:</span>
+
+
+<span class="go">Git LFS objects not staged for commit:</span>
+
+
+<span class="gp">$ </span>git lfs ls-files
+<span class="go">87428fc522 * file1.bin</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>ユーザ2の操作<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ensure_deb_installed <span class="s2">"git-lfs"</span>
+<span class="gp">$ </span>git lfs version
+<span class="go">git-lfs/2.9.2 (GitHub; linux amd64; go 1.13.5)</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user2_dir</span><span class="s2">"</span>
+<span class="gp">$ </span>git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user2_repo_name</span><span class="s2">"</span>
+<span class="go">Cloning into './repo_c'...</span>
+<span class="go">remote: Enumerating objects: 7, done.</span>
+<span class="go">remote: Counting objects: 100% (7/7), done.</span>
+<span class="go">remote: Compressing objects: 100% (5/5), done.</span>
+<span class="go">remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0</span>
+<span class="go">Receiving objects: 100% (7/7), done.</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user2_repo_dir</span><span class="s2">"</span>
+<span class="gp">$ </span>git config user.email <span class="s2">"user2@example.com"</span>
+<span class="gp">$ </span>git config user.name <span class="s2">"user2"</span>
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:27 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000 2 May 17 16:27 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$ </span>git diff
+<span class="gp">$ </span>git diff --cached
+<span class="gp">$ </span>git lfs status
+<span class="go">On branch master</span>
+<span class="go">Git LFS objects to be pushed to origin/master:</span>
+
+
+<span class="go">Git LFS objects to be committed:</span>
+
+
+<span class="go">Git LFS objects not staged for commit:</span>
+
+
+<span class="gp">$ </span>git lfs ls-files
+<span class="go">87428fc522 * file1.bin</span>
+<span class="gp">$ </span>cat file1.bin
+<span class="go">a</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>ユーザ3の操作<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ensure_deb_removed <span class="s2">"git-lfs"</span>
+<span class="gp">$ </span>git lfs version
+<span class="go">fatal: 'lfs' appears to be a git command, but we were not</span>
+<span class="go">able to execute it. Maybe git-lfs is broken?</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user3_dir</span><span class="s2">"</span>
+<span class="gp">$ </span>git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user3_repo_name</span><span class="s2">"</span>
+<span class="go">Cloning into './repo_d'...</span>
+<span class="go">remote: Enumerating objects: 7, done.</span>
+<span class="go">remote: Counting objects: 100% (7/7), done.</span>
+<span class="go">remote: Compressing objects: 100% (5/5), done.</span>
+<span class="go">remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0</span>
+<span class="go">Receiving objects: 100% (7/7), done.</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user3_repo_dir</span><span class="s2">"</span>
+<span class="gp">$ </span>git config user.email <span class="s2">"user3@example.com"</span>
+<span class="gp">$ </span>git config user.name <span class="s2">"user3"</span>
+<span class="gp">$ </span>ls -ln
+<span class="go">total 8</span>
+<span class="go">-rw-r--r-- 1 1000 1000 126 May 17 16:29 file1.bin</span>
+<span class="go">-rw-r--r-- 1 1000 1000   2 May 17 16:29 file1.txt</span>
+<span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+<span class="go">Your branch is up to date with 'origin/master'.</span>
+
+<span class="go">nothing to commit, working tree clean</span>
+<span class="gp">$ </span>git diff
+<span class="gp">$ </span>git diff --cached
+<span class="gp">$ </span>git lfs status
+<span class="go">fatal: 'lfs' appears to be a git command, but we were not</span>
+<span class="go">able to execute it. Maybe git-lfs is broken?</span>
+<span class="gp">$ </span>git lfs ls-files
+<span class="go">fatal: 'lfs' appears to be a git command, but we were not</span>
+<span class="go">able to execute it. Maybe git-lfs is broken?</span>
+<span class="gp">$ </span>cat file1.bin
+<span class="go">version https://git-lfs.github.com/spec/v1</span>
+<span class="go">oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7</span>
+<span class="go">size 2</span>
+</pre></div>
+</div>
+</section>
+<section id="git-lfs-git-lfs">
+<h3>Git LFS で git-lfs が有効でないユーザがファイルを上書きしたときの挙動は？<a class="headerlink" href="#git-lfs-git-lfs" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>関数定義は、直前の見出しを参照してください。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ensure_gh_repo_deleted <span class="s2">"repo1"</span>
+ensure_deb_installed <span class="s2">"git-lfs"</span>
+
+gh repo create --private <span class="s2">"repo1"</span>
+<span class="nv">remote_repo_url</span><span class="o">=</span><span class="k">$(</span>gh repo view repo1 --json sshUrl --jq .sshUrl<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_dir</span><span class="s2">"</span>
+git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user1_repo_name</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_repo_dir</span><span class="s2">"</span>
+git config user.email <span class="s2">"user1@example.com"</span>
+git config user.name <span class="s2">"user1"</span>
+
+<span class="nb">echo</span> a &gt;file1.txt
+
+git lfs track <span class="s2">"*.bin"</span>
+<span class="nb">echo</span> a &gt;file1.bin
+
+git add .
+git commit -m <span class="s2">"commit1"</span>
+git push
+git status
+
+ensure_deb_removed <span class="s2">"git-lfs"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user2_dir</span><span class="s2">"</span>
+git clone <span class="s2">"</span><span class="nv">$remote_repo_url</span><span class="s2">"</span> <span class="s2">"./</span><span class="nv">$user2_repo_name</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user2_repo_dir</span><span class="s2">"</span>
+git config user.email <span class="s2">"user2@example.com"</span>
+git config user.name <span class="s2">"user2"</span>
+
+cat file1.bin
+<span class="nb">echo</span> b &gt;file1.bin
+git status
+git add .
+git commit -m <span class="s2">"commit2"</span>
+git push
+
+ensure_deb_installed <span class="s2">"git-lfs"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$user1_repo_dir</span><span class="s2">"</span>
+git pull
+</pre></div>
+</div>
+<p>次のメッセージが出力される。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git pull
+<span class="go">remote: Enumerating objects: 5, done.</span>
+<span class="go">remote: Counting objects: 100% (5/5), done.</span>
+<span class="go">remote: Compressing objects: 100% (2/2), done.</span>
+<span class="go">remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0</span>
+<span class="go">Unpacking objects: 100% (3/3), 277 bytes | 277.00 KiB/s, done.</span>
+<span class="go">From github.com:kumarstack55/repo1</span>
+<span class="go">   98e4e0a..0d2cf8b  master     -&gt; origin/master</span>
+<span class="go">Updating 98e4e0a..0d2cf8b</span>
+<span class="go">Fast-forward</span>
+<span class="go"> file1.bin | 4 +---</span>
+<span class="go"> 1 file changed, 1 insertion(+), 3 deletions(-)</span>
+<span class="go">Encountered 1 file(s) that should have been pointers, but weren't:</span>
+<span class="go">        file1.bin</span>
+</pre></div>
+</div>
+<p>file1.bin に対する履歴を確認し、適切な内容に修正すればよい。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git log --oneline -i file1.bin
+
+
+git checkout 98e4e0a
+cp -aiv file1.bin /tmp/file1.bin.98e4e0a
+
+ls -l /tmp/file1.bin.*
+md5sum /tmp/file1.bin.*
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># この場合、以下で直すのがよさそう。</span>
+<span class="c1"># これで、file1.bin は b の内容を持つポインタとなる。</span>
+git lfs uninstall
+git reset --hard
+git lfs install
+git lfs pull
+git status
+git diff
+ls -ln
+
+git diff 98e4e0a
+
+<span class="c1"># ファイルをコピーして比較する。(もっといい方法がありそう。)</span>
+cp -aiv file1.bin /tmp/file1.bin.master
+git commit -m <span class="s1">'change files to a pointer to the lfs'</span>
+git checkout 98e4e0a
+cp -aiv file1.bin /tmp/file1.bin.98e4e0a
+diff -u /tmp/file1.bin.98e4e0a /tmp/file1.bin.master
+</pre></div>
+</div>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>$ git diff 98e4e0a
+<span class="gh">diff --git a/file1.bin b/file1.bin</span>
+<span class="gh">index 0638816..b42fdff 100644</span>
+<span class="gd">--- a/file1.bin</span>
+<span class="gi">+++ b/file1.bin</span>
+<span class="gu">@@ -1,3 +1,3 @@</span>
+ version https://git-lfs.github.com/spec/v1
+<span class="gd">-oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7</span>
+<span class="gi">+oid sha256:0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f</span>
+ size 2
+</pre></div>
+</div>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>$ diff -u /tmp/file1.bin.98e4e0a /tmp/file1.bin.master
+<span class="gd">--- /tmp/file1.bin.98e4e0a      2022-05-17 21:03:16.825163429 +0900</span>
+<span class="gi">+++ /tmp/file1.bin.master       2022-05-17 17:10:00.285512571 +0900</span>
+<span class="gu">@@ -1 +1 @@</span>
+<span class="gd">-a</span>
+<span class="gi">+b</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://monry.hatenablog.com/entry/2017/08/01/232045</p>
+<ul>
+<li><p>git lfs clone , git lfs install に関する記述がある。</p></li>
+</ul>
+</li>
+<li><p>https://qiita.com/kazuki-ma/items/782cd1cd7eca2fe988b7</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">update-index</span> <span class="pre">--asume-unchanged</span> <span class="pre">--</span> <span class="pre">"元ファイル"</span></code> に関する記述がある。</p></li>
+</ul>
+</li>
+<li><p>https://github.com/git-lfs/git-lfs/issues/1939</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">uninstall</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">pull</span></code> に関する記述がある。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>タグを利用する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h3>手順<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>get_commit_hash<span class="o">()</span> <span class="o">{</span>
   git rev-parse HEAD
 <span class="o">}</span>
@@ -349,8 +1016,8 @@ git branch
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>手順を実行した結果<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id8">
+<h3>手順を実行した結果<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <section id="commit1">
 <h4>commit1 を行う。<a class="headerlink" href="#commit1" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span> a &gt;file1.txt
@@ -394,8 +1061,8 @@ git branch
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h4>タグを作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<section id="id9">
+<h4>タグを作る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git tag
 <span class="gp">$ </span>git tag -a <span class="s1">'tagname1'</span> -m <span class="s1">'tag message1'</span>
 <span class="gp">$ </span>git tag
@@ -533,8 +1200,8 @@ git branch
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h4>ブランチ作成ありの checkout を行う。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<section id="id10">
+<h4>ブランチ作成ありの checkout を行う。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git branch
 <span class="go">* master</span>
 <span class="gp">$ </span>git log --pretty<span class="o">=</span>short
@@ -593,8 +1260,8 @@ git branch
 </div>
 </section>
 </section>
-<section id="id7">
-<h3>参考資料<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id11">
+<h3>参考資料<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">Git Basics - Tagging</a></p></li>
 <li><p><a class="reference external" href="https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%BF%E3%82%B0">Git の基本 - タグ</a></p></li>
@@ -1177,18 +1844,26 @@ git commit -m <span class="s2">"Remove submodule </span><span class="si">${</spa
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
 <li><a class="reference internal" href="#id1">直前のブランチにスイッチする。</a></li>
-<li><a class="reference internal" href="#id2">タグを利用する。</a><ul>
-<li><a class="reference internal" href="#id3">手順</a></li>
-<li><a class="reference internal" href="#id4">手順を実行した結果</a><ul>
-<li><a class="reference internal" href="#commit1">commit1 を行う。</a></li>
-<li><a class="reference internal" href="#commit2">commit2 を行う。</a></li>
-<li><a class="reference internal" href="#id5">タグを作る。</a></li>
-<li><a class="reference internal" href="#commit3">commit3 を行う。</a></li>
-<li><a class="reference internal" href="#checkout">ブランチ作成なしの checkout を行う。</a></li>
-<li><a class="reference internal" href="#id6">ブランチ作成ありの checkout を行う。</a></li>
+<li><a class="reference internal" href="#git-lfs">Git LFS を利用する。</a><ul>
+<li><a class="reference internal" href="#id2">Git LFS でファイルを格納する。</a></li>
+<li><a class="reference internal" href="#id3">ユーザ1の操作</a></li>
+<li><a class="reference internal" href="#id4">ユーザ2の操作</a></li>
+<li><a class="reference internal" href="#id5">ユーザ3の操作</a></li>
+<li><a class="reference internal" href="#git-lfs-git-lfs">Git LFS で git-lfs が有効でないユーザがファイルを上書きしたときの挙動は？</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id7">参考資料</a></li>
+<li><a class="reference internal" href="#id6">タグを利用する。</a><ul>
+<li><a class="reference internal" href="#id7">手順</a></li>
+<li><a class="reference internal" href="#id8">手順を実行した結果</a><ul>
+<li><a class="reference internal" href="#commit1">commit1 を行う。</a></li>
+<li><a class="reference internal" href="#commit2">commit2 を行う。</a></li>
+<li><a class="reference internal" href="#id9">タグを作る。</a></li>
+<li><a class="reference internal" href="#commit3">commit3 を行う。</a></li>
+<li><a class="reference internal" href="#checkout">ブランチ作成なしの checkout を行う。</a></li>
+<li><a class="reference internal" href="#id10">ブランチ作成ありの checkout を行う。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11">参考資料</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#submodule">リポジトリとリポジトリの依存関係を submodule で管理する。</a><ul>

@@ -42,6 +42,678 @@ https://git-scm.com/docs/git-switch
 >
 > $ git switch -
 
+## Git LFS を利用する。
+
+Git LFS はリモートの格納場所を指し示すテキストを git リポジトリに格納する仕組みのことです。
+Git で大きなファイルの格納ができるし、リポジトリの肥大化を回避できるようになる。
+
+[Git Large File Storage](https://git-lfs.github.com/) について次の記載がある:
+
+> Git Large File Storage (LFS) replaces large files such as audio samples, videos, datasets, and graphics with text pointers inside Git, while storing the file contents on a remote server like GitHub.com or GitHub Enterprise.
+
+### Git LFS でファイルを格納する。
+
+ユーザー3名のうち、 `user1`, `user2` が git-lfs をインストール済みであり、 `user3` はインストールしていないことを想定したとき、それぞれの操作でどのように LFS 管理下としたファイルが見えるか確認する。
+あらかじめ `git-lfs` をインストール済みか、 pull 前にインストールすれば、特に意識せず利用できる。
+ところが `git-lfs` をインストールしていないユーザがいると、見え方が異なる。
+
+git-lfs があれば、 lfs 管理下のファイルは意識せず編集できる。
+
+git-lfs がなければ、 lfs 管理下のファイルはポインタ情報が表示される。
+
+```bash
+# リポジトリが存在するか判定する。
+gh_repo_exists() {
+  gh repo list --json name --jq "map(select(.name == \"$1\")) | length == 1" \
+    | grep -q true
+}
+
+# リポジトリを削除済みにする。
+ensure_gh_repo_deleted() {
+  gh_repo_exists "$1" \
+    && gh repo delete --confirm "$1"
+}
+
+# 指定パッケージがインストール済みか判定する。
+is_deb_installed() {
+  dpkg -l \
+    | grep '^ii' \
+    | awk '{print $2}' \
+    | grep -Pq "^\Q$1\E$"
+}
+
+# パッケージを削除済みにする。
+ensure_deb_removed() {
+  is_deb_installed "$1" \
+    && sudo apt-get remove -y "$1" 1>&2 >/dev/null
+}
+
+# パッケージをインストール済みにする。
+ensure_deb_installed() {
+  is_deb_installed "$1" \
+    || sudo apt-get install "$1" -y 1>&2 >/dev/null
+}
+
+tmpdir=$(mktemp -d)
+cd "$tmpdir"
+
+repos_dir="$tmpdir"
+user1_dir="$repos_dir/user1"
+user2_dir="$repos_dir/user2"
+user3_dir="$repos_dir/user3"
+
+user1_repo_name="repo_b"
+user2_repo_name="repo_c"
+user3_repo_name="repo_d"
+
+user1_repo_dir="$user1_dir/$user1_repo_name"
+user2_repo_dir="$user2_dir/$user2_repo_name"
+user3_repo_dir="$user3_dir/$user3_repo_name"
+
+mkdir -pv "$user1_repo_dir"
+mkdir -pv "$user2_repo_dir"
+mkdir -pv "$user3_repo_dir"
+
+ensure_gh_repo_deleted "repo1"
+ensure_deb_removed "git-lfs"
+
+# GitHub のプロジェクト相当の git リポジトリを作る。
+gh repo create --private "repo1"
+remote_repo_url=$(gh repo view repo1 --json sshUrl --jq .sshUrl)
+echo "$remote_repo_url"
+```
+
+```bash
+# ユーザー user1 がローカルリポジトリをクローン、コミット、プッシュする。
+cd "$user1_dir"
+git clone "$remote_repo_url" "./$user1_repo_name"
+cd "$user1_repo_dir"
+git config user.email "user1@example.com"
+git config user.name "user1"
+echo a >file1.txt
+echo a >file1.bin
+git status
+git add .
+git status
+git commit -m "commit1"
+git status
+git push
+git status
+
+# user1 が *.bin を LFS 管理下にしてプッシュする。
+git lfs version
+ensure_deb_installed "git-lfs"
+git lfs version
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+git lfs ls-files
+
+git lfs track "*.bin"
+
+ls -ln
+  # --> ファイルサイズは 2
+git status
+  # --> file1.bin, .gitattributes が変更されている。
+git diff
+git diff --cached
+git lfs status
+  # --> not staged for commit に file1.bin が存在する。
+git lfs ls-files
+  # --> 何も表示されない。
+
+cat .gitattributes
+git add .
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+  # --> to be committed に file1.bin が存在する。
+git lfs ls-files
+  # --> file1.bin が存在する。
+
+git commit -m "commit2"
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+  # --> to be pushed に file1.bin が存在する。
+git lfs ls-files
+  # --> file1.bin が存在する。
+
+git push
+
+ls -ln
+git status
+git diff
+git diff --cached
+git lfs status
+  # --> 表示されない。
+git lfs ls-files
+  # --> file1.bin が存在する。
+```
+
+```bash
+# ユーザー user2 のローカルリポジトリを GitHub からクローンする。
+# このユーザは `ls -l` などの出力では相違がない状態となる。
+ensure_deb_installed "git-lfs"
+git lfs version
+
+cd "$user2_dir"
+git clone "$remote_repo_url" "./$user2_repo_name"
+cd "$user2_repo_dir"
+git config user.email "user2@example.com"
+git config user.name "user2"
+
+ls -ln
+  # --> ファイルサイズは2
+git status
+git diff
+git diff --cached
+git lfs status
+git lfs ls-files
+
+cat file1.bin
+```
+
+```bash
+# ユーザー user3 のローカルリポジトリを GitHub からクローンする。
+# このユーザは `ls -l` などの出力では別のファイルとして見える。
+ensure_deb_removed "git-lfs"
+git lfs version
+
+cd "$user3_dir"
+git clone "$remote_repo_url" "./$user3_repo_name"
+cd "$user3_repo_dir"
+git config user.email "user3@example.com"
+git config user.name "user3"
+
+ls -ln
+  # --> file1.bin のファイルサイズは2ではない。
+git status
+git diff
+git diff --cached
+git lfs status
+git lfs ls-files
+
+cat file1.bin
+```
+
+### ユーザ1の操作
+
+```console
+$ cd "$user1_dir"
+$ git clone "$remote_repo_url" "./$user1_repo_name"
+Cloning into './repo_b'...
+warning: You appear to have cloned an empty repository.
+$ cd "$user1_repo_dir"
+$ git config user.email "user1@example.com"
+$ git config user.name "user1"
+$ echo a >file1.txt
+$ echo a >file1.bin
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        file1.bin
+        file1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+$ git add .
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   file1.bin
+        new file:   file1.txt
+
+$ git commit -m "commit1"
+[master (root-commit) d18764c] commit1
+ 2 files changed, 2 insertions(+)
+ create mode 100644 file1.bin
+ create mode 100644 file1.txt
+$ git status
+On branch master
+Your branch is based on 'origin/master', but the upstream is gone.
+  (use "git branch --unset-upstream" to fixup)
+
+nothing to commit, working tree clean
+$ git push
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 211 bytes | 211.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+git status
+To github.com:kumarstack55/repo1.git
+ * [new branch]      master -> master
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+$
+```
+
+```console
+$ git lfs version
+fatal: 'lfs' appears to be a git command, but we were not
+able to execute it. Maybe git-lfs is broken?
+$ ensure_deb_installed "git-lfs"
+$ git lfs version
+git-lfs/2.9.2 (GitHub; linux amd64; go 1.13.5)
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.bin
+-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+$ git diff
+$ git diff --cached
+$ git lfs status
+On branch master
+Git LFS objects to be pushed to origin/master:
+
+
+Git LFS objects to be committed:
+
+
+Git LFS objects not staged for commit:
+
+
+$ git lfs ls-files
+$ git lfs track "*.bin"
+Tracking "*.bin"
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin
+-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   file1.bin
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitattributes
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git diff
+diff --git a/file1.bin b/file1.bin
+index 7898192..0638816 100644
+--- a/file1.bin
++++ b/file1.bin
+@@ -1 +1,3 @@
+-a
++version https://git-lfs.github.com/spec/v1
++oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7
++size 2
+$ git diff --cached
+$ git lfs status
+On branch master
+Git LFS objects to be pushed to origin/master:
+
+
+Git LFS objects to be committed:
+
+
+Git LFS objects not staged for commit:
+
+        file1.bin (Git: 87428fc -> File: 87428fc)
+
+$ git lfs ls-files
+$ cat .gitattributes
+*.bin filter=lfs diff=lfs merge=lfs -text
+$ git add .
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin
+-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   .gitattributes
+        modified:   file1.bin
+
+$ git diff
+$ git diff --cached
+diff --git a/.gitattributes b/.gitattributes
+new file mode 100644
+index 0000000..4edd5ac
+--- /dev/null
++++ b/.gitattributes
+@@ -0,0 +1 @@
++*.bin filter=lfs diff=lfs merge=lfs -text
+diff --git a/file1.bin b/file1.bin
+index 7898192..0638816 100644
+--- a/file1.bin
++++ b/file1.bin
+@@ -1 +1,3 @@
+-a
++version https://git-lfs.github.com/spec/v1
++oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7
++size 2
+$ git lfs status
+On branch master
+Git LFS objects to be pushed to origin/master:
+
+
+Git LFS objects to be committed:
+
+        .gitattributes (Git: 35c9aa1)
+        file1.bin (Git: 87428fc -> LFS: 87428fc)
+
+Git LFS objects not staged for commit:
+
+
+$ git lfs ls-files
+87428fc522 * file1.bin
+$ git commit -m "commit2"
+[master 8ab6bda] commit2
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+ create mode 100644 .gitattributes
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin
+-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+$ git diff
+$ git diff --cached
+$ git lfs status
+On branch master
+Git LFS objects to be pushed to origin/master:
+
+        file1.bin (87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7)
+
+Git LFS objects to be committed:
+
+
+Git LFS objects not staged for commit:
+
+
+$ git lfs ls-files
+87428fc522 * file1.bin
+$ git push
+Uploading LFS objects: 100% (1/1), 2 B | 0 B/s, done.
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (4/4), 449 bytes | 449.00 KiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To github.com:kumarstack55/repo1.git
+   d18764c..8ab6bda  master -> master
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 2 May 17 16:21 file1.bin
+-rw-r--r-- 1 1000 1000 2 May 17 16:19 file1.txt
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+$ git diff
+$ git diff --cached
+$ git lfs status
+On branch master
+Git LFS objects to be pushed to origin/master:
+
+
+Git LFS objects to be committed:
+
+
+Git LFS objects not staged for commit:
+
+
+$ git lfs ls-files
+87428fc522 * file1.bin
+```
+
+### ユーザ2の操作
+
+```console
+$ ensure_deb_installed "git-lfs"
+$ git lfs version
+git-lfs/2.9.2 (GitHub; linux amd64; go 1.13.5)
+$ cd "$user2_dir"
+$ git clone "$remote_repo_url" "./$user2_repo_name"
+Cloning into './repo_c'...
+remote: Enumerating objects: 7, done.
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0
+Receiving objects: 100% (7/7), done.
+$ cd "$user2_repo_dir"
+$ git config user.email "user2@example.com"
+$ git config user.name "user2"
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 2 May 17 16:27 file1.bin
+-rw-r--r-- 1 1000 1000 2 May 17 16:27 file1.txt
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+$ git diff
+$ git diff --cached
+$ git lfs status
+On branch master
+Git LFS objects to be pushed to origin/master:
+
+
+Git LFS objects to be committed:
+
+
+Git LFS objects not staged for commit:
+
+
+$ git lfs ls-files
+87428fc522 * file1.bin
+$ cat file1.bin
+a
+```
+
+### ユーザ3の操作
+
+```console
+$ ensure_deb_removed "git-lfs"
+$ git lfs version
+fatal: 'lfs' appears to be a git command, but we were not
+able to execute it. Maybe git-lfs is broken?
+$ cd "$user3_dir"
+$ git clone "$remote_repo_url" "./$user3_repo_name"
+Cloning into './repo_d'...
+remote: Enumerating objects: 7, done.
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 7 (delta 0), reused 7 (delta 0), pack-reused 0
+Receiving objects: 100% (7/7), done.
+$ cd "$user3_repo_dir"
+$ git config user.email "user3@example.com"
+$ git config user.name "user3"
+$ ls -ln
+total 8
+-rw-r--r-- 1 1000 1000 126 May 17 16:29 file1.bin
+-rw-r--r-- 1 1000 1000   2 May 17 16:29 file1.txt
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+$ git diff
+$ git diff --cached
+$ git lfs status
+fatal: 'lfs' appears to be a git command, but we were not
+able to execute it. Maybe git-lfs is broken?
+$ git lfs ls-files
+fatal: 'lfs' appears to be a git command, but we were not
+able to execute it. Maybe git-lfs is broken?
+$ cat file1.bin
+version https://git-lfs.github.com/spec/v1
+oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7
+size 2
+```
+
+### Git LFS で git-lfs が有効でないユーザがファイルを上書きしたときの挙動は？
+
+関数定義は、直前の見出しを参照してください。
+
+```bash
+ensure_gh_repo_deleted "repo1"
+ensure_deb_installed "git-lfs"
+
+gh repo create --private "repo1"
+remote_repo_url=$(gh repo view repo1 --json sshUrl --jq .sshUrl)
+echo "$remote_repo_url"
+
+cd "$user1_dir"
+git clone "$remote_repo_url" "./$user1_repo_name"
+
+cd "$user1_repo_dir"
+git config user.email "user1@example.com"
+git config user.name "user1"
+
+echo a >file1.txt
+
+git lfs track "*.bin"
+echo a >file1.bin
+
+git add .
+git commit -m "commit1"
+git push
+git status
+
+ensure_deb_removed "git-lfs"
+cd "$user2_dir"
+git clone "$remote_repo_url" "./$user2_repo_name"
+cd "$user2_repo_dir"
+git config user.email "user2@example.com"
+git config user.name "user2"
+
+cat file1.bin
+echo b >file1.bin
+git status
+git add .
+git commit -m "commit2"
+git push
+
+ensure_deb_installed "git-lfs"
+cd "$user1_repo_dir"
+git pull
+```
+
+次のメッセージが出力される。
+
+```console
+$ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 277 bytes | 277.00 KiB/s, done.
+From github.com:kumarstack55/repo1
+   98e4e0a..0d2cf8b  master     -> origin/master
+Updating 98e4e0a..0d2cf8b
+Fast-forward
+ file1.bin | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+Encountered 1 file(s) that should have been pointers, but weren't:
+        file1.bin
+```
+
+file1.bin に対する履歴を確認し、適切な内容に修正すればよい。
+
+```bash
+git log --oneline -i file1.bin
+
+
+git checkout 98e4e0a
+cp -aiv file1.bin /tmp/file1.bin.98e4e0a
+
+ls -l /tmp/file1.bin.*
+md5sum /tmp/file1.bin.*
+```
+
+```bash
+# この場合、以下で直すのがよさそう。
+# これで、file1.bin は b の内容を持つポインタとなる。
+git lfs uninstall
+git reset --hard
+git lfs install
+git lfs pull
+git status
+git diff
+ls -ln
+
+git diff 98e4e0a
+
+# ファイルをコピーして比較する。(もっといい方法がありそう。)
+cp -aiv file1.bin /tmp/file1.bin.master
+git commit -m 'change files to a pointer to the lfs'
+git checkout 98e4e0a
+cp -aiv file1.bin /tmp/file1.bin.98e4e0a
+diff -u /tmp/file1.bin.98e4e0a /tmp/file1.bin.master
+```
+
+```diff
+$ git diff 98e4e0a
+diff --git a/file1.bin b/file1.bin
+index 0638816..b42fdff 100644
+--- a/file1.bin
++++ b/file1.bin
+@@ -1,3 +1,3 @@
+ version https://git-lfs.github.com/spec/v1
+-oid sha256:87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7
++oid sha256:0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f
+ size 2
+```
+
+```diff
+$ diff -u /tmp/file1.bin.98e4e0a /tmp/file1.bin.master
+--- /tmp/file1.bin.98e4e0a      2022-05-17 21:03:16.825163429 +0900
++++ /tmp/file1.bin.master       2022-05-17 17:10:00.285512571 +0900
+@@ -1 +1 @@
+-a
++b
+```
+
+* https://monry.hatenablog.com/entry/2017/08/01/232045
+    * git lfs clone , git lfs install に関する記述がある。
+* https://qiita.com/kazuki-ma/items/782cd1cd7eca2fe988b7
+    * `git update-index --asume-unchanged -- "元ファイル"` に関する記述がある。
+* https://github.com/git-lfs/git-lfs/issues/1939
+    * `git lfs uninstall`, `git reset --hard`, `git lfs install`, `git lfs pull` に関する記述がある。
+
 ## タグを利用する。
 
 ### 手順
