@@ -70,6 +70,69 @@ sudo update-alternatives --install /usr/local/bin/python3 python3 /usr/local/pyt
 
 [Getting and installing the latest version of Python](https://docs.python.org/3.9/using/unix.html#on-linux)を参照した。
 
+## ファイルを読む。
+
+### open時に encoding を指定する。
+
+入力データのエンコーディングを信じられるときに使える実装です。
+バッファリングされるので、エンコーディングに失敗したとき、どの行で失敗したのかを特定するのはほぼ不可能となります。
+
+```python
+with open('a.txt', 'w', encoding='utf-8') as f1:
+    f1.write("line1\n")
+    f1.write("line2\n")
+    f1.write("line3\n")
+
+with open('a.txt', encoding='utf-8') as f2:
+    lineno = 1
+    for line1 in f2:
+        line2 = line1.rstrip()
+        print('{0}: {1}'.format(lineno, line2))
+        lineno += 1
+```
+
+```console
+>>> with open('a.txt', encoding='utf-8') as f2:
+...     lineno = 1
+...     for line1 in f2:
+...         line2 = line1.rstrip()
+...         print('{0}: {1}'.format(lineno, line2))
+...         lineno += 1
+...
+1: line1
+2: line2
+3: line3
+```
+
+### open時に encoding を指定しない。
+
+```python
+import codecs
+with open('a.txt', 'rb') as f3:
+    lineno = 1
+    for bytes_line in f3:
+        line1 = codecs.decode(bytes_line, encoding='utf-8', errors='strict')
+        line2 = line1.rstrip()
+        print('{0}: {1}'.format(lineno, line2))
+        lineno += 1
+```
+
+```console
+>>> with open('a.txt', 'rb') as f3:
+...     lineno = 1
+...     for bytes_line in f3:
+...         line1 = codecs.decode(bytes_line, encoding='utf-8', errors='strict')
+...         line2 = line1.rstrip()
+...         print('{0}: {1}'.format(lineno, line2))
+...         lineno += 1
+...
+1: line1
+2: line2
+3: line3
+```
+
+### 読む行数を指定する。
+
 ## ビット演算を行う。
 
 ```python

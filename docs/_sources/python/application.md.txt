@@ -20,7 +20,6 @@ broadcastBinary : 11000000.10101000.00000000.11111111
 
 ## src ディレクトリ以下のコードに mypy を実行する。
 
-
 ```powershell
 cd $env:TMP
 poetry new --src myproject
