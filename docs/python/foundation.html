@@ -334,8 +334,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h3>open時に encoding を指定しない。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="open-bytes">
+<h3>open時に bytes として読む。<a class="headerlink" href="#open-bytes" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">codecs</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'a.txt'</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f3</span><span class="p">:</span>
     <span class="n">lineno</span> <span class="o">=</span> <span class="mi">1</span>
@@ -360,12 +360,12 @@ make altinstall
 </pre></div>
 </div>
 </section>
+<section id="id2">
+<h3>読む行数を指定する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+</section>
+</section>
 <section id="id3">
-<h3>読む行数を指定する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
-</section>
-</section>
-<section id="id4">
-<h2>ビット演算を行う。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>ビット演算を行う。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mb">0b1010</span>
 <span class="n">y</span> <span class="o">=</span> <span class="mb">0b1100</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">'x      = </span><span class="si">{:08b}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
@@ -396,8 +396,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>クラス名を得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>クラス名を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">__class__.__name__</span></code> で得ることができるが、継承時の動作は直観的ではない部分があるので注意です。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -441,8 +441,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>クラスにオブジェクトの文字列表現を定義する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>クラスにオブジェクトの文字列表現を定義する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
@@ -488,8 +488,8 @@ make altinstall
 </div>
 <p>https://docs.python.org/3/reference/datamodel.html#object.<strong>repr</strong></p>
 </section>
-<section id="id7">
-<h2>クラスに印字可能な文字列表現を定義する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>クラスに印字可能な文字列表現を定義する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
@@ -535,8 +535,8 @@ make altinstall
 </div>
 <p>https://docs.python.org/3/reference/datamodel.html#object.<strong>str</strong></p>
 </section>
-<section id="id8">
-<h2>クラスに同値性を定義する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>クラスに同値性を定義する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code> で同値性を定義できる。</p>
 <p>ただし、 <code class="docutils literal notranslate"><span class="pre">__eq__</span></code> を定義すると <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> は <code class="docutils literal notranslate"><span class="pre">None</span></code> となり、 <code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納できなくなる。</p>
 <p><code class="docutils literal notranslate"><span class="pre">dict</span></code> に格納したいなら <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> を定義する。</p>
@@ -634,8 +634,8 @@ make altinstall
 </li>
 </ul>
 </section>
-<section id="id9">
-<h2>キャッチした例外のスタックトレースを出力する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>キャッチした例外のスタックトレースを出力する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">traceback</span>
 
 <span class="k">class</span> <span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -668,8 +668,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h2>キャッチした例外を再発生させる。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>キャッチした例外を再発生させる。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -713,8 +713,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h2>複数の変数を入れ替える。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>複数の変数を入れ替える。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">a,</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">b,</span> <span class="pre">a</span></code> で入れ替えできる。</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt; a = {'a':True}</span>
 <span class="go">&gt;&gt;&gt; b = {'b':True}</span>
@@ -730,8 +730,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>ファンクションに定義されていない引数を与える。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -746,8 +746,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id13">
-<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h2>ファンクションに同一の引数を複数回指定する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -761,8 +761,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id14">
-<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id13">
+<h2>ファンクションにディクショナリで引数を指定する。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
 
@@ -776,8 +776,8 @@ make altinstall
 </pre></div>
 </div>
 </section>
-<section id="id15">
-<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id14">
+<h2>ファンクションで任意長の引数を受ける。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -895,22 +895,22 @@ make altinstall
 <li><a class="reference internal" href="#debian-10-buster-python-3-9-7">Debian 10 (buster) に Python 3.9.7 をインストールする。</a></li>
 <li><a class="reference internal" href="#id1">ファイルを読む。</a><ul>
 <li><a class="reference internal" href="#open-encoding">open時に encoding を指定する。</a></li>
-<li><a class="reference internal" href="#id2">open時に encoding を指定しない。</a></li>
-<li><a class="reference internal" href="#id3">読む行数を指定する。</a></li>
+<li><a class="reference internal" href="#open-bytes">open時に bytes として読む。</a></li>
+<li><a class="reference internal" href="#id2">読む行数を指定する。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">ビット演算を行う。</a></li>
-<li><a class="reference internal" href="#id5">クラス名を得る。</a></li>
-<li><a class="reference internal" href="#id6">クラスにオブジェクトの文字列表現を定義する。</a></li>
-<li><a class="reference internal" href="#id7">クラスに印字可能な文字列表現を定義する。</a></li>
-<li><a class="reference internal" href="#id8">クラスに同値性を定義する。</a></li>
-<li><a class="reference internal" href="#id9">キャッチした例外のスタックトレースを出力する。</a></li>
-<li><a class="reference internal" href="#id10">キャッチした例外を再発生させる。</a></li>
-<li><a class="reference internal" href="#id11">複数の変数を入れ替える。</a></li>
-<li><a class="reference internal" href="#id12">ファンクションに定義されていない引数を与える。</a></li>
-<li><a class="reference internal" href="#id13">ファンクションに同一の引数を複数回指定する。</a></li>
-<li><a class="reference internal" href="#id14">ファンクションにディクショナリで引数を指定する。</a></li>
-<li><a class="reference internal" href="#id15">ファンクションで任意長の引数を受ける。</a></li>
+<li><a class="reference internal" href="#id3">ビット演算を行う。</a></li>
+<li><a class="reference internal" href="#id4">クラス名を得る。</a></li>
+<li><a class="reference internal" href="#id5">クラスにオブジェクトの文字列表現を定義する。</a></li>
+<li><a class="reference internal" href="#id6">クラスに印字可能な文字列表現を定義する。</a></li>
+<li><a class="reference internal" href="#id7">クラスに同値性を定義する。</a></li>
+<li><a class="reference internal" href="#id8">キャッチした例外のスタックトレースを出力する。</a></li>
+<li><a class="reference internal" href="#id9">キャッチした例外を再発生させる。</a></li>
+<li><a class="reference internal" href="#id10">複数の変数を入れ替える。</a></li>
+<li><a class="reference internal" href="#id11">ファンクションに定義されていない引数を与える。</a></li>
+<li><a class="reference internal" href="#id12">ファンクションに同一の引数を複数回指定する。</a></li>
+<li><a class="reference internal" href="#id13">ファンクションにディクショナリで引数を指定する。</a></li>
+<li><a class="reference internal" href="#id14">ファンクションで任意長の引数を受ける。</a></li>
 <li><a class="reference internal" href="#utf-8">utf-8 でエンコードされたとき何バイトかを得る。</a></li>
 <li><a class="reference internal" href="#unicode">Unicode のコードポイントを得る。</a></li>
 </ul>

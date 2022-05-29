@@ -104,7 +104,7 @@ with open('a.txt', encoding='utf-8') as f2:
 3: line3
 ```
 
-### open時に encoding を指定しない。
+### open時に bytes として読む。
 
 ```python
 import codecs
