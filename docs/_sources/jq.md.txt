@@ -1,0 +1,14 @@
+# jq
+
+## json のパスと値を出力する
+
+```bash
+filter_json_to_path_value() {
+  jq -c '
+    paths(values) as $p
+    | [ ( [ $p[] | tostring ] | join(".") ), getpath($p) ]
+  '
+}
+
+docker inspect "$container_id" | filter_json_to_path_value
+```

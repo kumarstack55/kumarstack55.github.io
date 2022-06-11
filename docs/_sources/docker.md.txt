@@ -1,0 +1,2806 @@
+# Docker
+
+## 環境
+
+### 環境1
+
+次のLinux環境で作る。
+
+* OS: Windows 10 Home
+* VirtualBox + Vagrant
+* VM: Debian(buster)
+
+### 環境2
+
+次のLinux環境で作る。
+
+* OS: Windows 10 Home
+* VirtualBox + Vagrant
+* VM: CentOS8
+
+## Dockerバージョン
+
+Docker Engine, Docker Compose のバージョンは次の通りだった：
+
+~~~
+Client: Docker Engine - Community
+ Version:           20.10.5
+~~~
+
+~~~
+docker-compose version 1.29.0, build 07737305
+~~~
+
+## Docker Engineのインストール
+
+### 環境1,2共通
+
+```powershell
+# 管理者で実行
+choco install virtualbox
+choco install vagrant
+```
+
+```powershell
+# VirtualBox の VM に Guest Addtion をインストールする。
+vagrant plugin install vagrant-vbguest
+```
+
+### 環境1: Docker Engineをインストールする Debian マシンを準備する
+
+```powershell
+$lines = @'
+Vagrant.configure("2") do |config|
+  # Dockerが対応しているものならなんでもよい。
+  # Debian(buster)を選んだ。
+  config.vm.box = "debian/buster64"
+
+  config.vm.provider "virtualbox" do |vb|
+    # VMのメモリは1GBにする。
+    vb.memory = "1024"
+  end
+
+  # 使わないから無効にする。
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+end
+'@
+
+$dir = Get-Location
+$vagrantfileFullName = Join-Path $dir "Vagrantfile"
+[System.IO.File]::WriteAllLines($vagrantfileFullName, $lines)
+
+#vagrant destroy --force
+vagrant up
+
+vagrant ssh
+
+# Vagrantfile 変更を反映させるために実行する。初回は不要。
+#vagrant reload
+```
+
+もし ssh コマンドでログインする場合：
+
+```ps1
+$sshConfigFullName = Join-Path $dir "ssh_config.cache"
+$sshConfigString = vagrant ssh-config
+[System.IO.File]::WriteAllLines($sshConfigFullName, $sshConfigString)
+
+# vagrant ssh の代わりにこれを使って、仮想マシンのSSHサーバにSSHする。
+# 仮想マシンの 80/tcp を SSH クライアントの 10080/tcp に転送することにより
+# SSH クライアントで http://127.0.0.1:10080/ にアクセスすると、
+# 仮想マシンの 80/tcp にアクセスできるようにする。
+ssh -F ssh_config.cache -L 10080:127.0.0.1:80 -L 20080:127.0.0.1:10080 -L 3000:127.0.0.1:3000 default
+```
+
+### 環境2: Docker Engineをインストールする CentOS8 マシンを準備する
+
+```powershell
+$lines = @'
+Vagrant.configure("2") do |config|
+  # Dockerが対応しているものならなんでもよい。
+  # Debian(buster)を選んだ。
+  config.vm.box = "centos/7"
+
+  config.vm.provider "virtualbox" do |vb|
+    # VMのメモリは1GBにする。
+    vb.memory = "1024"
+  end
+
+  # 使わないから無効にする。
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+end
+'@
+
+$dir = Get-Location
+$vagrantfileFullName = Join-Path $dir "Vagrantfile"
+[System.IO.File]::WriteAllLines($vagrantfileFullName, $lines)
+
+#vagrant destroy --force
+vagrant up
+
+# 遅すぎるので使わない。
+#vagrant ssh
+
+# Vagrantfile 変更を反映させるために実行する。初回は不要。
+#vagrant reload
+
+$sshConfigFullName = Join-Path $dir "ssh_config.cache"
+$sshConfigString = vagrant ssh-config
+[System.IO.File]::WriteAllLines($sshConfigFullName, $sshConfigString)
+
+# vagrant ssh の代わりにこれを使って、仮想マシンのSSHサーバにSSHする。
+# 仮想マシンの 80/tcp を SSH クライアントの 10080/tcp に転送することにより
+# SSH クライアントで http://127.0.0.1:10080/ にアクセスすると、
+# 仮想マシンの 80/tcp にアクセスできるようにする。
+ssh -F ssh_config.cache -L 10080:127.0.0.1:80 -L 3000:127.0.0.1:3000 default
+```
+
+### LinuxマシンにDocker Engineをインストールする
+
+https://docs.docker.com/engine/install/
+
+#### 環境1: Debian に Docker Engine をインストールする
+
+あまりに古いと依存関係で死ぬ。
+
+https://docs.docker.com/engine/install/debian/
+
+```bash
+# SET UP THE REPOSITORY
+sudo apt-get update
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+curl -fsSL https://download.docker.com/linux/debian/gpg \
+| sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo \
+"deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# INSTALL DOCKER ENGINE
+sudo apt-get update
+apt-cache madison docker-ce
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+# Verify that Docker Engine is installed correctly by running the hello-world image.
+sudo docker run hello-world
+```
+
+```bash
+# docker コマンドを sudo せずに使えるようにする
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+docker run hello-world
+```
+
+#### 環境2: CentOS7 に Docker Engine をインストールする
+
+```bash
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install docker-ce docker-ce-cli containerd.io -y
+
+sudo systemctl start docker
+
+sudo docker run hello-world
+
+echo $USER
+sudo usermod -aG docker $USER
+    # usermod の後で、設定を反映するためにログアウト、ログインする
+```
+
+## コンテナイメージ、イメージ
+
+### Docker Hub レジストリのイメージ一覧を見る
+
+https://hub.docker.com/
+
+### ローカルにあるイメージの一覧を得る
+
+```bash
+# ローカルにあるイメージの一覧を得る。
+docker image ls
+
+# intermediate なイメージを含める。
+docker image ls --all
+
+# 指定したリポジトリのイメージの一覧を得る。
+docker image ls hello-world
+
+# 同イメージID、異リポジトリ名のイメージ一覧を得る。
+# `--filter` は ID 指定できないので、 docker コマンド外で対応する必要がある。
+docker image ls | grep -e "^REPO" -e "$image_id"
+```
+
+### Docker Hub レジストリからイメージを得て、そのイメージを加える
+
+```bash
+# リポジトリを指定して得る。
+docker pull hello-world
+
+# リポジトリを指定して得る。
+docker pull alpine
+
+# リポジトリとタグを指定して得る。
+docker pull hello-world:latest
+
+# リポジトリとタグを指定して得る。
+docker pull debian:buster
+```
+
+### イメージに変更を加えた別イメージを作る
+
+```bash
+name_tag="local-debian-helloworld"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM debian:buster
+CMD ["/bin/bash", "-c", "echo helloworld"]
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+    # Sending build context to Docker daemon  2.048kB
+    # Step 1/2 : FROM debian:buster
+    #  ---> 463adba1ec3f
+    # Step 2/2 : CMD ["/bin/bash", "-c", "echo helloworld"]
+    #  ---> Running in a90d6a2f2daa
+    # Removing intermediate container a90d6a2f2daa
+    #  ---> 2d7abd8b2fb7
+    # Successfully built 2d7abd8b2fb7
+    # Successfully tagged local-debian-helloworld:latest
+
+docker image ls "$name_tag"
+    # REPOSITORY                TAG       IMAGE ID       CREATED          SIZE
+    # local-debian-helloworld   latest    2d7abd8b2fb7   21 seconds ago   114MB
+
+# もし加えたイメージを実行するなら次の行を実行する
+docker run "$name_tag"
+    # helloworld
+```
+
+### 公開するポートを指定したイメージを作る
+
+```bash
+name_tag="local-debian-port8000"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM debian:buster
+RUN apt-get update && apt-get install python3 -y
+WORKDIR /
+CMD ["/usr/bin/python3", "-m", "http.server"]
+EXPOSE 8000
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+
+docker image ls "$name_tag"
+    # REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+    # local-debian-port80   latest    d9337ef0dddc   5 seconds ago   114MB
+
+# もし加えたイメージを実行するなら次の行を実行する
+docker run -dp 18000:8000 "$name_tag"
+    # CONTAINER ID   IMAGE                   COMMAND                  CREATED              STATUS              PORTS                                         NAMES
+    # 7723abae0c9a   local-debian-port8000   "/usr/bin/python3 -m…"   About a minute ago   Up About a minute   0.0.0.0:18000->8000/tcp, :::18000->8000/tcp   keen_knuth
+
+curl -s http://localhost:18000/
+```
+
+### マルチステージでイメージを作る
+
+```bash
+name_tag="local-debian-hello-clang"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+cat <<'__CLANG__' | tee ./hello.c
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+    puts("hello");
+    return 0;
+}
+__CLANG__
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM debian:buster AS build
+ENV DEBCONF_NOWARNINGS yes
+RUN apt-get update \
+  && apt-get install -y clang
+WORKDIR /app
+COPY . .
+RUN clang hello.c -o hello
+
+FROM debian:buster
+COPY --from=build /app/hello /usr/local/bin/hello
+CMD ["/usr/local/bin/hello"]
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+
+docker image ls "$name_tag"
+
+docker run "$name_tag"
+    # hello
+
+docker run -it "$name_tag" dpkg --list --no-pager | grep clang
+    # 何も出力されない
+echo $?
+    # --> 1
+```
+
+### イメージをスキャンする
+
+https://docs.docker.com/engine/scan/#prerequisites
+debian では対応していない。
+
+```bash
+docker scan "$name_tag"
+```
+
+```
+vagrant@buster:~$ docker scan
+docker: 'scan' is not a docker command.
+See 'docker --help'
+```
+
+### イメージを消す
+
+```bash
+repository_tag="alpine"
+
+docker image ls "$repository_tag"
+
+image_id_list=$(docker image ls --format "{{.ID}}" "$repository_tag")
+echo "$image_id_list"
+docker image rm "$image_id_list"
+
+# 異なるリポジトリ名で、同じIDの場合、消すために強制の指定が必要です。
+image_id_list=$(docker image ls --format "{{.ID}}" "$repository_tag")
+echo "$image_id_list"
+docker image rm --force "$image_id_list"
+```
+
+### イメージを Docker Hub レジストリに push する
+
+https://docs.docker.com/get-started/04_sharing_app/
+
+## ボリューム
+
+### ボリュームの一覧を得る
+
+```bash
+docker volume ls
+
+docker volume ls --format "{{ .Name }}"
+```
+
+https://docs.docker.com/engine/reference/commandline/volume_ls/
+
+### ボリュームを作る
+
+```bash
+docker volume create todo-db
+
+# 同じボリュームを作ろうとしてもエラーは発生しなかった
+docker volume create todo-db
+echo $?
+```
+
+### ボリュームを消す
+
+```bash
+docker volume rm todo-db
+```
+
+## コンテナ概要
+
+### コンテナの一覧を得る
+
+```bash
+# 起動中のみを対象に一覧を得る。
+docker container ls
+
+# 起動していないコンテナを含む。
+docker container ls --all
+
+# 条件にあうコンテナを得る。
+docker container ls --all --filter "ancestor=hello-world"
+
+# 結果の出力形式を変えて、IDのみ出力する。
+docker container ls --all --format "{{.ID}}"
+
+echo docker run -dp 3000:3000 \
+    -w /app -v "$(pwd):/app" \
+    node:12-alpine \
+    sh -c "yarn install && yarn run dev"
+```
+
+### 公開されているイメージから新しいコンテナを作って実行する
+
+イメージ hello-world は出力してすぐ終了するように作られたコンテナです。
+
+https://hub.docker.com/_/hello-world
+
+
+```bash
+# もしイメージがなければイメージをローカルに得て、
+# そのイメージよりコンテナを作って実行する。
+# hello-world の出力が結果として画面に表示される。
+docker run hello-world
+```
+
+### 実行中のコンテナを停止する
+
+```bash
+container_id="3cac8331e287"
+docker stop "$container_id"
+```
+
+### コンテナを消す
+
+```bash
+# コンテナIDで消す
+# 先頭がユニークならコンテナのIDの先頭N文字でも消せそう
+docker container rm "$cid"
+```
+
+```bash
+# hello-world が祖先であるコンテナを消す
+ancestor="hello-world"
+docker container ls --filter "ancestor=$ancestor" --format "{{.ID}}" \
+| while read -r cid; do
+    docker container rm "$cid"
+  done
+```
+
+```bash
+# exited なコンテナを消す
+docker container ls --filter "status=exited" --format "{{.ID}}" \
+| while read -r cid; do
+    docker container rm "$cid"
+  done
+```
+
+```bash
+# すべてのコンテナを消す
+docker container ls --all --format "{{.ID}}" \
+| while read -r cid; do
+    docker container rm "$cid"
+  done
+```
+
+## コンテナ単体
+
+### コンテナを起動する時、指定コマンドを実行する
+
+```bash
+docker run debian:buster cat /etc/passwd
+```
+
+```
+vagrant@buster:~$ docker run debian:buster cat /etc/passwd
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+vagrant@buster:~$
+```
+
+### コンテナを起動する時、インタラクティブなコマンドを実行する
+
+```bash
+# debian コンテナを作り、コンテナ内で bash を実行する。
+# -i はインタラクティブ, -t は tty
+docker run -it debian:buster bash
+  # exit などでコンテナホストに戻る
+```
+
+```
+vagrant@buster:~$ docker run -it debian:buster bash
+root@383a7ace522a:/# whoami
+root
+root@383a7ace522a:/# exit
+exit
+vagrant@buster:~$
+```
+
+### コンテナをデタッチで起動して、起動後にログを得る
+
+```bash
+container_id=$(docker run --detach hello-world)
+echo "$container_id"
+docker logs "$container_id"
+
+# ログは何度でも取得できる
+docker logs "$container_id"
+```
+
+### コンテナを起動する時、環境変数を設定する
+
+```bash
+docker run -it -e ENV1=a debian:buster /bin/bash
+echo "$ENV1"
+    # --> a
+```
+
+### コンテナを起動する時、コンテナの名前をつける
+
+```bash
+docker run -d --name foo debian:buster tail -f /dev/null
+
+docker container ls
+    # vagrant@buster:~$ docker container ls
+    # CONTAINER ID   IMAGE           COMMAND               CREATED          STATUS          PORTS     NAMES
+    # 9350cc021526   debian:buster   "tail -f /dev/null"   16 seconds ago   Up 15 seconds             foo
+
+# コンテナの名前で停止できる
+docker container stop foo
+    # vagrant@buster:~$ docker container stop foo
+    # foo
+```
+
+## Docker Engine とコンテナ
+
+### Docker Engine サービス起動時にコンテナを起動する
+
+```bash
+# コンテナを起動する
+docker run -d \
+    --name my_container \
+    debian:buster tail -f /dev/null
+docker run -d --restart=always \
+    --name my_restart_always_container \
+    debian:buster tail -f /dev/null
+
+# コンテナを確認する
+docker container ls --all | grep -Pe '^CONTAINER|my\S*_container'
+    # vagrant@buster:~$ docker container ls --all | grep -Pe '^CONTAINER|my\S*_container'
+    # CONTAINER ID   IMAGE                      COMMAND                  CREATED             STATUS                         PORTS                    NAMES
+    # ca05e65ed5a0   debian:buster              "tail -f /dev/null"      18 minutes ago      Up 18 minutes                                           my_restart_always_container
+    # 82c43655090d   debian:buster              "tail -f /dev/null"      18 minutes ago      Up 18 minutes                                           my_container
+
+# RestartPolicy を確認する
+docker container inspect my_restart_always_container | jq -r .[0].HostConfig.RestartPolicy.Name
+    # vagrant@buster:~$ docker container inspect my_restart_always_container | jq -r .[0].HostConfig.RestartPolicy.Name
+    # always
+docker container inspect my_container | jq -r .[0].HostConfig.RestartPolicy.Name
+    # vagrant@buster:~$ docker container inspect my_container | jq -r .[0].HostConfig.RestartPolicy.Name
+    # no
+
+# Docker Engine の停止方法がわからず、ここではOSを再起動した
+sudo systemctl reboot
+
+docker container ls
+    # vagrant@buster:~$ docker container ls
+    # CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS          PORTS                    NAMES
+    # ca05e65ed5a0   debian:buster   "tail -f /dev/null"      30 minutes ago   Up 39 seconds                            my_restart_always_container
+```
+
+### Docker Engine を停止する
+
+todo: 停止できなかった。
+次の出力で自動起動してきた。
+
+```bash
+sudo systemctl stop docker.service
+    # vagrant@buster:~$ sudo systemctl stop docker.service
+    # Warning: Stopping docker.service, but it can still be activated by:
+    #   docker.socket
+```
+
+## コンテナとコンテナホスト間のネットワーク通信
+
+### コンテナを起動する時、コンテナホスト宛のTCP通信を、コンテナに転送する
+
+```bash
+# コンテナホストの 10080/tcp 宛の通信をコンテナ内の 80/tcp に転送する
+docker run -p 10080:80 docker/getting-started
+```
+
+```bash
+# 別ターミナルで確認する
+docker container ls --last 1
+cid=$(docker container ls --last 1 --format "{{.ID}}")
+echo "$cid"
+docker container exec -it "$cid" netstat -nlt
+sudo ss -nltp | grep -e ^State -e :10080
+```
+
+```
+vagrant@buster:~$ docker container ls --last 1
+CONTAINER ID   IMAGE                    COMMAND                  CREATED
+      STATUS              PORTS                   NAMES
+6ae884fad0f6   docker/getting-started   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:10080->80/tcp   vigilant_solomon
+vagrant@buster:~$ cid=$(docker container ls --last 1 --format "{{.ID}}")
+vagrant@buster:~$ echo "$cid"
+6ae884fad0f6
+vagrant@buster:~$ docker container exec -it "$cid" netstat -nlt
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN
+tcp        0      0 :::80                   :::*                    LISTEN
+vagrant@buster:~$ sudo ss -nltp | grep -e ^State -e :10080
+State     Recv-Q    Send-Q       Local Address:Port        Peer Address:Port
+
+LISTEN    0         128                0.0.0.0:10080            0.0.0.0:*
+ users:(("docker-proxy",pid=2937,fd=4))
+vagrant@buster:~$
+```
+
+### コンテナ内から、コンテナホストより外に通信する
+
+「コンテナと、コンテナホストのIPネットワークを確認する」を参照
+
+## コンテナとネットワーク
+
+### ネットワークを作る
+
+```bash
+# ネットワークの一覧を得る
+docker network ls
+
+# ネットワークを作る
+docker network create todo-app
+
+# 同じネットワークを重複して作ることは許されなかった
+docker network create todo-app
+echo $?
+  # --> 1
+```
+
+```
+vagrant@buster:~/getting-started/app$ docker network ls
+NETWORK ID     NAME       DRIVER    SCOPE
+84a1caa9d570   bridge     bridge    local
+080a258075d6   host       host      local
+830ccf141f28   none       null      local
+9f43d51fde56   todo-app   bridge    local
+```
+
+### ネットワークに接続して、コンテナを起動する
+
+```bash
+docker network create todo-app
+nid=$(docker network ls --format "{{.ID}}" --filter "name=todo-app")
+echo "$nid"
+docker network inspect "$nid"
+
+docker run -d \
+--network todo-app --network-alias mysql \
+-v todo-mysql-data:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=secret \
+-e MYSQL_DATABASE=todos \
+mysql:5.7
+```
+
+## コンテナとコンテナホストのファイルアクセス
+
+### ボリュームを接続して、コンテナを起動する
+
+```bash
+cd
+git clone https://github.com/docker/getting-started.git
+cd getting-started/app
+
+cat <<'__DOCKERFILE__' | tee Dockerfile >/dev/null
+FROM node:12-alpine
+RUN apk add --no-cache python g++ make
+WORKDIR /app
+COPY . .
+RUN yarn install --production
+CMD ["node", "src/index.js"]
+__DOCKERFILE__
+
+docker build -t getting-started .
+
+docker image ls
+
+docker run -dp 3000:3000 getting-started
+
+docker container ls --last 1
+cid=$(docker container ls --last 1 --format "{{.ID}}")
+echo "$cid"
+docker stop "$cid"
+
+# ボリュームを作る
+# なお、ここで作らなくても、 run 時にもしなければボリュームは作られる
+docker volume ls
+docker volume create todo-db
+docker volume ls
+
+# ボリューム todo-db を /etc/todos として接続して、コンテナを起動する
+docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
+cid=$(docker container ls --last 1 --format "{{.ID}}")
+echo "$cid"
+docker stop "$cid"
+
+# ボリューム todo-db を /etc/todos として接続して、コンテナを起動する
+docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
+
+docker volume inspect todo-db
+sudo ls -al /var/lib/docker/volumes/todo-db/_data
+    # --> todo.db
+```
+
+### bind mount を接続して、コンテナを起動する
+
+```bash
+cd
+git clone https://github.com/docker/getting-started.git
+cd getting-started/app
+
+cat <<'__DOCKERFILE__' | tee Dockerfile >/dev/null
+FROM node:12-alpine
+RUN apk add --no-cache python g++ make
+WORKDIR /app
+COPY . .
+RUN yarn install --production
+CMD ["node", "src/index.js"]
+__DOCKERFILE__
+
+docker build -t getting-started .
+
+docker image ls
+
+# -v で bind mount を指定する。
+# カレントディレクトリを、コンテナ内の /app に紐づける。
+docker run -dp 3000:3000 \
+    -w /app -v "$(pwd):/app" \
+    node:12-alpine \
+    sh -c "yarn install && yarn run dev"
+
+docker container ls --last 1
+cid=$(docker container ls --last 1 --format "{{.ID}}")
+echo "$cid"
+docker logs -f "$cid"
+```
+
+```bash
+cid=$(docker container ls --last 1 --format "{{.ID}}")
+echo "$cid"
+docker exec "$cid" ls -dl /app
+docker exec "$cid" ls -l /app
+docker exec "$cid" touch /app/a.txt
+docker exec "$cid" ls -l /app
+ls -l ./
+
+touch ./b.txt
+ls -l ./
+docker exec "$cid" ls -l /app
+```
+
+## Docker Compose のインストール
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+## コンテナ間通信、docker-compose
+
+### Compose ファイルを作る
+
+```bash
+cd
+git clone https://github.com/docker/getting-started.git
+cd getting-started/app
+
+cat <<'__DOCKER_COMPOSE_YML__' | tee docker-compose.yml
+version: "3.7"
+
+services:
+  app:
+    image: node:12-alpine
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
+
+volumes:
+  todo-mysql-data:
+__DOCKER_COMPOSE_YML__
+```
+
+### docker-compose.yml でコンテナを起動する
+
+```bash
+cd
+cd getting-started/app
+
+docker-compose up -d
+
+docker-compose logs -f
+```
+
+## コンテナイメージ
+
+### scratch コンテナイメージ
+
+#### scratch コンテナイメージとは
+
+イメージ hello-world は [Dockerfile の記載](https://github.com/docker-library/hello-world/blob/master/amd64/hello-world/Dockerfile)の通り [scratch イメージ](https://hub.docker.com/_/scratch)から作られている。
+
+```Dockerfile
+FROM scratch
+COPY hello /
+CMD ["/hello"]
+```
+
+#### scratch イメージに対する調査
+
+##### sh を動かせるようにする
+
+```bash
+bin_path=/bin/sh
+repository=local-scrach-sh
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/sh"
+mkdir -pv "$dir"
+cd "$dir"
+
+ldd "$bin_path"
+    # linux-vdso.so.1 (0x00007fff71470000)
+    # libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007ffabebbb000)
+    # /lib64/ld-linux-x86-64.so.2 (0x00007ffabeda4000)
+
+(
+    echo "$bin_path"
+    ldd "$bin_path" \
+    | grep -F -v 'linux-vdso.so' \
+    | sed -e 's/^\(.*=>\)\?\s*//' \
+    | sed -e 's/ (.*$//'
+) | tee ./host_path_list.txt
+    # /bin/sh
+    # /lib/x86_64-linux-gnu/libc.so.6
+    # /lib64/ld-linux-x86-64.so.2
+
+while read -r host_path; do
+    cp -fv "$host_path" .
+done < "host_path_list.txt"
+
+(
+    echo 'FROM scratch'
+    while read -r host_path; do
+        name=$(basename "$host_path")
+        container_path="$host_path"
+        echo "COPY ./$name $host_path"
+    done < "host_path_list.txt"
+    echo 'CMD ["/bin/sh"]'
+) | tee ./Dockerfile
+
+cat ./Dockerfile
+    # FROM scratch
+    # COPY ./sh /bin/sh
+    # COPY ./libc.so.6 /lib/x86_64-linux-gnu/libc.so.6
+    # COPY ./ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
+    # CMD ["/bin/sh"]
+
+docker build -t "$repository" .
+
+docker run -it "$repository" "$bin_path"
+    # vagrant@buster:sh$ docker run -it local-sh /bin/sh
+    # # echo *
+    # bin dev etc lib lib64 proc sys
+    # # echo bin/*
+    # bin/sh
+    # # echo etc/*
+    # etc/hostname etc/hosts etc/mtab etc/resolv.conf
+    # # echo lib/*
+    # lib/x86_64-linux-gnu
+    # # echo lib64/*
+    # lib64/ld-linux-x86-64.so.2
+
+cat() {
+  while read -r line; do echo "$line"; done <"$1"
+}
+
+cat /etc/hostname
+cat /etc/hosts
+cat /etc/mtab
+cat /etc/resolv.conf
+```
+
+```
+# cat /etc/hostname
+1b6c12d8411e
+#
+
+# cat /etc/hosts
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.2      1b6c12d8411e
+#
+
+# cat /etc/mtab
+overlay / overlay rw,relatime,lowerdir=/var/lib/docker/overlay2/l/Z44KSU3YCWE7MA64OKWRUNUFD6:/var/lib/docker/overlay2/l/H2MZ2RGW64DFSUJ74MDJUMQ74V:/var/lib/docker/overlay2/l/S7XXB6K253N7QG6NESGUNEWTVP:/var/lib/docker/overlay2/l/YBMFK2HDDU3EPWFU6LPUX4TCML,upperdir=/var/lib/docker/overlay2/c33f2a34f5756566118c334cadd31748a1335e5fbe38c5bd32fde27fcf8d610e/diff,workdir=/var/lib/docker/overlay2/c33f2a34f5756566118c334cadd31748a1335e5fbe38c5bd32fde27fcf8d610e/work 0 0
+proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /dev tmpfs rw,nosuid,size=65536k,mode=755 0 0
+devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=666 0 0
+sysfs /sys sysfs ro,nosuid,nodev,noexec,relatime 0 0
+tmpfs /sys/fs/cgroup tmpfs rw,nosuid,nodev,noexec,relatime,mode=755 0 0
+cgroup /sys/fs/cgroup/systemd cgroup ro,nosuid,nodev,noexec,relatime,xattr,name=systemd 0 0
+cgroup /sys/fs/cgroup/net_cls,net_prio cgroup ro,nosuid,nodev,noexec,relatime,net_cls,net_prio 0 0
+cgroup /sys/fs/cgroup/perf_event cgroup ro,nosuid,nodev,noexec,relatime,perf_event 0 0
+cgroup /sys/fs/cgroup/pids cgroup ro,nosuid,nodev,noexec,relatime,pids 0 0
+cgroup /sys/fs/cgroup/devices cgroup ro,nosuid,nodev,noexec,relatime,devices 0 0
+cgroup /sys/fs/cgroup/blkio cgroup ro,nosuid,nodev,noexec,relatime,blkio 0 0
+cgroup /sys/fs/cgroup/memory cgroup ro,nosuid,nodev,noexec,relatime,memory 0 0
+cgroup /sys/fs/cgroup/freezer cgroup ro,nosuid,nodev,noexec,relatime,freezer 0 0
+cgroup /sys/fs/cgroup/cpu,cpuacct cgroup ro,nosuid,nodev,noexec,relatime,cpu,cpuacct 0 0
+cgroup /sys/fs/cgroup/cpuset cgroup ro,nosuid,nodev,noexec,relatime,cpuset 0 0
+cgroup /sys/fs/cgroup/rdma cgroup ro,nosuid,nodev,noexec,relatime,rdma 0 0
+mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime 0 0
+shm /dev/shm tmpfs rw,nosuid,nodev,noexec,relatime,size=65536k 0 0
+/dev/sda1 /etc/resolv.conf ext4 rw,relatime,discard,errors=remount-ro 0 0
+/dev/sda1 /etc/hostname ext4 rw,relatime,discard,errors=remount-ro 0 0
+/dev/sda1 /etc/hosts ext4 rw,relatime,discard,errors=remount-ro 0 0
+devpts /dev/console devpts rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=666 0 0
+proc /proc/bus proc ro,relatime 0 0
+proc /proc/fs proc ro,relatime 0 0
+proc /proc/irq proc ro,relatime 0 0
+proc /proc/sys proc ro,relatime 0 0
+proc /proc/sysrq-trigger proc ro,relatime 0 0
+tmpfs /proc/acpi tmpfs ro,relatime 0 0
+tmpfs /proc/kcore tmpfs rw,nosuid,size=65536k,mode=755 0 0
+tmpfs /proc/keys tmpfs rw,nosuid,size=65536k,mode=755 0 0
+tmpfs /proc/timer_list tmpfs rw,nosuid,size=65536k,mode=755 0 0
+tmpfs /proc/sched_debug tmpfs rw,nosuid,size=65536k,mode=755 0 0
+tmpfs /sys/firmware tmpfs ro,relatime 0 0
+#
+
+# cat /etc/resolv.conf
+nameserver 10.0.2.3
+#
+```
+
+##### find を動かせるようにする
+
+```bash
+bin_path=/usr/bin/find
+repository=local-scrach-find
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/sh"
+mkdir -pv "$dir"
+cd "$dir"
+
+ldd "$bin_path"
+
+(
+    echo "$bin_path"
+    ldd "$bin_path" \
+    | grep -F -v 'linux-vdso.so' \
+    | sed -e 's/^\(.*=>\)\?\s*//' \
+    | sed -e 's/ (.*$//'
+) | tee ./host_path_list.txt
+
+while read -r host_path; do
+    cp -fv "$host_path" .
+done < "host_path_list.txt"
+    # /usr/bin/find
+    # /lib/x86_64-linux-gnu/libselinux.so.1
+    # /lib/x86_64-linux-gnu/libm.so.6
+    # /lib/x86_64-linux-gnu/libc.so.6
+    # /lib/x86_64-linux-gnu/libpcre.so.3
+    # /lib/x86_64-linux-gnu/libdl.so.2
+    # /lib64/ld-linux-x86-64.so.2
+    # /lib/x86_64-linux-gnu/libpthread.so.0
+
+(
+    echo 'FROM scratch'
+    while read -r host_path; do
+        name=$(basename "$host_path")
+        container_path="$host_path"
+        echo "COPY ./$name $host_path"
+    done < "host_path_list.txt"
+    echo 'CMD ["/bin/sh"]'
+) | tee ./Dockerfile
+
+cat ./Dockerfile
+
+docker build -t "$repository" .
+
+docker run -it "$repository" "/usr/bin/find" --version
+docker run -it "$repository" "/usr/bin/find" / -type f >find.txt
+grep -v -e ^/dev -e ^/proc -e ^/sys ./find.txt
+    # /usr/bin/find
+    # /etc/hosts
+    # /etc/resolv.conf
+    # /etc/hostname
+    # /.dockerenv
+    # /lib/x86_64-linux-gnu/libselinux.so.1
+    # /lib/x86_64-linux-gnu/libpthread.so.0
+    # /lib/x86_64-linux-gnu/libdl.so.2
+    # /lib/x86_64-linux-gnu/libpcre.so.3
+    # /lib/x86_64-linux-gnu/libc.so.6
+    # /lib/x86_64-linux-gnu/libm.so.6
+    # /lib64/ld-linux-x86-64.so.2
+```
+
+ちなみに、イメージの名前 scratch は予約されている。
+scrach イメージの pull, run, inspect もできない。
+
+```bash
+vagrant@buster:~$ docker image pull scratch
+Using default tag: latest
+Error response from daemon: 'scratch' is a reserved name
+
+vagrant@buster:~$ docker run -it scratch /bin/sh
+Unable to find image 'scratch:latest' locally
+docker: Error response from daemon: 'scratch' is a reserved name.
+See 'docker run --help'.
+
+vagrant@buster:~$ docker inspect scratch
+[]
+Error: No such object: scratch
+```
+
+参考資料
+
+* https://hub.docker.com/_/hello-world
+* https://github.com/docker-library/hello-world/tree/master/amd64/hello-world
+* https://dev.classmethod.jp/articles/exploration-to-docker-scratch/
+
+### debian:buster コンテナのイメージ
+
+#### ディレクトリ数、ファイル数を確認する
+
+```bash
+docker run -it debian:buster /usr/bin/find -type d | wc -l
+docker run -it debian:buster /usr/bin/find -type f | wc -l
+```
+
+```
+vagrant@buster:~$ docker run -it debian:buster /usr/bin/find -type d | wc -l
+2301
+vagrant@buster:~$ docker run -it debian:buster /usr/bin/find -type f | wc -l
+17326
+```
+
+#### ps コマンドを実行する
+
+```bash
+docker run -it debian:buster bash
+
+# ps コマンドは入ってないので入れる
+apt update
+apt install apt-file -y
+apt-file update
+apt-file search /bin/ps | grep "/ps$"
+apt install -y procps
+
+ps -ef
+    # root@6f891debfcfe:/# ps -e
+    #   PID TTY          TIME CMD
+    #     1 pts/0    00:00:00 bash
+    #  1003 pts/0    00:00:00 ps
+```
+
+#### 指定パッケージをインストールしたコンテナのイメージを作る
+
+```bash
+name_tag="local-debian-ps"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM debian:buster
+ENV DEBCONF_NOWARNINGS yes
+RUN apt-get update \
+  && apt-get install -y procps
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+
+docker run -it "$name_tag" /bin/ps -e
+    #   PID TTY          TIME CMD
+    #     1 pts/0    00:00:00 ps
+```
+
+### centos:centos8 コンテナのイメージ
+
+#### ディレクトリ数、ファイル数を確認する
+
+```bash
+docker run -it centos:centos8 /usr/bin/find -type d | wc -l
+docker run -it centos:centos8 /usr/bin/find -type f | wc -l
+```
+
+```
+[vagrant@localhost ~]$ docker run -it centos:centos8 /usr/bin/find -type d | wc -l
+2796
+[vagrant@localhost ~]$ docker run -it centos:centos8 /usr/bin/find -type f | wc -l
+18383
+```
+
+#### curl コマンドを実行する
+
+```bash
+docker run -it centos:centos8 bash
+
+# curl コマンドは入ってないので入れる
+dnf provides /usr/bin/curl
+dnf install curl -y
+
+curl -s https://www.example.com/ | grep h1
+    # --> <h1>Example Domain</h1>
+```
+
+#### 指定パッケージをインストールしたコンテナのイメージを作る
+
+```bash
+name_tag="local-centos8-python36"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM centos:centos8
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial \
+RUN dnf update -y \
+  && dnf install -y python36 \
+  && dnf clean all
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+
+docker run -it "$name_tag" /usr/bin/python3
+```
+
+### nicolaka/netshoot コンテナのイメージ
+
+#### ホスト名を解決する
+
+エイリアス mysql の名前解決を試みる。
+
+```bash
+docker run -it --network todo-app nicolaka/netshoot
+dig mysql
+```
+
+### alpine コンテナのイメージ
+
+#### ディレクトリ数、ファイル数を確認する
+
+```bash
+docker run -it alpine /usr/bin/find -type d | wc -l
+docker run -it alpine /usr/bin/find -type f | wc -l
+```
+
+```
+vagrant@buster:~$ docker run -it alpine /usr/bin/find -type d | wc -l
+1630
+vagrant@buster:~$ docker run -it alpine /usr/bin/find -type f | wc -l
+12208
+```
+
+#### 指定パッケージをインストールしたコンテナのイメージを作る
+
+https://pkgs.alpinelinux.org/contents で `dig` を探す。
+bind-utils が必要であるとわかる。
+
+```bash
+name_tag="local-alpine-dig"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM alpine
+RUN apk update \
+  && apk add bind-tools
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+
+docker run -it "$name_tag" dig -v
+  # vagrant@buster:/tmp/tmp.A0SmxClT0A/tmp-local-alpine-dig$ docker run -it "$name_tag" dig -v
+  # DiG 9.16.11
+```
+
+### distroless コンテナのイメージ
+
+#### todo
+
+## レジストリ
+
+### レジストリの種類
+
+* Docker Hub
+* ローカルの Docker レジストリ
+
+### ローカルのレジストリを起動する
+
+https://hub.docker.com/_/registry
+
+```bash
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+# ローカルでレジストリを起動する
+docker logs registry
+    # vagrant@buster:~$ docker logs registry
+    # time="2021-04-14T12:24:57.577635365Z" level=warning msg="No HTTP secret provided - generated random secret. This may cause problems with uploads if multiple registries are behind a load-balancer. To provide a shared secret, fill in http.secret in the configuration file or set the REGISTRY_HTTP_SECRET environment variable." go.version=go1.11.2 instance.id=10c5dcfc-022f-4036-8047-95753999ead8 service=registry version=v2.7.1
+    # time="2021-04-14T12:24:57.578139382Z" level=info msg="redis not configured" go.version=go1.11.2 instance.id=10c5dcfc-022f-4036-8047-95753999ead8 service=registry version=v2.7.1
+    # time="2021-04-14T12:24:57.578980882Z" level=info msg="Starting upload purge in 44m0s" go.version=go1.11.2 instance.id=10c5dcfc-022f-4036-8047-95753999ead8 service=registry version=v2.7.1
+    # time="2021-04-14T12:24:57.594343252Z" level=info msg="using inmemory blob descriptor cache" go.version=go1.11.2 instance.id=10c5dcfc-022f-4036-8047-95753999ead8 service=registry version=v2.7.1
+    # time="2021-04-14T12:24:57.594686701Z" level=info msg="listening on [::]:5000" go.version=go1.11.2 instance.id=10c5dcfc-022f-4036-8047-95753999ead8 service=registry version=v2.7.1
+```
+
+https://docs.docker.com/registry/deploying/
+https://docs.docker.com/registry/configuration/
+
+### ローカルのレジストリを終了する
+
+```bash
+docker stop registry
+```
+
+### ローカルのレジストリを消す
+
+```bash
+docker container rm -v registry
+    # vagrant@buster:~$ docker container rm -v registry
+    # registry
+```
+
+### ローカルのレジストリのストレージにホストの指定パスを指定する
+
+```bash
+# ホストの /mnt/registry をコンテナ内の /var/lib/registry にする
+host_dir="/mnt/registry"
+
+sudo mkdir -pv "$host_dir"
+ls -al /mnt/registry
+
+docker run -d \
+  -p 5000:5000 \
+  --restart=always \
+  --name registry \
+  -v "$host_dir:/var/lib/registry" \
+  registry:2
+```
+
+### ローカルレジストリを削除有効にして起動する
+
+```bash
+# ホストの /mnt/registry をコンテナ内の /var/lib/registry にする
+host_dir="/mnt/registry"
+
+sudo rm -frv "$host_dir"
+docker container stop registry
+docker container rm -v registry
+
+sudo mkdir -pv "$host_dir"
+ls -al /mnt/registry
+
+docker run -d \
+  -p 5000:5000 \
+  --restart=always \
+  --name registry \
+  -v "$host_dir:/var/lib/registry" \
+  -e REGISTRY_STORAGE_DELETE_ENABLED=true \
+  registry:2
+```
+
+### ローカルのレジストリのストレージ用のドライバを調べる
+
+https://docs.docker.com/registry/storage-drivers/
+
+filesystem, s3, azure, swift, gcs など。
+
+### レジストリのイメージの一覧を得る
+
+```bash
+curl -X GET http://localhost:5000/v2/_catalog
+    # vagrant@buster:~$ curl -X GET http://localhost:5000/v2/_catalog
+    # {"repositories":["my-ubuntu"]}
+```
+
+### レジストリの指定イメージのタグ一覧を得る
+
+```bash
+curl -X GET http://localhost:5000/v2/my-ubuntu/tags/list
+    # vagrant@buster:~$ curl -X GET http://localhost:5000/v2/my-ubuntu/tags/list
+    # {"name":"my-ubuntu","tags":["latest"]}
+```
+
+### レジストリにイメージを加える
+
+```bash
+# インターネットから、ローカルにイメージを pull する
+docker pull ubuntu:16.04
+    # vagrant@buster:~$ docker pull ubuntu:16.04
+    # 16.04: Pulling from library/ubuntu
+    # 4007a89234b4: Pull complete
+    # c1de0f9cdfc1: Pull complete
+    # c8ee6ca703b8: Pull complete
+    # b39e2761d3d4: Pull complete
+    # Digest: sha256:bb84bbf2ff36d46acaf0bb0c6bcb33dae64cd93cba8652d74c9aaf438fada438
+    # Status: Downloaded newer image for ubuntu:16.04
+    # docker.io/library/ubuntu:16.04
+
+# pull したイメージにタグをつける
+docker tag ubuntu:16.04 localhost:5000/my-ubuntu
+
+docker image ls | grep -e ^REPO -e ubuntu
+    # vagrant@buster:~$ docker image ls | grep -e ^REPO -e ubuntu
+    # REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
+    # ubuntu                     16.04     f6f49faac5cf   2 weeks ago    132MB
+    # localhost:5000/my-ubuntu   latest    f6f49faac5cf   2 weeks ago    132MB
+
+# タグをつけたイメージをローカルのレジストリに push する
+docker push localhost:5000/my-ubuntu
+    # vagrant@buster:~$ docker push localhost:5000/my-ubuntu
+    # Using default tag: latest
+    # The push refers to repository [localhost:5000/my-ubuntu]
+    # 7b664579ad4c: Pushed
+    # 511cdf594715: Pushed
+    # 46e1f2649e2a: Pushed
+    # 935c56d8b3f9: Pushed
+    # latest: digest: sha256:8cfb8f14fbeb9d44174209ccda485e0bfacc910d5624faac8cc876f5c1376781 size: 1150
+```
+
+### レジストリを指定して pull する
+
+```bash
+# ローカルのイメージを消す
+docker image remove ubuntu:16.04
+    # vagrant@buster:~$ docker image remove ubuntu:16.04
+    # Untagged: ubuntu:16.04
+    # Untagged: ubuntu@sha256:bb84bbf2ff36d46acaf0bb0c6bcb33dae64cd93cba8652d74c9aaf438fada438
+
+# ローカルのイメージを消す
+docker image remove localhost:5000/my-ubuntu
+    # vagrant@buster:~$ docker image remove localhost:5000/my-ubuntu
+    # Untagged: localhost:5000/my-ubuntu:latest
+    # Untagged: localhost:5000/my-ubuntu@sha256:8cfb8f14fbeb9d44174209ccda485e0bfacc910d5624faac8cc876f5c1376781
+    # Deleted: sha256:f6f49faac5cf9e9589f3c34821ba2d36fd093e7eb52d5b6cd000ea3dae3698df
+    # Deleted: sha256:5abd36dd4be8e675b62f5ff5d279e6fd0dc09f2f21b1a930bf7f90f92b76a4e2
+    # Deleted: sha256:6abaaf48a3f215b6c48990f422e15dd15bdf2b29c935cb03fbefc7b9f47adfe0
+    # Deleted: sha256:3bf034b6a7ee8efe9555a5d3bc283cdad6d638706468448cccbf8a648881e380
+    # Deleted: sha256:935c56d8b3f96d6587f3640e491767688b790c458a01fef327188abcbbafdc9a
+
+# ローカルのレジストリからイメージを pull する
+docker pull localhost:5000/my-ubuntu
+    # vagrant@buster:~$ docker pull localhost:5000/my-ubuntu
+    # Using default tag: latest
+    # latest: Pulling from my-ubuntu
+    # 4007a89234b4: Pull complete
+    # c1de0f9cdfc1: Pull complete
+    # c8ee6ca703b8: Pull complete
+    # b39e2761d3d4: Pull complete
+    # Digest: sha256:8cfb8f14fbeb9d44174209ccda485e0bfacc910d5624faac8cc876f5c1376781
+    # Status: Downloaded newer image for localhost:5000/my-ubuntu:latest
+    # localhost:5000/my-ubuntu:latest
+```
+
+### レジストリからイメージを消す
+
+```bash
+curl -X GET http://localhost:5000/v2/my-ubuntu/manifests/latest
+    # vagrant@buster:~$ curl -X GET http://localhost:5000/v2/my-ubuntu/manifests/latest
+    # {
+    #    "schemaVersion": 1,
+    #    "name": "my-ubuntu",
+    #    "tag": "latest",
+    #    "architecture": "amd64",
+    #    "fsLayers": [
+    #       {
+    #          "blobSum": "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4"
+    #       },
+    #       {
+    #          "blobSum": "sha256:b39e2761d3d4971e78914857af4c6bd9989873b53426cf2fef3e76983b166fa2"
+    #       },
+    #       {
+    #          "blobSum": "sha256:c8ee6ca703b866ac2b74b6129d2db331936292f899e8e3a794474fdf81343605"
+    #       },
+    #       {
+    #          "blobSum": "sha256:c1de0f9cdfc1f9f595acd2ea8724ea92a509d64a6936f0e645c65b504e7e4bc6"
+    #       },
+    #       {
+    #          "blobSum": "sha256:4007a89234b4f56c03e6831dc220550d2e5fba935d9f5f5bcea64857ac4f4888"
+    #       }
+    #    ],
+    #    "history": [
+    #       {
+    #          "v1Compatibility": "{\"architecture\":\"amd64\",\"config\":{\"Hostname\":\"\",\"Domainname\":\"\",\"User\":\"\",\"AttachStdin\":false,\"AttachStdout\":false,\"AttachStderr\":false,\"Tty\":false,\"OpenStdin\":false,\"StdinOnce\":false,\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"],\"Cmd\":[\"/bin/bash\"],\"Image\":\"sha256:d2ecd652988e90d0864c815b7b44ea9893dbe340670329d7a49734490ee1bb70\",\"Volumes\":null,\"WorkingDir\":\"\",\"Entrypoint\":null,\"OnBuild\":null,\"Labels\":null},\"container\":\"58a42851b95b72b9568746722d7394a21564c14b074e58ff8522bf6be8900d01\",\"container_config\":{\"Hostname\":\"58a42851b95b\",\"Domainname\":\"\",\"User\":\"\",\"AttachStdin\":false,\"AttachStdout\":false,\"AttachStderr\":false,\"Tty\":false,\"OpenStdin\":false,\"StdinOnce\":false,\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"],\"Cmd\":[\"/bin/sh\",\"-c\",\"#(nop) \",\"CMD [\\\"/bin/bash\\\"]\"],\"Image\":\"sha256:d2ecd652988e90d0864c815b7b44ea9893dbe340670329d7a49734490ee1bb70\",\"Volumes\":null,\"WorkingDir\":\"\",\"Entrypoint\":null,\"OnBuild\":null,\"Labels\":{}},\"created\":\"2021-03-25T22:33:55.391277586Z\",\"docker_version\":\"19.03.12\",\"id\":\"87c8cf461fff93d2caafa8f0d57c41b5812d3e767e248ccfc2d611d78135caa7\",\"os\":\"linux\",\"parent\":\"2f3d057b8c442714c4faaadf47a76c473524fe5d01247a0fc5fdc01f2f9948ac\",\"throwaway\":true}"
+    #       },
+    #       {
+    #          "v1Compatibility": "{\"id\":\"2f3d057b8c442714c4faaadf47a76c473524fe5d01247a0fc5fdc01f2f9948ac\",\"parent\":\"87c25acfbe99051e1fb6ad726dffd5c00cec8780f6088d67128021ab912e81c8\",\"created\":\"2021-03-25T22:33:55.207583169Z\",\"container_config\":{\"Cmd\":[\"/bin/sh -c mkdir -p /run/systemd \\u0026\\u0026 echo 'docker' \\u003e /run/systemd/container\"]}}"
+    #       },
+    #       {
+    #          "v1Compatibility": "{\"id\":\"87c25acfbe99051e1fb6ad726dffd5c00cec8780f6088d67128021ab912e81c8\",\"parent\":\"d795159f9aaaf334adf8cc6ac7ed7dc3cae2cd40e578b882f5a9aead51f024e7\",\"created\":\"2021-03-25T22:33:54.285001153Z\",\"container_config\":{\"Cmd\":[\"/bin/sh -c rm -rf /var/lib/apt/lists/*\"]}}"
+    #       },
+    #       {
+    #          "v1Compatibility": "{\"id\":\"d795159f9aaaf334adf8cc6ac7ed7dc3cae2cd40e578b882f5a9aead51f024e7\",\"parent\":\"eb1bcec49480a3c7604c1f5d28d8ae0fb27fce84002e999b86563eb496330f42\",\"created\":\"2021-03-25T22:33:53.308246479Z\",\"container_config\":{\"Cmd\":[\"/bin/sh -c set -xe \\t\\t\\u0026\\u0026 echo '#!/bin/sh' \\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 echo 'exit 101' \\u003e\\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 chmod +x /usr/sbin/policy-rc.d \\t\\t\\u0026\\u0026 dpkg-divert --local --rename --add /sbin/initctl \\t\\u0026\\u0026 cp -a /usr/sbin/policy-rc.d /sbin/initctl \\t\\u0026\\u0026 sed -i 's/^exit.*/exit 0/' /sbin/initctl \\t\\t\\u0026\\u0026 echo 'force-unsafe-io' \\u003e /etc/dpkg/dpkg.cfg.d/docker-apt-speedup \\t\\t\\u0026\\u0026 echo 'DPkg::Post-Invoke { \\\"rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\"; };' \\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo 'APT::Update::Post-Invoke { \\\"rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\"; };' \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo 'Dir::Cache::pkgcache \\\"\\\"; Dir::Cache::srcpkgcache \\\"\\\";' \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\t\\u0026\\u0026 echo 'Acquire::Languages \\\"none\\\";' \\u003e /etc/apt/apt.conf.d/docker-no-languages \\t\\t\\u0026\\u0026 echo 'Acquire::GzipIndexes \\\"true\\\"; Acquire::CompressionTypes::Order:: \\\"gz\\\";' \\u003e /etc/apt/apt.conf.d/docker-gzip-indexes \\t\\t\\u0026\\u0026 echo 'Apt::AutoRemove::SuggestsImportant \\\"false\\\";' \\u003e /etc/apt/apt.conf.d/docker-autoremove-suggests\"]}}"
+    #       },
+    #       {
+    #          "v1Compatibility": "{\"id\":\"eb1bcec49480a3c7604c1f5d28d8ae0fb27fce84002e999b86563eb496330f42\",\"created\":\"2021-03-25T22:33:52.163561628Z\",\"container_config\":{\"Cmd\":[\"/bin/sh -c #(nop) ADD file:925571658dd8453e5c80d862f5791d6b26b3c2a8688937b11741f2f2c5cdbfd7 in / \"]}}"
+    #       }
+    #    ],
+    #    "signatures": [
+    #       {
+    #          "header": {
+    #             "jwk": {
+    #                "crv": "P-256",
+    #                "kid": "LREZ:6NXK:DW2C:BZYX:YAXA:NY65:EB6Z:XPLN:UZMV:P2IS:S4CT:VQ3W",
+    #                "kty": "EC",
+    #                "x": "G9XJ6W6K2dhsjQwPM5BK8FAFeOpa28kTCiWI5unkPcs",
+    #                "y": "AZIYfB38wQbPHyCRCHAcvr3QJtKWW6GBE1IX4Tx3uEc"
+    #             },
+    #             "alg": "ES256"
+    #          },
+    #          "signature": "BOovoidxxChzBeWdynNccZAjQxHPHQEj_rIclLj1TemOIOwsGdPt9qR2b0CQpMMzoLNgfsr7mZCAKGRDfjOPmA",
+    #          "protected": "eyJmb3JtYXRMZW5ndGgiOjQ4NzMsImZvcm1hdFRhaWwiOiJDbjAiLCJ0aW1lIjoiMjAyMS0wNC0xNFQxMzo1NDo0OFoifQ"
+    #       }
+    #    ]
+    # }
+
+# schema のバージョン 2 対応で、進捗は表示せず、レスポンスヘッダを得る
+curl -i -s -H "Accept: application/vnd.docker.distribution.manifest.v2+json" http://localhost:5000/v2/my-ubuntu/manifests/latest
+    # vagrant@buster:~$ curl -i -H "Accept: application/vnd.docker.distribution.manifest.v2+json" http://localhost:5000/v2/my-ubuntu/manifests/latest
+    # HTTP/1.1 200 OK
+    # Content-Length: 1150
+    # Content-Type: application/vnd.docker.distribution.manifest.v2+json
+    # Docker-Content-Digest: sha256:8cfb8f14fbeb9d44174209ccda485e0bfacc910d5624faac8cc876f5c1376781
+    # Docker-Distribution-Api-Version: registry/2.0
+    # Etag: "sha256:8cfb8f14fbeb9d44174209ccda485e0bfacc910d5624faac8cc876f5c1376781"
+    # X-Content-Type-Options: nosniff
+    # Date: Wed, 14 Apr 2021 13:58:32 GMT
+    #
+    # {
+    #    "schemaVersion": 2,
+    #    "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+    #    "config": {
+    #       "mediaType": "application/vnd.docker.container.image.v1+json",
+    #       "size": 3364,
+    #       "digest": "sha256:f6f49faac5cf9e9589f3c34821ba2d36fd093e7eb52d5b6cd000ea3dae3698df"
+    #    },
+    #    "layers": [
+    #       {
+    #          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+    #          "size": 45962352,
+    #          "digest": "sha256:4007a89234b4f56c03e6831dc220550d2e5fba935d9f5f5bcea64857ac4f4888"
+    #       },
+    #       {
+    #          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+    #          "size": 846,
+    #          "digest": "sha256:c1de0f9cdfc1f9f595acd2ea8724ea92a509d64a6936f0e645c65b504e7e4bc6"
+    #       },
+    #       {
+    #          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+    #          "size": 526,
+    #          "digest": "sha256:c8ee6ca703b866ac2b74b6129d2db331936292f899e8e3a794474fdf81343605"
+    #       },
+    #       {
+    #          "mediaType": "application/vnd.docker.image.rootfs.diff.tar.gzip",
+    #          "size": 168,
+    #          "digest": "sha256:b39e2761d3d4971e78914857af4c6bd9989873b53426cf2fef3e76983b166fa2"
+    #       }
+    #    ]
+    # }
+
+# digest を得る
+docker_content_digest=$(
+    curl -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -is \
+        http://localhost:5000/v2/my-ubuntu/manifests/latest \
+    | grep ^Docker-Content-Digest \
+    | grep -Po '(?<=^Docker-Content-Digest: )sha256:\S+'
+)
+echo "$docker_content_digest"
+    # sha256:8cfb8f14fbeb9d44174209ccda485e0bfacc910d5624faac8cc876f5c1376781
+
+# digest をキーにイメージを消す
+curl -X DELETE "http://localhost:5000/v2/my-ubuntu/manifests/$docker_content_digest"
+
+# イメージをpull できなくなる
+docker pull localhost:5000/my-ubuntu
+    # vagrant@buster:~$ docker pull localhost:5000/my-ubuntu
+    # Using default tag: latest
+    # Error response from daemon: manifest for localhost:5000/my-ubuntu:latest not found: manifest unknown: manifest unknown
+```
+
+https://qiita.com/Gin/items/c58c4485caae1c139e8f
+
+## 調査、トラブルシュート
+
+### インタラクティブなシェルを利用できるようにする
+
+scrach コンテナイメージを参照。
+
+### ネットワーク構成
+
+#### コンテナと、コンテナホストのIPネットワークを確認する
+
+```bash
+ip a
+
+cat /etc/resolv.conf
+  # nameserver 10.0.2.3
+read -r _ ns </etc/resolv.conf
+ping -c 3 "$ns"
+ping -c 3 www.example.com
+
+docker network ls
+nid=$(docker network ls --filter "name=bridge" --format "{{.ID}}")
+echo "$nid"
+docker network inspect "$nid"
+
+docker run -it debian:buster bash
+ip a
+ip r
+cat /etc/resolv.conf
+  # nameserver 10.0.2.3
+read -r _ ns </etc/resolv.conf
+ping -c 3 "$ns"
+ping -c 3 www.example.com
+exit
+```
+
+```
+  Internet
+    |
+    :
+    |
+   -o-------o-------o-
+            |       |
+          router  VM host
+            |
+           -o-o- 10.0.2.0/24
+              |
+            Docker Host
+            VM: buster
+              |
+             -o-o--------- 172.17.0.1/16 (bridge)
+                |
+                container
+```
+
+```
+root@686046d8d374:/# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+50: eth0@if51: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+```
+
+```
+root@686046d8d374:/# ip r
+default via 172.17.0.1 dev eth0
+172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.3
+```
+
+```
+vagrant@buster:~/getting-started/app$ ip r
+default via 10.0.2.2 dev eth0
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1
+```
+
+```
+vagrant@buster:~/getting-started/app$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 82149sec preferred_lft 82149sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:94:88:2c:c5 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:94ff:fe88:2cc5/64 scope link
+       valid_lft forever preferred_lft forever
+49: vethdb24b02@if48: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default
+    link/ether 76:cd:cf:77:a1:e7 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::74cd:cfff:fe77:a1e7/64 scope link
+       valid_lft forever preferred_lft forever
+```
+
+#### コンテナホストのIPネットワーク設定を得る
+
+```bash
+docker network inspect bridge
+```
+
+```
+vagrant@buster:/etc$ docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "0ea33a0eab4d301b44ed5466da31833a3afe45b15fb88723a6113d5931575350",
+        "Created": "2021-04-06T13:06:13.725832364Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "5235a0c75e3fe787f260983649daf4841b5a2f4c341b44a28bcd7cd07ce20bd2": {
+                "Name": "elated_moore",
+                "EndpointID": "51d715e8d002796dae5a75a3900335dc846291562142c77025bd46801d640510",
+                "MacAddress": "02:42:ac:11:00:02",
+                "IPv4Address": "172.17.0.2/16",
+                "IPv6Address": ""
+            },
+            "e9efa49e7a29bb90c43a50021c437bc8f9f839c9528ec52a20ac7b13d3ea2379": {
+                "Name": "modest_germain",
+                "EndpointID": "57f033f87690ee2a8cf51c09d6ac5cab98e38de7a69aae037921ea3a58250ea7",
+                "MacAddress": "02:42:ac:11:00:03",
+                "IPv4Address": "172.17.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+vagrant@buster:/etc$
+```
+
+### コンテナホストのディスク使用量を得る
+
+```bash
+docker system df
+
+docker system df --verbose
+```
+
+```
+vagrant@buster:~$ docker system df
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          8         3         620.9MB   413.3MB (66%)
+Containers      7         2         18.61kB   17.5kB (94%)
+Local Volumes   1         1         8.192kB   0B (0%)
+Build Cache     0         0         0B        0B
+```
+
+```
+vagrant@buster:~$ docker system df -v
+Images space usage:
+
+REPOSITORY                TAG         IMAGE ID       CREATED        SIZE      SHARED SIZE   UNIQUE SIZE   CONTAINERS
+getting-started           latest      1d0cff85fe8c   25 hours ago   383.4MB   293.6MB       89.84MB       4
+<none>                    <none>      996f2b1f8f65   25 hours ago   383.4MB   293.6MB       89.84MB       1
+local-debian-helloworld   latest      ca921586db0e   29 hours ago   114.1MB   114.1MB       0B            0
+debian                    buster      463adba1ec3f   2 days ago     114.1MB   114.1MB       0B            0
+node                      12-alpine   e71ff672228f   3 days ago     88.9MB    88.9MB        0B            0
+alpine                    latest      302aba9ce190   3 days ago     5.613MB   0B            5.613MB       0
+docker/getting-started    latest      3ba8f2ff0727   10 days ago    27.94MB   0B            27.94MB       2
+hello-world               latest      d1165f221234   3 weeks ago    13.34kB   0B            13.34kB       0
+
+Containers space usage:
+
+CONTAINER ID   IMAGE                    COMMAND                  LOCAL VOLUMES   SIZE      CREATED        STATUS                    NAMES
+09a93ccb9c35   getting-started          "docker-entrypoint.s…"   1               0B        24 hours ago   Up 24 hours               nice_mcnulty
+f66be98597da   getting-started          "docker-entrypoint.s…"   1               0B        25 hours ago   Created                   vibrant_banach
+d3d9d3ade794   getting-started          "docker-entrypoint.s…"   0               8.19kB    25 hours ago   Exited (0) 24 hours ago   distracted_pike
+d48f8bf34fbf   getting-started          "docker-entrypoint.s…"   0               0B        25 hours ago   Created                   hungry_engelbart
+3cac8331e287   996f2b1f8f65             "docker-entrypoint.s…"   0               8.19kB    25 hours ago   Exited (0) 25 hours ago   sharp_gould
+35fa1985a995   docker/getting-started   "/docker-entrypoint.…"   0               1.12kB    25 hours ago   Up 25 hours               exciting_meitner
+e1a21553f8f1   docker/getting-started   "/docker-entrypoint.…"   0               1.11kB    26 hours ago   Exited (0) 25 hours ago   quizzical_moser
+
+Local Volumes space usage:
+
+VOLUME NAME   LINKS     SIZE
+todo-db       2         8.192kB
+
+Build cache usage: 0B
+
+CACHE ID   CACHE TYPE   SIZE      CREATED   LAST USED   USAGE     SHARED
+```
+
+### イメージを inspect で調べる
+
+```bash
+repository_tag="alpine"
+
+docker image ls "$repository_tag"
+
+image_id=$(docker image ls --format "{{.ID}}" "$repository_tag")
+echo "$image_id"
+docker inspect "$image_id" | jq .
+```
+
+```json
+[
+  {
+    "Id": "sha256:302aba9ce190db9e247d710f4794cc303b169035de2048e76b82c9edbddbef4e",
+    "RepoTags": [
+      "alpine:latest"
+    ],
+    "RepoDigests": [
+      "alpine@sha256:826f70e0ac33e99a72cf20fb0571245a8fee52d68cb26d8bc58e53bfa65dcdfa"
+    ],
+    "Parent": "",
+    "Comment": "",
+    "Created": "2021-03-25T22:19:32.885247238Z",
+    "Container": "a7362c98f21a3d7476e321beed354c955da6a806d32b710391fce21479bdeab8",
+    "ContainerConfig": {
+      "Hostname": "a7362c98f21a",
+      "Domainname": "",
+      "User": "",
+      "AttachStdin": false,
+      "AttachStdout": false,
+      "AttachStderr": false,
+      "Tty": false,
+      "OpenStdin": false,
+      "StdinOnce": false,
+      "Env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "/bin/sh",
+        "-c",
+        "#(nop) ",
+        "CMD [\"/bin/sh\"]"
+      ],
+      "Image": "sha256:a57a6c03a1358575578a48f9c200232d07a5e8b66dd7b1dfaac59b78627ea22c",
+      "Volumes": null,
+      "WorkingDir": "",
+      "Entrypoint": null,
+      "OnBuild": null,
+      "Labels": {}
+    },
+    "DockerVersion": "19.03.12",
+    "Author": "",
+    "Config": {
+      "Hostname": "",
+      "Domainname": "",
+      "User": "",
+      "AttachStdin": false,
+      "AttachStdout": false,
+      "AttachStderr": false,
+      "Tty": false,
+      "OpenStdin": false,
+      "StdinOnce": false,
+      "Env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "/bin/sh"
+      ],
+      "Image": "sha256:a57a6c03a1358575578a48f9c200232d07a5e8b66dd7b1dfaac59b78627ea22c",
+      "Volumes": null,
+      "WorkingDir": "",
+      "Entrypoint": null,
+      "OnBuild": null,
+      "Labels": null
+    },
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Size": 5613158,
+    "VirtualSize": 5613158,
+    "GraphDriver": {
+      "Data": {
+        "MergedDir": "/var/lib/docker/overlay2/f8c1b05348eece1c78b259bffed2f89fa4cb254c02b03fc89924b5d94a00b87c/merged",
+        "UpperDir": "/var/lib/docker/overlay2/f8c1b05348eece1c78b259bffed2f89fa4cb254c02b03fc89924b5d94a00b87c/diff",
+        "WorkDir": "/var/lib/docker/overlay2/f8c1b05348eece1c78b259bffed2f89fa4cb254c02b03fc89924b5d94a00b87c/work"
+      },
+      "Name": "overlay2"
+    },
+    "RootFS": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:0f7b3ff8b310adb0c38fa8108967e51e3431bc4b7ce350de93839eeffcefd34c"
+      ]
+    },
+    "Metadata": {
+      "LastTagTime": "0001-01-01T00:00:00Z"
+    }
+  }
+]
+```
+
+### コンテナを inspect で調べる
+
+ポートや、ボリュームのマウントなどもわかる。
+
+```bash
+ancestor="hello-world"
+container_id=$(
+  docker container ls --all \
+    --filter "ancestor=$ancestor" --format "{{.ID}}"
+)
+echo "$container_id"
+docker inspect "$container_id" | jq .
+```
+
+```json
+[
+  {
+    "Id": "d2374d60ec7798dc5424c58f0497010038e3deca73eb3f150e3974c722a40f2e",
+    "Created": "2021-03-28T08:13:22.385973565Z",
+    "Path": "/hello",
+    "Args": [],
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2021-03-28T08:13:24.81669409Z",
+      "FinishedAt": "2021-03-28T08:13:24.831931088Z"
+    },
+    "Image": "sha256:d1165f2212346b2bab48cb01c1e39ee8ad1be46b87873d9ca7a4e434980a7726",
+    "ResolvConfPath": "/var/lib/docker/containers/d2374d60ec7798dc5424c58f0497010038e3deca73eb3f150e3974c722a40f2e/resolv.conf",
+    "HostnamePath": "/var/lib/docker/containers/d2374d60ec7798dc5424c58f0497010038e3deca73eb3f150e3974c722a40f2e/hostname",
+    "HostsPath": "/var/lib/docker/containers/d2374d60ec7798dc5424c58f0497010038e3deca73eb3f150e3974c722a40f2e/hosts",
+    "LogPath": "/var/lib/docker/containers/d2374d60ec7798dc5424c58f0497010038e3deca73eb3f150e3974c722a40f2e/d2374d60ec7798dc5424c58f0497010038e3deca73eb3f150e3974c722a40f2e-json.log",
+    "Name": "/laughing_einstein",
+    "RestartCount": 0,
+    "Driver": "overlay2",
+    "Platform": "linux",
+    "MountLabel": "",
+    "ProcessLabel": "",
+    "AppArmorProfile": "docker-default",
+    "ExecIDs": null,
+    "HostConfig": {
+      "Binds": null,
+      "ContainerIDFile": "",
+      "LogConfig": {
+        "Type": "json-file",
+        "Config": {}
+      },
+      "NetworkMode": "default",
+      "PortBindings": {},
+      "RestartPolicy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "AutoRemove": false,
+      "VolumeDriver": "",
+      "VolumesFrom": null,
+      "CapAdd": null,
+      "CapDrop": null,
+      "CgroupnsMode": "host",
+      "Dns": [],
+      "DnsOptions": [],
+      "DnsSearch": [],
+      "ExtraHosts": null,
+      "GroupAdd": null,
+      "IpcMode": "private",
+      "Cgroup": "",
+      "Links": null,
+      "OomScoreAdj": 0,
+      "PidMode": "",
+      "Privileged": false,
+      "PublishAllPorts": false,
+      "ReadonlyRootfs": false,
+      "SecurityOpt": null,
+      "UTSMode": "",
+      "UsernsMode": "",
+      "ShmSize": 67108864,
+      "Runtime": "runc",
+      "ConsoleSize": [
+        0,
+        0
+      ],
+      "Isolation": "",
+      "CpuShares": 0,
+      "Memory": 0,
+      "NanoCpus": 0,
+      "CgroupParent": "",
+      "BlkioWeight": 0,
+      "BlkioWeightDevice": [],
+      "BlkioDeviceReadBps": null,
+      "BlkioDeviceWriteBps": null,
+      "BlkioDeviceReadIOps": null,
+      "BlkioDeviceWriteIOps": null,
+      "CpuPeriod": 0,
+      "CpuQuota": 0,
+      "CpuRealtimePeriod": 0,
+      "CpuRealtimeRuntime": 0,
+      "CpusetCpus": "",
+      "CpusetMems": "",
+      "Devices": [],
+      "DeviceCgroupRules": null,
+      "DeviceRequests": null,
+      "KernelMemory": 0,
+      "KernelMemoryTCP": 0,
+      "MemoryReservation": 0,
+      "MemorySwap": 0,
+      "MemorySwappiness": null,
+      "OomKillDisable": false,
+      "PidsLimit": null,
+      "Ulimits": null,
+      "CpuCount": 0,
+      "CpuPercent": 0,
+      "IOMaximumIOps": 0,
+      "IOMaximumBandwidth": 0,
+      "MaskedPaths": [
+        "/proc/asound",
+        "/proc/acpi",
+        "/proc/kcore",
+        "/proc/keys",
+        "/proc/latency_stats",
+        "/proc/timer_list",
+        "/proc/timer_stats",
+        "/proc/sched_debug",
+        "/proc/scsi",
+        "/sys/firmware"
+      ],
+      "ReadonlyPaths": [
+        "/proc/bus",
+        "/proc/fs",
+        "/proc/irq",
+        "/proc/sys",
+        "/proc/sysrq-trigger"
+      ]
+    },
+    "GraphDriver": {
+      "Data": {
+        "LowerDir": "/var/lib/docker/overlay2/75f7d8d93f73e6563b24ee041571402869505c623ba5768e99274761962ea7ee-init/diff:/var/lib/docker/overlay2/f1cf15ddee3393f5586aa0e8b615c7bb9676012fb5fe5f36cd20156b8e562578/diff",
+        "MergedDir": "/var/lib/docker/overlay2/75f7d8d93f73e6563b24ee041571402869505c623ba5768e99274761962ea7ee/merged",
+        "UpperDir": "/var/lib/docker/overlay2/75f7d8d93f73e6563b24ee041571402869505c623ba5768e99274761962ea7ee/diff",
+        "WorkDir": "/var/lib/docker/overlay2/75f7d8d93f73e6563b24ee041571402869505c623ba5768e99274761962ea7ee/work"
+      },
+      "Name": "overlay2"
+    },
+    "Mounts": [],
+    "Config": {
+      "Hostname": "d2374d60ec77",
+      "Domainname": "",
+      "User": "",
+      "AttachStdin": false,
+      "AttachStdout": true,
+      "AttachStderr": true,
+      "Tty": false,
+      "OpenStdin": false,
+      "StdinOnce": false,
+      "Env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "/hello"
+      ],
+      "Image": "hello-world",
+      "Volumes": null,
+      "WorkingDir": "",
+      "Entrypoint": null,
+      "OnBuild": null,
+      "Labels": {}
+    },
+    "NetworkSettings": {
+      "Bridge": "",
+      "SandboxID": "a608f23d9bae7ed45b16128d51e73001ddd1f27a996bd7cff4dac55140b21eeb",
+      "HairpinMode": false,
+      "LinkLocalIPv6Address": "",
+      "LinkLocalIPv6PrefixLen": 0,
+      "Ports": {},
+      "SandboxKey": "/var/run/docker/netns/a608f23d9bae",
+      "SecondaryIPAddresses": null,
+      "SecondaryIPv6Addresses": null,
+      "EndpointID": "",
+      "Gateway": "",
+      "GlobalIPv6Address": "",
+      "GlobalIPv6PrefixLen": 0,
+      "IPAddress": "",
+      "IPPrefixLen": 0,
+      "IPv6Gateway": "",
+      "MacAddress": "",
+      "Networks": {
+        "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "4ef897a0a3f4dfee7a44511be818e1730c1f2d395934d454d64144d4a56b596b",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "",
+          "DriverOpts": null
+        }
+      }
+    }
+  }
+]
+```
+
+### ボリュームを inspect で調べる
+
+```bash
+volume_name="todo-db"
+docker volume inspect "$volume_name"
+```
+
+```json
+[
+    {
+        "CreatedAt": "2021-03-28T13:04:37Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/todo-db/_data",
+        "Name": "todo-db",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+```
+
+## Tips
+
+### すべてのオブジェクトを消す
+
+```bash
+# すべてのコンテナを止める
+container_id_list=$(docker container ls --all --format "{{.ID}}")
+echo "$container_id_list"
+docker container stop $(echo "$container_id_list")
+
+# すべてのコンテナを消す
+container_id_list=$(docker container ls --all --format "{{.ID}}")
+echo "$container_id_list"
+docker container rm $(echo "$container_id_list")
+
+# すべてのイメージを消す
+image_id_list=$(docker image ls --all --format "{{.ID}}")
+echo "$image_id_list"
+docker image rm $(echo "$image_id_list")
+
+# すべてのボリュームを消す
+volume_name_list=$(docker volume ls --format "{{ .Name }}")
+echo "$volume_name_list"
+docker volume rm $(echo "$volume_name_list")
+
+# ドライバが bridge であるネットワークのうち、
+# インストール直後に存在する名前が bridge 以外のネットワークを消すための
+# コマンドを出力する
+docker network ls --filter "driver=bridge" --format "{{.ID}} {{.Name}}" \
+| grep -P -v '\sbridge$' \
+| while read -r net_id name; do
+    echo "# name: $name"
+    echo "docker network rm $net_id"
+  done
+
+# 削除後の各種オブジェクトを確認する
+docker container ls --all
+docker image ls
+docker volume ls
+docker network ls
+```
+
+### OSとコンテナの組み合わせでどのような動きになるか確認してみる
+
+#### CentOS7 仮想マシンの Docker Engine で CentOS8 コンテナを起動する
+
+```bash
+# コンテナホストは CentOS7
+cat /etc/redhat-release
+uname -a
+
+# コンテナ内は CentOS8
+docker run centos:centos8 cat /etc/redhat-release
+docker run centos:centos8 uname -a
+```
+
+```
+[vagrant@localhost ~]$ cat /etc/redhat-release
+CentOS Linux release 7.9.2009 (Core)
+[vagrant@localhost ~]$ uname -a
+Linux localhost.localdomain 3.10.0-1127.el7.x86_64 #1 SMP Tue Mar 31 23:36:51 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+[vagrant@localhost ~]$ docker run centos:centos8 cat /etc/redhat-release
+CentOS Linux release 8.3.2011
+[vagrant@localhost ~]$ docker run centos:centos8 uname -a
+Linux 8fcdae39d04c 3.10.0-1127.el7.x86_64 #1 SMP Tue Mar 31 23:36:51 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+https://stackoverflow.com/a/48094310
+> Now since the kernel is not part of the image, it is possible to create a Docker image that would work on one kernel version and fail on another. For instance, you can request a system call that might not exist in an older kernel version.
+
+#### Debian 仮想マシンの Docker Engine で CentOS8 コンテナを起動する
+
+```
+# コンテナホストは debian(buster)
+uname -a
+
+# コンテナ内は CentOS8
+docker run centos:centos8 uname -a
+```
+
+```
+vagrant@buster:~$ uname -a
+Linux buster 4.19.0-14-amd64 #1 SMP Debian 4.19.171-2 (2021-01-30) x86_64 GNU/Linux
+vagrant@buster:~$ docker run centos:centos8 uname -a
+Linux 55f1ac06128d 4.19.0-14-amd64 #1 SMP Debian 4.19.171-2 (2021-01-30) x86_64 x86_64 x86_64 GNU/Linux
+```
+
+## 付録: docker コマンド出力
+
+### docker version
+
+```
+vagrant@buster:~$ docker version
+Client: Docker Engine - Community
+ Version:           20.10.5
+ API version:       1.41
+ Go version:        go1.13.15
+ Git commit:        55c4c88
+ Built:             Tue Mar  2 20:17:50 2021
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.5
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.13.15
+  Git commit:       363e9a8
+  Built:            Tue Mar  2 20:15:47 2021
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.4.4
+  GitCommit:        05f951a3781f4f2c1911b05e61c160e9c30eaa8e
+ runc:
+  Version:          1.0.0-rc93
+  GitCommit:        12644e614e25b05da6fd08a38ffa0cfe1903fdec
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+```
+
+### docker
+
+```
+vagrant@buster:~$ docker
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Options:
+      --config string      Location of client config files (default "/root/.docker")
+  -c, --context string     Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level ("debug"|"info"|"warn"|"error"|"fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default "/root/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default "/root/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default "/root/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Management Commands:
+  app*        Docker App (Docker Inc., v0.9.1-beta3)
+  builder     Manage builds
+  buildx*     Build with BuildKit (Docker Inc., v0.5.1-docker)
+  config      Manage Docker configs
+  container   Manage containers
+  context     Manage contexts
+  image       Manage images
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  node        Manage Swarm nodes
+  plugin      Manage plugins
+  secret      Manage Docker secrets
+  service     Manage services
+  stack       Manage Docker stacks
+  swarm       Manage Swarm
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker COMMAND --help' for more information on a command.
+
+To get more help with docker, check out our guides at https://docs.docker.com/go/guides/
+```
+
+### docker container
+
+```
+vagrant@buster:~$ docker container
+
+Usage:  docker container COMMAND
+
+Manage containers
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  inspect     Display detailed information on one or more containers
+  kill        Kill one or more running containers
+  logs        Fetch the logs of a container
+  ls          List containers
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  prune       Remove all stopped containers
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  run         Run a command in a new container
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  wait        Block until one or more containers stop, then print their exit codes
+
+Run 'docker container COMMAND --help' for more information on a command.
+```
+
+### docker config
+
+```
+vagrant@buster:~$ docker config
+
+Usage:  docker config COMMAND
+
+Manage Docker configs
+
+Commands:
+  create      Create a config from a file or STDIN
+  inspect     Display detailed information on one or more configs
+  ls          List configs
+  rm          Remove one or more configs
+
+Run 'docker config COMMAND --help' for more information on a command.
+```
+
+### docker context
+
+```
+vagrant@buster:~$ vagrant@buster:~$ docker context
+
+Usage:  docker context COMMAND
+
+Manage contexts
+
+Commands:
+  create      Create a context
+  export      Export a context to a tar or kubeconfig file
+  import      Import a context from a tar or zip file
+  inspect     Display detailed information on one or more contexts
+  ls          List contexts
+  rm          Remove one or more contexts
+  update      Update a context
+  use         Set the current docker context
+
+Run 'docker context COMMAND --help' for more information on a command.
+```
+
+### docker image
+
+```
+vagrant@buster:~$ docker image
+
+Usage:  docker image COMMAND
+
+Manage images
+
+Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+Run 'docker image COMMAND --help' for more information on a command.
+```
+
+### docker manifest
+
+```
+vagrant@buster:~$ docker manifest
+
+Usage:  docker manifest COMMAND
+
+The **docker manifest** command has subcommands for managing image manifests and
+manifest lists. A manifest list allows you to use one name to refer to the same image
+built for multiple architectures.
+
+To see help for a subcommand, use:
+
+    docker manifest CMD --help
+
+For full details on using docker manifest lists, see the registry v2 specification.
+
+EXPERIMENTAL:
+  docker manifest is an experimental feature.
+  Experimental features provide early access to product functionality. These
+  features may change between releases without warning, or can be removed from a
+  future release. Learn more about experimental features in our documentation:
+  https://docs.docker.com/go/experimental/
+
+Commands:
+  annotate    Add additional information to a local image manifest
+  create      Create a local manifest list for annotating and pushing to a registry
+  inspect     Display an image manifest, or manifest list
+  push        Push a manifest list to a repository
+  rm          Delete one or more manifest lists from local storage
+
+Run 'docker manifest COMMAND --help' for more information on a command.
+```
+
+### docker network
+
+```
+vagrant@buster:~$ docker network
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Commands:
+  connect     Connect a container to a network
+  create      Create a network
+  disconnect  Disconnect a container from a network
+  inspect     Display detailed information on one or more networks
+  ls          List networks
+  prune       Remove all unused networks
+  rm          Remove one or more networks
+
+Run 'docker network COMMAND --help' for more information on a command.
+```
+
+### docker node
+
+```
+vagrant@buster:~$ docker node
+
+Usage:  docker node COMMAND
+
+Manage Swarm nodes
+
+Commands:
+  demote      Demote one or more nodes from manager in the swarm
+  inspect     Display detailed information on one or more nodes
+  ls          List nodes in the swarm
+  promote     Promote one or more nodes to manager in the swarm
+  ps          List tasks running on one or more nodes, defaults to current node
+  rm          Remove one or more nodes from the swarm
+  update      Update a node
+
+Run 'docker node COMMAND --help' for more information on a command.
+```
+
+### docker service
+
+```
+vagrant@buster:~$ docker service
+
+Usage:  docker service COMMAND
+
+Manage services
+
+Commands:
+  create      Create a new service
+  inspect     Display detailed information on one or more services
+  logs        Fetch the logs of a service or task
+  ls          List services
+  ps          List the tasks of one or more services
+  rm          Remove one or more services
+  rollback    Revert changes to a service's configuration
+  scale       Scale one or multiple replicated services
+  update      Update a service
+
+Run 'docker service COMMAND --help' for more information on a command.
+```
+
+### docker stack
+
+```
+vagrant@buster:~$ docker stack
+
+Usage:  docker stack [OPTIONS] COMMAND
+
+Manage Docker stacks
+
+Options:
+      --orchestrator string   Orchestrator to use (swarm|kubernetes|all)
+
+Commands:
+  deploy      Deploy a new stack or update an existing stack
+  ls          List stacks
+  ps          List the tasks in the stack
+  rm          Remove one or more stacks
+  services    List the services in the stack
+
+Run 'docker stack COMMAND --help' for more information on a command
+```
+
+### docker swarm
+
+```
+vagrant@buster:~$ docker swarm
+
+Usage:  docker swarm COMMAND
+
+Manage Swarm
+
+Commands:
+  ca          Display and rotate the root CA
+  init        Initialize a swarm
+  join        Join a swarm as a node and/or manager
+  join-token  Manage join tokens
+  leave       Leave the swarm
+  unlock      Unlock swarm
+  unlock-key  Manage the unlock key
+  update      Update the swarm
+
+Run 'docker swarm COMMAND --help' for more information on a command.
+```
+
+### docker system
+
+```
+vagrant@buster:~$ docker system
+
+Usage:  docker system COMMAND
+
+Manage Docker
+
+Commands:
+  df          Show docker disk usage
+  events      Get real time events from the server
+  info        Display system-wide information
+  prune       Remove unused data
+
+Run 'docker system COMMAND --help' for more information on a command.
+```
+
+### docker secret
+
+```
+vagrant@buster:~$ docker secret
+
+Usage:  docker secret COMMAND
+
+Manage Docker secrets
+
+Commands:
+  create      Create a secret from a file or STDIN as content
+  inspect     Display detailed information on one or more secrets
+  ls          List secrets
+  rm          Remove one or more secrets
+
+Run 'docker secret COMMAND --help' for more information on a command.
+```
+
+### docker trust
+
+```
+vagrant@buster:~$ docker trust
+
+Usage:  docker trust COMMAND
+
+Manage trust on Docker images
+
+Management Commands:
+  key         Manage keys for signing Docker images
+  signer      Manage entities who can sign Docker images
+
+Commands:
+  inspect     Return low-level information about keys and signatures
+  revoke      Remove trust for an image
+  sign        Sign an image
+
+Run 'docker trust COMMAND --help' for more information on a command.
+```
+
+### docker volume
+
+```
+vagrant@buster:~$ docker volume
+
+Usage:  docker volume COMMAND
+
+Manage volumes
+
+Commands:
+  create      Create a volume
+  inspect     Display detailed information on one or more volumes
+  ls          List volumes
+  prune       Remove all unused local volumes
+  rm          Remove one or more volumes
+
+Run 'docker volume COMMAND --help' for more information on a command.
+```
+
+## 付録: docker-compose コマンド出力
+
+### docker-compose version
+
+```
+vagrant@buster:~$ docker-compose --version
+docker-compose version 1.29.0, build 07737305
+```
+
+### docker-compose
+
+```
+vagrant@buster:~$ docker-compose --help
+Define and run multi-container applications with Docker.
+
+Usage:
+  docker-compose [-f <arg>...] [--profile <name>...] [options] [--] [COMMAND] [ARGS...]
+  docker-compose -h|--help
+
+Options:
+  -f, --file FILE             Specify an alternate compose file
+                              (default: docker-compose.yml)
+  -p, --project-name NAME     Specify an alternate project name
+                              (default: directory name)
+  --profile NAME              Specify a profile to enable
+  -c, --context NAME          Specify a context name
+  --verbose                   Show more output
+  --log-level LEVEL           Set log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  --ansi (never|always|auto)  Control when to print ANSI control characters
+  --no-ansi                   Do not print ANSI control characters (DEPRECATED)
+  -v, --version               Print version and exit
+  -H, --host HOST             Daemon socket to connect to
+
+  --tls                       Use TLS; implied by --tlsverify
+  --tlscacert CA_PATH         Trust certs signed only by this CA
+  --tlscert CLIENT_CERT_PATH  Path to TLS certificate file
+  --tlskey TLS_KEY_PATH       Path to TLS key file
+  --tlsverify                 Use TLS and verify the remote
+  --skip-hostname-check       Don't check the daemon's hostname against the
+                              name specified in the client certificate
+  --project-directory PATH    Specify an alternate working directory
+                              (default: the path of the Compose file)
+  --compatibility             If set, Compose will attempt to convert keys
+                              in v3 files to their non-Swarm equivalent (DEPRECATED)
+  --env-file PATH             Specify an alternate environment file
+
+Commands:
+  build              Build or rebuild services
+  config             Validate and view the Compose file
+  create             Create services
+  down               Stop and remove resources
+  events             Receive real time events from containers
+  exec               Execute a command in a running container
+  help               Get help on a command
+  images             List images
+  kill               Kill containers
+  logs               View output from containers
+  pause              Pause services
+  port               Print the public port for a port binding
+  ps                 List containers
+  pull               Pull service images
+  push               Push service images
+  restart            Restart services
+  rm                 Remove stopped containers
+  run                Run a one-off command
+  scale              Set number of containers for a service
+  start              Start services
+  stop               Stop services
+  top                Display the running processes
+  unpause            Unpause services
+  up                 Create and start containers
+  version            Show version information and quit
+```
+
+### Sphinx のコードをビルドする
+
+次のコマンドで生成される Sphinx ドキュメントのソースを用意し、
+docker build すると、
+nginx でコンテンツを提供できます。
+
+```bash
+poetry install
+poetry run sphinx-build -M html source build
+```
+
+```bash
+name_tag="local-sphinx"
+
+tmpdir=$(mktemp -d /tmp/tmp.XXXXXXXXXX)
+dir="$tmpdir/tmp-${name_tag}"
+mkdir -pv "$dir"
+cd "$dir"
+
+# poetry をインストールする。
+curl -L -o get-poetry.py \
+  https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+python3 get-poetry.py -y
+
+poetry init
+poetry add Sphinx
+poetry shell
+
+cat <<'__DOCKERFILE__' | tee ./Dockerfile
+FROM debian:buster AS build-env
+RUN apt-get update
+ENV DEBCONF_NOWARNINGS=yes
+ADD . /app
+WORKDIR /app
+RUN apt-get install -y ca-certificates python3 python3-distutils \
+  && python3 get-poetry.py -y \
+  && /root/.poetry/bin/poetry install \
+  && /root/.poetry/bin/poetry run sphinx-build -M html source build
+
+FROM debian:buster
+RUN apt-get update
+ENV DEBCONF_NOWARNINGS=yes
+RUN apt-get install -y nginx \
+  && apt-get -y clean \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -f /var/www/html/index.nginx-debian.html
+COPY --from=build-env /app/build/html /var/www/html
+
+# 本番用には不要なバイナリ ps, curl, vim を導入する。
+RUN apt-get update \
+  && apt-get install procps curl vim-tiny -y \
+  && rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+EXPOSE 80
+__DOCKERFILE__
+
+docker build -t "$name_tag" .
+
+docker image ls "$name_tag"
+    # REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+    # local-debian-port80   latest    d9337ef0dddc   5 seconds ago   114MB
+
+# もし加えたイメージを実行するなら次の行を実行する
+docker run -dp 18000:8000 "$name_tag"
+    # CONTAINER ID   IMAGE                   COMMAND                  CREATED              STATUS              PORTS                                         NAMES
+    # 7723abae0c9a   local-debian-port8000   "/usr/bin/python3 -m…"   About a minute ago   Up About a minute   0.0.0.0:18000->8000/tcp, :::18000->8000/tcp   keen_knuth
+
+curl -s http://localhost:10080/
+```
