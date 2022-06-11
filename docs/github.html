@@ -264,7 +264,9 @@
 </section>
 <section id="id1">
 <h2>認証する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test_wsl<span class="o">()</span> <span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux</span>
+
+test_wsl<span class="o">()</span> <span class="o">{</span>
   <span class="o">[[</span> <span class="k">$(</span>uname -r<span class="k">)</span> <span class="o">=</span>~ -microsoft- <span class="o">]]</span>
 <span class="o">}</span>
 
@@ -279,6 +281,7 @@ echo_note<span class="o">()</span> <span class="o">{</span>
   <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$note</span><span class="s2">"</span>
 <span class="o">}</span>
 
+<span class="c1"># GitHub のノート入力に必要そうな情報を出しておく。</span>
 echo_note
 
 gh auth login

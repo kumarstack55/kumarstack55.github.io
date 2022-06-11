@@ -20,6 +20,8 @@ sudo apt install gh
 ## 認証する。
 
 ```bash
+# Linux
+
 test_wsl() {
   [[ $(uname -r) =~ -microsoft- ]]
 }
@@ -35,6 +37,7 @@ echo_note() {
   echo "$note"
 }
 
+# GitHub のノート入力に必要そうな情報を出しておく。
 echo_note
 
 gh auth login
