@@ -1,5 +1,19 @@
 # Vim
 
+## runtimepath を編集中のバッファにリストする。
+
+```vim
+:call setline(1, split(&runtimepath, ','))
+```
+
+## 選択範囲をクリップボードにコピーする。
+
+git-bash などに付属の vim では xterm-clipboard が有効なので、選択範囲をシステムのクリップボードにコピーできる。
+
+```vim
+set cb^=autoselect
+```
+
 ## ファイルの末尾の改行を保存しない。
 
 ```vim
