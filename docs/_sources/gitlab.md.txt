@@ -1,0 +1,259 @@
+# GitLab
+
+## GitLab を作る。
+
+いくつか手段があるが Docker を選ぶ。
+Windows の Docker はサポートされていない。
+ここでは仮想マシンから作る。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "8192"
+  end
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.network "forwarded_port", guest: 22, host: 20022, id: "ssh"
+  config.vm.network "forwarded_port", guest: 22, host: 10022
+  config.vm.network "forwarded_port", guest: 80, host: 80
+  config.vm.network "forwarded_port", guest: 443, host: 443
+  config.vm.provision "shell", path: "script.sh"
+end
+```
+
+```bash
+#!/bin/bash
+
+err() {
+  echo "$1" >&2
+}
+
+echo_flags_dir() {
+  echo "/.myvagrant"
+}
+
+echo_flag_file() {
+  echo "$(echo_flags_dir)/$1"
+}
+
+ensure_flags_dir_exists() {
+  mkdir -pv "$(echo_flags_dir)"
+}
+
+ensure_docker_installed() {
+  local flag_file
+  flag_file=$(echo_flag_file "get_docker_sh_executed")
+
+  if [ -f "$flag_file" ]; then
+    err "ensure_docker_installed: skipped."
+    return
+  fi
+
+  local tmpdir
+  tmpdir=$(mktemp -d)
+  curl -fsSL https://get.docker.com -o "$tmpdir/get-docker.sh"
+  sudo sh "$tmpdir/get-docker.sh"
+
+  sudo touch "$flag_file"
+}
+
+ensure_gitlab_installed() {
+  local flag_file
+  flag_file=$(echo_flag_file "gitlab_installed")
+
+  if [ -f "$flag_file" ]; then
+    err "ensure_gitlab_installed: skipped."
+    return
+  fi
+
+  export GITLAB_HOME=/srv/gitlab
+  local hostname=127.0.0.1
+  local ssh_port=10022
+  sudo docker run --detach \
+    --hostname "$hostname" \
+    --publish 443:443 --publish 80:80 --publish "$ssh_port:22" \
+    --name gitlab \
+    --restart always \
+    --volume $GITLAB_HOME/config:/etc/gitlab \
+    --volume $GITLAB_HOME/logs:/var/log/gitlab \
+    --volume $GITLAB_HOME/data:/var/opt/gitlab \
+    --shm-size 256m \
+    gitlab/gitlab-ee:latest
+
+  sudo touch "$flag_file"
+}
+
+main() {
+  ensure_flags_dir_exists
+  ensure_docker_installed
+  ensure_gitlab_installed
+}
+
+main "$@"
+```
+
+```powershell
+vagrant up
+
+#vagrant provision
+#vagrant snapshot list
+#vagrant snapshot save "snapshot-docker-installed"
+#vagrant snapshot list
+
+vagrant ssh
+```
+
+```bash
+sudo docker logs -f gitlab
+sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+```
+
+```console
+vagrant@ubuntu-focal:~$ sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+Password: VBvL2PhW8tkUQrb2NhTPzWd4LN6tBaLBPKQAcKskiXo=
+```
+
+参考資料:
+
+* https://docs.gitlab.com/
+* https://docs.gitlab.com/ee/install/docker.html
+* https://hub.docker.com/r/gitlab/gitlab-ee/
+* https://www.vagrantup.com/docs/provisioning/shell
+* https://docs.gitlab.com/ee/install/docker.html
+
+## GitLab に root ユーザでログインする。
+
+* http://127.0.0.1/users/sign_up
+
+## GitLab にユーザを作る。
+
+認証していないブラウザでアクセスする。
+
+* http://127.0.0.1/users/sign_up
+    * first: first1
+    * last: last1
+    * username: username1
+    * email: username1@example.com
+    * password: username1
+
+root で認証済みのブラウザでアクセスする。
+
+* http://127.0.0.1/admin/users?filter=blocked_pending_approval
+    * Approve
+
+認証していないブラウザでアクセスする。
+
+* http://127.0.0.1/users/sign_in
+    * username1
+    * username1
+
+## ユーザがプロジェクトを作る。
+
+* http://127.0.0.1/projects/new
+    * Create blank project
+        * Project name: project1
+        * Create project
+
+## ユーザがプロジェクトに issue を作る。
+
+* http://127.0.0.1/username1/project1/-/issues
+    * New issue
+        * Title: title1
+        * Create issue
+
+## ユーザが personal access token を作る。
+
+* http://127.0.0.1/-/profile/personal_access_tokens
+    * Token name: token1
+    * Select scopes:
+        * [x] api
+        * Create personal access token
+
+```
+u2GFXEKbkmXAXs6vvx_x
+```
+
+## ユーザがプロジェクトの一覧を得る。
+
+```powershell
+$PersonalAccessToken = "u2GFXEKbkmXAXs6vvx_x"
+$Headers = @{ "PRIVATE-TOKEN"=$PersonalAccessToken }
+$Response = Invoke-WebRequest http://127.0.0.1/api/v4/projects -Headers $Headers
+$Response.Content
+$Projects = $Response.Content | ConvertFrom-Json
+$Projects.Count
+$Project1 = $Projects | Where-Object { $_.name -ceq 'project1' }
+$ProjectId = $Project1.id
+$ProjectId
+```
+
+## ユーザが Issue の一覧を得る。
+
+```powershell
+$ProjectId
+
+$Response = Invoke-WebRequest http://127.0.0.1/api/v4/issues -Headers $Headers
+$Response.Content
+$Issues = $Response.Content | ConvertFrom-Json
+$Issues.Count
+$ProjectIssues = $Issues | Where-Object { $_.project_id -ceq $ProjectId }
+$Issue1 = $ProjectIssues[0]
+$Issue1
+$Issue1.description
+
+$IssueInternalId = $Issue1.iid
+$IssueInternalId
+```
+
+## ユーザが Issue のノート一覧を得る。
+
+```powershell
+$ProjectId
+$IssueInternalId
+
+$Response = Invoke-WebRequest -Uri "http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/notes" -Headers $Headers
+$Response.Content | ConvertFrom-Json
+```
+
+## ユーザが Issue にノートを加える。
+
+```powershell
+$ProjectId
+$IssueInternalId
+
+$Response = Invoke-WebRequest -Method Post -Uri "http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/notes?body=a" -Headers $Headers
+```
+
+## ユーザが Issue のディスカッション一覧を得る。
+
+```powershell
+$ProjectId
+$IssueInternalId
+
+$Response = Invoke-WebRequest -Uri "http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/discussions" -Headers $Headers
+$Response.Content | ConvertFrom-Json
+
+$Discussions = $Response.Content | ConvertFrom-Json
+$Discussions.Count
+$Discussions[0].notes
+$Discussions[1].notes
+```
+
+## ユーザが Issue のディスカッションにノートを加える。
+
+```powershell
+$ProjectId
+$IssueInternalId
+
+$Response = Invoke-WebRequest -Uri "http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/discussions" -Headers $Headers
+$Response.Content | ConvertFrom-Json
+
+$Discussions = $Response.Content | ConvertFrom-Json
+$Discussion = $Discussions[1]
+
+$DiscussionId = $Discussion.id
+$DiscussionId
+
+$Response2 = Invoke-WebRequest -Method Post -Uri "http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/discussions/$DiscussionId/notes?body=b" -Headers $Headers
+$Response2.Content | ConvertFrom-Json
+```

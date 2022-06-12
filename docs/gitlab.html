@@ -1,0 +1,623 @@
+<!doctype html>
+<html class="no-js" lang="ja">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="HTML" href="html.html" /><link rel="prev" title="GitHub" href="github.html" />
+
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>GitLab - Untitled ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Untitled  ドキュメント</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Untitled  ドキュメント</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=検索 name="q" aria-label="検索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">GitLab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="html.html">HTML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mariadb.html">MariaDB</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ssh.html">SSH</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="python/foundation.html">Python基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/standard_library.html">Python3 の標準ライブラリ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/application.html">Python 応用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/jupyterlab.html">Jupyter Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/python2.html">Python2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/math.html">Python応用(数学)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jq.html">jq</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html">bash基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bash/application.html">bash応用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell/powershell7.html">PowerShell 7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/foundation.html">PowerShell 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/application.html">PowerShell 応用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/pester.html">Pester でテストする。</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="windows.html">Microsoft Windows</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows_foundation.html">Microsoft Windows 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">WSL2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxのネットワーク管理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="virtualbox.html">VirtualBox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chrome_extension.html">Chrome拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section class="tex2jax_ignore mathjax_ignore" id="gitlab">
+<h1>GitLab<a class="headerlink" href="#gitlab" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id1">
+<h2>GitLab を作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>いくつか手段があるが Docker を選ぶ。
+Windows の Docker はサポートされていない。
+ここでは仮想マシンから作る。</p>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">"ubuntu/focal64"</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">"virtualbox"</span> <span class="k">do</span> <span class="o">|</span><span class="n">vb</span><span class="o">|</span>
+    <span class="n">vb</span><span class="o">.</span><span class="n">memory</span> <span class="o">=</span> <span class="s2">"8192"</span>
+  <span class="k">end</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s1">'.'</span><span class="p">,</span> <span class="s1">'/vagrant'</span><span class="p">,</span> <span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="s2">"forwarded_port"</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">20022</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">"ssh"</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="s2">"forwarded_port"</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">10022</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="s2">"forwarded_port"</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">80</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="s2">"forwarded_port"</span><span class="p">,</span> <span class="ss">guest</span><span class="p">:</span> <span class="mi">443</span><span class="p">,</span> <span class="ss">host</span><span class="p">:</span> <span class="mi">443</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="s2">"shell"</span><span class="p">,</span> <span class="ss">path</span><span class="p">:</span> <span class="s2">"script.sh"</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+err<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> &gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="o">}</span>
+
+echo_flags_dir<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"/.myvagrant"</span>
+<span class="o">}</span>
+
+echo_flag_file<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"</span><span class="k">$(</span>echo_flags_dir<span class="k">)</span><span class="s2">/</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+ensure_flags_dir_exists<span class="o">()</span> <span class="o">{</span>
+  mkdir -pv <span class="s2">"</span><span class="k">$(</span>echo_flags_dir<span class="k">)</span><span class="s2">"</span>
+<span class="o">}</span>
+
+ensure_docker_installed<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> flag_file
+  <span class="nv">flag_file</span><span class="o">=</span><span class="k">$(</span>echo_flag_file <span class="s2">"get_docker_sh_executed"</span><span class="k">)</span>
+
+  <span class="k">if</span> <span class="o">[</span> -f <span class="s2">"</span><span class="nv">$flag_file</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    err <span class="s2">"ensure_docker_installed: skipped."</span>
+    <span class="k">return</span>
+  <span class="k">fi</span>
+
+  <span class="nb">local</span> tmpdir
+  <span class="nv">tmpdir</span><span class="o">=</span><span class="k">$(</span>mktemp -d<span class="k">)</span>
+  curl -fsSL https://get.docker.com -o <span class="s2">"</span><span class="nv">$tmpdir</span><span class="s2">/get-docker.sh"</span>
+  sudo sh <span class="s2">"</span><span class="nv">$tmpdir</span><span class="s2">/get-docker.sh"</span>
+
+  sudo touch <span class="s2">"</span><span class="nv">$flag_file</span><span class="s2">"</span>
+<span class="o">}</span>
+
+ensure_gitlab_installed<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> flag_file
+  <span class="nv">flag_file</span><span class="o">=</span><span class="k">$(</span>echo_flag_file <span class="s2">"gitlab_installed"</span><span class="k">)</span>
+
+  <span class="k">if</span> <span class="o">[</span> -f <span class="s2">"</span><span class="nv">$flag_file</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    err <span class="s2">"ensure_gitlab_installed: skipped."</span>
+    <span class="k">return</span>
+  <span class="k">fi</span>
+
+  <span class="nb">export</span> <span class="nv">GITLAB_HOME</span><span class="o">=</span>/srv/gitlab
+  <span class="nb">local</span> <span class="nv">hostname</span><span class="o">=</span><span class="m">127</span>.0.0.1
+  <span class="nb">local</span> <span class="nv">ssh_port</span><span class="o">=</span><span class="m">10022</span>
+  sudo docker run --detach <span class="se">\</span>
+    --hostname <span class="s2">"</span><span class="nv">$hostname</span><span class="s2">"</span> <span class="se">\</span>
+    --publish <span class="m">443</span>:443 --publish <span class="m">80</span>:80 --publish <span class="s2">"</span><span class="nv">$ssh_port</span><span class="s2">:22"</span> <span class="se">\</span>
+    --name gitlab <span class="se">\</span>
+    --restart always <span class="se">\</span>
+    --volume <span class="nv">$GITLAB_HOME</span>/config:/etc/gitlab <span class="se">\</span>
+    --volume <span class="nv">$GITLAB_HOME</span>/logs:/var/log/gitlab <span class="se">\</span>
+    --volume <span class="nv">$GITLAB_HOME</span>/data:/var/opt/gitlab <span class="se">\</span>
+    --shm-size 256m <span class="se">\</span>
+    gitlab/gitlab-ee:latest
+
+  sudo touch <span class="s2">"</span><span class="nv">$flag_file</span><span class="s2">"</span>
+<span class="o">}</span>
+
+main<span class="o">()</span> <span class="o">{</span>
+  ensure_flags_dir_exists
+  ensure_docker_installed
+  ensure_gitlab_installed
+<span class="o">}</span>
+
+main <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">vagrant</span> <span class="n">up</span>
+
+<span class="c">#vagrant provision</span>
+<span class="c">#vagrant snapshot list</span>
+<span class="c">#vagrant snapshot save "snapshot-docker-installed"</span>
+<span class="c">#vagrant snapshot list</span>
+
+<span class="n">vagrant</span> <span class="n">ssh</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo docker logs -f gitlab
+sudo docker <span class="nb">exec</span> -it gitlab grep <span class="s1">'Password:'</span> /etc/gitlab/initial_root_password
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">vagrant@ubuntu-focal:~$ </span>sudo docker <span class="nb">exec</span> -it gitlab grep <span class="s1">'Password:'</span> /etc/gitlab/initial_root_password
+<span class="go">Password: VBvL2PhW8tkUQrb2NhTPzWd4LN6tBaLBPKQAcKskiXo=</span>
+</pre></div>
+</div>
+<p>参考資料:</p>
+<ul class="simple">
+<li><p>https://docs.gitlab.com/</p></li>
+<li><p>https://docs.gitlab.com/ee/install/docker.html</p></li>
+<li><p>https://hub.docker.com/r/gitlab/gitlab-ee/</p></li>
+<li><p>https://www.vagrantup.com/docs/provisioning/shell</p></li>
+<li><p>https://docs.gitlab.com/ee/install/docker.html</p></li>
+</ul>
+</section>
+<section id="gitlab-root">
+<h2>GitLab に root ユーザでログインする。<a class="headerlink" href="#gitlab-root" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>http://127.0.0.1/users/sign_up</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>GitLab にユーザを作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>認証していないブラウザでアクセスする。</p>
+<ul class="simple">
+<li><p>http://127.0.0.1/users/sign_up</p>
+<ul>
+<li><p>first: first1</p></li>
+<li><p>last: last1</p></li>
+<li><p>username: username1</p></li>
+<li><p>email: username1@example.com</p></li>
+<li><p>password: username1</p></li>
+</ul>
+</li>
+</ul>
+<p>root で認証済みのブラウザでアクセスする。</p>
+<ul class="simple">
+<li><p>http://127.0.0.1/admin/users?filter=blocked_pending_approval</p>
+<ul>
+<li><p>Approve</p></li>
+</ul>
+</li>
+</ul>
+<p>認証していないブラウザでアクセスする。</p>
+<ul class="simple">
+<li><p>http://127.0.0.1/users/sign_in</p>
+<ul>
+<li><p>username1</p></li>
+<li><p>username1</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id3">
+<h2>ユーザがプロジェクトを作る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>http://127.0.0.1/projects/new</p>
+<ul>
+<li><p>Create blank project</p>
+<ul>
+<li><p>Project name: project1</p></li>
+<li><p>Create project</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="issue">
+<h2>ユーザがプロジェクトに issue を作る。<a class="headerlink" href="#issue" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>http://127.0.0.1/username1/project1/-/issues</p>
+<ul>
+<li><p>New issue</p>
+<ul>
+<li><p>Title: title1</p></li>
+<li><p>Create issue</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="personal-access-token">
+<h2>ユーザが personal access token を作る。<a class="headerlink" href="#personal-access-token" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>http://127.0.0.1/-/profile/personal_access_tokens</p>
+<ul>
+<li><p>Token name: token1</p></li>
+<li><p>Select scopes:</p>
+<ul>
+<li><p>[x] api</p></li>
+<li><p>Create personal access token</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u2GFXEKbkmXAXs6vvx_x</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>ユーザがプロジェクトの一覧を得る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PersonalAccessToken</span> <span class="p">=</span> <span class="s2">"u2GFXEKbkmXAXs6vvx_x"</span>
+<span class="nv">$Headers</span> <span class="p">=</span> <span class="p">@{</span> <span class="s2">"PRIVATE-TOKEN"</span><span class="p">=</span><span class="nv">$PersonalAccessToken</span> <span class="p">}</span>
+<span class="nv">$Response</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">http</span><span class="p">://</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">/</span><span class="n">api</span><span class="p">/</span><span class="n">v4</span><span class="p">/</span><span class="n">projects</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+<span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span>
+<span class="nv">$Projects</span> <span class="p">=</span> <span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+<span class="nv">$Projects</span><span class="p">.</span><span class="n">Count</span>
+<span class="nv">$Project1</span> <span class="p">=</span> <span class="nv">$Projects</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">name</span> <span class="o">-ceq</span> <span class="s1">'project1'</span> <span class="p">}</span>
+<span class="nv">$ProjectId</span> <span class="p">=</span> <span class="nv">$Project1</span><span class="p">.</span><span class="n">id</span>
+<span class="nv">$ProjectId</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>ユーザが Issue の一覧を得る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProjectId</span>
+
+<span class="nv">$Response</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">http</span><span class="p">://</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">/</span><span class="n">api</span><span class="p">/</span><span class="n">v4</span><span class="p">/</span><span class="n">issues</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+<span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span>
+<span class="nv">$Issues</span> <span class="p">=</span> <span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+<span class="nv">$Issues</span><span class="p">.</span><span class="n">Count</span>
+<span class="nv">$ProjectIssues</span> <span class="p">=</span> <span class="nv">$Issues</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">project_id</span> <span class="o">-ceq</span> <span class="nv">$ProjectId</span> <span class="p">}</span>
+<span class="nv">$Issue1</span> <span class="p">=</span> <span class="nv">$ProjectIssues</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>
+<span class="nv">$Issue1</span>
+<span class="nv">$Issue1</span><span class="p">.</span><span class="n">description</span>
+
+<span class="nv">$IssueInternalId</span> <span class="p">=</span> <span class="nv">$Issue1</span><span class="p">.</span><span class="n">iid</span>
+<span class="nv">$IssueInternalId</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>ユーザが Issue のノート一覧を得る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProjectId</span>
+<span class="nv">$IssueInternalId</span>
+
+<span class="nv">$Response</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">"http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/notes"</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+<span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>ユーザが Issue にノートを加える。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProjectId</span>
+<span class="nv">$IssueInternalId</span>
+
+<span class="nv">$Response</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">-Method</span> <span class="n">Post</span> <span class="n">-Uri</span> <span class="s2">"http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/notes?body=a"</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>ユーザが Issue のディスカッション一覧を得る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProjectId</span>
+<span class="nv">$IssueInternalId</span>
+
+<span class="nv">$Response</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">"http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/discussions"</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+<span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+
+<span class="nv">$Discussions</span> <span class="p">=</span> <span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+<span class="nv">$Discussions</span><span class="p">.</span><span class="n">Count</span>
+<span class="nv">$Discussions</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">notes</span>
+<span class="nv">$Discussions</span><span class="p">[</span><span class="n">1</span><span class="p">].</span><span class="n">notes</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h2>ユーザが Issue のディスカッションにノートを加える。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProjectId</span>
+<span class="nv">$IssueInternalId</span>
+
+<span class="nv">$Response</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="s2">"http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/discussions"</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+<span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+
+<span class="nv">$Discussions</span> <span class="p">=</span> <span class="nv">$Response</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+<span class="nv">$Discussion</span> <span class="p">=</span> <span class="nv">$Discussions</span><span class="p">[</span><span class="n">1</span><span class="p">]</span>
+
+<span class="nv">$DiscussionId</span> <span class="p">=</span> <span class="nv">$Discussion</span><span class="p">.</span><span class="n">id</span>
+<span class="nv">$DiscussionId</span>
+
+<span class="nv">$Response2</span> <span class="p">=</span> <span class="nb">Invoke-WebRequest</span> <span class="n">-Method</span> <span class="n">Post</span> <span class="n">-Uri</span> <span class="s2">"http://127.0.0.1/api/v4/projects/${ProjectId}/issues/${IssueInternalId}/discussions/$DiscussionId/notes?body=b"</span> <span class="n">-Headers</span> <span class="nv">$Headers</span>
+<span class="nv">$Response2</span><span class="p">.</span><span class="n">Content</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="html.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">HTML</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="github.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">GitHub</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, kumarstack55 |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/gitlab.md.txt"
+               rel="nofollow">
+              ソースコードを表示
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">GitLab</a><ul>
+<li><a class="reference internal" href="#id1">GitLab を作る。</a></li>
+<li><a class="reference internal" href="#gitlab-root">GitLab に root ユーザでログインする。</a></li>
+<li><a class="reference internal" href="#id2">GitLab にユーザを作る。</a></li>
+<li><a class="reference internal" href="#id3">ユーザがプロジェクトを作る。</a></li>
+<li><a class="reference internal" href="#issue">ユーザがプロジェクトに issue を作る。</a></li>
+<li><a class="reference internal" href="#personal-access-token">ユーザが personal access token を作る。</a></li>
+<li><a class="reference internal" href="#id4">ユーザがプロジェクトの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id5">ユーザが Issue の一覧を得る。</a></li>
+<li><a class="reference internal" href="#id6">ユーザが Issue のノート一覧を得る。</a></li>
+<li><a class="reference internal" href="#id7">ユーザが Issue にノートを加える。</a></li>
+<li><a class="reference internal" href="#id8">ユーザが Issue のディスカッション一覧を得る。</a></li>
+<li><a class="reference internal" href="#id9">ユーザが Issue のディスカッションにノートを加える。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>
