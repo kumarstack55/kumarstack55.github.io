@@ -379,7 +379,8 @@ docker image rm "$image_id_list"
 # 異なるリポジトリ名で、同じIDの場合、消すために強制の指定が必要です。
 image_id_list=$(docker image ls --format "{{.ID}}" "$repository_tag")
 echo "$image_id_list"
-docker image rm --force "$image_id_list"
+echo docker image rm --force $image_id_list
+docker image rm --force $image_id_list
 ```
 
 ### イメージを Docker Hub レジストリに push する

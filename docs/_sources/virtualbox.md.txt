@@ -1,0 +1,33 @@
+# VirtualBox
+
+## WSL2 が動作する環境で VirtualBox を動かす。
+
+WSL2 が動作する環境で VirtualBox を動作させると、 soft lockup するなど不安定な動きとなることがある。
+設定でWindows の機能を変更する。
+
+* 設定
+    * アプリ
+        * オプション機能
+            * 関連設定
+                * Windows のその他の機能
+                    * Windows の機能
+                        * Windows の機能の有効化または無効化
+                            * [x] Windows ハイパーバイザー プラットフォーム
+
+変更後は次のような出力になる。
+
+```powershell
+PS > Get-WindowsOptionalFeature -Online -FeatureName HypervisorPlatform
+
+
+FeatureName      : HypervisorPlatform
+DisplayName      : Windows ハイパーバイザー プラットフォーム
+Description      : 仮想化ソフトウェアを Windows ハイパーバイザーで実行できるようにします
+RestartRequired  : Possible
+State            : Enabled
+CustomProperties :
+```
+
+https://github.com/MicrosoftDocs/WSL/issues/798#issuecomment-674001435
+
+> I just upgraded my Windows so that I could install WSL2. After that VirtualBox didn't work anymore (as expected), but I installed the "Windows Hypervisor Platform" and installed the latest version of VirtualBox (6.1.12) and now everything is working as expected. Both WSL2 and VirtualBox are now working side by side...

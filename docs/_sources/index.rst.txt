@@ -27,6 +27,7 @@ Untitled ドキュメント
    debian
    ubuntu
    vagrant
+   virtualbox
    oci
    chrome_extension
    japanese_imperial_year

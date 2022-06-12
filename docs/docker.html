@@ -213,6 +213,7 @@
 <li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="virtualbox.html">VirtualBox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chrome_extension.html">Chrome拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
@@ -616,7 +617,8 @@ docker image rm <span class="s2">"</span><span class="nv">$image_id_list</span><
 <span class="c1"># 異なるリポジトリ名で、同じIDの場合、消すために強制の指定が必要です。</span>
 <span class="nv">image_id_list</span><span class="o">=</span><span class="k">$(</span>docker image ls --format <span class="s2">"{{.ID}}"</span> <span class="s2">"</span><span class="nv">$repository_tag</span><span class="s2">"</span><span class="k">)</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$image_id_list</span><span class="s2">"</span>
-docker image rm --force <span class="s2">"</span><span class="nv">$image_id_list</span><span class="s2">"</span>
+<span class="nb">echo</span> docker image rm --force <span class="nv">$image_id_list</span>
+docker image rm --force <span class="nv">$image_id_list</span>
 </pre></div>
 </div>
 </section>
