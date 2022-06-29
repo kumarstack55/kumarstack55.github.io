@@ -254,17 +254,78 @@
 </ul>
 </section>
 <section id="id2">
-<h2>連想配列を使う。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>変数が定義済みか判定する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">unset</span> var
+<span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+
+<span class="nv">var</span><span class="o">=</span>
+<span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+
+<span class="nv">var</span><span class="o">=</span><span class="s2">"a"</span>
+<span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">unset</span> var
+<span class="gp">$ </span><span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+<span class="go">false</span>
+<span class="gp">$ </span><span class="nv">var</span><span class="o">=</span>
+<span class="gp">$ </span><span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+<span class="go">true</span>
+<span class="gp">$ </span><span class="nv">var</span><span class="o">=</span><span class="s2">"a"</span>
+<span class="gp">$ </span><span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+<span class="go">true</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>${parameter:+[word]}
+Use Alternative Value. If parameter is unset or null, null shall be substituted; otherwise, the expansion of word (or an empty string if word is omitted) shall be substituted.
+In the parameter expansions shown previously, use of the <colon> in the format shall result in a test for a parameter that is unset or null; omission of the <colon> shall result in a test for a parameter that is only unset.</colon></colon></p>
+</div></blockquote>
+<p>https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02</p>
+</section>
+<section id="id3">
+<h2>変数が定義済み、かつ、値があるか判定する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">unset</span> var
+<span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">:+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+
+<span class="nv">var</span><span class="o">=</span>
+<span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">:+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+
+<span class="nv">var</span><span class="o">=</span><span class="s2">"a"</span>
+<span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">:+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">unset</span> var
+<span class="gp">$ </span><span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">:+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+<span class="go">false</span>
+<span class="gp">$ </span><span class="nv">var</span><span class="o">=</span>
+<span class="gp">$ </span><span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">:+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+<span class="go">false</span>
+<span class="gp">$ </span><span class="nv">var</span><span class="o">=</span><span class="s2">"a"</span>
+<span class="gp">$ </span><span class="o">[</span> <span class="s2">"</span><span class="si">${</span><span class="nv">var</span><span class="p">:+x</span><span class="si">}</span><span class="s2">"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="nb">false</span>
+<span class="go">true</span>
+</pre></div>
+</div>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>   ${parameter:+word}
+          Use Alternate Value.  If parameter is null or unset, nothing  is
+          substituted, otherwise the expansion of word is substituted.
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="id4">
+<h2>連想配列を使う。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Bash version 4 以降では連想配列を利用できる。
 他の言語でハッシュマップ、辞書などで呼ばれる変数を定義できる。</p>
-<section id="id3">
-<h3>連想配列を定義する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id5">
+<h3>連想配列を定義する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A associative_array
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>連想配列の定義時に代入する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id6">
+<h3>連想配列の定義時に代入する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A <span class="nv">associative_array</span><span class="o">=(</span>
   <span class="o">[</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span>
   <span class="o">[</span><span class="s2">"key2"</span><span class="o">]=</span><span class="s2">"value2"</span>
@@ -281,8 +342,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h3>連想配列に値を入れる。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h3>連想配列に値を入れる。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A associative_array
 associative_array<span class="o">[</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span>
 <span class="nb">echo</span> <span class="s2">"key1: '</span><span class="si">${</span><span class="nv">associative_array</span><span class="p">[</span><span class="s2">"key1"</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
@@ -335,8 +396,8 @@ associative_array<span class="o">[</span>key contains double quote <span class="
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>連想配列から値を得る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id8">
+<h3>連想配列から値を得る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A associative_array
 associative_array<span class="o">[</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span>
 <span class="nb">echo</span> <span class="s2">"key1: '</span><span class="si">${</span><span class="nv">associative_array</span><span class="p">[</span><span class="s2">"key1"</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
@@ -348,8 +409,8 @@ associative_array<span class="o">[</span><span class="s2">"key1"</span><span cla
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h3>連想配列のすべてのキーを得る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id9">
+<h3>連想配列のすべてのキーを得る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A <span class="nv">associative_array</span><span class="o">=([</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span> <span class="o">[</span><span class="s2">"key2"</span><span class="o">]=</span><span class="s2">"value2"</span><span class="o">)</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="p">!associative_array[@]</span><span class="si">}</span><span class="s2">"</span>
 associative_array<span class="o">[</span><span class="s2">"key3 containing spaces"</span><span class="o">]=</span><span class="s2">"value3"</span>
@@ -367,8 +428,8 @@ associative_array<span class="o">[</span><span class="s2">"key3 containing space
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h3>連想配列から値を消す。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id10">
+<h3>連想配列から値を消す。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A <span class="nv">associative_array</span><span class="o">=([</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span> <span class="o">[</span><span class="s2">"key2"</span><span class="o">]=</span><span class="s2">"value2"</span><span class="o">)</span>
 <span class="nb">unset</span> associative_array<span class="o">[</span><span class="s2">"key1"</span><span class="o">]</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="p">!associative_array[@]</span><span class="si">}</span><span class="s2">"</span>
@@ -381,8 +442,8 @@ associative_array<span class="o">[</span><span class="s2">"key3 containing space
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h3>連想配列にキーが存在するか判定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id11">
+<h3>連想配列にキーが存在するか判定する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A <span class="nv">associative_array</span><span class="o">=([</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span> <span class="o">[</span><span class="s2">"key2"</span><span class="o">]=</span><span class="s2">""</span><span class="o">)</span>
 
 <span class="nv">key</span><span class="o">=</span><span class="s2">"key1"</span>
@@ -420,8 +481,8 @@ associative_array<span class="o">[</span><span class="s2">"key3 containing space
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h3>連想配列のキーの数を得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id12">
+<h3>連想配列のキーの数を得る。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -A <span class="nv">associative_array</span><span class="o">=([</span><span class="s2">"key1"</span><span class="o">]=</span><span class="s2">"value1"</span> <span class="o">[</span><span class="s2">"key2"</span><span class="o">]=</span><span class="s2">"value2"</span><span class="o">)</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${#</span><span class="nv">associative_array</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
@@ -433,10 +494,10 @@ associative_array<span class="o">[</span><span class="s2">"key3 containing space
 </div>
 </section>
 </section>
-<section id="id11">
-<h2>ファンクションを使う。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id12">
-<h3>ファンクションを定義する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id13">
+<h2>ファンクションを使う。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id14">
+<h3>ファンクションを定義する。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="nb">true</span>
 <span class="o">}</span>
@@ -453,14 +514,14 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id13">
-<h3>ファンクションの一覧を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id15">
+<h3>ファンクションの一覧を得る。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -F
 </pre></div>
 </div>
 </section>
-<section id="id14">
-<h3>指定したファンクション定義を得る。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id16">
+<h3>指定したファンクション定義を得る。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span> <span class="nb">echo</span> a<span class="p">;</span> <span class="o">}</span>
 <span class="nb">declare</span> -f f
 </pre></div>
@@ -474,14 +535,14 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id15">
-<h3>すべてのファンクション定義を得る。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id17">
+<h3>すべてのファンクション定義を得る。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">declare</span> -f
 </pre></div>
 </div>
 </section>
-<section id="id16">
-<h3>ファンクション実行後のステータスを制御する。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id18">
+<h3>ファンクション実行後のステータスを制御する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>f<span class="o">()</span> <span class="o">{</span>
   <span class="k">return</span> <span class="m">1</span>
 <span class="o">}</span>
@@ -499,8 +560,8 @@ f
 </div>
 </section>
 </section>
-<section id="id17">
-<h2>文字列の末尾を除去する。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id19">
+<h2>文字列の末尾を除去する。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">%%xyz</span><span class="si">}</span><span class="s2">"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
@@ -528,8 +589,8 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id18">
-<h2>文字列を1箇所置換する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id20">
+<h2>文字列を1箇所置換する。<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">/z/Z</span><span class="si">}</span><span class="s2">"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
@@ -543,8 +604,8 @@ f
 </pre></div>
 </div>
 </section>
-<section id="id19">
-<h2>文字列をすべて置換する。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id21">
+<h2>文字列をすべて置換する。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">a</span><span class="o">=</span><span class="s2">"xyz1xyz"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="si">${</span><span class="nv">a</span><span class="p">//z/Z</span><span class="si">}</span><span class="s2">"</span>
 <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$a</span><span class="s2">"</span>
@@ -633,28 +694,30 @@ Exit true (0) if $1 is not null; otherwise, exit false.</p>
             <ul>
 <li><a class="reference internal" href="#">bash基礎</a><ul>
 <li><a class="reference internal" href="#id1">バージョンがリリースされた日付、バージョンの変更内容</a></li>
-<li><a class="reference internal" href="#id2">連想配列を使う。</a><ul>
-<li><a class="reference internal" href="#id3">連想配列を定義する。</a></li>
-<li><a class="reference internal" href="#id4">連想配列の定義時に代入する。</a></li>
-<li><a class="reference internal" href="#id5">連想配列に値を入れる。</a></li>
-<li><a class="reference internal" href="#id6">連想配列から値を得る。</a></li>
-<li><a class="reference internal" href="#id7">連想配列のすべてのキーを得る。</a></li>
-<li><a class="reference internal" href="#id8">連想配列から値を消す。</a></li>
-<li><a class="reference internal" href="#id9">連想配列にキーが存在するか判定する。</a></li>
-<li><a class="reference internal" href="#id10">連想配列のキーの数を得る。</a></li>
+<li><a class="reference internal" href="#id2">変数が定義済みか判定する。</a></li>
+<li><a class="reference internal" href="#id3">変数が定義済み、かつ、値があるか判定する。</a></li>
+<li><a class="reference internal" href="#id4">連想配列を使う。</a><ul>
+<li><a class="reference internal" href="#id5">連想配列を定義する。</a></li>
+<li><a class="reference internal" href="#id6">連想配列の定義時に代入する。</a></li>
+<li><a class="reference internal" href="#id7">連想配列に値を入れる。</a></li>
+<li><a class="reference internal" href="#id8">連想配列から値を得る。</a></li>
+<li><a class="reference internal" href="#id9">連想配列のすべてのキーを得る。</a></li>
+<li><a class="reference internal" href="#id10">連想配列から値を消す。</a></li>
+<li><a class="reference internal" href="#id11">連想配列にキーが存在するか判定する。</a></li>
+<li><a class="reference internal" href="#id12">連想配列のキーの数を得る。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id11">ファンクションを使う。</a><ul>
-<li><a class="reference internal" href="#id12">ファンクションを定義する。</a></li>
-<li><a class="reference internal" href="#id13">ファンクションの一覧を得る。</a></li>
-<li><a class="reference internal" href="#id14">指定したファンクション定義を得る。</a></li>
-<li><a class="reference internal" href="#id15">すべてのファンクション定義を得る。</a></li>
-<li><a class="reference internal" href="#id16">ファンクション実行後のステータスを制御する。</a></li>
+<li><a class="reference internal" href="#id13">ファンクションを使う。</a><ul>
+<li><a class="reference internal" href="#id14">ファンクションを定義する。</a></li>
+<li><a class="reference internal" href="#id15">ファンクションの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id16">指定したファンクション定義を得る。</a></li>
+<li><a class="reference internal" href="#id17">すべてのファンクション定義を得る。</a></li>
+<li><a class="reference internal" href="#id18">ファンクション実行後のステータスを制御する。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id17">文字列の末尾を除去する。</a></li>
-<li><a class="reference internal" href="#id18">文字列を1箇所置換する。</a></li>
-<li><a class="reference internal" href="#id19">文字列をすべて置換する。</a></li>
+<li><a class="reference internal" href="#id19">文字列の末尾を除去する。</a></li>
+<li><a class="reference internal" href="#id20">文字列を1箇所置換する。</a></li>
+<li><a class="reference internal" href="#id21">文字列をすべて置換する。</a></li>
 <li><a class="reference internal" href="#bool">変数で bool 相当の表現を行う。</a></li>
 </ul>
 </li>

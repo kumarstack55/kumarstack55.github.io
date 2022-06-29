@@ -6,6 +6,66 @@ https://www.gnu.org/software/bash/manual/bash.html
 
 * [Is there a list of which features were added to specific releases (versions) of Bash?](https://mywiki.wooledge.org/BashFAQ/061)
 
+## 変数が定義済みか判定する。
+
+```bash
+unset var
+[ "${var+x}" ] && echo true || echo false
+
+var=
+[ "${var+x}" ] && echo true || echo false
+
+var="a"
+[ "${var+x}" ] && echo true || echo false
+```
+
+```console
+$ unset var
+$ [ "${var+x}" ] && echo true || echo false
+false
+$ var=
+$ [ "${var+x}" ] && echo true || echo false
+true
+$ var="a"
+$ [ "${var+x}" ] && echo true || echo false
+true
+```
+
+> ${parameter:+[word]}
+> Use Alternative Value. If parameter is unset or null, null shall be substituted; otherwise, the expansion of word (or an empty string if word is omitted) shall be substituted.
+> In the parameter expansions shown previously, use of the <colon> in the format shall result in a test for a parameter that is unset or null; omission of the <colon> shall result in a test for a parameter that is only unset.
+
+https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
+
+## 変数が定義済み、かつ、値があるか判定する。
+
+```bash
+unset var
+[ "${var:+x}" ] && echo true || echo false
+
+var=
+[ "${var:+x}" ] && echo true || echo false
+
+var="a"
+[ "${var:+x}" ] && echo true || echo false
+```
+
+```console
+$ unset var
+$ [ "${var:+x}" ] && echo true || echo false
+false
+$ var=
+$ [ "${var:+x}" ] && echo true || echo false
+false
+$ var="a"
+$ [ "${var:+x}" ] && echo true || echo false
+true
+```
+
+>        ${parameter:+word}
+>               Use Alternate Value.  If parameter is null or unset, nothing  is
+>               substituted, otherwise the expansion of word is substituted.
+
 ## 連想配列を使う。
 
 Bash version 4 以降では連想配列を利用できる。
