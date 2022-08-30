@@ -1,0 +1,32 @@
+# ctags
+
+## u-ctags
+
+### 公式ドキュメント
+
+* https://github.com/universal-ctags/ctags
+* https://docs.ctags.io/en/latest/index.html
+
+読み込まれる設定ファイルのパスは ctags, e-ctags と互換性がないため、
+注意する必要がある。
+
+### 指定言語の kinds を得る。
+
+kinds があれば出力される。
+
+```console
+PS > ctags --list-kinds=markdown
+c  chapsters
+s  sections
+S  subsections
+t  subsubsections
+T  level 4 subsections
+u  level 5 subsections
+```
+
+kinds がなければ失敗する。
+
+```console
+PS > ctags --list-kinds=xyz
+ctags.exe: Unknown language "xyz" in "list-kinds" option
+```

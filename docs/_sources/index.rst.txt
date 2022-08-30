@@ -6,6 +6,7 @@ Untitled ドキュメント
    :caption: Contents:
 
    vim
+   ctags
    github
    gitlab
    mattermost

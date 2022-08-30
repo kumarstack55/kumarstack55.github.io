@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Kubernetes" href="kubernetes.html" /><link rel="prev" title="Docker" href="docker.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="GitHub" href="github.html" /><link rel="prev" title="Vim" href="vim.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>コンテナ - Untitled ドキュメント</title>
+        <title>ctags - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -157,7 +157,7 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ctags.html">ctags</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ctags</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gitlab.html">GitLab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mattermost.html">Mattermost</a></li>
@@ -188,7 +188,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Docker</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">コンテナ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
@@ -246,79 +246,37 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>コンテナ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="docker-engine-community-edition-debian">
-<h2>Docker Engine の Community Edition を Debian にインストールする。<a class="headerlink" href="#docker-engine-community-edition-debian" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get install ca-certificates curl gnupg lsb-release -y
-
-curl -fsSL https://download.docker.com/linux/debian/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-<span class="nb">echo</span> <span class="se">\</span>
-  <span class="s2">"deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \</span>
-<span class="s2">  </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable"</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io -y
-
-sudo docker run hello-world
+          <section class="tex2jax_ignore mathjax_ignore" id="ctags">
+<h1>ctags<a class="headerlink" href="#ctags" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="u-ctags">
+<h2>u-ctags<a class="headerlink" href="#u-ctags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id1">
+<h3>公式ドキュメント<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><p>https://github.com/universal-ctags/ctags</p></li>
+<li><p>https://docs.ctags.io/en/latest/index.html</p></li>
+</ul>
+<p>読み込まれる設定ファイルのパスは ctags, e-ctags と互換性がないため、
+注意する必要がある。</p>
+</section>
+<section id="kinds">
+<h3>指定言語の kinds を得る。<a class="headerlink" href="#kinds" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>kinds があれば出力される。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; ctags --list-kinds=markdown</span>
+<span class="go">c  chapsters</span>
+<span class="go">s  sections</span>
+<span class="go">S  subsections</span>
+<span class="go">t  subsubsections</span>
+<span class="go">T  level 4 subsections</span>
+<span class="go">u  level 5 subsections</span>
 </pre></div>
 </div>
-<p>https://docs.docker.com/engine/install/debian/</p>
-</section>
-<section id="docker-desktop-windows">
-<h2>Docker Desktop を Windows にインストールする。<a class="headerlink" href="#docker-desktop-windows" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">name</span> <span class="n">repo</span> <span class="n">alpine</span><span class="o">/</span><span class="n">git</span> <span class="n">clone</span> \
-<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">.</span><span class="n">git</span>
-
-<span class="n">docker</span> <span class="n">cp</span> <span class="n">repo</span><span class="p">:</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span> <span class="o">.</span>
-
-<span class="n">cd</span> <span class="n">getting</span><span class="o">-</span><span class="n">started</span>
-
-<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">docker101tutorial</span> <span class="o">.</span>
-
-<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="p">:</span><span class="mi">80</span> \
-<span class="o">--</span><span class="n">name</span> <span class="n">docker</span><span class="o">-</span><span class="n">tutorial</span> <span class="n">docker101tutorial</span>
-
-<span class="n">docker</span> <span class="n">tag</span> <span class="n">docker101tutorial</span> <span class="n">kumarstack55</span><span class="o">/</span><span class="n">docker101tutorial</span>
-
-<span class="n">docker</span> <span class="n">push</span> <span class="n">kumarstack55</span><span class="o">/</span><span class="n">docker101tutorial</span>
-</pre></div>
-</div>
-<p><a class="reference external" href="https://hub.docker.com/repository/docker/kumarstack55/docker101tutorial">See what you've saved on Hub</a></p>
-</section>
-<section id="root">
-<h2>root ではないユーザでコンテナを実行できるようにする。<a class="headerlink" href="#root" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># グループを作って、ユーザを加える。</span>
-sudo groupadd docker
-sudo usermod -aG docker <span class="nv">$USER</span>
-
-<span class="c1"># 再起動なしにグループを有効にする。</span>
-newgrp docker
-
-<span class="c1"># root ではないユーザでコンテナを実行する。</span>
-docker run hello-world
-</pre></div>
-</div>
-<p>https://docs.docker.com/engine/install/linux-postinstall/</p>
-</section>
-<section id="podman">
-<h2>Podman をインストールする。<a class="headerlink" href="#podman" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
-</section>
-<section id="id2">
-<h2>コンテナを実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman run --name nginx -p <span class="m">10080</span>:80 -d nginx
-curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1">'title'</span>
+<p>kinds がなければ失敗する。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; ctags --list-kinds=xyz</span>
+<span class="go">ctags.exe: Unknown language "xyz" in "list-kinds" option</span>
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>コンテナ内でコマンドを実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman <span class="nb">exec</span> -it nginx /bin/bash
-</pre></div>
-</div>
 </section>
 </section>
 
@@ -327,23 +285,23 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="kubernetes.html">
+          <a class="next-page" href="github.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Kubernetes</div>
+                <div class="title">GitHub</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="docker.html">
+          <a class="prev-page" href="vim.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Docker</div>
+                <div class="title">Vim</div>
                 
               </div>
             </a>
@@ -355,7 +313,7 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/container.md.txt"
+            <a class="muted-link" href="_sources/ctags.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -375,13 +333,12 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">コンテナ</a><ul>
-<li><a class="reference internal" href="#docker-engine-community-edition-debian">Docker Engine の Community Edition を Debian にインストールする。</a></li>
-<li><a class="reference internal" href="#docker-desktop-windows">Docker Desktop を Windows にインストールする。</a></li>
-<li><a class="reference internal" href="#root">root ではないユーザでコンテナを実行できるようにする。</a></li>
-<li><a class="reference internal" href="#podman">Podman をインストールする。</a></li>
-<li><a class="reference internal" href="#id2">コンテナを実行する。</a></li>
-<li><a class="reference internal" href="#id3">コンテナ内でコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#">ctags</a><ul>
+<li><a class="reference internal" href="#u-ctags">u-ctags</a><ul>
+<li><a class="reference internal" href="#id1">公式ドキュメント</a></li>
+<li><a class="reference internal" href="#kinds">指定言語の kinds を得る。</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
