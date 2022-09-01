@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Prometheus" href="prometheus.html" /><link rel="prev" title="HTML" href="html.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="ctags" href="ctags.html" /><link rel="prev" title="Vim" href="vim.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Node JS - Untitled ドキュメント</title>
+        <title>Visual Studio Code - vscode - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -157,13 +157,13 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vscode.html">Visual Studio Code - vscode</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Visual Studio Code - vscode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctags.html">ctags</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gitlab.html">GitLab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mattermost.html">Mattermost</a></li>
 <li class="toctree-l1"><a class="reference internal" href="html.html">HTML</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Node JS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mariadb.html">MariaDB</a></li>
@@ -247,46 +247,132 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="node-js">
-<h1>Node JS<a class="headerlink" href="#node-js" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="node-js-windows">
-<h2>Node JS を Windows にインストールする。<a class="headerlink" href="#node-js-windows" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">choco</span> <span class="n">install</span> <span class="n">nodejs</span>
-</pre></div>
-</div>
-</section>
+          <section class="tex2jax_ignore mathjax_ignore" id="visual-studio-code-vscode">
+<h1>Visual Studio Code - vscode<a class="headerlink" href="#visual-studio-code-vscode" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>Node JS のバージョンを確認する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; node --version</span>
-<span class="go">v17.4.0</span>
+<h2>コマンドラインのヘルプを得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="n">a</span><span class="p">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; code -h</span>
+<span class="go">Visual Studio Code 1.69.0</span>
+
+<span class="go">Usage: code.exe [options][paths...]</span>
+
+<span class="go">To read output from another program, append '-' (e.g. 'echo Hello World | code.exe -')</span>
+
+<span class="go">Options</span>
+<span class="go">  -d --diff &lt;file&gt; &lt;file&gt;           Compare two files with each other.</span>
+<span class="go">  -a --add &lt;folder&gt;                 Add folder(s) to the last active window.</span>
+<span class="go">  -g --goto &lt;file:line[:character]&gt; Open a file at the path on the specified</span>
+<span class="go">                                    line and character position.</span>
+<span class="go">  -n --new-window                   Force to open a new window.</span>
+<span class="go">  -r --reuse-window                 Force to open a file or folder in an</span>
+<span class="go">                                    already opened window.</span>
+<span class="go">  -w --wait                         Wait for the files to be closed before</span>
+<span class="go">                                    returning.</span>
+<span class="go">  --locale &lt;locale&gt;                 The locale to use (e.g. en-US or zh-TW).</span>
+<span class="go">  --user-data-dir &lt;dir&gt;             Specifies the directory that user data is</span>
+<span class="go">                                    kept in. Can be used to open multiple</span>
+<span class="go">                                    distinct instances of Code.</span>
+<span class="go">  -h --help                         Print usage.</span>
+
+<span class="go">Extensions Management</span>
+<span class="go">  --extensions-dir &lt;dir&gt;              Set the root path for extensions.</span>
+<span class="go">  --list-extensions                   List the installed extensions.</span>
+<span class="go">  --show-versions                     Show versions of installed extensions,</span>
+<span class="go">                                      when using --list-extensions.</span>
+<span class="go">  --category &lt;category&gt;               Filters installed extensions by provided</span>
+<span class="go">                                      category, when using --list-extensions.</span>
+<span class="go">  --install-extension &lt;ext-id | path&gt; Installs or updates an extension. The</span>
+<span class="go">                                      argument is either an extension id or a</span>
+<span class="go">                                      path to a VSIX. The identifier of an</span>
+<span class="go">                                      extension is '${publisher}.${name}'. Use</span>
+<span class="go">                                      '--force' argument to update to latest</span>
+<span class="go">                                      version. To install a specific version</span>
+<span class="go">                                      provide '@${version}'. For example:</span>
+<span class="go">                                      'vscode.csharp@1.2.3'.</span>
+<span class="go">  --pre-release                       Installs the pre-release version of the</span>
+<span class="go">                                      extension, when using</span>
+<span class="go">                                      --install-extension</span>
+<span class="go">  --uninstall-extension &lt;ext-id&gt;      Uninstalls an extension.</span>
+<span class="go">  --enable-proposed-api &lt;ext-id&gt;      Enables proposed API features for</span>
+<span class="go">                                      extensions. Can receive one or more</span>
+<span class="go">                                      extension IDs to enable individually.</span>
+
+<span class="go">Troubleshooting</span>
+<span class="go">  -v --version                    Print version.</span>
+<span class="go">  --verbose                       Print verbose output (implies --wait).</span>
+<span class="go">  --log &lt;level&gt;                   Log level to use. Default is 'info'. Allowed</span>
+<span class="go">                                  values are 'critical', 'error', 'warn',</span>
+<span class="go">                                  'info', 'debug', 'trace', 'off'.</span>
+<span class="go">  -s --status                     Print process usage and diagnostics</span>
+<span class="go">                                  information.</span>
+<span class="go">  --prof-startup                  Run CPU profiler during startup.</span>
+<span class="go">  --disable-extensions            Disable all installed extensions.</span>
+<span class="go">  --disable-extension &lt;ext-id&gt;    Disable an extension.</span>
+<span class="go">  --sync &lt;on | off&gt;               Turn sync on or off.</span>
+<span class="go">  --inspect-extensions &lt;port&gt;     Allow debugging and profiling of extensions.</span>
+<span class="go">                                  Check the developer tools for the connection</span>
+<span class="go">                                  URI.</span>
+<span class="go">  --inspect-brk-extensions &lt;port&gt; Allow debugging and profiling of extensions</span>
+<span class="go">                                  with the extension host being paused after</span>
+<span class="go">                                  start. Check the developer tools for the</span>
+<span class="go">                                  connection URI.</span>
+<span class="go">  --disable-gpu                   Disable GPU hardware acceleration.</span>
+<span class="go">  --max-memory &lt;memory&gt;           Max memory size for a window (in Mbytes).</span>
+<span class="go">  --telemetry                     Shows all telemetry events which VS code</span>
+<span class="go">                                  collects.</span>
 </pre></div>
 </div>
 </section>
-<section id="npm">
-<h2>npm のバージョンを確認する。<a class="headerlink" href="#npm" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; npm version</span>
-<span class="go">{</span>
-<span class="go">  npm: '7.20.0',</span>
-<span class="go">  node: '17.4.0',</span>
-<span class="go">  v8: '9.6.180.15-node.13',</span>
-<span class="go">  uv: '1.43.0',</span>
-<span class="go">  zlib: '1.2.11',</span>
-<span class="go">  brotli: '1.0.9',</span>
-<span class="go">  ares: '1.18.1',</span>
-<span class="go">  modules: '102',</span>
-<span class="go">  nghttp2: '1.45.1',</span>
-<span class="go">  napi: '8',</span>
-<span class="go">  llhttp: '6.0.4',</span>
-<span class="go">  openssl: '3.0.1+quic',</span>
-<span class="go">  cldr: '40.0',</span>
-<span class="go">  icu: '70.1',</span>
-<span class="go">  tz: '2021a3',</span>
-<span class="go">  unicode: '14.0',</span>
-<span class="go">  ngtcp2: '0.1.0-DEV',</span>
-<span class="go">  nghttp3: '0.1.0-DEV'</span>
-<span class="go">}</span>
+<section id="markdown">
+<h2>Markdown<a class="headerlink" href="#markdown" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h3>プレビューを開く。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">V</span></code></p>
+</section>
+</section>
+<section id="id3">
+<h2>拡張機能<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="paste-image">
+<h3>Paste Image<a class="headerlink" href="#paste-image" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>名前: Paste Image
+ID: mushan.vscode-paste-image
+説明: paste image from clipboard directly
+バージョン: 1.0.4
+パブリッシャー: mushan
+VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image
 </pre></div>
 </div>
+<p>クリップボードの画像イメージを Markdown などにペーストできる。</p>
+<p>Windows の場合、 <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">V</span></code> でカーソル位置にペーストする。</p>
+</section>
+<section id="markdown-pdf">
+<h3>Markdown PDF<a class="headerlink" href="#markdown-pdf" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>名前: Markdown PDF
+ID: yzane.markdown-pdf
+説明: Convert Markdown to PDF
+バージョン: 1.4.4
+パブリッシャー: yzane
+VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf
+</pre></div>
+</div>
+<p>Markdown ファイルを印刷しやすい pdf にする。</p>
+<p>Markdown のタブ内で右クリックし、コンテキストメニューで <code class="docutils literal notranslate"><span class="pre">Markdown</span> <span class="pre">to</span> <span class="pre">PDF:</span> <span class="pre">Export</span> <span class="pre">(pdf)</span></code> を選ぶ。</p>
+</section>
+<section id="vim">
+<h3>Vim<a class="headerlink" href="#vim" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>名前: Vim
+ID: vscodevim.vim
+説明: Vim emulation for Visual Studio Code
+バージョン: 1.23.2
+パブリッシャー: vscodevim
+VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=vscodevim.vim
+</pre></div>
+</div>
+<p>Vim のキーバインディングで操作する。</p>
+</section>
 </section>
 </section>
 
@@ -295,23 +381,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="prometheus.html">
+          <a class="next-page" href="ctags.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Prometheus</div>
+                <div class="title">ctags</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="html.html">
+          <a class="prev-page" href="vim.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">HTML</div>
+                <div class="title">Vim</div>
                 
               </div>
             </a>
@@ -323,7 +409,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/nodejs.md.txt"
+            <a class="muted-link" href="_sources/vscode.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -343,10 +429,18 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Node JS</a><ul>
-<li><a class="reference internal" href="#node-js-windows">Node JS を Windows にインストールする。</a></li>
-<li><a class="reference internal" href="#id1">Node JS のバージョンを確認する。</a></li>
-<li><a class="reference internal" href="#npm">npm のバージョンを確認する。</a></li>
+<li><a class="reference internal" href="#">Visual Studio Code - vscode</a><ul>
+<li><a class="reference internal" href="#id1">コマンドラインのヘルプを得る。</a></li>
+<li><a class="reference internal" href="#markdown">Markdown</a><ul>
+<li><a class="reference internal" href="#id2">プレビューを開く。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">拡張機能</a><ul>
+<li><a class="reference internal" href="#paste-image">Paste Image</a></li>
+<li><a class="reference internal" href="#markdown-pdf">Markdown PDF</a></li>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
