@@ -278,6 +278,238 @@
 </pre></div>
 </div>
 </section>
+<section id="ctags-help">
+<h3>ctags --help<a class="headerlink" href="#ctags-help" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; ctags --help</span>
+<span class="go">Universal Ctags 5.9.0(3185b289), Copyright (C) 2015 Universal Ctags Team</span>
+<span class="go">Universal Ctags is derived from Exuberant Ctags.</span>
+<span class="go">Exuberant Ctags 5.8, Copyright (C) 1996-2009 Darren Hiebert</span>
+<span class="go">  Compiled: Apr  2 2021, 01:06:11</span>
+<span class="go">  URL: https://ctags.io/</span>
+<span class="go">  Optional compiled features: +win32, +wildcards, +regex, +internal-sort, +unix-path-separator, +iconv, +option-directory, +xpath, +json, +interactive, +yaml, +case-insensitive-filenames, +packcc</span>
+
+<span class="go">Usage: ctags.exe [options] [file(s)]</span>
+
+<span class="go">Input/Output Options</span>
+<span class="go">  --exclude=&lt;pattern&gt;</span>
+<span class="go">       Exclude files and directories matching &lt;pattern&gt;.</span>
+<span class="go">       See also --exclude-exception option.</span>
+<span class="go">  --exclude-exception=&lt;pattern&gt;</span>
+<span class="go">      Don't exclude files and directories matching &lt;pattern&gt; even if</span>
+<span class="go">      they match the pattern specified with --exclude option.</span>
+<span class="go">  --filter[=(yes|no)]</span>
+<span class="go">       Behave as a filter, reading file names from standard input and</span>
+<span class="go">       writing tags to standard output [no].</span>
+<span class="go">  --filter-terminator=&lt;string&gt;</span>
+<span class="go">       Specify &lt;string&gt; to print to stdout following the tags for each file</span>
+<span class="go">       parsed when --filter is enabled.</span>
+<span class="go">  --links[=(yes|no)]</span>
+<span class="go">       Indicate whether symbolic links should be followed [yes].</span>
+<span class="go">  --maxdepth=&lt;N&gt;</span>
+<span class="go">       Specify maximum recursion depth.</span>
+<span class="go">  --recurse[=(yes|no)]</span>
+<span class="go">       Recurse into directories supplied on command line [no].</span>
+<span class="go">  -R   Equivalent to --recurse.</span>
+<span class="go">  -L &lt;file&gt;</span>
+<span class="go">       A list of input file names is read from the specified &lt;file&gt;.</span>
+<span class="go">       If specified as "-", then standard input is read.</span>
+<span class="go">  --append[=(yes|no)]</span>
+<span class="go">       Should tags should be appended to existing tag file [no]?</span>
+<span class="go">  -a   Append the tags to an existing tag file.</span>
+<span class="go">  -f &lt;tagfile&gt;</span>
+<span class="go">       Write tags to specified &lt;tagfile&gt;. Value of "-" writes tags to stdout</span>
+<span class="go">       ["tags"; or "TAGS" when -e supplied].</span>
+<span class="go">  -o   Alternative for -f.</span>
+
+<span class="go">Output Format Options</span>
+<span class="go">  --format=(1|2)</span>
+<span class="go">       Force output of specified tag file format [2].</span>
+<span class="go">  --output-format=(u-ctags|e-ctags|etags|xref|json)</span>
+<span class="go">      Specify the output format. [u-ctags]</span>
+<span class="go">  -e   Output tag file for use with Emacs.</span>
+<span class="go">  -x   Print a tabular cross reference file to standard output.</span>
+<span class="go">  --sort=(yes|no|foldcase)</span>
+<span class="go">       Should tags be sorted (optionally ignoring case) [yes]?</span>
+<span class="go">  -u   Equivalent to --sort=no.</span>
+<span class="go">  --etags-include=&lt;file&gt;</span>
+<span class="go">       Include reference to &lt;file&gt; in Emacs-style tag file (requires -e).</span>
+<span class="go">  --input-encoding=&lt;encoding&gt;</span>
+<span class="go">       Specify &lt;encoding&gt; of all input files.</span>
+<span class="go">  --input-encoding-&lt;LANG&gt;=&lt;encoding&gt;</span>
+<span class="go">       Specify &lt;encoding&gt; of the &lt;LANG&gt; input files.</span>
+<span class="go">  --output-encoding=&lt;encoding&gt;</span>
+<span class="go">       The &lt;encoding&gt; to write the tag file in. Defaults to UTF-8 if --input-encoding</span>
+<span class="go">       is specified, otherwise no conversion is performed.</span>
+
+<span class="go">Language Selection and Mapping Options</span>
+<span class="go">  --language-force=(&lt;language&gt;|auto)</span>
+<span class="go">       Force all files to be interpreted using specified &lt;language&gt;.</span>
+<span class="go">  --languages=[+|-](&lt;list&gt;|all)</span>
+<span class="go">       Restrict files scanned for tags to those mapped to languages</span>
+<span class="go">       specified in the comma-separated &lt;list&gt;. The list can contain any</span>
+<span class="go">       built-in or user-defined language [all].</span>
+<span class="go">  --alias-&lt;LANG&gt;=[+|-](&lt;pattern&gt;|default)</span>
+<span class="go">       Add a &lt;pattern&gt; detecting a name, can be used as an alternative name</span>
+<span class="go">       for &lt;LANG&gt;.</span>
+<span class="go">  --guess-language-eagerly</span>
+<span class="go">       Guess the language of input file more eagerly</span>
+<span class="go">       (but taking longer time for guessing):</span>
+<span class="go">       o shebang, even if the input file is not executable,</span>
+<span class="go">       o emacs mode specification at the beginning and end of input file, and</span>
+<span class="go">       o vim syntax specification at the end of input file.</span>
+<span class="go">  -G   Equivalent to --guess-language-eagerly.</span>
+<span class="go">  --langmap=&lt;map&gt;[,&lt;map&gt;[...]]</span>
+<span class="go">       Override default mapping of language to input file extension.</span>
+<span class="go">       e.g. --langmap=c:.c.x,java:+.j,make:([Mm]akefile).mak</span>
+<span class="go">  --map-&lt;LANG&gt;=[+|-]&lt;extension&gt;|&lt;pattern&gt;</span>
+<span class="go">       Set, add(+) or remove(-) the map for &lt;LANG&gt;.</span>
+<span class="go">       Unlike --langmap, this doesn't take a list; only one file name &lt;pattern&gt;</span>
+<span class="go">       or one file &lt;extension&gt; can be specified at once.</span>
+<span class="go">       Unlike --langmap the change with this option affects mapping of &lt;LANG&gt; only.</span>
+
+<span class="go">Tags File Contents Options</span>
+<span class="go">  --excmd=(number|pattern|mix|combine)</span>
+<span class="go">       Uses the specified type of EX command to locate tags [mix].</span>
+<span class="go">  -n   Equivalent to --excmd=number.</span>
+<span class="go">  -N   Equivalent to --excmd=pattern.</span>
+<span class="go">  --extras=[+|-][&lt;flags&gt;|*]</span>
+<span class="go">       Include extra tag entries for selected information (&lt;flags&gt;: "fFgpqrs") [F].</span>
+<span class="go">  --extras-(&lt;LANG&gt;|all)=[+|-][&lt;flags&gt;|*]</span>
+<span class="go">       Include &lt;LANG&gt; own extra tag entries for selected information</span>
+<span class="go">       (&lt;flags&gt;: see the output of --list-extras=&lt;LANG&gt; option).</span>
+<span class="go">  --fields=[+|-][&lt;flags&gt;|*]</span>
+<span class="go">       Include selected extension fields (&lt;flags&gt;: "aCeEfFikKlmnNpPrRsStxzZ") [fks].</span>
+<span class="go">  --fields-(&lt;LANG&gt;|all)=[+|-][&lt;flags&gt;|*]</span>
+<span class="go">       Include selected &lt;LANG&gt; own extension fields</span>
+<span class="go">       (&lt;flags&gt;: see the output of --list-fields=&lt;LANG&gt; option).</span>
+<span class="go">  --kinds-(&lt;LANG&gt;|all)=[+|-](&lt;kinds&gt;|*)</span>
+<span class="go">       Enable/disable tag &lt;kinds&gt; for language &lt;LANG&gt;.</span>
+<span class="go">  --pattern-length-limit=&lt;N&gt;</span>
+<span class="go">      Cutoff patterns of tag entries after &lt;N&gt; characters. Disable by setting to 0. [96]</span>
+<span class="go">  --pseudo-tags=[+|-](&lt;pseudo-tag&gt;|*)</span>
+<span class="go">       Enable/disable emitting pseudo tag named &lt;pseudo-tag&gt;.</span>
+<span class="go">       if '*' is given, enable emitting all pseudo tags.</span>
+<span class="go">  --put-field-prefix</span>
+<span class="go">       Put "UCTAGS" as prefix for the name of fields newly introduced in</span>
+<span class="go">       universal-ctags.</span>
+<span class="go">  --roles-(&lt;LANG&gt;|all).(&lt;kind&gt;|all)=[+|-][&lt;roles&gt;|*]</span>
+<span class="go">       Enable/disable tag roles for kinds of language &lt;LANG&gt;.</span>
+<span class="go">  --tag-relative=(yes|no|always|never)</span>
+<span class="go">       Should paths be relative to location of tag file [no; yes when -e]?</span>
+<span class="go">       always: be relative even if input files are passed in with absolute paths</span>
+<span class="go">       never:  be absolute even if input files are passed in with relative paths</span>
+<span class="go">  --use-slash-as-filename-separator[=(yes|no)]</span>
+<span class="go">       Use slash as filename separator [yes] for u-ctags output format.</span>
+<span class="go">  -B   Use backward searching patterns (?...?).</span>
+<span class="go">  -F   Use forward searching patterns (/.../; default).</span>
+
+<span class="go">Option File Options</span>
+<span class="go">  --options=&lt;pathname&gt;</span>
+<span class="go">       Specify file (or directory) &lt;pathname&gt; from which command line options should be read.</span>
+<span class="go">  --options-maybe=&lt;pathname&gt;</span>
+<span class="go">       Do the same as --options but this doesn't make an error for non-existing file.</span>
+<span class="go">  --optlib-dir=[+]&lt;directory&gt;</span>
+<span class="go">       Add or set &lt;directory&gt; to optlib search path.</span>
+
+<span class="go">optlib Options</span>
+<span class="go">  --kinddef-&lt;LANG&gt;=&lt;letter&gt;,&lt;name&gt;,&lt;description&gt;</span>
+<span class="go">       Define new kind for &lt;LANG&gt;.</span>
+<span class="go">  --langdef=&lt;name&gt;</span>
+<span class="go">       Define a new language to be parsed with regular expressions.</span>
+<span class="go">  --mline-regex-&lt;LANG&gt;=/&lt;line_pattern&gt;/&lt;name_pattern&gt;/&lt;kind-spec&gt;/[&lt;flags&gt;]</span>
+<span class="go">       Define multiline regular expression for locating tags in specific language.</span>
+<span class="go">  --regex-&lt;LANG&gt;=/&lt;line_pattern&gt;/&lt;name_pattern&gt;/&lt;kind-spec&gt;/[&lt;flags&gt;]</span>
+<span class="go">       Define single-line regular expression for locating tags in specific language.</span>
+
+<span class="go">Language Specific Options</span>
+<span class="go">  --if0[=(yes|no)]</span>
+<span class="go">       Should code within #if 0 conditional branches be parsed [no]?</span>
+<span class="go">  --line-directives[=(yes|no)]</span>
+<span class="go">       Should '#line' directives be processed [no]?</span>
+<span class="go">  -D &lt;macro&gt;=&lt;definition&gt;</span>
+<span class="go">       (CPreProcessor) Give &lt;definition&gt; for &lt;macro&gt;.</span>
+<span class="go">  -h (&lt;list&gt;|default)</span>
+<span class="go">       Specify a &lt;list&gt; of file extensions to be treated as include files</span>
+<span class="go">       [".h.H.hh.hpp.hxx.h++.inc.def"].</span>
+<span class="go">  -I [+|-]&lt;list&gt;|@&lt;file&gt;</span>
+<span class="go">       A &lt;list&gt; of tokens to be specially handled is read from either the</span>
+<span class="go">       command line or the specified &lt;file&gt;.</span>
+<span class="go">  --param-&lt;LANG&gt;:&lt;name&gt;=&lt;argument&gt;</span>
+<span class="go">       Set &lt;LANG&gt; specific parameter. Available parameters can be listed with --list-params.</span>
+
+<span class="go">Listing Options</span>
+<span class="go">  --list-aliases[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of alias patterns.</span>
+<span class="go">  --list-excludes</span>
+<span class="go">       Output list of exclude patterns for excluding files/directories.</span>
+<span class="go">  --list-extras[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of extra tag flags.</span>
+<span class="go">  --list-features</span>
+<span class="go">       Output list of compiled features.</span>
+<span class="go">  --list-fields[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of fields.</span>
+<span class="go">  --list-kinds[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output a list of all tag kinds for specified &lt;language&gt; or all.</span>
+<span class="go">  --list-kinds-full[=(&lt;language&gt;|all)]</span>
+<span class="go">       List the details of all tag kinds for specified &lt;language&gt; or all</span>
+<span class="go">       For each line, associated language name is printed when "all" is</span>
+<span class="go">       specified as language.</span>
+<span class="go">  --list-languages</span>
+<span class="go">       Output list of supported languages.</span>
+<span class="go">  --list-map-extensions[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of language extensions in mapping.</span>
+<span class="go">  --list-map-patterns[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of language patterns in mapping.</span>
+<span class="go">  --list-maps[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of language mappings (both extensions and patterns).</span>
+<span class="go">  --list-mline-regex-flags</span>
+<span class="go">       Output list of flags which can be used in a multiline regex parser definition.</span>
+<span class="go">  --list-params[=(&lt;language&gt;|all)]</span>
+<span class="go">       Output list of language parameters. This works with --machinable.</span>
+<span class="go">  --list-pseudo-tags</span>
+<span class="go">       Output list of pseudo tags.</span>
+<span class="go">  --list-regex-flags</span>
+<span class="go">       Output list of flags which can be used in a regex parser definition.</span>
+<span class="go">  --list-roles[=(&lt;language&gt;|all)[.(&lt;kindspecs&gt;|*)]]</span>
+<span class="go">       Output list of all roles of tag kind(s) specified for &lt;language&gt;.</span>
+<span class="go">       Both letters and names can be used in &lt;kindspecs&gt;.</span>
+<span class="go">       e.g. --list-roles=C.{header}d</span>
+<span class="go">  --list-subparsers[=(&lt;baselang&gt;|all)]</span>
+<span class="go">       Output list of subparsers for the base language.</span>
+<span class="go">  --machinable[=(yes|no)]</span>
+<span class="go">       Use tab separated representation in --list-* option output. [no]</span>
+<span class="go">       --list-{aliases,extras,features,fields,kind-full,langdef-flags,params,</span>
+<span class="go">       pseudo-tags,regex-flags,roles,subparsers} support this option.</span>
+<span class="go">       Suitable for scripting. Specify before --list-* option.</span>
+<span class="go">  --with-list-header[=(yes|no)]</span>
+<span class="go">       Prepend the column descriptions in --list- output. [yes]</span>
+<span class="go">       --list-{aliases,extras,features,fields,kind-full,langdef-flags,params,</span>
+<span class="go">       pseudo-tags,regex-flags,roles,subparsers} support this option.</span>
+<span class="go">       Specify before --list-* option.</span>
+
+<span class="go">Miscellaneous Options</span>
+<span class="go">  --help</span>
+<span class="go">       Print this option summary.</span>
+<span class="go">  -?   Print this option summary.</span>
+<span class="go">  --help-full</span>
+<span class="go">       Print this option summary including experimental features.</span>
+<span class="go">  --license</span>
+<span class="go">       Print details of software license.</span>
+<span class="go">  --print-language</span>
+<span class="go">       Don't make tags file but just print the guessed language name for</span>
+<span class="go">       input file.</span>
+<span class="go">  --quiet[=(yes|no)]</span>
+<span class="go">       Don't print NOTICE class messages [no].</span>
+<span class="go">  --totals[=(yes|no|extra)]</span>
+<span class="go">       Print statistics about input and tag files [no].</span>
+<span class="go">  --verbose[=(yes|no)]</span>
+<span class="go">       Enable verbose messages describing actions on each input file.</span>
+<span class="go">  --version</span>
+<span class="go">       Print version identifier to standard output.</span>
+<span class="go">  -V   Equivalent to --verbose.</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -338,6 +570,7 @@
 <li><a class="reference internal" href="#u-ctags">u-ctags</a><ul>
 <li><a class="reference internal" href="#id1">公式ドキュメント</a></li>
 <li><a class="reference internal" href="#kinds">指定言語の kinds を得る。</a></li>
+<li><a class="reference internal" href="#ctags-help">ctags --help</a></li>
 </ul>
 </li>
 </ul>
