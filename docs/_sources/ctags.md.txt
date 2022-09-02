@@ -1,4 +1,6 @@
-# ctags
+# Ctags
+
+## e-ctags
 
 ## u-ctags
 
@@ -29,6 +31,278 @@ kinds がなければ失敗する。
 ```console
 PS > ctags --list-kinds=xyz
 ctags.exe: Unknown language "xyz" in "list-kinds" option
+```
+
+### ctags --list-languages
+
+```console
+PS > ctags --list-languages
+Abaqus
+Abc
+Ada
+AnsiblePlaybook
+Ant
+Asciidoc
+Asm
+Asp
+Autoconf
+AutoIt
+Automake
+Awk
+Basic
+BETA
+BibTeX
+C
+C#
+C++
+Clojure
+CMake
+Cobol
+CobolFree
+CobolVariable
+CPreProcessor
+CSS
+Ctags
+CUDA
+D
+DBusIntrospect
+Diff
+DosBatch
+DTD
+DTS
+Eiffel
+Elixir
+Elm
+EmacsLisp
+Erlang
+Falcon
+Flex
+Fortran
+FunctionParameters
+Fypp
+Gdbinit
+Glade
+Go
+Haskell
+Haxe
+HTML
+Iniconf
+Inko
+ITcl
+Java
+JavaProperties
+JavaScript
+JSON
+Julia
+Kconfig
+Kotlin
+LdScript
+Lisp
+LiterateHaskell
+Lua
+M4
+Make
+Man
+Markdown
+MatLab
+Maven2
+Meson
+Moose
+Myrddin
+NSIS
+ObjectiveC
+OCaml
+OldC [disabled]
+OldC++ [disabled]
+Pascal
+Passwd
+Perl
+Perl6
+PHP
+PlistXML
+Pod
+PowerShell
+Protobuf
+PuppetManifest
+Python
+PythonLoggingConfig
+QemuHX
+QtMoc
+R
+R6Class
+RelaxNG
+ReStructuredText
+REXX
+Robot
+RpmSpec
+RSpec
+Ruby
+Rust
+S4Class
+Scheme
+SCSS
+Sh
+SLang
+SML
+SQL
+SVG
+SystemdUnit
+SystemTap
+SystemVerilog
+Tcl
+TclOO
+Tex
+TeXBeamer
+TTCN
+Txt2tags
+TypeScript
+Unknown [disabled]
+Varlink
+Vera
+Verilog
+VHDL
+Vim
+WindRes
+XML
+XSLT
+YACC
+Yaml
+YumRepo
+Zephir
+```
+
+### ctags --list-kinds
+
+```console
+PS > ctags --list-kinds=markdown
+c  chapsters
+s  sections
+S  subsections
+t  subsubsections
+T  level 4 subsections
+u  level 5 subsections
+```
+
+```console
+PS > ctags --list-kinds=python
+c  classes
+f  functions
+m  class members
+v  variables
+I  name referring a module defined in other file
+i  modules
+x  name referring a class/variable/function/module defined in other module
+z  function parameters [off]
+l  local variables [off]
+```
+
+```console
+PS > ctags --list-kinds=powershell
+f  functions
+v  variables
+```
+
+### 指定言語のマップを得る。
+
+```console
+PS > ctags --list-maps=markdown
+Markdown *.md *.markdown
+```
+
+```console
+PS > ctags --list-maps=python
+Python   *.py *.pyx *.pxd *.pxi *.scons *.wsgi
+```
+
+```console
+PS > ctags --list-maps=powershell
+PowerShell *.ps1 *.psm1
+```
+
+### tags を生成する。
+
+#### Markdown
+
+```console
+PS > Get-Content .\a.md
+# head1
+## head2
+### head3
+#### head4
+##### head5
+###### head6
+
+body
+```
+
+```console
+PS > ctags.exe .\a.md
+```
+
+```console
+PS > Get-Content .\tags
+!_TAG_FILE_FORMAT       2       /extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED       1       /0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD      mixed   /number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP    slash   /slash or backslash/
+!_TAG_OUTPUT_MODE       u-ctags /u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT      96      /0 for no limit/
+!_TAG_PROC_CWD  C:/tmp/ //
+!_TAG_PROGRAM_AUTHOR    Universal Ctags Team    //
+!_TAG_PROGRAM_NAME      Universal Ctags /Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL       https://ctags.io/       /official site/
+!_TAG_PROGRAM_VERSION   5.9.0   /3185b289/
+head1   ./a.md  /^# head1$/;"   c
+head2   ./a.md  /^## head2$/;"  s       chapter:head1
+head3   ./a.md  /^### head3$/;" S       section:head1""head2
+head4   ./a.md  /^#### head4$/;"        t       subsection:head1""head2""head3
+head5   ./a.md  /^##### head5$/;"       T       subsubsection:head1""head2""head3""head4
+head6   ./a.md  /^###### head6$/;"      u       l4subsection:head1""head2""head3""head4""head5
+```
+
+#### Python
+
+```console
+PS > Get-Content .\a.py
+def f():
+    pass
+
+
+def g():
+    pass
+
+
+class c(object):
+    def m1(self):
+        pass
+
+    def m2(self):
+        pass
+```
+
+```console
+PS > ctags.exe .\a.py
+```
+
+```console
+PS > cat .\tags
+!_TAG_FILE_FORMAT       2       /extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED       1       /0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD      mixed   /number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP    slash   /slash or backslash/
+!_TAG_OUTPUT_MODE       u-ctags /u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT      96      /0 for no limit/
+!_TAG_PROC_CWD  C:/tmp/ //
+!_TAG_PROGRAM_AUTHOR    Universal Ctags Team    //
+!_TAG_PROGRAM_NAME      Universal Ctags /Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL       https://ctags.io/       /official site/
+!_TAG_PROGRAM_VERSION   5.9.0   /3185b289/
+c       ./a.py  /^class c(object):$/;"  c
+f       ./a.py  /^def f():$/;"  f
+g       ./a.py  /^def g():$/;"  f
+m1      ./a.py  /^    def m1(self):$/;" m       class:c
+m2      ./a.py  /^    def m2(self):$/;" m       class:c
+PS >
 ```
 
 ### ctags --help
