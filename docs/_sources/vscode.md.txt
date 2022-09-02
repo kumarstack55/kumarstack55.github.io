@@ -1,5 +1,17 @@
 # Visual Studio Code - vscode
 
+## 色のスキーマをOS設定に合わせる。
+
+* 設定
+    * ウィンドウ
+        * [x] Auto Detect Color Scheme
+
+## コマンドパレットを開く。
+
+```
+Ctrl + Shift + P
+```
+
 ## コマンドラインのヘルプを得る。
 
 ```powershell
@@ -80,9 +92,21 @@ Troubleshooting
 
 ## Markdown
 
+https://code.visualstudio.com/docs/languages/markdown
+
 ### プレビューを開く。
 
-`Ctrl + Shift + V`
+```
+Ctrl + Shift + V
+```
+
+### 印刷する。
+
+拡張機能の「Markdown PDF」を参照してください。
+
+## PowerShell
+
+https://code.visualstudio.com/docs/languages/powershell
 
 ## 拡張機能
 

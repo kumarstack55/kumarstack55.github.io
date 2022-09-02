@@ -251,26 +251,41 @@
 <h1>Vim<a class="headerlink" href="#vim" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="runtimepath">
 <h2>runtimepath を編集中のバッファにリストする。<a class="headerlink" href="#runtimepath" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="k">call</span> setline<span class="p">(</span><span class="m">1</span><span class="p">,</span> split<span class="p">(</span>&amp;<span class="nb">runtimepath</span><span class="p">,</span> <span class="s1">','</span><span class="p">))</span>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> setline<span class="p">(</span><span class="m">1</span><span class="p">,</span> split<span class="p">(</span>&amp;<span class="nb">runtimepath</span><span class="p">,</span> <span class="s1">','</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
 <section id="id1">
 <h2>選択範囲をクリップボードにコピーする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h3>選択範囲を自動でクリップボードにコピーする。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>git-bash などに付属の vim では xterm-clipboard が有効なので、選択範囲をシステムのクリップボードにコピーできる。</p>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="k">cb</span>^<span class="p">=</span>autoselect
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>ファイルの末尾の改行を保存しない。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="k">set</span> <span class="nb">binary</span>
-<span class="p">:</span><span class="k">set</span> <span class="nb">noeol</span>
+<section id="id3">
+<h3>選択範囲を手動でクリップボードにコピーする。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">"*y</span>
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>vim 起動時にコマンドを実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</section>
+<section id="id4">
+<h2>選択範囲をクリップボードからペーストする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">"*p</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>ファイルの末尾の改行を保存しない。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nb">binary</span>
+<span class="k">set</span> <span class="nb">noeol</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>vim 起動時にコマンドを実行する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">vim</span> <span class="p">-</span><span class="k">u</span> <span class="nb">NONE</span> <span class="p">-</span>N <span class="p">--</span>noplugin <span class="p">-</span><span class="k">c</span> <span class="s1">'qa!'</span>
 </pre></div>
 </div>
@@ -278,11 +293,11 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>辞書に値を代入する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="k">let</span> <span class="k">d</span> <span class="p">=</span> {}
-<span class="p">:</span><span class="k">let</span> <span class="k">d</span>[<span class="s1">'k'</span>] <span class="p">=</span> <span class="m">1</span>
-<span class="p">:</span>echo <span class="k">d</span>
+<section id="id7">
+<h2>辞書に値を代入する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-vim notranslate"><div class="highlight"><pre><span></span><span class="k">let</span> <span class="k">d</span> <span class="p">=</span> {}
+<span class="k">let</span> <span class="k">d</span>[<span class="s1">'k'</span>] <span class="p">=</span> <span class="m">1</span>
+echo <span class="k">d</span>
 </pre></div>
 </div>
 </section>
@@ -343,10 +358,15 @@
             <ul>
 <li><a class="reference internal" href="#">Vim</a><ul>
 <li><a class="reference internal" href="#runtimepath">runtimepath を編集中のバッファにリストする。</a></li>
-<li><a class="reference internal" href="#id1">選択範囲をクリップボードにコピーする。</a></li>
-<li><a class="reference internal" href="#id2">ファイルの末尾の改行を保存しない。</a></li>
-<li><a class="reference internal" href="#id3">vim 起動時にコマンドを実行する。</a></li>
-<li><a class="reference internal" href="#id4">辞書に値を代入する。</a></li>
+<li><a class="reference internal" href="#id1">選択範囲をクリップボードにコピーする。</a><ul>
+<li><a class="reference internal" href="#id2">選択範囲を自動でクリップボードにコピーする。</a></li>
+<li><a class="reference internal" href="#id3">選択範囲を手動でクリップボードにコピーする。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">選択範囲をクリップボードからペーストする。</a></li>
+<li><a class="reference internal" href="#id5">ファイルの末尾の改行を保存しない。</a></li>
+<li><a class="reference internal" href="#id6">vim 起動時にコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#id7">辞書に値を代入する。</a></li>
 </ul>
 </li>
 </ul>

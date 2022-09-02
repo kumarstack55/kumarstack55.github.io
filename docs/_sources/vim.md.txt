@@ -3,10 +3,12 @@
 ## runtimepath を編集中のバッファにリストする。
 
 ```vim
-:call setline(1, split(&runtimepath, ','))
+call setline(1, split(&runtimepath, ','))
 ```
 
 ## 選択範囲をクリップボードにコピーする。
+
+### 選択範囲を自動でクリップボードにコピーする。
 
 git-bash などに付属の vim では xterm-clipboard が有効なので、選択範囲をシステムのクリップボードにコピーできる。
 
@@ -14,11 +16,23 @@ git-bash などに付属の vim では xterm-clipboard が有効なので、選�
 set cb^=autoselect
 ```
 
+### 選択範囲を手動でクリップボードにコピーする。
+
+```
+"*y
+```
+
+## 選択範囲をクリップボードからペーストする。
+
+```
+"*p
+```
+
 ## ファイルの末尾の改行を保存しない。
 
 ```vim
-:set binary
-:set noeol
+set binary
+set noeol
 ```
 
 ## vim 起動時にコマンドを実行する。
@@ -34,7 +48,7 @@ vim -u NONE -N --noplugin -c 'execute("normal! iabc\<esc>")' -c 'w! /tmp/a.txt' 
 ## 辞書に値を代入する。
 
 ```vim
-:let d = {}
-:let d['k'] = 1
-:echo d
+let d = {}
+let d['k'] = 1
+echo d
 ```
