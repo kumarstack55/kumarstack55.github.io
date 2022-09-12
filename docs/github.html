@@ -299,6 +299,107 @@ gh auth login
 </pre></div>
 </div>
 </section>
+<section id="repo1-develop-master-pr">
+<h2>リポジトリ repo1 のブランチ develop を master にマージするよう PR する。<a class="headerlink" href="#repo1-develop-master-pr" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gh_repo_exists<span class="o">()</span> <span class="o">{</span>
+  gh repo list --json name --jq <span class="s2">"map(select(.name == \"</span><span class="nv">$1</span><span class="s2">\")) | length == 1"</span> <span class="se">\</span>
+    <span class="p">|</span> grep -q <span class="nb">true</span>
+<span class="o">}</span>
+
+ensure_gh_repo_deleted<span class="o">()</span> <span class="o">{</span>
+  gh_repo_exists <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="o">&amp;&amp;</span> gh repo delete --confirm <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+
+configure_user_name_mail<span class="o">()</span> <span class="o">{</span>
+  git config user.email <span class="s2">"x@example.com"</span>
+  git config user.name <span class="s2">"x"</span>
+<span class="o">}</span>
+
+<span class="nv">tmp_dir</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp -d<span class="k">)</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+
+<span class="nv">repo1_name</span><span class="o">=</span><span class="s2">"repo1"</span>
+ensure_gh_repo_deleted <span class="s2">"</span><span class="nv">$repo1_name</span><span class="s2">"</span>
+gh repo create --private <span class="s2">"</span><span class="nv">$repo1_name</span><span class="s2">"</span>
+
+<span class="nv">repo1_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">/</span><span class="nv">$repo1_name</span><span class="s2">"</span>
+rm -rf <span class="s2">"</span><span class="nv">$repo1_dir</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp_dir</span><span class="s2">"</span>
+gh repo clone <span class="s2">"</span><span class="nv">$repo1_name</span><span class="s2">"</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$repo1_dir</span><span class="s2">"</span>
+configure_user_name_mail
+
+git checkout master
+touch a1.txt<span class="p">;</span> git add .<span class="p">;</span> git commit -m <span class="s1">'add a1.txt'</span>
+touch a2.txt<span class="p">;</span> git add .<span class="p">;</span> git commit -m <span class="s1">'add a2.txt'</span>
+touch a3.txt<span class="p">;</span> git add .<span class="p">;</span> git commit -m <span class="s1">'add a3.txt'</span>
+git push
+
+git checkout -b develop
+touch b1.txt<span class="p">;</span> git add .<span class="p">;</span> git commit -m <span class="s1">'add b1.txt'</span>
+touch b2.txt<span class="p">;</span> git add .<span class="p">;</span> git commit -m <span class="s1">'add b2.txt'</span>
+touch b3.txt<span class="p">;</span> git add .<span class="p">;</span> git commit -m <span class="s1">'add b3.txt'</span>
+git push
+git push --set-upstream origin develop
+
+gh pr create --base master --title <span class="s2">"pr1 title"</span> --body <span class="s2">"pr1 body"</span>
+gh pr view --web
+</pre></div>
+</div>
+</section>
+<section id="rebase-git-push-pr-master">
+<h2>rebase し、 git push したとき、 pr は master ブランチの変更を含むことを確認する。<a class="headerlink" href="#rebase-git-push-pr-master" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git rebase -i HEAD^^
+  <span class="c1"># rebase:</span>
+    <span class="c1"># pick 9e11964 add b2.txt</span>
+    <span class="c1"># s 31a2397 add b3.txt</span>
+  <span class="c1"># commit message:</span>
+    <span class="c1"># add b1.txt, b2.txt</span>
+
+git push
+  <span class="c1"># rejected</span>
+git push -f
+gh pr view --web
+
+git rebase -i HEAD^^^
+  <span class="c1"># rebase:</span>
+    <span class="c1"># pick d19be7c add a3.txt</span>
+    <span class="c1"># pick aa92971 add b1.txt</span>
+    <span class="c1"># pick ea57025 add b2.txt, b3.txt</span>
+git push -f
+gh pr view --web
+  <span class="c1"># PR は変わらない。</span>
+
+git rebase -i HEAD^^^
+  <span class="c1"># rebase:</span>
+    <span class="c1"># pick aa92971 add b1.txt</span>
+    <span class="c1"># pick d19be7c add a3.txt</span>
+    <span class="c1"># pick ea57025 add b2.txt, b3.txt</span>
+
+<span class="c1"># pick の順番を元に戻す。</span>
+git rebase -i HEAD^^^
+  <span class="c1"># rebase:</span>
+    <span class="c1"># pick d19be7c add a3.txt</span>
+    <span class="c1"># pick aa92971 add b1.txt</span>
+    <span class="c1"># pick ea57025 add b2.txt, b3.txt</span>
+
+<span class="c1"># 順番を戻しても、 add a3.txt は異なるコミットとして認識される。</span>
+git status
+  <span class="c1"># On branch develop</span>
+  <span class="c1"># Your branch and 'origin/develop' have diverged,</span>
+  <span class="c1"># and have 3 and 3 different commits each, respectively.</span>
+  <span class="c1">#   (use "git pull" to merge the remote branch into yours)</span>
+  <span class="c1">#</span>
+  <span class="c1"># nothing to commit, working tree clean</span>
+
+<span class="c1"># push すると PR 画面で add a3.txt が含まれる。</span>
+git push -f
+gh pr view --web
+  <span class="c1"># PR に a3.txt が含まれる。</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -359,6 +460,8 @@ gh auth login
 <li><a class="reference internal" href="#ubuntu-gh">Ubuntu で gh クライアントをインストールする。</a></li>
 <li><a class="reference internal" href="#id1">認証する。</a></li>
 <li><a class="reference internal" href="#url">リポジトリのURL一覧を得る。</a></li>
+<li><a class="reference internal" href="#repo1-develop-master-pr">リポジトリ repo1 のブランチ develop を master にマージするよう PR する。</a></li>
+<li><a class="reference internal" href="#rebase-git-push-pr-master">rebase し、 git push したとき、 pr は master ブランチの変更を含むことを確認する。</a></li>
 </ul>
 </li>
 </ul>

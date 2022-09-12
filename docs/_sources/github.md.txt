@@ -48,3 +48,104 @@ gh auth login
 ```powershell
 gh repo list --json url
 ```
+
+## リポジトリ repo1 のブランチ develop を master にマージするよう PR する。
+
+```bash
+gh_repo_exists() {
+  gh repo list --json name --jq "map(select(.name == \"$1\")) | length == 1" \
+    | grep -q true
+}
+
+ensure_gh_repo_deleted() {
+  gh_repo_exists "$1" && gh repo delete --confirm "$1"
+}
+
+configure_user_name_mail() {
+  git config user.email "x@example.com"
+  git config user.name "x"
+}
+
+tmp_dir="$(mktemp -d)"
+cd "$tmp_dir"
+
+repo1_name="repo1"
+ensure_gh_repo_deleted "$repo1_name"
+gh repo create --private "$repo1_name"
+
+repo1_dir="$tmp_dir/$repo1_name"
+rm -rf "$repo1_dir"
+cd "$tmp_dir"
+gh repo clone "$repo1_name"
+
+cd "$repo1_dir"
+configure_user_name_mail
+
+git checkout master
+touch a1.txt; git add .; git commit -m 'add a1.txt'
+touch a2.txt; git add .; git commit -m 'add a2.txt'
+touch a3.txt; git add .; git commit -m 'add a3.txt'
+git push
+
+git checkout -b develop
+touch b1.txt; git add .; git commit -m 'add b1.txt'
+touch b2.txt; git add .; git commit -m 'add b2.txt'
+touch b3.txt; git add .; git commit -m 'add b3.txt'
+git push
+git push --set-upstream origin develop
+
+gh pr create --base master --title "pr1 title" --body "pr1 body"
+gh pr view --web
+```
+
+## rebase し、 git push したとき、 pr は master ブランチの変更を含むことを確認する。
+
+```bash
+git rebase -i HEAD^^
+  # rebase:
+    # pick 9e11964 add b2.txt
+    # s 31a2397 add b3.txt
+  # commit message:
+    # add b1.txt, b2.txt
+
+git push
+  # rejected
+git push -f
+gh pr view --web
+
+git rebase -i HEAD^^^
+  # rebase:
+    # pick d19be7c add a3.txt
+    # pick aa92971 add b1.txt
+    # pick ea57025 add b2.txt, b3.txt
+git push -f
+gh pr view --web
+  # PR は変わらない。
+
+git rebase -i HEAD^^^
+  # rebase:
+    # pick aa92971 add b1.txt
+    # pick d19be7c add a3.txt
+    # pick ea57025 add b2.txt, b3.txt
+
+# pick の順番を元に戻す。
+git rebase -i HEAD^^^
+  # rebase:
+    # pick d19be7c add a3.txt
+    # pick aa92971 add b1.txt
+    # pick ea57025 add b2.txt, b3.txt
+
+# 順番を戻しても、 add a3.txt は異なるコミットとして認識される。
+git status
+  # On branch develop
+  # Your branch and 'origin/develop' have diverged,
+  # and have 3 and 3 different commits each, respectively.
+  #   (use "git pull" to merge the remote branch into yours)
+  #
+  # nothing to commit, working tree clean
+
+# push すると PR 画面で add a3.txt が含まれる。
+git push -f
+gh pr view --web
+  # PR に a3.txt が含まれる。
+```
