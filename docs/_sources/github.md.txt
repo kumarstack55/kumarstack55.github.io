@@ -100,13 +100,15 @@ gh pr view --web
 
 ## rebase し、 git push したとき、 pr は master ブランチの変更を含むことを確認する。
 
+事前に repo1 を作っておく。
+
 ```bash
 git rebase -i HEAD^^
   # rebase:
     # pick 9e11964 add b2.txt
     # s 31a2397 add b3.txt
   # commit message:
-    # add b1.txt, b2.txt
+    # add b2.txt, b3.txt
 
 git push
   # rejected
@@ -148,4 +150,36 @@ git status
 git push -f
 gh pr view --web
   # PR に a3.txt が含まれる。
+```
+
+```console
+$ git log --oneline
+2b8215c (HEAD -> develop, origin/develop) add b2.txt, b3.txt
+e42cc48 add b1.txt
+6d104da add a3.txt
+d3ee938 add a2.txt
+17f1a0f add a1.txt
+```
+
+PR画面で add a3.txt を取り除くには、次のように、新しいブランチ develop-new で master を指定して rebase すればよい。
+
+```bash
+git checkout develop
+git checkout -b develop-new
+git checkout master
+git checkout develop-new
+git rebase -i master
+git push origin develop-new:develop
+  # rejected
+git push -f origin develop-new:develop
+gh pr view develop --web
+```
+
+```console
+$ git log --oneline
+6731170 (HEAD -> develop-new, origin/develop) add b2.txt, b3.txt
+e5a4e19 add b1.txt
+3c14fee (origin/master, master) add a3.txt
+d3ee938 add a2.txt
+17f1a0f add a1.txt
 ```

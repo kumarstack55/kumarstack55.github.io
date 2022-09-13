@@ -350,12 +350,13 @@ gh pr view --web
 </section>
 <section id="rebase-git-push-pr-master">
 <h2>rebase し、 git push したとき、 pr は master ブランチの変更を含むことを確認する。<a class="headerlink" href="#rebase-git-push-pr-master" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>事前に repo1 を作っておく。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git rebase -i HEAD^^
   <span class="c1"># rebase:</span>
     <span class="c1"># pick 9e11964 add b2.txt</span>
     <span class="c1"># s 31a2397 add b3.txt</span>
   <span class="c1"># commit message:</span>
-    <span class="c1"># add b1.txt, b2.txt</span>
+    <span class="c1"># add b2.txt, b3.txt</span>
 
 git push
   <span class="c1"># rejected</span>
@@ -397,6 +398,34 @@ git status
 git push -f
 gh pr view --web
   <span class="c1"># PR に a3.txt が含まれる。</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git log --oneline
+<span class="go">2b8215c (HEAD -&gt; develop, origin/develop) add b2.txt, b3.txt</span>
+<span class="go">e42cc48 add b1.txt</span>
+<span class="go">6d104da add a3.txt</span>
+<span class="go">d3ee938 add a2.txt</span>
+<span class="go">17f1a0f add a1.txt</span>
+</pre></div>
+</div>
+<p>PR画面で add a3.txt を取り除くには、次のように、新しいブランチ develop-new で master を指定して rebase すればよい。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git checkout develop
+git checkout -b develop-new
+git checkout master
+git checkout develop-new
+git rebase -i master
+git push origin develop-new:develop
+  <span class="c1"># rejected</span>
+git push -f origin develop-new:develop
+gh pr view develop --web
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git log --oneline
+<span class="go">6731170 (HEAD -&gt; develop-new, origin/develop) add b2.txt, b3.txt</span>
+<span class="go">e5a4e19 add b1.txt</span>
+<span class="go">3c14fee (origin/master, master) add a3.txt</span>
+<span class="go">d3ee938 add a2.txt</span>
+<span class="go">17f1a0f add a1.txt</span>
 </pre></div>
 </div>
 </section>
