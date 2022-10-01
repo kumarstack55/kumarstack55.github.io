@@ -461,6 +461,8 @@ docker stop "$container_id"
 
 ### コンテナを消す
 
+#### bash でコンテナを消す。
+
 ```bash
 # コンテナIDで消す
 # 先頭がユニークならコンテナのIDの先頭N文字でも消せそう
@@ -490,6 +492,14 @@ docker container ls --all --format "{{.ID}}" \
 | while read -r cid; do
     docker container rm "$cid"
   done
+```
+
+#### PowerShell でコンテナを消す。
+
+```powershell
+# exited なコンテナを消す
+docker container ls --filter "status=exited" --format "{{.ID}}" |
+ForEach-Object { docker container rm "$_" }
 ```
 
 ## コンテナ単体

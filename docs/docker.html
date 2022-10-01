@@ -702,6 +702,8 @@ docker stop <span class="s2">"</span><span class="nv">$container_id</span><span 
 </section>
 <section id="id22">
 <h3>コンテナを消す<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="bash">
+<h4>bash でコンテナを消す。<a class="headerlink" href="#bash" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># コンテナIDで消す</span>
 <span class="c1"># 先頭がユニークならコンテナのIDの先頭N文字でも消せそう</span>
 docker container rm <span class="s2">"</span><span class="nv">$cid</span><span class="s2">"</span>
@@ -729,6 +731,15 @@ docker container ls --all --format <span class="s2">"{{.ID}}"</span> <span class
   <span class="k">done</span>
 </pre></div>
 </div>
+</section>
+<section id="powershell">
+<h4>PowerShell でコンテナを消す。<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># exited なコンテナを消す</span>
+<span class="n">docker</span> <span class="n">container</span> <span class="nb">ls </span><span class="p">-</span><span class="n">-filter</span> <span class="s2">"status=exited"</span> <span class="p">-</span><span class="n">-format</span> <span class="s2">"{{.ID}}"</span> <span class="p">|</span>
+<span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="n">docker</span> <span class="n">container</span> <span class="nb">rm </span><span class="s2">"$_"</span> <span class="p">}</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 <section id="id23">
@@ -3129,7 +3140,11 @@ curl -s http://localhost:10080/
 <li><a class="reference internal" href="#id19">コンテナの一覧を得る</a></li>
 <li><a class="reference internal" href="#id20">公開されているイメージから新しいコンテナを作って実行する</a></li>
 <li><a class="reference internal" href="#id21">実行中のコンテナを停止する</a></li>
-<li><a class="reference internal" href="#id22">コンテナを消す</a></li>
+<li><a class="reference internal" href="#id22">コンテナを消す</a><ul>
+<li><a class="reference internal" href="#bash">bash でコンテナを消す。</a></li>
+<li><a class="reference internal" href="#powershell">PowerShell でコンテナを消す。</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id23">コンテナ単体</a><ul>
