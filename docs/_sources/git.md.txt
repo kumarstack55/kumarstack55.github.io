@@ -1,5 +1,21 @@
 # Git
 
+## Initial commit の次の commit を squash する。
+
+Initial commit とその次に続く commit があるとき、次のコマンドは失敗する。
+
+```bash
+git rebase -i HEAD^^
+```
+
+次を実行すればよい。
+
+```bash
+git rebase -i --root
+```
+
+* https://qiita.com/Neetless/items/c902f9c25714601a2bb6
+
 ## 直前のブランチにスイッチする。
 
 `git checkout -` で直前のブランチに変更できる。

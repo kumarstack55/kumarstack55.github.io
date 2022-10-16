@@ -249,6 +249,20 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="git">
 <h1>Git<a class="headerlink" href="#git" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="initial-commit-commit-squash">
+<h2>Initial commit の次の commit を squash する。<a class="headerlink" href="#initial-commit-commit-squash" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Initial commit とその次に続く commit があるとき、次のコマンドは失敗する。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git rebase -i HEAD^^
+</pre></div>
+</div>
+<p>次を実行すればよい。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git rebase -i --root
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://qiita.com/Neetless/items/c902f9c25714601a2bb6</p></li>
+</ul>
+</section>
 <section id="id1">
 <h2>直前のブランチにスイッチする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-</span></code> で直前のブランチに変更できる。</p>
@@ -1850,6 +1864,7 @@ git commit -m <span class="s2">"Remove submodule </span><span class="si">${</spa
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
+<li><a class="reference internal" href="#initial-commit-commit-squash">Initial commit の次の commit を squash する。</a></li>
 <li><a class="reference internal" href="#id1">直前のブランチにスイッチする。</a></li>
 <li><a class="reference internal" href="#git-lfs">Git LFS を利用する。</a><ul>
 <li><a class="reference internal" href="#id2">Git LFS でファイルを格納する。</a></li>
