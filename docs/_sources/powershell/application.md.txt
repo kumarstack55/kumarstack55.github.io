@@ -98,3 +98,67 @@ function Add-Extension {
 * ファイル名
 * 型の省略
     * https://stackoverflow.com/a/66265888/12786161
+
+## プロセスの開始時刻を得る。
+
+WMI で得たオブジェクトは ConvertToDateTime で変換できる。
+
+```powershell
+$PsoArray = Get-WmiObject win32_process |
+    ForEach-Object {
+        [pscustomobject]@{
+            "CreationDate"=$_.ConvertToDateTime($_.CreationDate)
+            "Data"=$_
+        }
+    }
+
+$PsoArray[0].Data.CreationDate
+$PsoArray[0].Data.CreationDate.GetType()
+$PsoArray[0].CreationDate
+$PsoArray[0].CreationDate.GetType()
+```
+
+```console
+PS > $PsoArray[0].Data.CreationDate
+20221015172823.192768+540
+PS > $PsoArray[0].Data.CreationDate.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String                                   System.Object
+
+
+PS > $PsoArray[0].CreationDate
+
+2022年10月15日 17:28:23
+
+
+PS > $PsoArray[0].CreationDate.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     DateTime                                 System.ValueType
+```
+
+* https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi
+* https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-process
+
+## 最も最近に作られた Python プロセスを終了する。
+
+```powershell
+$ProcessArray = Get-WmiObject win32_process |
+    Where-Object { $_.ProcessName -match 'python\.exe' } |
+    Sort-Object -Property CreationDate |
+    ForEach-Object {
+        [pscustomobject]@{
+            "ProcessId"=$_.ProcessId
+            "CreationDate"=$_.ConvertToDateTime($_.CreationDate)
+            "ProcessName"=$_.ProcessName
+            "CommandLine"=$_.CommandLine
+            "Data"=$_
+        }
+    }
+
+$ProcessArray[-1]
+Stop-Process $ProcessArray[-1].ProcessId
+```

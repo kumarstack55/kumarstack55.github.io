@@ -419,6 +419,69 @@
 </li>
 </ul>
 </section>
+<section id="id7">
+<h2>プロセスの開始時刻を得る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>WMI で得たオブジェクトは ConvertToDateTime で変換できる。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PsoArray</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">win32_process</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="no">[pscustomobject]</span><span class="p">@{</span>
+            <span class="s2">"CreationDate"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ConvertToDateTime</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">CreationDate</span><span class="p">)</span>
+            <span class="s2">"Data"</span><span class="p">=</span><span class="nv">$_</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Data</span><span class="p">.</span><span class="n">CreationDate</span>
+<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Data</span><span class="p">.</span><span class="n">CreationDate</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">CreationDate</span>
+<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">CreationDate</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $PsoArray[0].Data.CreationDate</span>
+<span class="go">20221015172823.192768+540</span>
+<span class="go">PS &gt; $PsoArray[0].Data.CreationDate.GetType()</span>
+
+<span class="go">IsPublic IsSerial Name                                     BaseType</span>
+<span class="go">-------- -------- ----                                     --------</span>
+<span class="go">True     True     String                                   System.Object</span>
+
+
+<span class="go">PS &gt; $PsoArray[0].CreationDate</span>
+
+<span class="go">2022年10月15日 17:28:23</span>
+
+
+<span class="go">PS &gt; $PsoArray[0].CreationDate.GetType()</span>
+
+<span class="go">IsPublic IsSerial Name                                     BaseType</span>
+<span class="go">-------- -------- ----                                     --------</span>
+<span class="go">True     True     DateTime                                 System.ValueType</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi</p></li>
+<li><p>https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-process</p></li>
+</ul>
+</section>
+<section id="python">
+<h2>最も最近に作られた Python プロセスを終了する。<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProcessArray</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">win32_process</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ProcessName</span> <span class="o">-match</span> <span class="s1">'python\.exe'</span> <span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Sort-Object</span> <span class="n">-Property</span> <span class="n">CreationDate</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="no">[pscustomobject]</span><span class="p">@{</span>
+            <span class="s2">"ProcessId"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ProcessId</span>
+            <span class="s2">"CreationDate"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ConvertToDateTime</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">CreationDate</span><span class="p">)</span>
+            <span class="s2">"ProcessName"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ProcessName</span>
+            <span class="s2">"CommandLine"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">CommandLine</span>
+            <span class="s2">"Data"</span><span class="p">=</span><span class="nv">$_</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="nv">$ProcessArray</span><span class="p">[-</span><span class="n">1</span><span class="p">]</span>
+<span class="nb">Stop-Process</span> <span class="nv">$ProcessArray</span><span class="p">[-</span><span class="n">1</span><span class="p">].</span><span class="n">ProcessId</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -482,6 +545,8 @@
 <li><a class="reference internal" href="#id5">PowerShell のインデント</a></li>
 <li><a class="reference internal" href="#id6">PowerShell のコメント</a></li>
 <li><a class="reference internal" href="#todo">TODO</a></li>
+<li><a class="reference internal" href="#id7">プロセスの開始時刻を得る。</a></li>
+<li><a class="reference internal" href="#python">最も最近に作られた Python プロセスを終了する。</a></li>
 </ul>
 </li>
 </ul>
