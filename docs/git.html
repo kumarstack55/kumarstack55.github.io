@@ -249,6 +249,63 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="git">
 <h1>Git<a class="headerlink" href="#git" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="remote-url-https-ssh">
+<h2>remote の URL を HTTPS から SSH に変更する。<a class="headerlink" href="#remote-url-https-ssh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="git-clone-https-url">
+<h3>git clone で HTTPS の URL を指定したときの設定は？<a class="headerlink" href="#git-clone-https-url" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[remote "origin"]</span>
+<span class="go">        url = https://github.com/kumarstack55/dotfiles.git</span>
+<span class="go">        fetch = +refs/heads/*:refs/remotes/origin/*</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git remote -v
+<span class="go">origin  https://github.com/kumarstack55/dotfiles.git (fetch)</span>
+<span class="go">origin  https://github.com/kumarstack55/dotfiles.git (push)</span>
+</pre></div>
+</div>
+</section>
+<section id="git-clone-ssh-url">
+<h3>git clone で SSH の URL を指定したときの設定は？<a class="headerlink" href="#git-clone-ssh-url" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[remote "origin"]</span>
+<span class="go">        url = git@github.com:kumarstack55/dotfiles.git</span>
+<span class="go">        fetch = +refs/heads/*:refs/remotes/origin/*</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git remote -v
+<span class="go">origin  git@github.com:kumarstack55/dotfiles.git (fetch)</span>
+<span class="go">origin  git@github.com:kumarstack55/dotfiles.git (push)</span>
+</pre></div>
+</div>
+</section>
+<section id="https-ssh">
+<h3>HTTPS を SSH に変更するには？<a class="headerlink" href="#https-ssh" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">remote_origin_url</span><span class="o">=</span><span class="k">$(</span>git remote get-url origin<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$remote_origin_url</span><span class="s2">"</span>
+    <span class="c1"># --&gt; https://github.com/kumarstack55/dotfiles.git</span>
+
+convert_origin_https_url_to_ssh_url<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">http_url</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> _ host_port userid path
+  <span class="nb">read</span> -r _ host_port userid path &lt; &lt;<span class="o">(</span>
+    <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$http_url</span><span class="s2">"</span> <span class="se">\</span>
+      <span class="p">|</span> sed -e <span class="s1">'s|://| |'</span> <span class="se">\</span>
+      <span class="p">|</span> sed -e <span class="s1">'s|/| |g'</span>
+  <span class="o">)</span>
+
+  <span class="nb">local</span> host
+  <span class="nv">IFS</span><span class="o">=</span>: <span class="nb">read</span> -r host _ <span class="o">&lt;&lt;&lt;</span><span class="s2">"</span><span class="nv">$host_port</span><span class="s2">"</span>
+
+  <span class="nb">echo</span> <span class="s2">"git@</span><span class="si">${</span><span class="nv">host</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">userid</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">path</span><span class="si">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="nv">ssh_url</span><span class="o">=</span><span class="k">$(</span>convert_origin_https_url_to_ssh_url <span class="s2">"</span><span class="nv">$remote_origin_url</span><span class="s2">"</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$ssh_url</span><span class="s2">"</span>
+    <span class="c1"># --&gt; git@github.com:kumarstack55/dotfiles.git</span>
+
+git remote set-url origin <span class="s2">"</span><span class="nv">$ssh_url</span><span class="s2">"</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="initial-commit-commit-squash">
 <h2>Initial commit の次の commit を squash する。<a class="headerlink" href="#initial-commit-commit-squash" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Initial commit とその次に続く commit があるとき、次のコマンドは失敗する。</p>
@@ -1864,6 +1921,12 @@ git commit -m <span class="s2">"Remove submodule </span><span class="si">${</spa
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
+<li><a class="reference internal" href="#remote-url-https-ssh">remote の URL を HTTPS から SSH に変更する。</a><ul>
+<li><a class="reference internal" href="#git-clone-https-url">git clone で HTTPS の URL を指定したときの設定は？</a></li>
+<li><a class="reference internal" href="#git-clone-ssh-url">git clone で SSH の URL を指定したときの設定は？</a></li>
+<li><a class="reference internal" href="#https-ssh">HTTPS を SSH に変更するには？</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#initial-commit-commit-squash">Initial commit の次の commit を squash する。</a></li>
 <li><a class="reference internal" href="#id1">直前のブランチにスイッチする。</a></li>
 <li><a class="reference internal" href="#git-lfs">Git LFS を利用する。</a><ul>

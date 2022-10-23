@@ -1,5 +1,64 @@
 # Git
 
+## remote の URL を HTTPS から SSH に変更する。
+
+### git clone で HTTPS の URL を指定したときの設定は？
+
+```console
+[remote "origin"]
+        url = https://github.com/kumarstack55/dotfiles.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+```
+
+```console
+$ git remote -v
+origin  https://github.com/kumarstack55/dotfiles.git (fetch)
+origin  https://github.com/kumarstack55/dotfiles.git (push)
+```
+
+### git clone で SSH の URL を指定したときの設定は？
+
+```console
+[remote "origin"]
+        url = git@github.com:kumarstack55/dotfiles.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+```
+
+```console
+$ git remote -v
+origin  git@github.com:kumarstack55/dotfiles.git (fetch)
+origin  git@github.com:kumarstack55/dotfiles.git (push)
+```
+
+### HTTPS を SSH に変更するには？
+
+```bash
+remote_origin_url=$(git remote get-url origin)
+echo "$remote_origin_url"
+    # --> https://github.com/kumarstack55/dotfiles.git
+
+convert_origin_https_url_to_ssh_url() {
+  local http_url="$1" _ host_port userid path
+  read -r _ host_port userid path < <(
+    echo "$http_url" \
+      | sed -e 's|://| |' \
+      | sed -e 's|/| |g'
+  )
+
+  local host
+  IFS=: read -r host _ <<<"$host_port"
+
+  echo "git@${host}:${userid}/${path}"
+}
+
+ssh_url=$(convert_origin_https_url_to_ssh_url "$remote_origin_url")
+echo "$ssh_url"
+    # --> git@github.com:kumarstack55/dotfiles.git
+
+git remote set-url origin "$ssh_url"
+```
+
+
 ## Initial commit の次の commit を squash する。
 
 Initial commit とその次に続く commit があるとき、次のコマンドは失敗する。
