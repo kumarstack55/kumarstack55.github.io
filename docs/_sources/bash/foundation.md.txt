@@ -6,6 +6,47 @@ https://www.gnu.org/software/bash/manual/bash.html
 
 * [Is there a list of which features were added to specific releases (versions) of Bash?](https://mywiki.wooledge.org/BashFAQ/061)
 
+## 複数行を含む変数を1行ずつ格納する。
+
+```bash
+text=$(
+  cat <<__TEXT__
+line 1
+line 2
+__TEXT__
+)
+
+# 空の出力の場合:
+#text=$(
+#  cat <<__TEXT__
+#__TEXT__
+#)
+
+declare -a lines
+
+if [ "$text" == "" ]; then
+  lines=()
+else
+  mapfile -t lines <<<"$text"
+fi
+
+echo "len: ${#lines[@]}"
+for line in "${lines[@]}"; do
+  echo "line: $line"
+done
+```
+
+```console
+$ echo "len: ${#lines[@]}"
+len: 2
+$ for line in "${lines[@]}"; do
+>   echo "line: $line"
+> done
+line: line 1
+line: line 2
+$
+```
+
 ## 変数が定義済みか判定する。
 
 ```bash
