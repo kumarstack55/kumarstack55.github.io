@@ -8,6 +8,8 @@ Untitled ドキュメント
    vim
    vscode
    ctags
+   powerpoint
+   chrome_extension
    github
    gitlab
    mattermost
@@ -33,7 +35,6 @@ Untitled ドキュメント
    vagrant
    virtualbox
    oci
-   chrome_extension
    japanese_imperial_year
 
 ..

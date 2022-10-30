@@ -1,0 +1,256 @@
+# PowerPoint
+
+## 新しいプレゼンテーションを作る。
+
+```powershell
+$Application = New-Object -ComObject PowerPoint.Application
+$Application.Visible = [Microsoft.Office.Core.MsoTriState]::msoTrue
+$Presentation = $Application.Presentations.Add()
+```
+
+## プレゼンテーションにスライドを加える。
+
+```powershell
+$Presentation.SlideMaster.CustomLayouts |
+    ForEach-Object { $_.Name }
+
+$CustomLayoutName = 'タイトルとコンテンツ'
+
+$CustomLayout = $Presentation.SlideMaster.CustomLayouts |
+    Where-Object { $_.Name -eq $CustomLayoutName } |
+    Select-Object -First 1
+if ($null -eq $CustomLayout) {
+    throw
+}
+
+$Slide = $Presentation.Slides.AddSlide(1, $CustomLayout)
+```
+
+## スライドのコンテンツのテキストを設定する。
+
+コンテンツの正体は図形なので、図形のテキストを設定する。
+
+```powershell
+$Slide.Shapes |
+    ForEach-Object { $_.Name }
+
+$ShapeName = 'Content Placeholder 2'
+
+$Shape = $Slide.Shapes |
+    Where-Object { $_.Name -match $ShapeName } |
+    Select-Object -First 1
+if ($null -eq $Shape) {
+    throw
+}
+
+$CrLf = "`r`n"
+
+$Shape.TextFrame.TextRange.Text = "Paragraph1${CrLf}Paragraph2"
+```
+
+## 図形の段落のインデントを設定する。
+
+```powershell
+$ParagraphIndex = 2
+$Paragraph = $Shape.TextFrame.TextRange.Paragraphs($ParagraphIndex)
+$Paragraph.IndentLevel = 2
+```
+
+## 図形の箇条書きをなしにする。
+
+```powershell
+# 列挙型を使うために PowerShell のセッションに .NET クラスを定義する。
+$SearchPath = 'C:\WINDOWS\assembly\GAC_MSIL'
+$SearchFilter = 'Microsoft.Office.Interop.PowerPoint.dll'
+$PathToAssemblyItems = Get-ChildItem -LiteralPath $SearchPath -Filter $SearchFilter -Recurse
+if ($PathToAssemblyItems.Count -ne 1) {
+    throw
+}
+$PathToAssembly = $PathToAssemblyItems[0].FullName
+Add-Type -LiteralPath $PathToAssembly
+
+# 箇条書きをなしにする。
+$ppBulletNone = [Microsoft.Office.Interop.PowerPoint.PpBulletType]::ppBulletNone
+$Shape.TextFrame.TextRange.ParagraphFormat.Bullet.Type = $ppBulletNone
+```
+
+## 図形のテキストボックスを自動調整なしにする。
+
+```powershell
+$ppAutoSizeNone = [Microsoft.Office.Interop.PowerPoint.PpAutoSize]::ppAutoSizeNone
+$Shape.TextFrame.AutoSize = $ppAutoSizeNone
+```
+
+## 図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。
+
+```powershell
+$Shape.TextFrame.WordWrap = [Microsoft.Office.Core.MsoTriState]::msoFalse
+```
+
+## 段落にフォントのサイズや下線を設定する。
+
+```powershell
+$ParagraphIndex = 2
+$Paragraph = $Shape.TextFrame.TextRange.Paragraphs($ParagraphIndex)
+$Paragraph.Font.Size = 32
+$Paragraph.Font.Underline = [Microsoft.Office.Core.MsoTriState]::msoTrue
+```
+
+## スライドに図形を加える。
+
+```powershell
+$msoShapeRectangle = [Microsoft.Office.Core.MsoAutoShapeType]::msoShapeRectangle
+$Left, $Top, $Width, $Height = 10, 20, 100, 200
+$Shape2 = $Slide.Shapes.AddShape($msoShapeRectangle, $Left, $Top, $Width, $Height)
+```
+
+## 図形の位置を設定する。
+
+```powershell
+$Paragraph = $Shape.TextFrame.TextRange.Paragraphs(2)
+$Left, $Top = $Paragraph.BoundLeft, $Paragraph.BoundTop
+$Width, $Height = $Paragraph.BoundWidth, $Paragraph.BoundHeight
+
+$Shape2.Left = $Left
+$Shape2.Top = $Top
+$Shape2.Width = $Width
+$Shape2.Height = $Height
+```
+
+## 図形の枠線の色を設定する。
+
+```powershell
+Add-Type -AssemblyName Microsoft.VisualBasic
+
+$rgb = [Microsoft.VisualBasic.Information]::RGB(0, 0, 0)
+$Shape2.Line.ForeColor.RGB = $rgb
+```
+
+## 図形を塗りつぶしなしにする。
+
+```powershell
+$msoFalse = [Microsoft.Office.Core.MsoTriState]::msoFalse
+$Shape2.Fill.Visible = $msoFalse
+```
+
+## スライドに線を加える。
+
+```powershell
+$BeginX, $BeginY = 100, 200
+$EndX, $EndY = 300, 400
+$Shape3 = $Slide.Shapes.AddLine($BeginX, $BeginY, $EndX, $EndY)
+```
+
+## 図形を消す。
+
+```powershell
+$Shape3.Delete()
+```
+
+## フッターを表示する。
+
+```powershell
+$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
+$Slide.HeadersFooters.Footer.Visible = $msoTrue
+```
+
+## スライド番号を表示する。
+
+```powershell
+$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
+$Slide.HeadersFooters.SlideNumber.Visible = $msoTrue
+```
+
+## スライドのサイズを得る。
+
+```powershell
+$PageSetup = $Presentation.PageSetup
+$PageSetup.SlideWidth
+$PageSetup.SlideHeight
+```
+
+## グリッドを表示する。
+
+```powershell
+$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
+$Application.DisplayGridLines = $msoTrue
+```
+
+## 1グリッドのサイズを得る。
+
+```powershell
+$Presentation.GridDistance
+```
+
+```powershell
+$Presentation.GridDistance = 5.669922
+$Presentation.GridDistance *= 13
+
+function DrawPoint {
+    param($Left, $Top, $Text)
+
+    $msoShapeOval = [Microsoft.Office.Core.MsoAutoShapeType]::msoShapeOval
+    $ppAutoSizeNone = [Microsoft.Office.Interop.PowerPoint.PpAutoSize]::ppAutoSizeNone
+    $msoFalse = [Microsoft.Office.Core.MsoTriState]::msoFalse
+
+    $r = 20
+
+    $s = $Slide.Shapes.AddShape($msoShapeOval, $Left - $r, $Top - $r, $r * 2, $r * 2)
+    $s.TextFrame.AutoSize = $ppAutoSizeNone
+    $s.TextFrame.WordWrap = $msoFalse
+    $s.TextFrame.TextRange.Font.Size = 9
+    $s.TextFrame.TextRange.Text = $Text
+
+    $s
+}
+
+#
+# グリッドに線を引く。
+#
+
+# スライド中央を起点にグリッド座標を計算する。
+$PageSetup = $Presentation.PageSetup
+$CenterX = $PageSetup.SlideWidth / 2
+$CenterY = $PageSetup.SlideHeight / 2
+DrawPoint -Left $CenterX -Top $CenterY -Text "Center" | Out-Null
+
+# 浮動小数点の誤差を含めないよう整数で計算する。
+$CenterToLeftInGrid = [int]($CenterX / $Presentation.GridDistance) - 1
+$CenterToTopInGrid = [int]($CenterY / $Presentation.GridDistance) - 1
+$WidthInGrid = $CenterToLeftInGrid * 2 + 1
+$HeightInGrid = $CenterToTopInGrid * 2 + 1
+
+$CenterToLeft = $CenterToLeftInGrid * $Presentation.GridDistance
+$CenterToTop = $CenterToTopInGrid * $Presentation.GridDistance
+
+$Left0 = $CenterX - $CenterToLeft
+$Top0 = $CenterY - $CenterToTop
+DrawPoint -Left $Left0 -Top $Top0 -Text "OriginInGrid" | Out-Null
+
+$LeftToRight = ($WidthInGrid - 1) * $Presentation.GridDistance
+$TopToBottom = ($HeightInGrid - 1) * $Presentation.GridDistance
+
+$Right = $Left0 + $LeftToRight
+$Bottom = $Top0 + $TopToBottom
+DrawPoint -Left $Right -Top $Bottom -Text "RightBottom" | Out-Null
+
+# 縦線を描く。
+$LeftInGrid = 0
+while ($LeftInGrid -lt $WidthInGrid) {
+    $Left = $Left0 + $LeftInGrid * $Presentation.GridDistance
+    $Slide.Shapes.AddLine($Left, $Top0, $Left, $Bottom) | Out-Null
+    $LeftInGrid += 1
+}
+
+# 横線を描く。
+$TopInGrid = 0
+while ($TopInGrid -lt $HeightInGrid) {
+    $Top = $Top0 + $TopInGrid * $Presentation.GridDistance
+    $Slide.Shapes.AddLine($Left0, $Top, $Right, $Top) | Out-Null
+    $TopInGrid += 1
+}
+```
+
+## スライドマスタを表示する。
+
+TODO
