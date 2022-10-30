@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="停止しても再実行できるように、ファイルの一覧を出力する。" href="get_childitem.html" /><link rel="prev" title="PowerShell 基礎" href="foundation.html" />
+<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Microsoft Windows" href="../windows.html" /><link rel="prev" title="Pester でテストする。" href="pester.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>PowerShell 応用 - Untitled ドキュメント</title>
+        <title>PowerPoint - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -199,10 +199,10 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../powershell.html">PowerShell</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="powershell7.html">PowerShell 7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="foundation.html">PowerShell 基礎</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">PowerShell 応用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="application.html">PowerShell 応用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pester.html">Pester でテストする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="powerpoint.html">PowerPoint</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">PowerPoint</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../windows.html">Microsoft Windows</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -248,238 +248,128 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="powershell">
-<h1>PowerShell 応用<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+          <section class="tex2jax_ignore mathjax_ignore" id="powerpoint">
+<h1>PowerPoint<a class="headerlink" href="#powerpoint" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>コーディングのルール<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>こうすると良さそう、というものを書きためておく。</p>
+<h2>新しいプレゼンテーションを作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">PowerPoint</span><span class="p">.</span><span class="n">Application</span>
+<span class="nv">$Application</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
+<span class="nv">$Presentation</span> <span class="p">=</span> <span class="nv">$Application</span><span class="p">.</span><span class="n">Presentations</span><span class="p">.</span><span class="n">Add</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 <section id="id2">
-<h2>PowerShell のキーワードや名前の大文字・小文字<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>予約語</p>
-<ul>
-<li><p>小文字にする。</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">foreach</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">while</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">switch</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">function</span></code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>クラス</p>
-<ul>
-<li><p>クラス名</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">PascalCaseSuper</span> <span class="pre">:</span> <span class="pre">PascalCase</span> <span class="pre">{</span></code></p></li>
-</ul>
-</li>
-<li><p>メソッド名</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">camelCase()</span></code></p></li>
-</ul>
-</li>
-<li><p>クラスのオブジェクト</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
-</ul>
-</li>
-<li><p>プロパティ</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">$PascalCase</span></code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>関数</p>
-<ul>
-<li><p>コマンドレットの関数名</p>
-<ul>
-<li><p>利用: <code class="docutils literal notranslate"><span class="pre">ForEach-Object</span> <span class="pre">{</span></code></p></li>
-<li><p>定義: <code class="docutils literal notranslate"><span class="pre">function</span> <span class="pre">Verb-PascalCase</span> <span class="pre">{</span></code></p></li>
-</ul>
-</li>
-<li><p>コマンドレットではない関数名</p>
-<ul>
-<li><p>定義: <code class="docutils literal notranslate"><span class="pre">Verb-PascalCase</span> <span class="pre">{</span></code> または</p></li>
-<li><p>定義: <code class="docutils literal notranslate"><span class="pre">PascalCase</span> <span class="pre">{</span></code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>変数</p>
-<ul>
-<li><p>定数</p>
-<ul>
-<li><p>宣言:<code class="docutils literal notranslate"><span class="pre">New-Variable</span> <span class="pre">-Name</span> <span class="pre">PascalCase</span> <span class="pre">-Value</span> <span class="pre">1</span> <span class="pre">-Option</span> <span class="pre">Constant</span></code></p></li>
-<li><p>参照:<code class="docutils literal notranslate"><span class="pre">$PascalCase</span></code></p></li>
-</ul>
-</li>
-<li><p>変数</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">$PascalCase</span></code></p></li>
-</ul>
-</li>
-<li><p>関数のパラメータ</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">param($PascalCase)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">param([Parameter(Mandatory)][ClassName]$PascalCase)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">param([Parameter(Mandatory)][string]$PascalCase)</span></code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>値</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">$null</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$true</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">$false</span></code></p></li>
-</ul>
-</li>
-<li><p>型</p>
-<ul>
-<li><p>エイリアスがあればエイリアスを使う。(int, long, string, bool, ...)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">[bool]$Enabled</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">[string]$Enabled</span></code></p></li>
-</ul>
-</li>
-<li><p>なければ、定義通りのものにする。</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">[MessageBox]::Show('Hello')</span></code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://docs.microsoft.com/en-us/powershell/scripting/lang-spec/chapter-04?view=powershell-5.1">Types</a></p></li>
-<li><p><a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters?view=powershell-5.1">about_Functions_Advanced_Parameters</a></p></li>
-</ul>
+<h2>プレゼンテーションにスライドを加える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+
+<span class="nv">$CustomLayoutName</span> <span class="p">=</span> <span class="s1">'タイトルとコンテンツ'</span>
+
+<span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-eq</span> <span class="nv">$CustomLayoutName</span> <span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$CustomLayout</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span>
+<span class="p">}</span>
+
+<span class="nv">$Slide</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Slides</span><span class="p">.</span><span class="n">AddSlide</span><span class="p">(</span><span class="n">1</span><span class="p">,</span> <span class="nv">$CustomLayout</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="id3">
-<h2>PowerShell の空行の位置<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>クラスとクラスの間: 1行</p></li>
-<li><p>クラス</p>
-<ul>
-<li><p>クラス定義とプロパティの間: 0行</p></li>
-<li><p>プロパティとメソッドの間: 1行</p></li>
-<li><p>メソッドとメソッドの間: 1行</p></li>
-<li><p>メソッド</p>
-<ul>
-<li><p>メソッド定義と <code class="docutils literal notranslate"><span class="pre">param()</span></code> の間: 0行</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">param()</span></code> とコードの間: 0-1行</p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>クラスとファンクションの間: 1行</p></li>
-<li><p>ファンクションの <code class="docutils literal notranslate"><span class="pre">param()</span></code> とコードの間: メソッドと同じ。</p></li>
-</ul>
+<h2>スライドのコンテンツのテキストを設定する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>コンテンツの正体は図形なので、図形のテキストを設定する。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+
+<span class="nv">$ShapeName</span> <span class="p">=</span> <span class="s1">'Content Placeholder 2'</span>
+
+<span class="nv">$Shape</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-match</span> <span class="nv">$ShapeName</span> <span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$Shape</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span>
+<span class="p">}</span>
+
+<span class="nv">$CrLf</span> <span class="p">=</span> <span class="s2">"</span><span class="se">`r`n</span><span class="s2">"</span>
+
+<span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="s2">"text1${CrLf}text2"</span>
+</pre></div>
+</div>
 </section>
 <section id="id4">
-<h2>PowerShell の省略記法<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>使わない。</p></li>
-</ul>
+<h2>図形のパラグラフのインデントを設定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
+<span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="nv">$ParagraphIndex</span><span class="p">)</span>
+<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">IndentLevel</span> <span class="p">=</span> <span class="n">2</span>
+</pre></div>
+</div>
 </section>
 <section id="id5">
-<h2>PowerShell のインデント<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>半角スペースのみを使う。タブは使用しない。</p></li>
-<li><p>インデントは 4 つのスペース。</p></li>
-</ul>
+<h2>図形の箇条書きをなしにする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 列挙型を使うために PowerShell のセッションに .NET クラスを定義する。</span>
+<span class="nv">$SearchPath</span> <span class="p">=</span> <span class="s1">'C:\WINDOWS\assembly\GAC_MSIL'</span>
+<span class="nv">$SearchFilter</span> <span class="p">=</span> <span class="s1">'Microsoft.Office.Interop.PowerPoint.dll'</span>
+<span class="nv">$PathToAssemblyItems</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-LiteralPath</span> <span class="nv">$SearchPath</span> <span class="n">-Filter</span> <span class="nv">$SearchFilter</span> <span class="n">-Recurse</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$PathToAssemblyItems</span><span class="p">.</span><span class="n">Count</span> <span class="o">-ne</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span>
+<span class="p">}</span>
+<span class="nv">$PathToAssembly</span> <span class="p">=</span> <span class="nv">$PathToAssemblyItems</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">FullName</span>
+<span class="nb">Add-Type</span> <span class="n">-LiteralPath</span> <span class="nv">$PathToAssembly</span>
+
+<span class="c"># 箇条書きをなしにする。</span>
+<span class="nv">$ppBulletNone</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpBulletType]</span><span class="p">::</span><span class="n">ppBulletNone</span>
+<span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">ParagraphFormat</span><span class="p">.</span><span class="n">Bullet</span><span class="p">.</span><span class="nb">Type </span><span class="p">=</span> <span class="nv">$ppBulletNone</span>
+</pre></div>
+</div>
 </section>
 <section id="id6">
-<h2>PowerShell のコメント<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nb">Add-Extension</span> <span class="p">{</span>
-    <span class="cm">&lt;#</span>
-<span class="cm">        </span><span class="sd">.SYNOPSIS</span><span class="cm"></span>
-<span class="cm">        Adds a file name extension to a supplied name.</span>
-
-<span class="cm">        </span><span class="sd">.DESCRIPTION</span><span class="cm"></span>
-<span class="cm">        Adds a file name extension to a supplied name.</span>
-<span class="cm">        Takes any strings for the file name or extension.</span>
-<span class="cm">    #&gt;</span>
-    <span class="k">param</span> <span class="p">(</span><span class="no">[string]</span><span class="nv">$Name</span><span class="p">,</span><span class="no">[string]</span><span class="nv">$Extension</span> <span class="p">=</span> <span class="s2">"txt"</span><span class="p">)</span>
+<h2>図形のテキストボックスを自動調整なしにする。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppAutoSizeNone</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpAutoSize]</span><span class="p">::</span><span class="n">ppAutoSizeNone</span>
+<span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">AutoSize</span> <span class="p">=</span> <span class="nv">$ppAutoSizeNone</span>
 </pre></div>
 </div>
-<p>これは <a class="reference external" href="https://docs.microsoft.com/en-us/powershell/scripting/developer/help/examples-of-comment-based-help?view=powershell-5.1%60">Examples of Comment-Based Help</a> の関数の後方に書くスタイルと異なる。異なるのは、フルセットのヘルプを書く場合は後ろに書いたほうがいいとは思うが、フルセットのヘルプをほぼ書かず、 SYNOPSIS と、さらに書いたとして DESCRIPTION までなので、後方におかずとも十分に可読性があるため。また、少量のドキュメントなら冒頭のほうが可読性が良いように見える。</p>
-</section>
-<section id="todo">
-<h2>TODO<a class="headerlink" href="#todo" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li><p>ディレクトリ構造</p></li>
-<li><p>ファイル名</p></li>
-<li><p>型の省略</p>
-<ul>
-<li><p>https://stackoverflow.com/a/66265888/12786161</p></li>
-</ul>
-</li>
-</ul>
 </section>
 <section id="id7">
-<h2>プロセスの開始時刻を得る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>WMI で得たオブジェクトは ConvertToDateTime で変換できる。</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PsoArray</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">win32_process</span> <span class="p">|</span>
-    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-        <span class="no">[pscustomobject]</span><span class="p">@{</span>
-            <span class="s2">"CreationDate"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ConvertToDateTime</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">CreationDate</span><span class="p">)</span>
-            <span class="s2">"Data"</span><span class="p">=</span><span class="nv">$_</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Data</span><span class="p">.</span><span class="n">CreationDate</span>
-<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Data</span><span class="p">.</span><span class="n">CreationDate</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
-<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">CreationDate</span>
-<span class="nv">$PsoArray</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">CreationDate</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+<h2>パラグラフにフォントのサイズや下線を設定する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
+<span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="nv">$ParagraphIndex</span><span class="p">)</span>
+<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Size</span> <span class="p">=</span> <span class="n">32</span>
+<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Underline</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
 </pre></div>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $PsoArray[0].Data.CreationDate</span>
-<span class="go">20221015172823.192768+540</span>
-<span class="go">PS &gt; $PsoArray[0].Data.CreationDate.GetType()</span>
-
-<span class="go">IsPublic IsSerial Name                                     BaseType</span>
-<span class="go">-------- -------- ----                                     --------</span>
-<span class="go">True     True     String                                   System.Object</span>
-
-
-<span class="go">PS &gt; $PsoArray[0].CreationDate</span>
-
-<span class="go">2022年10月15日 17:28:23</span>
-
-
-<span class="go">PS &gt; $PsoArray[0].CreationDate.GetType()</span>
-
-<span class="go">IsPublic IsSerial Name                                     BaseType</span>
-<span class="go">-------- -------- ----                                     --------</span>
-<span class="go">True     True     DateTime                                 System.ValueType</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi</p></li>
-<li><p>https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-process</p></li>
-</ul>
 </section>
-<section id="python">
-<h2>最も最近に作られた Python プロセスを終了する。<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ProcessArray</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">win32_process</span> <span class="p">|</span>
-    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ProcessName</span> <span class="o">-match</span> <span class="s1">'python\.exe'</span> <span class="p">}</span> <span class="p">|</span>
-    <span class="nb">Sort-Object</span> <span class="n">-Property</span> <span class="n">CreationDate</span> <span class="p">|</span>
-    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
-        <span class="no">[pscustomobject]</span><span class="p">@{</span>
-            <span class="s2">"ProcessId"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ProcessId</span>
-            <span class="s2">"CreationDate"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ConvertToDateTime</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">CreationDate</span><span class="p">)</span>
-            <span class="s2">"ProcessName"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">ProcessName</span>
-            <span class="s2">"CommandLine"</span><span class="p">=</span><span class="nv">$_</span><span class="p">.</span><span class="n">CommandLine</span>
-            <span class="s2">"Data"</span><span class="p">=</span><span class="nv">$_</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<section id="id8">
+<h2>スライドに図形を加える。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoShapeRectangle</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoAutoShapeType]</span><span class="p">::</span><span class="n">msoShapeRectangle</span>
+<span class="nv">$Shape2</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span><span class="p">.</span><span class="n">AddShape</span><span class="p">(</span><span class="nv">$msoShapeRectangle</span><span class="p">,</span> <span class="n">10</span><span class="p">,</span> <span class="n">20</span><span class="p">,</span> <span class="n">30</span><span class="p">,</span> <span class="n">40</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h2>図形の位置を設定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape2</span><span class="p">.</span><span class="n">Left</span> <span class="p">=</span> <span class="n">127</span><span class="p">.</span><span class="n">2</span>
+<span class="nv">$Shape2</span><span class="p">.</span><span class="n">Top</span> <span class="p">=</span> <span class="n">177</span><span class="p">.</span><span class="n">59</span>
+<span class="nv">$Shape2</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">73</span><span class="p">.</span><span class="n">75504</span>
+<span class="nv">$Shape2</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">39</span><span class="p">.</span><span class="n">93504</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>図形の枠線の色を設定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span>
 
-<span class="nv">$ProcessArray</span><span class="p">[-</span><span class="n">1</span><span class="p">]</span>
-<span class="nb">Stop-Process</span> <span class="nv">$ProcessArray</span><span class="p">[-</span><span class="n">1</span><span class="p">].</span><span class="n">ProcessId</span>
+<span class="nv">$rgb</span> <span class="p">=</span> <span class="no">[Microsoft.VisualBasic.Information]</span><span class="p">::</span><span class="n">RGB</span><span class="p">(</span><span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">)</span>
+<span class="nv">$Shape2</span><span class="p">.</span><span class="n">Line</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="nv">$rgb</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h2>図形を塗りつぶしなしにする。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span>
+
+<span class="nv">$msoFalse</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoFalse</span>
+<span class="nv">$Shape2</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$msoFalse</span>
 </pre></div>
 </div>
 </section>
@@ -490,23 +380,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="get_childitem.html">
+          <a class="next-page" href="../windows.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">停止しても再実行できるように、ファイルの一覧を出力する。</div>
+                <div class="title">Microsoft Windows</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="foundation.html">
+          <a class="prev-page" href="pester.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">PowerShell 基礎</div>
+                <div class="title">Pester でテストする。</div>
                 
               </div>
             </a>
@@ -518,7 +408,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/powershell/application.md.txt"
+            <a class="muted-link" href="../_sources/powershell/powerpoint.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -538,16 +428,18 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">PowerShell 応用</a><ul>
-<li><a class="reference internal" href="#id1">コーディングのルール</a></li>
-<li><a class="reference internal" href="#id2">PowerShell のキーワードや名前の大文字・小文字</a></li>
-<li><a class="reference internal" href="#id3">PowerShell の空行の位置</a></li>
-<li><a class="reference internal" href="#id4">PowerShell の省略記法</a></li>
-<li><a class="reference internal" href="#id5">PowerShell のインデント</a></li>
-<li><a class="reference internal" href="#id6">PowerShell のコメント</a></li>
-<li><a class="reference internal" href="#todo">TODO</a></li>
-<li><a class="reference internal" href="#id7">プロセスの開始時刻を得る。</a></li>
-<li><a class="reference internal" href="#python">最も最近に作られた Python プロセスを終了する。</a></li>
+<li><a class="reference internal" href="#">PowerPoint</a><ul>
+<li><a class="reference internal" href="#id1">新しいプレゼンテーションを作る。</a></li>
+<li><a class="reference internal" href="#id2">プレゼンテーションにスライドを加える。</a></li>
+<li><a class="reference internal" href="#id3">スライドのコンテンツのテキストを設定する。</a></li>
+<li><a class="reference internal" href="#id4">図形のパラグラフのインデントを設定する。</a></li>
+<li><a class="reference internal" href="#id5">図形の箇条書きをなしにする。</a></li>
+<li><a class="reference internal" href="#id6">図形のテキストボックスを自動調整なしにする。</a></li>
+<li><a class="reference internal" href="#id7">パラグラフにフォントのサイズや下線を設定する。</a></li>
+<li><a class="reference internal" href="#id8">スライドに図形を加える。</a></li>
+<li><a class="reference internal" href="#id9">図形の位置を設定する。</a></li>
+<li><a class="reference internal" href="#id10">図形の枠線の色を設定する。</a></li>
+<li><a class="reference internal" href="#id11">図形を塗りつぶしなしにする。</a></li>
 </ul>
 </li>
 </ul>

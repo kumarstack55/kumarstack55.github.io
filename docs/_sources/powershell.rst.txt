@@ -9,3 +9,4 @@ PowerShell
    powershell/application.md
    powershell/get_childitem.md
    powershell/pester.md
+   powershell/powerpoint.md
