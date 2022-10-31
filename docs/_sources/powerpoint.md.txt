@@ -10,6 +10,10 @@ $Application.Visible = [Microsoft.Office.Core.MsoTriState]::msoTrue
 $Presentation = $Application.Presentations.Add()
 ```
 
+## プレゼンテーションを保存する。
+
+TODO
+
 ## プレゼンテーションにスライドを加える。
 
 ```powershell
@@ -86,22 +90,26 @@ $Shape.TextFrame.AutoSize = $ppAutoSizeNone
 ## 図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。
 
 ```powershell
-$Shape.TextFrame.WordWrap = [Microsoft.Office.Core.MsoTriState]::msoFalse
+$msoFalse = [Microsoft.Office.Core.MsoTriState]::msoFalse
+$Shape.TextFrame.WordWrap = $msoFalse
 ```
 
 ## 段落にフォントのサイズや下線を設定する。
 
 ```powershell
+$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
+
 $ParagraphIndex = 2
 $Paragraph = $Shape.TextFrame.TextRange.Paragraphs($ParagraphIndex)
 $Paragraph.Font.Size = 32
-$Paragraph.Font.Underline = [Microsoft.Office.Core.MsoTriState]::msoTrue
+$Paragraph.Font.Underline = $msoTrue
 ```
 
 ## スライドに図形を加える。
 
 ```powershell
 $msoShapeRectangle = [Microsoft.Office.Core.MsoAutoShapeType]::msoShapeRectangle
+
 $Left, $Top, $Width, $Height = 10, 20, 100, 200
 $Shape2 = $Slide.Shapes.AddShape($msoShapeRectangle, $Left, $Top, $Width, $Height)
 ```
@@ -143,6 +151,13 @@ $EndX, $EndY = 300, 400
 $Shape3 = $Slide.Shapes.AddLine($BeginX, $BeginY, $EndX, $EndY)
 ```
 
+## 線の太さを設定する。
+
+```powershell
+$Shape3.Line.Weight = 3
+$Shape3.Line.ForeColor.RGB = $rgb
+```
+
 ## 図形を消す。
 
 ```powershell
@@ -152,23 +167,21 @@ $Shape3.Delete()
 ## フッターを表示する。
 
 ```powershell
-$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
-$Slide.HeadersFooters.Footer.Visible = $msoTrue
+$Slide.HeadersFooters.Footer.Visible = $true
 ```
 
 ## スライド番号を表示する。
 
 ```powershell
-$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
-$Slide.HeadersFooters.SlideNumber.Visible = $msoTrue
+$Slide.HeadersFooters.SlideNumber.Visible = $true
 ```
 
 ## スライドのサイズを得る。
 
 ```powershell
 $PageSetup = $Presentation.PageSetup
-$PageSetup.SlideWidth
-$PageSetup.SlideHeight
+$PageSetup.SlideWidth  # pt
+$PageSetup.SlideHeight  # pt
 ```
 
 ## グリッドを表示する。
@@ -180,9 +193,13 @@ $Application.DisplayGridLines = $msoTrue
 
 ## 1グリッドのサイズを得る。
 
+`$Presentation.GridDistance` は Pt 単位で、1グリッドの大きさを返す。
+
 ```powershell
 $Presentation.GridDistance
 ```
+
+次のコードは、スライド内のすべてのグリッドを通る格子を描きます。
 
 ```powershell
 $Presentation.GridDistance = 5.669922
@@ -212,21 +229,21 @@ function DrawPoint {
 
 # スライド中央を起点にグリッド座標を計算する。
 $PageSetup = $Presentation.PageSetup
-$CenterX = $PageSetup.SlideWidth / 2
-$CenterY = $PageSetup.SlideHeight / 2
-DrawPoint -Left $CenterX -Top $CenterY -Text "Center" | Out-Null
+$CenterXInPt = $PageSetup.SlideWidth / 2
+$CenterYInPt = $PageSetup.SlideHeight / 2
+DrawPoint -Left $CenterXInPt -Top $CenterYInPt -Text "Center" | Out-Null
 
 # 浮動小数点の誤差を含めないよう整数で計算する。
-$CenterToLeftInGrid = [int]($CenterX / $Presentation.GridDistance) - 1
-$CenterToTopInGrid = [int]($CenterY / $Presentation.GridDistance) - 1
+$CenterToLeftInGrid = [int]($CenterXInPt / $Presentation.GridDistance) - 1
+$CenterToTopInGrid = [int]($CenterYInPt / $Presentation.GridDistance) - 1
 $WidthInGrid = $CenterToLeftInGrid * 2 + 1
 $HeightInGrid = $CenterToTopInGrid * 2 + 1
 
-$CenterToLeft = $CenterToLeftInGrid * $Presentation.GridDistance
-$CenterToTop = $CenterToTopInGrid * $Presentation.GridDistance
+$CenterToLeftInPt = $CenterToLeftInGrid * $Presentation.GridDistance
+$CenterToTopInPt = $CenterToTopInGrid * $Presentation.GridDistance
 
-$Left0 = $CenterX - $CenterToLeft
-$Top0 = $CenterY - $CenterToTop
+$Left0 = $CenterXInPt - $CenterToLeftInPt
+$Top0 = $CenterYInPt - $CenterToTopInPt
 DrawPoint -Left $Left0 -Top $Top0 -Text "OriginInGrid" | Out-Null
 
 $LeftToRight = ($WidthInGrid - 1) * $Presentation.GridDistance
@@ -253,42 +270,129 @@ while ($TopInGrid -lt $HeightInGrid) {
 }
 ```
 
-## スライドマスタを表示する。
+## 表示 - マスター表示 - スライドマスターを表示する。
 
-TODO
+```powershell
+$Application.CommandBars.ExecuteMso("ViewSlideMasterView")
+```
 
-## スライドマスタのマスタスライドを得る。
+## 表示 - プレゼンテーション - 標準を表示する。
 
-TODO
+```powershell
+$Application.CommandBars.ExecuteMso("ViewSlideView")
+```
+
+## スライドマスタを得る。
+
+```powershell
+$Presentation.Designs |
+    ForEach-Object { $_.Name }
+
+$Design = $Presentation.Designs(1)
+$SlideMaster = $Design.SlideMaster
+```
+
+## スライドマスタの背景色を設定する。
+
+```powershell
+$rgb = [Microsoft.VisualBasic.Information]::RGB(245, 245, 245)
+$SlideMaster.Background.Fill.ForeColor.RGB = $rgb
+```
 
 ## マスタスライドのタイトルの図形を得る。
 
-TODO
+```powershell
+$SlideMaster.Shapes |
+    ForEach-Object { $_.Name }
 
-## マスタスライドのマスターテキストの図形を得る。
+# タイトル
+$ShapeName1 = "Title Placeholder 1"
+$Shape1 = $SlideMaster.Shapes[$ShapeName1]
+if ($null -eq $Shape1) { throw }
 
-TODO
+# コンテンツ
+$ShapeName2 = "Text Placeholder 2"
+$Shape2 = $SlideMaster.Shapes[$ShapeName2]
+if ($null -eq $Shape2) { throw }
 
-## マスタスライドのフッターの図形を得る。
+# 日付
+$ShapeName3 = "Date Placeholder 3"
+$Shape3 = $SlideMaster.Shapes[$ShapeName3]
+if ($null -eq $Shape3) { throw }
 
-TODO
+# フッター
+$ShapeName4 = "Footer Placeholder 4"
+$Shape4 = $SlideMaster.Shapes[$ShapeName4]
+if ($null -eq $Shape4) { throw }
 
-## マスタスライドのスライド番号の図形を得る。
-
-TODO
-
-## スライドマスタにレイアウトを加える。
-
-TODO
+# スライド番号
+$ShapeName5 = "Slide Number Placeholder 5"
+$Shape5 = $SlideMaster.Shapes[$ShapeName5]
+if ($null -eq $Shape5) { throw }
+```
 
 ## スライドマスタからレイアウトを消す。
 
-TODO
+```powershell
+$CustomLayouts = $SlideMaster.CustomLayouts
+$CustomLayouts |
+    ForEach-Object { $_.Name }
+
+$CustomLayoutNamesToDelete = [hashtable]@{}
+$CustomLayouts |
+    ForEach-Object {
+        $CustomLayoutNamesToDelete.Add($_.Name, $true)
+    }
+
+# 残すレイアウト名
+$CustomLayoutNamesToKeep = @(
+    'タイトル スライド',
+    'タイトルとコンテンツ'
+    'タイトルのみ',
+    '白紙'
+)
+
+$CustomLayoutNamesToKeep |
+    ForEach-Object {
+        $CustomLayoutNamesToDelete.Remove($_)
+    }
+
+$CustomLayoutsToDelete = $CustomLayouts |
+    Where-Object {
+        $CustomLayoutNamesToDelete.ContainsKey($_.Name)
+    }
+
+$CustomLayoutsToDelete |
+    ForEach-Object {
+        $_.Delete()
+    }
+```
+
+## スライドマスタにレイアウトを加える。
+
+```powershell
+$CustomLayout = $CustomLayouts.Add(5)
+```
 
 ## レイアウトのレイアウト名を設定する。
 
-TODO
+```powershell
+$CustomLayout.Name = "layout name"
+```
 
-## レイアウトにコンテンツを加える。
+## レイアウトにプレースホルダーを加える。
 
-TODO
+```powershell
+$ppPlaceholderObject = [Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]::ppPlaceholderObject
+$ppPlaceholderBody = [Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]::ppPlaceholderBody
+
+$Left, $Top, $Width, $Height = 100, 200, 300, 400
+
+# コンテンツを加える。
+$CustomLayout.Shapes.AddPlaceholder(
+    $ppPlaceholderObject, $Left, $Top, $Width, $Height)
+
+# テキストを加える。
+$CustomLayout.Shapes.AddPlaceholder(
+    $ppPlaceholderBody, $Left, $Top, $Width, $Height)
+```

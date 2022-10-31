@@ -260,7 +260,11 @@
 </div>
 </section>
 <section id="id2">
-<h2>プレゼンテーションにスライドを加える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>プレゼンテーションを保存する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>TODO</p>
+</section>
+<section id="id3">
+<h2>プレゼンテーションにスライドを加える。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
@@ -277,8 +281,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>スライドのコンテンツのテキストを設定する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>スライドのコンテンツのテキストを設定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>コンテンツの正体は図形なので、図形のテキストを設定する。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
@@ -298,16 +302,16 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>図形の段落のインデントを設定する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>図形の段落のインデントを設定する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
 <span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="nv">$ParagraphIndex</span><span class="p">)</span>
 <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">IndentLevel</span> <span class="p">=</span> <span class="n">2</span>
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>図形の箇条書きをなしにする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>図形の箇条書きをなしにする。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 列挙型を使うために PowerShell のセッションに .NET クラスを定義する。</span>
 <span class="nv">$SearchPath</span> <span class="p">=</span> <span class="s1">'C:\WINDOWS\assembly\GAC_MSIL'</span>
 <span class="nv">$SearchFilter</span> <span class="p">=</span> <span class="s1">'Microsoft.Office.Interop.PowerPoint.dll'</span>
@@ -324,38 +328,42 @@
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>図形のテキストボックスを自動調整なしにする。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>図形のテキストボックスを自動調整なしにする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppAutoSizeNone</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpAutoSize]</span><span class="p">::</span><span class="n">ppAutoSizeNone</span>
 <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">AutoSize</span> <span class="p">=</span> <span class="nv">$ppAutoSizeNone</span>
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">WordWrap</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoFalse</span>
-</pre></div>
-</div>
-</section>
 <section id="id8">
-<h2>段落にフォントのサイズや下線を設定する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
-<span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="nv">$ParagraphIndex</span><span class="p">)</span>
-<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Size</span> <span class="p">=</span> <span class="n">32</span>
-<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Underline</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
+<h2>図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoFalse</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoFalse</span>
+<span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">WordWrap</span> <span class="p">=</span> <span class="nv">$msoFalse</span>
 </pre></div>
 </div>
 </section>
 <section id="id9">
-<h2>スライドに図形を加える。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>段落にフォントのサイズや下線を設定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
+
+<span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
+<span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="nv">$ParagraphIndex</span><span class="p">)</span>
+<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Size</span> <span class="p">=</span> <span class="n">32</span>
+<span class="nv">$Paragraph</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Underline</span> <span class="p">=</span> <span class="nv">$msoTrue</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>スライドに図形を加える。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoShapeRectangle</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoAutoShapeType]</span><span class="p">::</span><span class="n">msoShapeRectangle</span>
+
 <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span><span class="p">,</span> <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span> <span class="p">=</span> <span class="n">10</span><span class="p">,</span> <span class="n">20</span><span class="p">,</span> <span class="n">100</span><span class="p">,</span> <span class="n">200</span>
 <span class="nv">$Shape2</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span><span class="p">.</span><span class="n">AddShape</span><span class="p">(</span><span class="nv">$msoShapeRectangle</span><span class="p">,</span> <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span><span class="p">,</span> <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h2>図形の位置を設定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>図形の位置を設定する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="n">2</span><span class="p">)</span>
 <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span> <span class="p">=</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundLeft</span><span class="p">,</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundTop</span>
 <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span> <span class="p">=</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundWidth</span><span class="p">,</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundHeight</span>
@@ -367,8 +375,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h2>図形の枠線の色を設定する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h2>図形の枠線の色を設定する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span>
 
 <span class="nv">$rgb</span> <span class="p">=</span> <span class="no">[Microsoft.VisualBasic.Information]</span><span class="p">::</span><span class="n">RGB</span><span class="p">(</span><span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">)</span>
@@ -376,61 +384,68 @@
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h2>図形を塗りつぶしなしにする。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id13">
+<h2>図形を塗りつぶしなしにする。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoFalse</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoFalse</span>
 <span class="nv">$Shape2</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$msoFalse</span>
 </pre></div>
 </div>
 </section>
-<section id="id13">
-<h2>スライドに線を加える。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id14">
+<h2>スライドに線を加える。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$BeginX</span><span class="p">,</span> <span class="nv">$BeginY</span> <span class="p">=</span> <span class="n">100</span><span class="p">,</span> <span class="n">200</span>
 <span class="nv">$EndX</span><span class="p">,</span> <span class="nv">$EndY</span> <span class="p">=</span> <span class="n">300</span><span class="p">,</span> <span class="n">400</span>
 <span class="nv">$Shape3</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span><span class="p">.</span><span class="n">AddLine</span><span class="p">(</span><span class="nv">$BeginX</span><span class="p">,</span> <span class="nv">$BeginY</span><span class="p">,</span> <span class="nv">$EndX</span><span class="p">,</span> <span class="nv">$EndY</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id14">
-<h2>図形を消す。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape3</span><span class="p">.</span><span class="n">Delete</span><span class="p">()</span>
-</pre></div>
-</div>
-</section>
 <section id="id15">
-<h2>フッターを表示する。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
-<span class="nv">$Slide</span><span class="p">.</span><span class="n">HeadersFooters</span><span class="p">.</span><span class="n">Footer</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$msoTrue</span>
+<h2>線の太さを設定する。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape3</span><span class="p">.</span><span class="n">Line</span><span class="p">.</span><span class="n">Weight</span> <span class="p">=</span> <span class="n">3</span>
+<span class="nv">$Shape3</span><span class="p">.</span><span class="n">Line</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="nv">$rgb</span>
 </pre></div>
 </div>
 </section>
 <section id="id16">
-<h2>スライド番号を表示する。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
-<span class="nv">$Slide</span><span class="p">.</span><span class="n">HeadersFooters</span><span class="p">.</span><span class="n">SlideNumber</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$msoTrue</span>
+<h2>図形を消す。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape3</span><span class="p">.</span><span class="n">Delete</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="id17">
-<h2>スライドのサイズを得る。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PageSetup</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">PageSetup</span>
-<span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideWidth</span>
-<span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideHeight</span>
+<h2>フッターを表示する。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">HeadersFooters</span><span class="p">.</span><span class="n">Footer</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$true</span>
 </pre></div>
 </div>
 </section>
 <section id="id18">
-<h2>グリッドを表示する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>スライド番号を表示する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">HeadersFooters</span><span class="p">.</span><span class="n">SlideNumber</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$true</span>
+</pre></div>
+</div>
+</section>
+<section id="id19">
+<h2>スライドのサイズを得る。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PageSetup</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">PageSetup</span>
+<span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideWidth</span>  <span class="c"># pt</span>
+<span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideHeight</span>  <span class="c"># pt</span>
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h2>グリッドを表示する。<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
 <span class="nv">$Application</span><span class="p">.</span><span class="n">DisplayGridLines</span> <span class="p">=</span> <span class="nv">$msoTrue</span>
 </pre></div>
 </div>
 </section>
-<section id="id19">
-<h2>1グリッドのサイズを得る。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id21">
+<h2>1グリッドのサイズを得る。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">$Presentation.GridDistance</span></code> は Pt 単位で、1グリッドの大きさを返す。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
 </pre></div>
 </div>
+<p>次のコードは、スライド内のすべてのグリッドを通る格子を描きます。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span> <span class="p">=</span> <span class="n">5</span><span class="p">.</span><span class="n">669922</span>
 <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span> <span class="p">*=</span> <span class="n">13</span>
 
@@ -458,21 +473,21 @@
 
 <span class="c"># スライド中央を起点にグリッド座標を計算する。</span>
 <span class="nv">$PageSetup</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">PageSetup</span>
-<span class="nv">$CenterX</span> <span class="p">=</span> <span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideWidth</span> <span class="p">/</span> <span class="n">2</span>
-<span class="nv">$CenterY</span> <span class="p">=</span> <span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideHeight</span> <span class="p">/</span> <span class="n">2</span>
-<span class="n">DrawPoint</span> <span class="n">-Left</span> <span class="nv">$CenterX</span> <span class="n">-Top</span> <span class="nv">$CenterY</span> <span class="n">-Text</span> <span class="s2">"Center"</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+<span class="nv">$CenterXInPt</span> <span class="p">=</span> <span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideWidth</span> <span class="p">/</span> <span class="n">2</span>
+<span class="nv">$CenterYInPt</span> <span class="p">=</span> <span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideHeight</span> <span class="p">/</span> <span class="n">2</span>
+<span class="n">DrawPoint</span> <span class="n">-Left</span> <span class="nv">$CenterXInPt</span> <span class="n">-Top</span> <span class="nv">$CenterYInPt</span> <span class="n">-Text</span> <span class="s2">"Center"</span> <span class="p">|</span> <span class="nb">Out-Null</span>
 
 <span class="c"># 浮動小数点の誤差を含めないよう整数で計算する。</span>
-<span class="nv">$CenterToLeftInGrid</span> <span class="p">=</span> <span class="no">[int]</span><span class="p">(</span><span class="nv">$CenterX</span> <span class="p">/</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span><span class="p">)</span> <span class="p">-</span> <span class="n">1</span>
-<span class="nv">$CenterToTopInGrid</span> <span class="p">=</span> <span class="no">[int]</span><span class="p">(</span><span class="nv">$CenterY</span> <span class="p">/</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span><span class="p">)</span> <span class="p">-</span> <span class="n">1</span>
+<span class="nv">$CenterToLeftInGrid</span> <span class="p">=</span> <span class="no">[int]</span><span class="p">(</span><span class="nv">$CenterXInPt</span> <span class="p">/</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span><span class="p">)</span> <span class="p">-</span> <span class="n">1</span>
+<span class="nv">$CenterToTopInGrid</span> <span class="p">=</span> <span class="no">[int]</span><span class="p">(</span><span class="nv">$CenterYInPt</span> <span class="p">/</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span><span class="p">)</span> <span class="p">-</span> <span class="n">1</span>
 <span class="nv">$WidthInGrid</span> <span class="p">=</span> <span class="nv">$CenterToLeftInGrid</span> <span class="p">*</span> <span class="n">2</span> <span class="p">+</span> <span class="n">1</span>
 <span class="nv">$HeightInGrid</span> <span class="p">=</span> <span class="nv">$CenterToTopInGrid</span> <span class="p">*</span> <span class="n">2</span> <span class="p">+</span> <span class="n">1</span>
 
-<span class="nv">$CenterToLeft</span> <span class="p">=</span> <span class="nv">$CenterToLeftInGrid</span> <span class="p">*</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
-<span class="nv">$CenterToTop</span> <span class="p">=</span> <span class="nv">$CenterToTopInGrid</span> <span class="p">*</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
+<span class="nv">$CenterToLeftInPt</span> <span class="p">=</span> <span class="nv">$CenterToLeftInGrid</span> <span class="p">*</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
+<span class="nv">$CenterToTopInPt</span> <span class="p">=</span> <span class="nv">$CenterToTopInGrid</span> <span class="p">*</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
 
-<span class="nv">$Left0</span> <span class="p">=</span> <span class="nv">$CenterX</span> <span class="p">-</span> <span class="nv">$CenterToLeft</span>
-<span class="nv">$Top0</span> <span class="p">=</span> <span class="nv">$CenterY</span> <span class="p">-</span> <span class="nv">$CenterToTop</span>
+<span class="nv">$Left0</span> <span class="p">=</span> <span class="nv">$CenterXInPt</span> <span class="p">-</span> <span class="nv">$CenterToLeftInPt</span>
+<span class="nv">$Top0</span> <span class="p">=</span> <span class="nv">$CenterYInPt</span> <span class="p">-</span> <span class="nv">$CenterToTopInPt</span>
 <span class="n">DrawPoint</span> <span class="n">-Left</span> <span class="nv">$Left0</span> <span class="n">-Top</span> <span class="nv">$Top0</span> <span class="n">-Text</span> <span class="s2">"OriginInGrid"</span> <span class="p">|</span> <span class="nb">Out-Null</span>
 
 <span class="nv">$LeftToRight</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$WidthInGrid</span> <span class="p">-</span> <span class="n">1</span><span class="p">)</span> <span class="p">*</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
@@ -500,45 +515,132 @@
 </pre></div>
 </div>
 </section>
-<section id="id20">
-<h2>スライドマスタを表示する。<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
-</section>
-<section id="id21">
-<h2>スライドマスタのマスタスライドを得る。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
-</section>
 <section id="id22">
-<h2>マスタスライドのタイトルの図形を得る。<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>表示 - マスター表示 - スライドマスターを表示する。<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span><span class="p">.</span><span class="n">CommandBars</span><span class="p">.</span><span class="n">ExecuteMso</span><span class="p">(</span><span class="s2">"ViewSlideMasterView"</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="id23">
-<h2>マスタスライドのマスターテキストの図形を得る。<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>表示 - プレゼンテーション - 標準を表示する。<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span><span class="p">.</span><span class="n">CommandBars</span><span class="p">.</span><span class="n">ExecuteMso</span><span class="p">(</span><span class="s2">"ViewSlideView"</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="id24">
-<h2>マスタスライドのフッターの図形を得る。<a class="headerlink" href="#id24" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>スライドマスタを得る。<a class="headerlink" href="#id24" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+
+<span class="nv">$Design</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>
+<span class="nv">$SlideMaster</span> <span class="p">=</span> <span class="nv">$Design</span><span class="p">.</span><span class="n">SlideMaster</span>
+</pre></div>
+</div>
 </section>
 <section id="id25">
-<h2>マスタスライドのスライド番号の図形を得る。<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>スライドマスタの背景色を設定する。<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$rgb</span> <span class="p">=</span> <span class="no">[Microsoft.VisualBasic.Information]</span><span class="p">::</span><span class="n">RGB</span><span class="p">(</span><span class="n">245</span><span class="p">,</span> <span class="n">245</span><span class="p">,</span> <span class="n">245</span><span class="p">)</span>
+<span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Background</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="nv">$rgb</span>
+</pre></div>
+</div>
 </section>
 <section id="id26">
-<h2>スライドマスタにレイアウトを加える。<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>マスタスライドのタイトルの図形を得る。<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+
+<span class="c"># タイトル</span>
+<span class="nv">$ShapeName1</span> <span class="p">=</span> <span class="s2">"Title Placeholder 1"</span>
+<span class="nv">$Shape1</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span><span class="p">[</span><span class="nv">$ShapeName1</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$Shape1</span><span class="p">)</span> <span class="p">{</span> <span class="k">throw</span> <span class="p">}</span>
+
+<span class="c"># コンテンツ</span>
+<span class="nv">$ShapeName2</span> <span class="p">=</span> <span class="s2">"Text Placeholder 2"</span>
+<span class="nv">$Shape2</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span><span class="p">[</span><span class="nv">$ShapeName2</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$Shape2</span><span class="p">)</span> <span class="p">{</span> <span class="k">throw</span> <span class="p">}</span>
+
+<span class="c"># 日付</span>
+<span class="nv">$ShapeName3</span> <span class="p">=</span> <span class="s2">"Date Placeholder 3"</span>
+<span class="nv">$Shape3</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span><span class="p">[</span><span class="nv">$ShapeName3</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$Shape3</span><span class="p">)</span> <span class="p">{</span> <span class="k">throw</span> <span class="p">}</span>
+
+<span class="c"># フッター</span>
+<span class="nv">$ShapeName4</span> <span class="p">=</span> <span class="s2">"Footer Placeholder 4"</span>
+<span class="nv">$Shape4</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span><span class="p">[</span><span class="nv">$ShapeName4</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$Shape4</span><span class="p">)</span> <span class="p">{</span> <span class="k">throw</span> <span class="p">}</span>
+
+<span class="c"># スライド番号</span>
+<span class="nv">$ShapeName5</span> <span class="p">=</span> <span class="s2">"Slide Number Placeholder 5"</span>
+<span class="nv">$Shape5</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span><span class="p">[</span><span class="nv">$ShapeName5</span><span class="p">]</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$Shape5</span><span class="p">)</span> <span class="p">{</span> <span class="k">throw</span> <span class="p">}</span>
+</pre></div>
+</div>
 </section>
 <section id="id27">
 <h2>スライドマスタからレイアウトを消す。<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayouts</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span>
+<span class="nv">$CustomLayouts</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
+
+<span class="nv">$CustomLayoutNamesToDelete</span> <span class="p">=</span> <span class="no">[hashtable]</span><span class="p">@{}</span>
+<span class="nv">$CustomLayouts</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nv">$CustomLayoutNamesToDelete</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="nv">$true</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="c"># 残すレイアウト名</span>
+<span class="nv">$CustomLayoutNamesToKeep</span> <span class="p">=</span> <span class="p">@(</span>
+    <span class="s1">'タイトル スライド'</span><span class="p">,</span>
+    <span class="s1">'タイトルとコンテンツ'</span>
+    <span class="s1">'タイトルのみ'</span><span class="p">,</span>
+    <span class="s1">'白紙'</span>
+<span class="p">)</span>
+
+<span class="nv">$CustomLayoutNamesToKeep</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nv">$CustomLayoutNamesToDelete</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="nv">$_</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="nv">$CustomLayoutsToDelete</span> <span class="p">=</span> <span class="nv">$CustomLayouts</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span>
+        <span class="nv">$CustomLayoutNamesToDelete</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="nv">$CustomLayoutsToDelete</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+        <span class="nv">$_</span><span class="p">.</span><span class="n">Delete</span><span class="p">()</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
 </section>
 <section id="id28">
-<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>スライドマスタにレイアウトを加える。<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$CustomLayouts</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">5</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="id29">
-<h2>レイアウトにコンテンツを加える。<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
+<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"layout name"</span>
+</pre></div>
+</div>
+</section>
+<section id="id30">
+<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppPlaceholderObject</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderObject</span>
+<span class="nv">$ppPlaceholderBody</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderBody</span>
+
+<span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span><span class="p">,</span> <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span> <span class="p">=</span> <span class="n">100</span><span class="p">,</span> <span class="n">200</span><span class="p">,</span> <span class="n">300</span><span class="p">,</span> <span class="n">400</span>
+
+<span class="c"># コンテンツを加える。</span>
+<span class="nv">$CustomLayout</span><span class="p">.</span><span class="n">Shapes</span><span class="p">.</span><span class="n">AddPlaceholder</span><span class="p">(</span>
+    <span class="nv">$ppPlaceholderObject</span><span class="p">,</span> <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span><span class="p">,</span> <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span><span class="p">)</span>
+
+<span class="c"># テキストを加える。</span>
+<span class="nv">$CustomLayout</span><span class="p">.</span><span class="n">Shapes</span><span class="p">.</span><span class="n">AddPlaceholder</span><span class="p">(</span>
+    <span class="nv">$ppPlaceholderBody</span><span class="p">,</span> <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span><span class="p">,</span> <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -597,34 +699,35 @@
             <ul>
 <li><a class="reference internal" href="#">PowerPoint</a><ul>
 <li><a class="reference internal" href="#id1">新しいプレゼンテーションを作る。</a></li>
-<li><a class="reference internal" href="#id2">プレゼンテーションにスライドを加える。</a></li>
-<li><a class="reference internal" href="#id3">スライドのコンテンツのテキストを設定する。</a></li>
-<li><a class="reference internal" href="#id4">図形の段落のインデントを設定する。</a></li>
-<li><a class="reference internal" href="#id5">図形の箇条書きをなしにする。</a></li>
-<li><a class="reference internal" href="#id6">図形のテキストボックスを自動調整なしにする。</a></li>
-<li><a class="reference internal" href="#id7">図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。</a></li>
-<li><a class="reference internal" href="#id8">段落にフォントのサイズや下線を設定する。</a></li>
-<li><a class="reference internal" href="#id9">スライドに図形を加える。</a></li>
-<li><a class="reference internal" href="#id10">図形の位置を設定する。</a></li>
-<li><a class="reference internal" href="#id11">図形の枠線の色を設定する。</a></li>
-<li><a class="reference internal" href="#id12">図形を塗りつぶしなしにする。</a></li>
-<li><a class="reference internal" href="#id13">スライドに線を加える。</a></li>
-<li><a class="reference internal" href="#id14">図形を消す。</a></li>
-<li><a class="reference internal" href="#id15">フッターを表示する。</a></li>
-<li><a class="reference internal" href="#id16">スライド番号を表示する。</a></li>
-<li><a class="reference internal" href="#id17">スライドのサイズを得る。</a></li>
-<li><a class="reference internal" href="#id18">グリッドを表示する。</a></li>
-<li><a class="reference internal" href="#id19">1グリッドのサイズを得る。</a></li>
-<li><a class="reference internal" href="#id20">スライドマスタを表示する。</a></li>
-<li><a class="reference internal" href="#id21">スライドマスタのマスタスライドを得る。</a></li>
-<li><a class="reference internal" href="#id22">マスタスライドのタイトルの図形を得る。</a></li>
-<li><a class="reference internal" href="#id23">マスタスライドのマスターテキストの図形を得る。</a></li>
-<li><a class="reference internal" href="#id24">マスタスライドのフッターの図形を得る。</a></li>
-<li><a class="reference internal" href="#id25">マスタスライドのスライド番号の図形を得る。</a></li>
-<li><a class="reference internal" href="#id26">スライドマスタにレイアウトを加える。</a></li>
+<li><a class="reference internal" href="#id2">プレゼンテーションを保存する。</a></li>
+<li><a class="reference internal" href="#id3">プレゼンテーションにスライドを加える。</a></li>
+<li><a class="reference internal" href="#id4">スライドのコンテンツのテキストを設定する。</a></li>
+<li><a class="reference internal" href="#id5">図形の段落のインデントを設定する。</a></li>
+<li><a class="reference internal" href="#id6">図形の箇条書きをなしにする。</a></li>
+<li><a class="reference internal" href="#id7">図形のテキストボックスを自動調整なしにする。</a></li>
+<li><a class="reference internal" href="#id8">図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。</a></li>
+<li><a class="reference internal" href="#id9">段落にフォントのサイズや下線を設定する。</a></li>
+<li><a class="reference internal" href="#id10">スライドに図形を加える。</a></li>
+<li><a class="reference internal" href="#id11">図形の位置を設定する。</a></li>
+<li><a class="reference internal" href="#id12">図形の枠線の色を設定する。</a></li>
+<li><a class="reference internal" href="#id13">図形を塗りつぶしなしにする。</a></li>
+<li><a class="reference internal" href="#id14">スライドに線を加える。</a></li>
+<li><a class="reference internal" href="#id15">線の太さを設定する。</a></li>
+<li><a class="reference internal" href="#id16">図形を消す。</a></li>
+<li><a class="reference internal" href="#id17">フッターを表示する。</a></li>
+<li><a class="reference internal" href="#id18">スライド番号を表示する。</a></li>
+<li><a class="reference internal" href="#id19">スライドのサイズを得る。</a></li>
+<li><a class="reference internal" href="#id20">グリッドを表示する。</a></li>
+<li><a class="reference internal" href="#id21">1グリッドのサイズを得る。</a></li>
+<li><a class="reference internal" href="#id22">表示 - マスター表示 - スライドマスターを表示する。</a></li>
+<li><a class="reference internal" href="#id23">表示 - プレゼンテーション - 標準を表示する。</a></li>
+<li><a class="reference internal" href="#id24">スライドマスタを得る。</a></li>
+<li><a class="reference internal" href="#id25">スライドマスタの背景色を設定する。</a></li>
+<li><a class="reference internal" href="#id26">マスタスライドのタイトルの図形を得る。</a></li>
 <li><a class="reference internal" href="#id27">スライドマスタからレイアウトを消す。</a></li>
-<li><a class="reference internal" href="#id28">レイアウトのレイアウト名を設定する。</a></li>
-<li><a class="reference internal" href="#id29">レイアウトにコンテンツを加える。</a></li>
+<li><a class="reference internal" href="#id28">スライドマスタにレイアウトを加える。</a></li>
+<li><a class="reference internal" href="#id29">レイアウトのレイアウト名を設定する。</a></li>
+<li><a class="reference internal" href="#id30">レイアウトにプレースホルダーを加える。</a></li>
 </ul>
 </li>
 </ul>
