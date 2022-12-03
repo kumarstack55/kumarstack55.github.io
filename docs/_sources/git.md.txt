@@ -1,5 +1,25 @@
 # Git
 
+## リモートのリポジトリに、 upstream のリポジトリの変更をマージする。
+
+リモートのリポジトリ r1 に、 upstream のリポジトリ r2 の変更をマージする。
+
+
+```bash
+git clone git@example.com:path/to/repo-r1.git
+
+cd ./repo-r1
+
+git branch -a
+git remote add upstream https://example.com/path/to/r2.git
+
+git branch -a
+git fetch upstream
+
+git checkout master
+git merge upstream/master
+```
+
 ## remote の URL を HTTPS から SSH に変更する。
 
 ### git clone で HTTPS の URL を指定したときの設定は？

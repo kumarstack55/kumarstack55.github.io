@@ -250,6 +250,24 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="git">
 <h1>Git<a class="headerlink" href="#git" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="upstream">
+<h2>リモートのリポジトリに、 upstream のリポジトリの変更をマージする。<a class="headerlink" href="#upstream" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>リモートのリポジトリ r1 に、 upstream のリポジトリ r2 の変更をマージする。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@example.com:path/to/repo-r1.git
+
+<span class="nb">cd</span> ./repo-r1
+
+git branch -a
+git remote add upstream https://example.com/path/to/r2.git
+
+git branch -a
+git fetch upstream
+
+git checkout master
+git merge upstream/master
+</pre></div>
+</div>
+</section>
 <section id="remote-url-https-ssh">
 <h2>remote の URL を HTTPS から SSH に変更する。<a class="headerlink" href="#remote-url-https-ssh" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="git-clone-https-url">
@@ -1922,6 +1940,7 @@ git commit -m <span class="s2">"Remove submodule </span><span class="si">${</spa
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Git</a><ul>
+<li><a class="reference internal" href="#upstream">リモートのリポジトリに、 upstream のリポジトリの変更をマージする。</a></li>
 <li><a class="reference internal" href="#remote-url-https-ssh">remote の URL を HTTPS から SSH に変更する。</a><ul>
 <li><a class="reference internal" href="#git-clone-https-url">git clone で HTTPS の URL を指定したときの設定は？</a></li>
 <li><a class="reference internal" href="#git-clone-ssh-url">git clone で SSH の URL を指定したときの設定は？</a></li>
