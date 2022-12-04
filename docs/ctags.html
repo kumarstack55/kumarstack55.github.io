@@ -468,6 +468,108 @@
 </section>
 <section id="tags">
 <h3>tags を生成する。<a class="headerlink" href="#tags" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="c">
+<h4>C++<a class="headerlink" href="#c" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">enum</span> <span class="nc">enum1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">enum1member1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">enum1member2</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span> <span class="nc">enum2</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">enum2member1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">enum2member2</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">function1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">function2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">class</span> <span class="nc">Class1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">class1method1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">class1method2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">class</span> <span class="nc">Class2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Class1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">class1method1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">class1method2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">class2method1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">class2method2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"hello, world!"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-tags notranslate"><div class="highlight"><pre><span></span>!_TAG_EXTRA_DESCRIPTION anonymous       /Include tags for non-named objects like lambda/
+!_TAG_EXTRA_DESCRIPTION fileScope       /Include tags of file scope/
+!_TAG_EXTRA_DESCRIPTION pseudo  /Include pseudo tags/
+!_TAG_EXTRA_DESCRIPTION subparser       /Include tags generated by subparsers/
+!_TAG_FIELD_DESCRIPTION epoch   /the last modified time of the input file (only for F\/file kind tag)/
+!_TAG_FIELD_DESCRIPTION file    /File-restricted scoping/
+!_TAG_FIELD_DESCRIPTION input   /input file/
+!_TAG_FIELD_DESCRIPTION name    /tag name/
+!_TAG_FIELD_DESCRIPTION pattern /pattern/
+!_TAG_FIELD_DESCRIPTION typeref /Type and name of a variable or typedef/
+!_TAG_FIELD_DESCRIPTION!C++     name    /aliased names/
+!_TAG_FILE_FORMAT       2       /extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED       1       /0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_KIND_DESCRIPTION!C++      c,class /classes/
+!_TAG_KIND_DESCRIPTION!C++      d,macro /macro definitions/
+!_TAG_KIND_DESCRIPTION!C++      e,enumerator    /enumerators (values inside an enumeration)/
+!_TAG_KIND_DESCRIPTION!C++      f,function      /function definitions/
+!_TAG_KIND_DESCRIPTION!C++      g,enum  /enumeration names/
+!_TAG_KIND_DESCRIPTION!C++      h,header        /included header files/
+!_TAG_KIND_DESCRIPTION!C++      m,member        /class, struct, and union members/
+!_TAG_KIND_DESCRIPTION!C++      n,namespace     /namespaces/
+!_TAG_KIND_DESCRIPTION!C++      s,struct        /structure names/
+!_TAG_KIND_DESCRIPTION!C++      t,typedef       /typedefs/
+!_TAG_KIND_DESCRIPTION!C++      u,union /union names/
+!_TAG_KIND_DESCRIPTION!C++      v,variable      /variable definitions/
+!_TAG_OUTPUT_EXCMD      mixed   /number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP    slash   /slash or backslash/
+!_TAG_OUTPUT_MODE       u-ctags /u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT      96      /0 for no limit/
+!_TAG_PROC_CWD  /home/kumarstack55/     //
+!_TAG_PROGRAM_AUTHOR    Universal Ctags Team    //
+!_TAG_PROGRAM_NAME      Universal Ctags /Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL       https://ctags.io/       /official site/
+!_TAG_PROGRAM_VERSION   5.9.0   /60cc214b/
+!_TAG_ROLE_DESCRIPTION!C++!header       local   /local header/
+!_TAG_ROLE_DESCRIPTION!C++!header       system  /system header/
+!_TAG_ROLE_DESCRIPTION!C++!macro        undef   /undefined/
+Class1  a.cpp   /^class Class1 {$/;"    c       file:
+Class2  a.cpp   /^class Class2 : Class1 {$/;"   c       file:
+class1method1   a.cpp   /^  void class1method1() {$/;"  f       class:Class1    typeref:typename:void   file:
+class1method1   a.cpp   /^  void class1method1() {$/;"  f       class:Class2    typeref:typename:void   file:
+class1method2   a.cpp   /^  void class1method2() {$/;"  f       class:Class1    typeref:typename:void   file:
+class1method2   a.cpp   /^  void class1method2() {$/;"  f       class:Class2    typeref:typename:void   file:
+class2method1   a.cpp   /^  void class2method1() {$/;"  f       class:Class2    typeref:typename:void   file:
+class2method2   a.cpp   /^  void class2method2() {$/;"  f       class:Class2    typeref:typename:void   file:
+enum1   a.cpp   /^enum enum1 {$/;"      g       file:
+enum1member1    a.cpp   /^  enum1member1,$/;"   e       enum:enum1      file:
+enum1member2    a.cpp   /^  enum1member2,$/;"   e       enum:enum1      file:
+enum2   a.cpp   /^enum enum2 {$/;"      g       file:
+enum2member1    a.cpp   /^  enum2member1,$/;"   e       enum:enum2      file:
+enum2member2    a.cpp   /^  enum2member2,$/;"   e       enum:enum2      file:
+function1       a.cpp   /^void function1() {$/;"        f       typeref:typename:void
+function2       a.cpp   /^void function2() {$/;"        f       typeref:typename:void
+main    a.cpp   /^int main(int argc, char **argv)$/;"   f       typeref:typename:int
+</pre></div>
+</div>
+</section>
 <section id="markdown">
 <h4>Markdown<a class="headerlink" href="#markdown" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Content .\a.md</span>
@@ -846,6 +948,7 @@
 <li><a class="reference internal" href="#ctags-list-kinds">ctags --list-kinds</a></li>
 <li><a class="reference internal" href="#id2">指定言語のマップを得る。</a></li>
 <li><a class="reference internal" href="#tags">tags を生成する。</a><ul>
+<li><a class="reference internal" href="#c">C++</a></li>
 <li><a class="reference internal" href="#markdown">Markdown</a></li>
 <li><a class="reference internal" href="#python">Python</a></li>
 </ul>
