@@ -1,0 +1,47 @@
+# C++
+
+## hello, world!
+
+```cpp
+#include <iostream>
+
+enum enum1 {
+  enum1member1,
+  enum1member2,
+};
+
+enum enum2 {
+  enum2member1,
+  enum2member2,
+};
+
+void function1() {
+}
+
+void function2() {
+}
+
+class Class1 {
+  void class1method1() {
+  }
+  void class1method2() {
+  }
+};
+
+class Class2 : Class1 {
+  void class1method1() {
+  }
+  void class1method2() {
+  }
+  void class2method1() {
+  }
+  void class2method2() {
+  }
+};
+
+int main(int argc, char **argv)
+{
+    std::cout << "hello, world!" << std::endl;
+    return 0;
+}
+```

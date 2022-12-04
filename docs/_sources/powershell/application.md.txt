@@ -1,5 +1,14 @@
 # PowerShell 応用
 
+## アセンブリの名前を得る。
+
+```powershell
+[System.AppDomain]::CurrentDomain.GetAssemblies() |
+    ForEach-Object {
+        $_.GetName().Name
+    }
+```
+
 ## コーディングのルール
 
 こうすると良さそう、というものを書きためておく。

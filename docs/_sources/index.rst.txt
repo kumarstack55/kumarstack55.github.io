@@ -20,6 +20,8 @@ Untitled ドキュメント
    mariadb
    ssh
    python
+   c
+   cpp
    git
    bats
    jq

@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="bash基礎" href="bash/foundation.html" /><link rel="prev" title="jq" href="jq.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="C++" href="cpp.html" /><link rel="prev" title="Python応用(数学)" href="python/math.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Bash - Untitled ドキュメント</title>
+        <title>C言語 - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -182,12 +182,12 @@
 <li class="toctree-l2"><a class="reference internal" href="python/math.html">Python応用(数学)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="c.html">C言語</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">C言語</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jq.html">jq</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Bash</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="bash/foundation.html">bash基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bash/application.html">bash応用</a></li>
 </ul>
@@ -244,63 +244,64 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="bash">
-<h1>Bash<a class="headerlink" href="#bash" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="bash/foundation.html">bash基礎</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id1">バージョンがリリースされた日付、バージョンの変更内容</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id2">複数行を含む変数を1行ずつ格納する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id3">変数が定義済みか判定する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id4">変数が定義済み、かつ、値があるか判定する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id5">連想配列を使う。</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id6">連想配列を定義する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id7">連想配列の定義時に代入する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id8">連想配列に値を入れる。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id9">連想配列から値を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id10">連想配列のすべてのキーを得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id11">連想配列から値を消す。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id12">連想配列にキーが存在するか判定する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id13">連想配列のキーの数を得る。</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id14">ファンクションを使う。</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id15">ファンクションを定義する。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id16">ファンクションの一覧を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id17">指定したファンクション定義を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id18">すべてのファンクション定義を得る。</a></li>
-<li class="toctree-l3"><a class="reference internal" href="bash/foundation.html#id19">ファンクション実行後のステータスを制御する。</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id20">文字列の末尾を除去する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id21">文字列を1箇所置換する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#id22">文字列をすべて置換する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html#bool">変数で bool 相当の表現を行う。</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="bash/application.html">bash応用</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#shellcheck">ShellCheck をインストールする。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id1">スクリプトの絶対パスを得る。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id2">標準エラーに出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id3">ログを出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id4">異常終了する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id5">コマンド実行が失敗したら異常終了する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id6">コマンド実行が失敗しても無視することを明示する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id7">実行可能なコマンドがあるか確認する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id8">チェックモードで実行する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id9">スタックトレースを出力する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#id10">左端の空白を除去する。</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bash/application.html#grep-h-1">grep -H の出力を1行にまとめる。</a></li>
-</ul>
-</li>
-</ul>
+          <section class="tex2jax_ignore mathjax_ignore" id="c">
+<h1>C言語<a class="headerlink" href="#c" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="hello-world">
+<h2>hello, world!<a class="headerlink" href="#hello-world" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define MACRO1(a, b)  (a + b)</span>
+<span class="cp">#define MACRO2(a, b)  (a - b)</span>
+
+<span class="k">enum</span><span class="w"> </span><span class="n">enumtag1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">enumtag1member1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">enumtag1member2</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span><span class="w"> </span><span class="n">enumtag2</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">enumtag2member1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">enumtag2member2</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">function1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">function2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">struct</span> <span class="nc">struct1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">struct1member1</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span> <span class="nc">struct2</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">struct2member1</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">typedef1</span><span class="p">;</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">typedef2</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">union</span> <span class="nc">union1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">union1member1</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">union</span> <span class="nc">union2</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">union2member1</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 </div>
+</section>
 </section>
 
         </article>
@@ -308,23 +309,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="bash/foundation.html">
+          <a class="next-page" href="cpp.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">bash基礎</div>
+                <div class="title">C++</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="jq.html">
+          <a class="prev-page" href="python/math.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">jq</div>
+                <div class="title">Python応用(数学)</div>
                 
               </div>
             </a>
@@ -336,7 +337,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/bash.rst.txt"
+            <a class="muted-link" href="_sources/c.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -344,8 +345,27 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">C言語</a><ul>
+<li><a class="reference internal" href="#hello-world">hello, world!</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

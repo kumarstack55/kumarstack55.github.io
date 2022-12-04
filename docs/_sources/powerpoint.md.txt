@@ -5,14 +5,30 @@ PowerPoint を PowerShell で操作する。
 ## 新しいプレゼンテーションを作る。
 
 ```powershell
+$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
+
 $Application = New-Object -ComObject PowerPoint.Application
-$Application.Visible = [Microsoft.Office.Core.MsoTriState]::msoTrue
+$Application.Visible = $msoTrue
 $Presentation = $Application.Presentations.Add()
 ```
 
+## プレゼンテーションを保存せず終了する。
+
+```powershell
+$Presentation.Saved = $true
+$Presentation.Close()
+```
+
+
 ## プレゼンテーションを保存する。
 
-TODO
+```powershell
+$Desktop = [System.Environment+SpecialFolder]::Desktop
+$FolderPath = [System.Environment]::GetFolderPath($Desktop)
+$FullName = Join-Path $FolderPath "a.pptx"
+$Presentation.SaveAs($FullName)
+```
+
 
 ## プレゼンテーションにスライドを加える。
 
@@ -299,7 +315,7 @@ $rgb = [Microsoft.VisualBasic.Information]::RGB(245, 245, 245)
 $SlideMaster.Background.Fill.ForeColor.RGB = $rgb
 ```
 
-## マスタスライドのタイトルの図形を得る。
+## スライドマスタの図形を得る。
 
 ```powershell
 $SlideMaster.Shapes |

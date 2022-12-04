@@ -1,0 +1,51 @@
+# C言語
+
+## hello, world!
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MACRO1(a, b)  (a + b)
+#define MACRO2(a, b)  (a - b)
+
+enum enumtag1 {
+    enumtag1member1,
+    enumtag1member2,
+};
+
+enum enumtag2 {
+    enumtag2member1,
+    enumtag2member2,
+};
+
+void function1() {
+}
+
+void function2() {
+}
+
+struct struct1 {
+    int struct1member1;
+};
+
+struct struct2 {
+    int struct2member1;
+};
+
+typedef int typedef1;
+typedef int typedef2;
+
+union union1 {
+    int union1member1;
+};
+
+union union2 {
+    int union2member1;
+};
+
+int main(int argc, char **argv)
+{
+    return 0;
+}
+```
