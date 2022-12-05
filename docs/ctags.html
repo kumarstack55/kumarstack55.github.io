@@ -569,6 +569,31 @@ function2       a.cpp   /^void function2() {$/;"        f       typeref:typename
 main    a.cpp   /^int main(int argc, char **argv)$/;"   f       typeref:typename:int
 </pre></div>
 </div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ctags --list-kinds<span class="o">=</span>c++
+<span class="go">d  macro definitions</span>
+<span class="go">e  enumerators (values inside an enumeration)</span>
+<span class="go">f  function definitions</span>
+<span class="go">g  enumeration names</span>
+<span class="go">h  included header files</span>
+<span class="go">l  local variables [off]</span>
+<span class="go">m  class, struct, and union members</span>
+<span class="go">p  function prototypes [off]</span>
+<span class="go">s  structure names</span>
+<span class="go">t  typedefs</span>
+<span class="go">u  union names</span>
+<span class="go">v  variable definitions</span>
+<span class="go">x  external and forward variable declarations [off]</span>
+<span class="go">z  function parameters inside function or prototype definitions [off]</span>
+<span class="go">L  goto labels [off]</span>
+<span class="go">D  parameters inside macro definitions [off]</span>
+<span class="go">c  classes</span>
+<span class="go">n  namespaces</span>
+<span class="go">A  namespace aliases [off]</span>
+<span class="go">N  names imported via using scope::symbol [off]</span>
+<span class="go">U  using namespace statements [off]</span>
+<span class="go">Z  template parameters [off]</span>
+</pre></div>
+</div>
 </section>
 <section id="markdown">
 <h4>Markdown<a class="headerlink" href="#markdown" title="このヘッドラインへのパーマリンク">¶</a></h4>
