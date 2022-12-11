@@ -350,6 +350,26 @@ U  using namespace statements [off]
 Z  template parameters [off]
 ```
 
+```console
+$ ctags --list-kinds=c
+d  macro definitions
+e  enumerators (values inside an enumeration)
+f  function definitions
+g  enumeration names
+h  included header files
+l  local variables [off]
+m  struct, and union members
+p  function prototypes [off]
+s  structure names
+t  typedefs
+u  union names
+v  variable definitions
+x  external and forward variable declarations [off]
+z  function parameters inside function or prototype definitions [off]
+L  goto labels [off]
+D  parameters inside macro definitions [off]
+```
+
 #### Markdown
 
 ```console

@@ -271,6 +271,73 @@
 </pre></div>
 </div>
 </section>
+<section id="csv">
+<h2>独自クラスのリストをCSV形式に変換する。<a class="headerlink" href="#csv" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ConvertTo-CSV</span></code> で変換できるようにするため <code class="docutils literal notranslate"><span class="pre">PSCustomObject</span></code> に変換する。</p></li>
+<li><p>変換の際にキーの順序を維持できるようにするため、 <code class="docutils literal notranslate"><span class="pre">OrderedDictionary</span></code> を利用する。</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">[ordered]</span> <span class="pre">@{}</span></code> としても <code class="docutils literal notranslate"><span class="pre">OrderedDictionary</span></code> のオブジェクトを作れるが、この例では利用していない。</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">MyRecord</span> <span class="p">{</span>
+    <span class="n">hidden</span> <span class="no">[int]</span> <span class="nv">$Property1</span>
+    <span class="n">hidden</span> <span class="no">[int]</span> <span class="nv">$Property2</span>
+    <span class="n">MyRecord</span><span class="p">(</span><span class="no">[int]</span> <span class="nv">$Property1</span><span class="p">,</span> <span class="no">[int]</span> <span class="nv">$Property2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span> <span class="p">=</span> <span class="nv">$Property1</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span> <span class="p">=</span> <span class="nv">$Property2</span>
+    <span class="p">}</span>
+    <span class="no">[pscustomobject]</span> <span class="n">ConvertToPSCustomObject</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$Dictionary</span> <span class="p">=</span> <span class="no">[System.Collections.Specialized.OrderedDictionary]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+        <span class="nv">$Dictionary</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s1">'Property1'</span><span class="p">,</span> <span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span><span class="p">)</span>
+        <span class="nv">$Dictionary</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s1">'Property2'</span><span class="p">,</span> <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span><span class="p">)</span>
+        <span class="nv">$PSCustomObject</span> <span class="p">=</span> <span class="no">[pscustomobject]</span> <span class="nv">$Dictionary</span>
+        <span class="k">return</span> <span class="nv">$PSCustomObject</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">class</span> <span class="n">MyRecordRepository</span> <span class="p">{</span>
+    <span class="n">hidden</span> <span class="no">[System.Collections.Generic.List[MyRecord]]</span> <span class="nv">$RecordList</span>
+    <span class="n">MyRecordRepository</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">RecordList</span> <span class="p">=</span> <span class="no">[System.Collections.Generic.List[MyRecord]]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">Add</span><span class="p">(</span><span class="no">[MyRecord]</span> <span class="nv">$Record</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">RecordList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Record</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="no">[System.Collections.Generic.List[pscustomobject]]</span> <span class="n">ConvertToPSCustomObjectList</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$List</span> <span class="p">=</span> <span class="no">[System.Collections.Generic.List[pscustomobject]]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$Record</span> <span class="k">in</span> <span class="nv">$this</span><span class="p">.</span><span class="n">RecordList</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$PSCustomObject</span> <span class="p">=</span> <span class="nv">$Record</span><span class="p">.</span><span class="n">ConvertToPSCustomObject</span><span class="p">()</span>
+            <span class="nv">$List</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$PSCustomObject</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$List</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nv">$Record1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">11</span><span class="p">,</span> <span class="n">21</span><span class="p">)</span>
+<span class="nv">$Record2</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">12</span><span class="p">,</span> <span class="n">22</span><span class="p">)</span>
+
+<span class="nv">$RecordRepository</span> <span class="p">=</span> <span class="no">[MyRecordRepository]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="nv">$RecordRepository</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Record1</span><span class="p">)</span>
+<span class="nv">$RecordRepository</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Record2</span><span class="p">)</span>
+
+<span class="nv">$RecordRepository</span><span class="p">.</span><span class="n">ConvertToPSCustomObjectList</span><span class="p">()</span>
+    <span class="c"># PS &gt; $RecordRepository.ConvertToPSCustomObjectList()</span>
+    <span class="c">#</span>
+    <span class="c"># Property1 Property2</span>
+    <span class="c"># --------- ---------</span>
+    <span class="c">#        11        21</span>
+    <span class="c">#        12        22</span>
+
+<span class="nv">$RecordRepository</span><span class="p">.</span><span class="n">ConvertToPSCustomObjectList</span><span class="p">()</span> <span class="p">|</span> <span class="nb">ConvertTo-Csv</span> <span class="n">-NoTypeInformation</span>
+    <span class="c"># PS &gt; $RecordRepository.ConvertToPSCustomObjectList() | ConvertTo-Csv -NoTypeInformation</span>
+    <span class="c"># "Property1","Property2"</span>
+    <span class="c"># "11","21"</span>
+    <span class="c"># "12","22"</span>
+</pre></div>
+</div>
+</section>
 <section id="id2">
 <h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">IntervalTimerRecipient</span> <span class="p">{</span>
@@ -481,6 +548,7 @@
 <li><a class="reference internal" href="#id1">インストールしたモジュールの一覧を得る。</a></li>
 <li><a class="reference internal" href="#pause">PAUSE する。</a></li>
 <li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
+<li><a class="reference internal" href="#csv">独自クラスのリストをCSV形式に変換する。</a></li>
 <li><a class="reference internal" href="#id2">一定間隔のスリープ後、繰り返し実行する。</a></li>
 <li><a class="reference internal" href="#id3">参考: ネットワーク関連のファンクション一覧</a></li>
 </ul>

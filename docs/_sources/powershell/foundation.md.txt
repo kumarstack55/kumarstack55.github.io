@@ -19,6 +19,69 @@ Read-Host -Prompt "Press Enter to continue"
 Get-NetIPAddress
 ```
 
+## 独自クラスのリストをCSV形式に変換する。
+
+* `ConvertTo-CSV` で変換できるようにするため `PSCustomObject` に変換する。
+* 変換の際にキーの順序を維持できるようにするため、 `OrderedDictionary` を利用する。
+    * `[ordered] @{}` としても `OrderedDictionary` のオブジェクトを作れるが、この例では利用していない。
+
+```powershell
+class MyRecord {
+    hidden [int] $Property1
+    hidden [int] $Property2
+    MyRecord([int] $Property1, [int] $Property2) {
+        $this.Property1 = $Property1
+        $this.Property2 = $Property2
+    }
+    [pscustomobject] ConvertToPSCustomObject() {
+        $Dictionary = [System.Collections.Specialized.OrderedDictionary]::new()
+        $Dictionary.Add('Property1', $this.Property1)
+        $Dictionary.Add('Property2', $this.Property2)
+        $PSCustomObject = [pscustomobject] $Dictionary
+        return $PSCustomObject
+    }
+}
+
+class MyRecordRepository {
+    hidden [System.Collections.Generic.List[MyRecord]] $RecordList
+    MyRecordRepository() {
+        $this.RecordList = [System.Collections.Generic.List[MyRecord]]::new()
+    }
+    Add([MyRecord] $Record) {
+        $this.RecordList.Add($Record)
+    }
+    [System.Collections.Generic.List[pscustomobject]] ConvertToPSCustomObjectList() {
+        $List = [System.Collections.Generic.List[pscustomobject]]::new()
+        foreach ($Record in $this.RecordList) {
+            $PSCustomObject = $Record.ConvertToPSCustomObject()
+            $List.Add($PSCustomObject)
+        }
+        return $List
+    }
+}
+
+$Record1 = [MyRecord]::new(11, 21)
+$Record2 = [MyRecord]::new(12, 22)
+
+$RecordRepository = [MyRecordRepository]::new()
+$RecordRepository.Add($Record1)
+$RecordRepository.Add($Record2)
+
+$RecordRepository.ConvertToPSCustomObjectList()
+    # PS > $RecordRepository.ConvertToPSCustomObjectList()
+    #
+    # Property1 Property2
+    # --------- ---------
+    #        11        21
+    #        12        22
+
+$RecordRepository.ConvertToPSCustomObjectList() | ConvertTo-Csv -NoTypeInformation
+    # PS > $RecordRepository.ConvertToPSCustomObjectList() | ConvertTo-Csv -NoTypeInformation
+    # "Property1","Property2"
+    # "11","21"
+    # "12","22"
+```
+
 ## 一定間隔のスリープ後、繰り返し実行する。
 
 ```powershell
