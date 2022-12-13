@@ -32,7 +32,7 @@ $Book = $Application.Workbooks.Add()
 ## アプリケーションにブックを開く。
 
 ```powershell
-$Book = $Application.Workbooks.Add()
+TODO
 ```
 
 ## ブックを保存する。
