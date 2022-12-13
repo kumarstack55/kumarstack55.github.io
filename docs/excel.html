@@ -344,18 +344,44 @@
 </div>
 </section>
 <section id="id13">
-<h2>シートから値を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Range</span> <span class="p">=</span> <span class="nv">$Sheet</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="s2">"B2:D5"</span><span class="p">)</span>
+<h2>シートにまとめて値を設定する。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Address</span> <span class="p">=</span> <span class="s2">"B2:D5"</span>
+<span class="nv">$Range</span> <span class="p">=</span> <span class="nv">$Sheet</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="nv">$Address</span><span class="p">)</span>
 
 <span class="nv">$TableArray</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="s1">'Object[,]'</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Rows</span><span class="p">.</span><span class="n">Count</span><span class="p">,</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Columns</span><span class="p">.</span><span class="n">Count</span>
+<span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">0</span><span class="p">),</span> <span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span>
+    <span class="c"># --&gt; 0, 3</span>
+<span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">1</span><span class="p">),</span> <span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>
+    <span class="c"># --&gt; 0, 2</span>
+
 <span class="k">for</span> <span class="p">(</span><span class="nv">$RowIndex</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span> <span class="nv">$RowIndex</span> <span class="o">-le</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Rows</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="nv">$RowIndex</span> <span class="p">+=</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="nv">$ColumnIndex</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span> <span class="nv">$ColumnIndex</span> <span class="o">-le</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Columns</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="nv">$ColumnIndex</span> <span class="p">+=</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nv">$Value</span> <span class="p">=</span> <span class="nv">$Range</span><span class="p">[</span><span class="nv">$RowIndex</span><span class="p">,</span> <span class="nv">$ColumnIndex</span><span class="p">].</span><span class="n">Value</span><span class="p">()</span>
         <span class="nv">$TableRowIndex</span> <span class="p">=</span> <span class="nv">$RowIndex</span> <span class="p">-</span> <span class="n">1</span>
         <span class="nv">$TableColumnIndex</span> <span class="p">=</span> <span class="nv">$ColumnIndex</span> <span class="p">-</span> <span class="n">1</span>
-        <span class="nv">$TableArray</span><span class="p">[</span><span class="nv">$TableRowIndex</span><span class="p">,</span> <span class="nv">$TableColumnIndex</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$Value</span>
+        <span class="nv">$TableArray</span><span class="p">[</span><span class="nv">$TableRowIndex</span><span class="p">,</span> <span class="nv">$TableColumnIndex</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$RowIndex</span> <span class="p">*</span> <span class="n">100</span> <span class="p">+</span> <span class="nv">$ColumnIndex</span>
     <span class="p">}</span>
 <span class="p">}</span>
+
+<span class="nv">$TableArray</span><span class="p">[</span><span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">]</span>
+    <span class="c"># --&gt; 101</span>
+
+<span class="nv">$Range</span><span class="p">.</span><span class="n">Value2</span> <span class="p">=</span> <span class="nv">$TableArray</span>
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h2>シートからまとめて値を得る。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Address</span> <span class="p">=</span> <span class="s2">"B2:D5"</span>
+<span class="nv">$Range</span> <span class="p">=</span> <span class="nv">$Sheet</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="nv">$Address</span><span class="p">)</span>
+<span class="nv">$TableArray</span> <span class="p">=</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Value2</span>
+
+<span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">0</span><span class="p">),</span> <span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span>
+    <span class="c"># --&gt; 1, 4</span>
+<span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">1</span><span class="p">),</span> <span class="nv">$TableArray</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>
+    <span class="c"># --&gt; 1, 3</span>
+
+<span class="nv">$TableArray</span><span class="p">[</span><span class="n">1</span><span class="p">,</span> <span class="n">1</span><span class="p">]</span>
+    <span class="c"># --&gt; 101</span>
 
 <span class="nv">$TableArray</span>
 </pre></div>
@@ -442,7 +468,8 @@
 <li><a class="reference internal" href="#id10">ブックからシートを得る。</a></li>
 <li><a class="reference internal" href="#id11">シート内の範囲を得る。</a></li>
 <li><a class="reference internal" href="#id12">シート内の範囲に値を設定する。</a></li>
-<li><a class="reference internal" href="#id13">シートから値を得る。</a></li>
+<li><a class="reference internal" href="#id13">シートにまとめて値を設定する。</a></li>
+<li><a class="reference internal" href="#id14">シートからまとめて値を得る。</a></li>
 <li><a class="reference internal" href="#comobject">ComObject を解放する。</a></li>
 </ul>
 </li>

@@ -91,20 +91,46 @@ for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
 }
 ```
 
-## シートから値を得る。
+## シートにまとめて値を設定する。
 
 ```powershell
-$Range = $Sheet.Range("B2:D5")
+$Address = "B2:D5"
+$Range = $Sheet.Range($Address)
 
 $TableArray = New-Object 'Object[,]' $Range.Rows.Count, $Range.Columns.Count
+$TableArray.GetLowerBound(0), $TableArray.GetUpperBound(0)
+    # --> 0, 3
+$TableArray.GetLowerBound(1), $TableArray.GetUpperBound(1)
+    # --> 0, 2
+
 for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
     for ($ColumnIndex = 1; $ColumnIndex -le $Range.Columns.Count; $ColumnIndex += 1) {
-        $Value = $Range[$RowIndex, $ColumnIndex].Value()
         $TableRowIndex = $RowIndex - 1
         $TableColumnIndex = $ColumnIndex - 1
-        $TableArray[$TableRowIndex, $TableColumnIndex] = $Value
+        $TableArray[$TableRowIndex, $TableColumnIndex] = $RowIndex * 100 + $ColumnIndex
     }
 }
+
+$TableArray[0, 0]
+    # --> 101
+
+$Range.Value2 = $TableArray
+```
+
+## シートからまとめて値を得る。
+
+```powershell
+$Address = "B2:D5"
+$Range = $Sheet.Range($Address)
+$TableArray = $Range.Value2
+
+$TableArray.GetLowerBound(0), $TableArray.GetUpperBound(0)
+    # --> 1, 4
+$TableArray.GetLowerBound(1), $TableArray.GetUpperBound(1)
+    # --> 1, 3
+
+$TableArray[1, 1]
+    # --> 101
 
 $TableArray
 ```
