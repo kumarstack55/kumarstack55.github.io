@@ -8,6 +8,7 @@ Untitled ドキュメント
    vim
    vscode
    ctags
+   excel
    powerpoint
    chrome_extension
    github

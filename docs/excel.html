@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Kubernetes" href="kubernetes.html" /><link rel="prev" title="Docker" href="docker.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="PowerPoint" href="powerpoint.html" /><link rel="prev" title="Ctags" href="ctags.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>コンテナ - Untitled ドキュメント</title>
+        <title>Excel - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -159,7 +159,7 @@
 <li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vscode.html">Visual Studio Code - vscode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ctags.html">Ctags</a></li>
-<li class="toctree-l1"><a class="reference internal" href="excel.html">Excel</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Excel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="powerpoint.html">PowerPoint</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chrome_extension.html">Chrome拡張</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
@@ -194,7 +194,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Docker</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">コンテナ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
@@ -251,79 +251,128 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>コンテナ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="docker-engine-community-edition-debian">
-<h2>Docker Engine の Community Edition を Debian にインストールする。<a class="headerlink" href="#docker-engine-community-edition-debian" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get install ca-certificates curl gnupg lsb-release -y
-
-curl -fsSL https://download.docker.com/linux/debian/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-<span class="nb">echo</span> <span class="se">\</span>
-  <span class="s2">"deb [arch=</span><span class="k">$(</span>dpkg --print-architecture<span class="k">)</span><span class="s2"> signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \</span>
-<span class="s2">  </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable"</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io -y
-
-sudo docker run hello-world
+          <section class="tex2jax_ignore mathjax_ignore" id="excel">
+<h1>Excel<a class="headerlink" href="#excel" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Excel を PowerShell で操作する。</p>
+<section id="id1">
+<h2>Excel プロセスが存在すれば、終了する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Process</span> <span class="p">|</span>
+    <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-eq</span> <span class="s1">'EXCEL'</span> <span class="p">}</span> <span class="p">|</span>
+    <span class="nb">Stop-Process</span>
 </pre></div>
 </div>
-<p>https://docs.docker.com/engine/install/debian/</p>
-</section>
-<section id="docker-desktop-windows">
-<h2>Docker Desktop を Windows にインストールする。<a class="headerlink" href="#docker-desktop-windows" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">name</span> <span class="n">repo</span> <span class="n">alpine</span><span class="o">/</span><span class="n">git</span> <span class="n">clone</span> \
-<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">.</span><span class="n">git</span>
-
-<span class="n">docker</span> <span class="n">cp</span> <span class="n">repo</span><span class="p">:</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span> <span class="o">.</span>
-
-<span class="n">cd</span> <span class="n">getting</span><span class="o">-</span><span class="n">started</span>
-
-<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">docker101tutorial</span> <span class="o">.</span>
-
-<span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="p">:</span><span class="mi">80</span> \
-<span class="o">--</span><span class="n">name</span> <span class="n">docker</span><span class="o">-</span><span class="n">tutorial</span> <span class="n">docker101tutorial</span>
-
-<span class="n">docker</span> <span class="n">tag</span> <span class="n">docker101tutorial</span> <span class="n">kumarstack55</span><span class="o">/</span><span class="n">docker101tutorial</span>
-
-<span class="n">docker</span> <span class="n">push</span> <span class="n">kumarstack55</span><span class="o">/</span><span class="n">docker101tutorial</span>
-</pre></div>
-</div>
-<p><a class="reference external" href="https://hub.docker.com/repository/docker/kumarstack55/docker101tutorial">See what you've saved on Hub</a></p>
-</section>
-<section id="root">
-<h2>root ではないユーザでコンテナを実行できるようにする。<a class="headerlink" href="#root" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># グループを作って、ユーザを加える。</span>
-sudo groupadd docker
-sudo usermod -aG docker <span class="nv">$USER</span>
-
-<span class="c1"># 再起動なしにグループを有効にする。</span>
-newgrp docker
-
-<span class="c1"># root ではないユーザでコンテナを実行する。</span>
-docker run hello-world
-</pre></div>
-</div>
-<p>https://docs.docker.com/engine/install/linux-postinstall/</p>
-</section>
-<section id="podman">
-<h2>Podman をインストールする。<a class="headerlink" href="#podman" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>TODO</p>
 </section>
 <section id="id2">
-<h2>コンテナを実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman run --name nginx -p <span class="m">10080</span>:80 -d nginx
-curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1">'title'</span>
+<h2>アプリケーションを起動する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">Excel</span><span class="p">.</span><span class="n">Application</span>
+<span class="nv">$Application</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$true</span>
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h2>コンテナ内でコマンドを実行する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman <span class="nb">exec</span> -it nginx /bin/bash
+<h2>アプリケーションを終了する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span><span class="p">.</span><span class="n">Quit</span><span class="p">()</span>
 </pre></div>
 </div>
+</section>
+<section id="id4">
+<h2>アプリケーションに新しいブックを加える。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Book</span> <span class="p">=</span> <span class="nv">$Application</span><span class="p">.</span><span class="n">Workbooks</span><span class="p">.</span><span class="n">Add</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>アプリケーションにブックを開く。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Book</span> <span class="p">=</span> <span class="nv">$Application</span><span class="p">.</span><span class="n">Workbooks</span><span class="p">.</span><span class="n">Add</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>ブックを保存する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$UserProfile</span> <span class="p">=</span> <span class="p">[</span><span class="n">Environment</span><span class="p">+</span><span class="n">SpecialFolder</span><span class="p">]::</span><span class="n">UserProfile</span>
+<span class="nv">$UserProfilePath</span> <span class="p">=</span> <span class="no">[Environment]</span><span class="p">::</span><span class="n">GetFolderPath</span><span class="p">(</span><span class="nv">$UserProfile</span><span class="p">)</span>
+<span class="nv">$DownloadPath</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$UserProfilePath</span> <span class="s2">"Downloads"</span>
+<span class="nv">$BookFileName</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$DownloadPath</span> <span class="s2">"Book.xlsx"</span>
+
+<span class="nv">$Book</span><span class="p">.</span><span class="n">SaveAs</span><span class="p">(</span><span class="nv">$BookFileName</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>ブックを終了する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Book</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>ブックにシートを追加する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Sheets</span> <span class="p">=</span> <span class="nv">$Book</span><span class="p">.</span><span class="n">Sheets</span>
+<span class="nv">$Sheet</span> <span class="p">=</span> <span class="nv">$Sheets</span><span class="p">.</span><span class="n">Add</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h2>シートの名前を設定する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Sheet</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"Sheet3"</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>ブックからシートを得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Sheets</span> <span class="p">=</span> <span class="nv">$Book</span><span class="p">.</span><span class="n">Sheets</span>
+<span class="nv">$SheetName</span> <span class="p">=</span> <span class="s2">"Sheet1"</span>
+<span class="nv">$Sheet</span> <span class="p">=</span> <span class="nv">$Sheets</span><span class="p">[</span><span class="nv">$SheetName</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h2>シート内の範囲を得る。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Range</span> <span class="p">=</span> <span class="nv">$Sheet</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="s2">"A1"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h2>シート内の範囲に値を設定する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Range</span> <span class="p">=</span> <span class="nv">$Sheet</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="s2">"B2:D5"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nv">$RowIndex</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span> <span class="nv">$RowIndex</span> <span class="o">-le</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Rows</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="nv">$RowIndex</span> <span class="p">+=</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nv">$ColumnIndex</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span> <span class="nv">$ColumnIndex</span> <span class="o">-le</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Columns</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="nv">$ColumnIndex</span> <span class="p">+=</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$Range</span><span class="p">[</span><span class="nv">$RowIndex</span><span class="p">,</span> <span class="nv">$ColumnIndex</span><span class="p">].</span><span class="n">Value</span> <span class="p">=</span> <span class="nv">$RowIndex</span> <span class="p">*</span> <span class="n">100</span> <span class="p">+</span> <span class="nv">$ColumnIndex</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h2>シートから値を得る。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Range</span> <span class="p">=</span> <span class="nv">$Sheet</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="s2">"B2:D5"</span><span class="p">)</span>
+
+<span class="nv">$TableArray</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="s1">'Object[,]'</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Rows</span><span class="p">.</span><span class="n">Count</span><span class="p">,</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Columns</span><span class="p">.</span><span class="n">Count</span>
+<span class="k">for</span> <span class="p">(</span><span class="nv">$RowIndex</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span> <span class="nv">$RowIndex</span> <span class="o">-le</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Rows</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="nv">$RowIndex</span> <span class="p">+=</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nv">$ColumnIndex</span> <span class="p">=</span> <span class="n">1</span><span class="p">;</span> <span class="nv">$ColumnIndex</span> <span class="o">-le</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Columns</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="nv">$ColumnIndex</span> <span class="p">+=</span> <span class="n">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$Value</span> <span class="p">=</span> <span class="nv">$Range</span><span class="p">[</span><span class="nv">$RowIndex</span><span class="p">,</span> <span class="nv">$ColumnIndex</span><span class="p">].</span><span class="n">Value</span><span class="p">()</span>
+        <span class="nv">$TableRowIndex</span> <span class="p">=</span> <span class="nv">$RowIndex</span> <span class="p">-</span> <span class="n">1</span>
+        <span class="nv">$TableColumnIndex</span> <span class="p">=</span> <span class="nv">$ColumnIndex</span> <span class="p">-</span> <span class="n">1</span>
+        <span class="nv">$TableArray</span><span class="p">[</span><span class="nv">$TableRowIndex</span><span class="p">,</span> <span class="nv">$TableColumnIndex</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$Value</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nv">$TableArray</span>
+</pre></div>
+</div>
+</section>
+<section id="comobject">
+<h2>ComObject を解放する。<a class="headerlink" href="#comobject" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>すべての ComObject について、実施する。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="no">[System.Runtime.Interopservices.Marshal]</span><span class="p">::</span><span class="n">ReleaseComObject</span><span class="p">(</span><span class="nv">$Application</span><span class="p">)</span> <span class="p">|</span>
+    <span class="nb">Out-Null</span>
+</pre></div>
+</div>
+<p>あるいは、PowerShell のプロセスを終了すれば、解放されるかもしれない。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://devblogs.microsoft.com/scripting/powertip-release-com-object-in-powershell/">PowerTip: Release COM Object in PowerShell</a></p></li>
+<li><p><a class="reference external" href="https://qiita.com/mima_ita/items/aa811423d8c4410eca71">.NETを使った別プロセスのOfficeの自動化が面倒なはずがない―そう考えていた時期が俺にもありました。</a></p></li>
+</ul>
 </section>
 </section>
 
@@ -332,23 +381,23 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="kubernetes.html">
+          <a class="next-page" href="powerpoint.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Kubernetes</div>
+                <div class="title">PowerPoint</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="docker.html">
+          <a class="prev-page" href="ctags.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Docker</div>
+                <div class="title">Ctags</div>
                 
               </div>
             </a>
@@ -360,7 +409,7 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/container.md.txt"
+            <a class="muted-link" href="_sources/excel.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -380,13 +429,21 @@ curl -s http://127.0.0.1:10080/ <span class="p">|</span> grep -i <span class="s1
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">コンテナ</a><ul>
-<li><a class="reference internal" href="#docker-engine-community-edition-debian">Docker Engine の Community Edition を Debian にインストールする。</a></li>
-<li><a class="reference internal" href="#docker-desktop-windows">Docker Desktop を Windows にインストールする。</a></li>
-<li><a class="reference internal" href="#root">root ではないユーザでコンテナを実行できるようにする。</a></li>
-<li><a class="reference internal" href="#podman">Podman をインストールする。</a></li>
-<li><a class="reference internal" href="#id2">コンテナを実行する。</a></li>
-<li><a class="reference internal" href="#id3">コンテナ内でコマンドを実行する。</a></li>
+<li><a class="reference internal" href="#">Excel</a><ul>
+<li><a class="reference internal" href="#id1">Excel プロセスが存在すれば、終了する。</a></li>
+<li><a class="reference internal" href="#id2">アプリケーションを起動する。</a></li>
+<li><a class="reference internal" href="#id3">アプリケーションを終了する。</a></li>
+<li><a class="reference internal" href="#id4">アプリケーションに新しいブックを加える。</a></li>
+<li><a class="reference internal" href="#id5">アプリケーションにブックを開く。</a></li>
+<li><a class="reference internal" href="#id6">ブックを保存する。</a></li>
+<li><a class="reference internal" href="#id7">ブックを終了する。</a></li>
+<li><a class="reference internal" href="#id8">ブックにシートを追加する。</a></li>
+<li><a class="reference internal" href="#id9">シートの名前を設定する。</a></li>
+<li><a class="reference internal" href="#id10">ブックからシートを得る。</a></li>
+<li><a class="reference internal" href="#id11">シート内の範囲を得る。</a></li>
+<li><a class="reference internal" href="#id12">シート内の範囲に値を設定する。</a></li>
+<li><a class="reference internal" href="#id13">シートから値を得る。</a></li>
+<li><a class="reference internal" href="#comobject">ComObject を解放する。</a></li>
 </ul>
 </li>
 </ul>

@@ -29,7 +29,6 @@ $FullName = Join-Path $FolderPath "a.pptx"
 $Presentation.SaveAs($FullName)
 ```
 
-
 ## プレゼンテーションにスライドを加える。
 
 ```powershell

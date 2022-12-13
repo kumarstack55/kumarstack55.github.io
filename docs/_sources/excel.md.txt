@@ -1,0 +1,124 @@
+# Excel
+
+Excel を PowerShell で操作する。
+
+## Excel プロセスが存在すれば、終了する。
+
+```powershell
+Get-Process |
+    Where-Object { $_.Name -eq 'EXCEL' } |
+    Stop-Process
+```
+
+## アプリケーションを起動する。
+
+```powershell
+$Application = New-Object -ComObject Excel.Application
+$Application.Visible = $true
+```
+
+## アプリケーションを終了する。
+
+```powershell
+$Application.Quit()
+```
+
+## アプリケーションに新しいブックを加える。
+
+```powershell
+$Book = $Application.Workbooks.Add()
+```
+
+## アプリケーションにブックを開く。
+
+```powershell
+$Book = $Application.Workbooks.Add()
+```
+
+## ブックを保存する。
+
+```powershell
+$UserProfile = [Environment+SpecialFolder]::UserProfile
+$UserProfilePath = [Environment]::GetFolderPath($UserProfile)
+$DownloadPath = Join-Path $UserProfilePath "Downloads"
+$BookFileName = Join-Path $DownloadPath "Book.xlsx"
+
+$Book.SaveAs($BookFileName)
+```
+
+## ブックを終了する。
+
+```powershell
+$Book.Close()
+```
+
+## ブックにシートを追加する。
+
+```powershell
+$Sheets = $Book.Sheets
+$Sheet = $Sheets.Add()
+```
+
+## シートの名前を設定する。
+
+```powershell
+$Sheet.Name = "Sheet3"
+```
+
+## ブックからシートを得る。
+
+```powershell
+$Sheets = $Book.Sheets
+$SheetName = "Sheet1"
+$Sheet = $Sheets[$SheetName]
+```
+
+## シート内の範囲を得る。
+
+```powershell
+$Range = $Sheet.Range("A1")
+```
+
+## シート内の範囲に値を設定する。
+
+```powershell
+$Range = $Sheet.Range("B2:D5")
+
+for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
+    for ($ColumnIndex = 1; $ColumnIndex -le $Range.Columns.Count; $ColumnIndex += 1) {
+        $Range[$RowIndex, $ColumnIndex].Value = $RowIndex * 100 + $ColumnIndex
+    }
+}
+```
+
+## シートから値を得る。
+
+```powershell
+$Range = $Sheet.Range("B2:D5")
+
+$TableArray = New-Object 'Object[,]' $Range.Rows.Count, $Range.Columns.Count
+for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
+    for ($ColumnIndex = 1; $ColumnIndex -le $Range.Columns.Count; $ColumnIndex += 1) {
+        $Value = $Range[$RowIndex, $ColumnIndex].Value()
+        $TableRowIndex = $RowIndex - 1
+        $TableColumnIndex = $ColumnIndex - 1
+        $TableArray[$TableRowIndex, $TableColumnIndex] = $Value
+    }
+}
+
+$TableArray
+```
+
+## ComObject を解放する。
+
+すべての ComObject について、実施する。
+
+```powershell
+[System.Runtime.Interopservices.Marshal]::ReleaseComObject($Application) |
+    Out-Null
+```
+
+あるいは、PowerShell のプロセスを終了すれば、解放されるかもしれない。
+
+* [PowerTip: Release COM Object in PowerShell](https://devblogs.microsoft.com/scripting/powertip-release-com-object-in-powershell/)
+* [.NETを使った別プロセスのOfficeの自動化が面倒なはずがない―そう考えていた時期が俺にもありました。](https://qiita.com/mima_ita/items/aa811423d8c4410eca71)
