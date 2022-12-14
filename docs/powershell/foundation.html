@@ -254,23 +254,109 @@
           <section class="tex2jax_ignore mathjax_ignore" id="powershell">
 <h1>PowerShell 基礎<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Get</span><span class="o">-</span><span class="n">Module</span>
-<span class="n">Get</span><span class="o">-</span><span class="n">InstalledModule</span>
+<h2>1次元配列を作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id2">
+<h3>下限が0の1次元配列を作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 要素数</span>
+<span class="nv">$Length</span> <span class="p">=</span> <span class="n">3</span>
+
+<span class="nv">$Array</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$Length</span><span class="p">)</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Count</span>            <span class="c"># --&gt; 3</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Length</span>           <span class="c"># --&gt; 3</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 0</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 2</span>
+
+<span class="nv">$Array</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">100</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">101</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">2</span><span class="p">]</span> <span class="p">=</span> <span class="n">102</span>
+
+<span class="nv">$Array</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>   <span class="c"># --&gt; 100</span>
 </pre></div>
 </div>
 </section>
-<section id="pause">
-<h2>PAUSE する。<a class="headerlink" href="#pause" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Read-Host</span> <span class="n">-Prompt</span> <span class="s2">"Press Enter to continue"</span>
+<section id="id3">
+<h3>下限が1の1次元配列を作る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 要素数</span>
+<span class="nv">$LengthArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="n">1</span><span class="p">)</span>
+<span class="nv">$LengthArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">3</span>
+
+<span class="c"># 下限</span>
+<span class="nv">$LowerBoundArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="n">1</span><span class="p">)</span>
+<span class="nv">$LowerBoundArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">1</span>
+
+<span class="nv">$Array</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$LengthArray</span><span class="p">,</span> <span class="nv">$LowerBoundArray</span><span class="p">)</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Count</span>            <span class="c"># --&gt; 3</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Length</span>           <span class="c"># --&gt; 3</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 1</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 3</span>
+
+<span class="c"># このアクセス方法では例外が発生し、失敗する。</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">101</span>
+    <span class="c"># --&gt; 操作はランタイムを不安定にする可能性があります。</span>
+
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="n">1</span><span class="p">)</span> <span class="p">=</span> <span class="n">101</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="n">2</span><span class="p">)</span> <span class="p">=</span> <span class="n">102</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="n">3</span><span class="p">)</span> <span class="p">=</span> <span class="n">103</span>
+
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>  <span class="c"># --&gt; 101</span>
 </pre></div>
 </div>
 </section>
-<section id="ip">
-<h2>IPアドレスを得る。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-NetIPAddress</span>
+</section>
+<section id="id4">
+<h2>2次元配列を作る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h3>下限が0の2次元配列を作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ランク</span>
+<span class="nv">$Rank</span> <span class="p">=</span> <span class="n">2</span>
+
+<span class="c"># 要素数</span>
+<span class="nv">$LengthArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$Rank</span><span class="p">)</span>
+<span class="nv">$LengthArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">3</span>
+<span class="nv">$LengthArray</span><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">4</span>
+
+<span class="nv">$Array</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$LengthArray</span><span class="p">)</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Count</span>            <span class="c"># --&gt; 12</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Length</span>           <span class="c"># --&gt; 12</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 0</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 2</span>
+
+<span class="nv">$Array</span><span class="p">[</span><span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">100</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">0</span><span class="p">,</span> <span class="n">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">101</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">0</span><span class="p">,</span> <span class="n">2</span><span class="p">]</span> <span class="p">=</span> <span class="n">102</span>
+
+<span class="nv">$Array</span><span class="p">[</span><span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">]</span>    <span class="c"># --&gt; 101</span>
 </pre></div>
 </div>
+</section>
+<section id="id6">
+<h3>下限が1の2次元配列を作る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ランク</span>
+<span class="nv">$Rank</span> <span class="p">=</span> <span class="n">2</span>
+
+<span class="c"># 要素数</span>
+<span class="nv">$LengthArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$Rank</span><span class="p">)</span>
+<span class="nv">$LengthArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">3</span>
+<span class="nv">$LengthArray</span><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">4</span>
+
+<span class="c"># 下限</span>
+<span class="nv">$LowerBoundArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$Rank</span><span class="p">)</span>
+<span class="nv">$LowerBoundArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">1</span>
+
+<span class="nv">$Array</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="nv">$LengthArray</span><span class="p">,</span> <span class="nv">$LowerBoundArray</span><span class="p">)</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Count</span>            <span class="c"># --&gt; 12</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">Length</span>           <span class="c"># --&gt; 12</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetLowerBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 1</span>
+<span class="nv">$Array</span><span class="p">.</span><span class="n">GetUpperBound</span><span class="p">(</span><span class="n">0</span><span class="p">)</span> <span class="c"># --&gt; 3</span>
+
+<span class="nv">$Array</span><span class="p">[</span><span class="n">1</span><span class="p">,</span> <span class="n">1</span><span class="p">]</span> <span class="p">=</span> <span class="n">101</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">1</span><span class="p">,</span> <span class="n">2</span><span class="p">]</span> <span class="p">=</span> <span class="n">102</span>
+<span class="nv">$Array</span><span class="p">[</span><span class="n">1</span><span class="p">,</span> <span class="n">3</span><span class="p">]</span> <span class="p">=</span> <span class="n">103</span>
+
+<span class="nv">$Array</span><span class="p">[</span><span class="n">1</span><span class="p">,</span> <span class="n">1</span><span class="p">]</span>    <span class="c"># --&gt; 101</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="csv">
 <h2>独自クラスのリストをCSV形式に変換する。<a class="headerlink" href="#csv" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -339,8 +425,27 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Module</span>
+<span class="nb">Get-InstalledModule</span>
+</pre></div>
+</div>
+</section>
+<section id="pause">
+<h2>PAUSE する。<a class="headerlink" href="#pause" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Read-Host</span> <span class="n">-Prompt</span> <span class="s2">"Press Enter to continue"</span>
+</pre></div>
+</div>
+</section>
+<section id="ip">
+<h2>IPアドレスを得る。<a class="headerlink" href="#ip" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-NetIPAddress</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">IntervalTimerRecipient</span> <span class="p">{</span>
     <span class="n">notify</span><span class="p">(</span><span class="no">[IntervalTimer]</span><span class="nv">$IntervalTimer</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">throw</span>
@@ -388,8 +493,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>参考: ネットワーク関連のファンクション一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>参考: ネットワーク関連のファンクション一覧<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Net</span><span class="p">&lt;</span><span class="n">Tab</span><span class="p">&gt;&lt;</span><span class="n">Tab</span><span class="p">&gt;</span>
 </pre></div>
 </div>
@@ -546,12 +651,22 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">PowerShell 基礎</a><ul>
-<li><a class="reference internal" href="#id1">インストールしたモジュールの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id1">1次元配列を作る。</a><ul>
+<li><a class="reference internal" href="#id2">下限が0の1次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id3">下限が1の1次元配列を作る。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">2次元配列を作る。</a><ul>
+<li><a class="reference internal" href="#id5">下限が0の2次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id6">下限が1の2次元配列を作る。</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#csv">独自クラスのリストをCSV形式に変換する。</a></li>
+<li><a class="reference internal" href="#id7">インストールしたモジュールの一覧を得る。</a></li>
 <li><a class="reference internal" href="#pause">PAUSE する。</a></li>
 <li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
-<li><a class="reference internal" href="#csv">独自クラスのリストをCSV形式に変換する。</a></li>
-<li><a class="reference internal" href="#id2">一定間隔のスリープ後、繰り返し実行する。</a></li>
-<li><a class="reference internal" href="#id3">参考: ネットワーク関連のファンクション一覧</a></li>
+<li><a class="reference internal" href="#id8">一定間隔のスリープ後、繰り返し実行する。</a></li>
+<li><a class="reference internal" href="#id9">参考: ネットワーク関連のファンクション一覧</a></li>
 </ul>
 </li>
 </ul>

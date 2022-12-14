@@ -32,7 +32,13 @@ $Book = $Application.Workbooks.Add()
 ## アプリケーションにブックを開く。
 
 ```powershell
-TODO
+$UserProfile = [Environment+SpecialFolder]::UserProfile
+$UserProfilePath = [Environment]::GetFolderPath($UserProfile)
+$DownloadPath = Join-Path $UserProfilePath "Downloads"
+$BookFileName = Join-Path $DownloadPath "Book.xlsx"
+
+# ファイルを開いてブックを得る。。
+$Book = $Application.Workbooks.Open($BookFileName)
 ```
 
 ## ブックを保存する。
@@ -43,7 +49,15 @@ $UserProfilePath = [Environment]::GetFolderPath($UserProfile)
 $DownloadPath = Join-Path $UserProfilePath "Downloads"
 $BookFileName = Join-Path $DownloadPath "Book.xlsx"
 
+# ファイルがあったとき上書き保存できるよう、アラートを表示しない。
+$OldDisplayAlerts = $Application.DisplayAlerts
+$Application.DisplayAlerts = $false
+
+# 保存する。
 $Book.SaveAs($BookFileName)
+
+# 設定を戻す。
+$Application.DisplayAlerts = $OldDisplayAlerts
 ```
 
 ## ブックを終了する。
@@ -73,20 +87,42 @@ $SheetName = "Sheet1"
 $Sheet = $Sheets[$SheetName]
 ```
 
+## ブックからシートを選択する。
+
+```powershell
+$Sheet.Select()
+```
+
 ## シート内の範囲を得る。
+
+### セルを選択する。
 
 ```powershell
 $Range = $Sheet.Range("A1")
 ```
 
-## シート内の範囲に値を設定する。
+### 範囲を選択する。
 
 ```powershell
 $Range = $Sheet.Range("B2:D5")
+```
 
-for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
-    for ($ColumnIndex = 1; $ColumnIndex -le $Range.Columns.Count; $ColumnIndex += 1) {
-        $Range[$RowIndex, $ColumnIndex].Value = $RowIndex * 100 + $ColumnIndex
+## シート内の範囲を選択する。
+
+```powershell
+$Range.Select()
+```
+
+## シート内の範囲に値を設定する。
+
+```powershell
+$Address = "B2:D5"
+$Range = $Sheet.Range($Address)
+
+$Rows, $Columns = $Range.Rows, $Range.Columns
+for ($RowIndex = 1; $RowIndex -le $Rows.Count; $RowIndex += 1) {
+    for ($ColumnIndex = 1; $ColumnIndex -le $Columns.Count; $ColumnIndex += 1) {
+        $Range[$RowIndex, $ColumnIndex].Value2 = $RowIndex * 100 + $ColumnIndex
     }
 }
 ```
@@ -97,21 +133,29 @@ for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
 $Address = "B2:D5"
 $Range = $Sheet.Range($Address)
 
-$TableArray = New-Object 'Object[,]' $Range.Rows.Count, $Range.Columns.Count
-$TableArray.GetLowerBound(0), $TableArray.GetUpperBound(0)
-    # --> 0, 3
-$TableArray.GetLowerBound(1), $TableArray.GetUpperBound(1)
-    # --> 0, 2
+# ランク
+$TableArrayRank = 2
 
-for ($RowIndex = 1; $RowIndex -le $Range.Rows.Count; $RowIndex += 1) {
-    for ($ColumnIndex = 1; $ColumnIndex -le $Range.Columns.Count; $ColumnIndex += 1) {
-        $TableRowIndex = $RowIndex - 1
-        $TableColumnIndex = $ColumnIndex - 1
-        $TableArray[$TableRowIndex, $TableColumnIndex] = $RowIndex * 100 + $ColumnIndex
+# 要素数
+$LengthArray = [System.Array]::CreateInstance([int], $TableArrayRank)
+$LengthArray[0] = $Range.Rows.Count
+$LengthArray[1] = $Range.Columns.Count
+
+# 下限
+$LowerBoundArray = [System.Array]::CreateInstance([int], $TableArrayRank)
+$LowerBoundArray[0] = 1
+$LowerBoundArray[1] = 1
+
+$TableArray = [System.Array]::CreateInstance([int], $LengthArray, $LowerBoundArray)
+
+$Rows, $Columns = $Range.Rows, $Range.Columns
+for ($RowIndex = 1; $RowIndex -le $Rows.Count; $RowIndex += 1) {
+    for ($ColumnIndex = 1; $ColumnIndex -le $Columns.Count; $ColumnIndex += 1) {
+        $TableArray[$RowIndex, $ColumnIndex] = $RowIndex * 100 + $ColumnIndex
     }
 }
 
-$TableArray[0, 0]
+$TableArray[1, 1]
     # --> 101
 
 $Range.Value2 = $TableArray
@@ -137,7 +181,7 @@ $TableArray
 
 ## ComObject を解放する。
 
-すべての ComObject について、実施する。
+以下は `$Application` についての例だが、すべての ComObject について、実施する。
 
 ```powershell
 [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Application) |

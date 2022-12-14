@@ -1,22 +1,106 @@
 # PowerShell 基礎
 
-## インストールしたモジュールの一覧を得る。
+## 1次元配列を作る。
 
-```
-Get-Module
-Get-InstalledModule
-```
-
-## PAUSE する。
+### 下限が0の1次元配列を作る。
 
 ```powershell
-Read-Host -Prompt "Press Enter to continue"
+# 要素数
+$Length = 3
+
+$Array = [System.Array]::CreateInstance([int], $Length)
+$Array.Count            # --> 3
+$Array.Length           # --> 3
+$Array.GetLowerBound(0) # --> 0
+$Array.GetUpperBound(0) # --> 2
+
+$Array[0] = 100
+$Array[1] = 101
+$Array[2] = 102
+
+$Array[0]   # --> 100
 ```
 
-## IPアドレスを得る。
+### 下限が1の1次元配列を作る。
 
 ```powershell
-Get-NetIPAddress
+# 要素数
+$LengthArray = [System.Array]::CreateInstance([int], 1)
+$LengthArray[0] = 3
+
+# 下限
+$LowerBoundArray = [System.Array]::CreateInstance([int], 1)
+$LowerBoundArray[0] = 1
+
+$Array = [System.Array]::CreateInstance([int], $LengthArray, $LowerBoundArray)
+$Array.Count            # --> 3
+$Array.Length           # --> 3
+$Array.GetLowerBound(0) # --> 1
+$Array.GetUpperBound(0) # --> 3
+
+# このアクセス方法では例外が発生し、失敗する。
+$Array[1] = 101
+    # --> 操作はランタイムを不安定にする可能性があります。
+
+$Array.Item(1) = 101
+$Array.Item(2) = 102
+$Array.Item(3) = 103
+
+$Array.Item(1)  # --> 101
+```
+
+## 2次元配列を作る。
+
+### 下限が0の2次元配列を作る。
+
+```powershell
+# ランク
+$Rank = 2
+
+# 要素数
+$LengthArray = [System.Array]::CreateInstance([int], $Rank)
+$LengthArray[0] = 3
+$LengthArray[1] = 4
+
+$Array = [System.Array]::CreateInstance([int], $LengthArray)
+$Array.Count            # --> 12
+$Array.Length           # --> 12
+$Array.GetLowerBound(0) # --> 0
+$Array.GetUpperBound(0) # --> 2
+
+$Array[0, 0] = 100
+$Array[0, 1] = 101
+$Array[0, 2] = 102
+
+$Array[0, 0]    # --> 101
+```
+
+### 下限が1の2次元配列を作る。
+
+```powershell
+# ランク
+$Rank = 2
+
+# 要素数
+$LengthArray = [System.Array]::CreateInstance([int], $Rank)
+$LengthArray[0] = 3
+$LengthArray[1] = 4
+
+# 下限
+$LowerBoundArray = [System.Array]::CreateInstance([int], $Rank)
+$LowerBoundArray[0] = 1
+
+$Array = [System.Array]::CreateInstance([int], $LengthArray, $LowerBoundArray)
+$Array.Count            # --> 12
+$Array.Length           # --> 12
+$Array.GetLowerBound(0) # --> 1
+$Array.GetUpperBound(0) # --> 3
+
+$Array[1, 1] = 101
+$Array[1, 2] = 102
+$Array[1, 3] = 103
+
+$Array[1, 1]    # --> 101
 ```
 
 ## 独自クラスのリストをCSV形式に変換する。
@@ -80,6 +164,25 @@ $RecordRepository.ConvertToPSCustomObjectList() | ConvertTo-Csv -NoTypeInformati
     # "Property1","Property2"
     # "11","21"
     # "12","22"
+```
+
+## インストールしたモジュールの一覧を得る。
+
+```powershell
+Get-Module
+Get-InstalledModule
+```
+
+## PAUSE する。
+
+```powershell
+Read-Host -Prompt "Press Enter to continue"
+```
+
+## IPアドレスを得る。
+
+```powershell
+Get-NetIPAddress
 ```
 
 ## 一定間隔のスリープ後、繰り返し実行する。
