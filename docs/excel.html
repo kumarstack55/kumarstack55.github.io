@@ -410,6 +410,7 @@
 <span class="nv">$TableArray</span><span class="p">[</span><span class="n">1</span><span class="p">,</span> <span class="n">1</span><span class="p">]</span>
     <span class="c"># --&gt; 101</span>
 
+<span class="c"># まとめて設定する場合、Value では失敗する。 Value2 を使う。</span>
 <span class="nv">$Range</span><span class="p">.</span><span class="n">Value2</span> <span class="p">=</span> <span class="nv">$TableArray</span>
 </pre></div>
 </div>
@@ -429,6 +430,27 @@
     <span class="c"># --&gt; 101</span>
 
 <span class="nv">$TableArray</span>
+</pre></div>
+</div>
+</section>
+<section id="id19">
+<h2>セルの値を得る。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Range</span><span class="p">.</span><span class="n">Value2</span>
+</pre></div>
+</div>
+</section>
+<section id="id20">
+<h2>セルのテキストを得る。<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Range</span><span class="p">.</span><span class="n">NumberFormatLocal</span>
+    <span class="c"># 日付の場合: yyyy/m/d</span>
+</pre></div>
+</div>
+</section>
+<section id="id21">
+<h2>セルのテキストを得る。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Text</span> <span class="p">=</span> <span class="nv">$Range</span><span class="p">.</span><span class="n">Text</span>
+<span class="nv">$Text</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+    <span class="c"># --&gt; String</span>
 </pre></div>
 </div>
 </section>
@@ -521,6 +543,9 @@
 <li><a class="reference internal" href="#id16">シート内の範囲に値を設定する。</a></li>
 <li><a class="reference internal" href="#id17">シートにまとめて値を設定する。</a></li>
 <li><a class="reference internal" href="#id18">シートからまとめて値を得る。</a></li>
+<li><a class="reference internal" href="#id19">セルの値を得る。</a></li>
+<li><a class="reference internal" href="#id20">セルのテキストを得る。</a></li>
+<li><a class="reference internal" href="#id21">セルのテキストを得る。</a></li>
 <li><a class="reference internal" href="#comobject">ComObject を解放する。</a></li>
 </ul>
 </li>

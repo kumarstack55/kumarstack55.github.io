@@ -158,6 +158,7 @@ for ($RowIndex = 1; $RowIndex -le $Rows.Count; $RowIndex += 1) {
 $TableArray[1, 1]
     # --> 101
 
+# まとめて設定する場合、Value では失敗する。 Value2 を使う。
 $Range.Value2 = $TableArray
 ```
 
@@ -177,6 +178,27 @@ $TableArray[1, 1]
     # --> 101
 
 $TableArray
+```
+
+## セルの値を得る。
+
+```powershell
+$Range.Value2
+```
+
+## セルのテキストを得る。
+
+```powershell
+$Range.NumberFormatLocal
+    # 日付の場合: yyyy/m/d
+```
+
+## セルのテキストを得る。
+
+```powershell
+$Text = $Range.Text
+$Text.GetType()
+    # --> String
 ```
 
 ## ComObject を解放する。
