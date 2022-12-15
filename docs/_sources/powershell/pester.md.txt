@@ -105,3 +105,238 @@ Version Name
 ------- ----
 5.3.0   Pester
 ```
+
+## Pester をインポートする。
+
+```powershell
+Import-Module Pester -Passthru
+```
+
+```console
+PS > Get-Module |
+>>     Where-Object { $_.Name -eq 'Pester' } |
+>>     ForEach-Object { [string]$_.Version }
+PS > Import-Module Pester -Passthru |
+>>     Out-Null
+PS > Get-Module |
+>>     Where-Object { $_.Name -eq 'Pester' } |
+>>     ForEach-Object { [string]$_.Version }
+5.3.3
+```
+
+## フィクスチャを作る。
+
+```powershell
+New-Fixture -Name Foo
+```
+
+```console
+PS > New-Fixture -Name Foo
+
+
+    ディレクトリ: C:\tmp
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        2022/12/16      0:27             84 Foo.ps1
+-a----        2022/12/16      0:27            185 Foo.Tests.ps1
+```
+
+```console
+PS > Get-Content .\Foo.ps1
+function Foo {
+    throw [NotImplementedException]'Foo is not implemented.'
+}
+```
+
+```console
+PS > Get-Content .\Foo.Tests.ps1
+BeforeAll {
+    . $PSCommandPath.Replace('.Tests.ps1', '.ps1')
+}
+
+Describe "Foo" {
+    It "Returns expected output" {
+        Foo | Should -Be "YOUR_EXPECTED_VALUE"
+    }
+}
+```
+
+## Pester でテストを実行する。
+
+```console
+PS > Invoke-Pester
+
+Starting discovery in 1 files.
+Discovery found 1 tests in 989ms.
+Running tests.
+[-] Foo.Returns expected output 552ms (434ms|118ms)
+ NotImplementedException: Foo is not implemented.
+ Foo、C:\tmp\Foo.ps1: 行 2
+ <ScriptBlock>、C:\tmp\Foo.Tests.ps1: 行 7
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1988
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1949
+ Invoke-ScriptBlock、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2110
+ Invoke-TestItem、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1184
+ Invoke-Block、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 826
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 881
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1988
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1949
+ Invoke-ScriptBlock、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2113
+ Invoke-Block、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 928
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 881
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1988
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1949
+ Invoke-ScriptBlock、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2113
+ Invoke-Block、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 928
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1662
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.ps1: 行 3
+ <ScriptBlock>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 3154
+ Invoke-InNewScriptScope、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 3161
+ Run-Test、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1665
+ Invoke-Test、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2465
+ Invoke-Pester<End>、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 5225
+ <ScriptBlock>、<ファイルなし>: 行 1
+Tests completed in 4.43s
+Tests Passed: 0, Failed: 1, Skipped: 0 NotRun: 0
+```
+
+## クラスを実装し、テストする。
+
+```console
+PS > Get-ChildItem
+
+
+    ディレクトリ: C:\tmp
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        2022/12/16      1:28           1791 Foo.ps1
+-a----        2022/12/16      1:28           1713 Foo.Tests.ps1
+```
+
+```powershell
+BeforeAll {
+    . $PSCommandPath.Replace('.Tests.ps1', '.ps1')
+}
+
+Describe "MyRecord" {
+    It "Equals() は異なる型ならば偽を返す。" {
+        $r1 = [MyRecord]::new("a", "b")
+        $r2 = 1
+        $r1.Equals($r2) | Should -BeFalse
+    }
+    It "Equals() は Property1 が同値でなければ偽を返す。" {
+        $r1 = [MyRecord]::new("a", "b")
+        $r2 = [MyRecord]::new("a", "x")
+        $r1.Equals($r2) | Should -BeFalse
+    }
+    It "Equals() は Property2 が同値でなければ偽を返す。" {
+        $r1 = [MyRecord]::new("a", "b")
+        $r2 = [MyRecord]::new("x", "b")
+        $r1.Equals($r2) | Should -BeFalse
+    }
+    It "Equals() は同値なら真を返す。" {
+        $r1 = [MyRecord]::new("a", "b")
+        $r2 = [MyRecord]::new("a", "b")
+        $r1.Equals($r2) | Should -BeTrue
+    }
+    It "Equals() は Property2 が同値でなければ偽を返す。" {
+        $r1 = [MyRecord]::new("a", "b")
+        $r2 = [MyRecord]::new("x", "b")
+        $r1.Equals($r2) | Should -BeFalse
+    }
+    It "Clone() で複製する。" {
+        $r1 = [MyRecord]::new("a", "b")
+        $r2 = $r1.Clone()
+
+        $r1.GetProerty1() | Should -Be $r2.GetProerty1()
+        $r2.GetProerty2() | Should -Be $r2.GetProerty2()
+        $r1.GetHashCode() | Should -Not -Be $r2.GetHashCode()
+    }
+}
+
+Describe "MyRecordRepository" {
+    It "Clone() で複製する。" {
+        $Repository1 = [MyRecordRepository]::new()
+        $Record = [MyRecord]::new("a", "b")
+        $Repository1.Add($Record)
+
+        $Repository2 = $Repository1.Clone()
+
+        $Repository1.GetHashCode() | Should -Not -Be $Repository2.GetHashCode()
+    }
+}
+```
+
+```powershell
+# クラス実装を変更した場合、Invoke-Pester を実行する powershell.exe プロセスを再起動することを検討してください。
+
+class MyRecord {
+    hidden [string] $Property1
+    hidden [string] $Property2
+    MyRecord([string] $Property1, [string] $Property2) {
+        $this.Property1 = $Property1
+        $this.Property2 = $Property2
+    }
+    [string] GetProerty1() {
+        return $this.Property1
+    }
+    [string] GetProerty2() {
+        return $this.Property2
+    }
+    [MyRecord] Clone() {
+        $Record = [MyRecord]::new($this.Property1, $this.Property2)
+        return $Record
+    }
+    [bool] Equals([System.Object] $obj) {
+        if ($obj -isnot [MyRecord]) {
+            return $false
+        }
+        $That = [MyRecord] $obj
+        if ( ($this.Property1 -ceq $That.GetProerty1()) -and ($this.Property2 -ceq $That.GetProerty2()) ) {
+            return $true
+        }
+        return $false
+    }
+}
+
+class MyRecordRepository {
+    hidden [System.Collections.Generic.List[MyRecord]] $RecordList
+    MyRecordRepository() {
+        $this.RecordList = [System.Collections.Generic.List[MyRecord]]::new()
+    }
+    Add([MyRecord] $Record) {
+        $this.RecordList.Add($Record)
+    }
+    hidden [System.Collections.IEnumerator] GetEnumerator() {
+        return $this.RecordList.GetEnumerator()
+    }
+    [MyRecordRepository] Clone() {
+        $RecordRepository = [MyRecordRepository]::new()
+        $Enumerator = $this.GetEnumerator()
+        foreach ($Record in $Enumerator) {
+            $Record2 = $Record.Clone()
+            $RecordRepository.Add($Record2)
+        }
+        return $RecordRepository
+    }
+}
+
+function Foo {
+    throw [NotImplementedException]'Foo is not implemented.'
+}
+```
+
+```console
+PS > Invoke-Pester
+
+Starting discovery in 1 files.
+Discovery found 7 tests in 22ms.
+Running tests.
+[+] Foo.Tests.ps1 233ms (128ms|86ms)
+Tests completed in 236ms
+Tests Passed: 7, Failed: 0, Skipped: 0 NotRun: 0
+```

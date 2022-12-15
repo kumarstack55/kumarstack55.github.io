@@ -354,6 +354,234 @@
 </pre></div>
 </div>
 </section>
+<section id="id4">
+<h2>Pester をインポートする。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Import-Module</span> <span class="n">Pester</span> <span class="n">-Passthru</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Module |</span>
+<span class="go">&gt;&gt;     Where-Object { $_.Name -eq 'Pester' } |</span>
+<span class="go">&gt;&gt;     ForEach-Object { [string]$_.Version }</span>
+<span class="go">PS &gt; Import-Module Pester -Passthru |</span>
+<span class="go">&gt;&gt;     Out-Null</span>
+<span class="go">PS &gt; Get-Module |</span>
+<span class="go">&gt;&gt;     Where-Object { $_.Name -eq 'Pester' } |</span>
+<span class="go">&gt;&gt;     ForEach-Object { [string]$_.Version }</span>
+<span class="go">5.3.3</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>フィクスチャを作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">New-Fixture</span> <span class="n">-Name</span> <span class="n">Foo</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; New-Fixture -Name Foo</span>
+
+
+<span class="go">    ディレクトリ: C:\tmp</span>
+
+
+<span class="go">Mode                 LastWriteTime         Length Name</span>
+<span class="go">----                 -------------         ------ ----</span>
+<span class="go">-a----        2022/12/16      0:27             84 Foo.ps1</span>
+<span class="go">-a----        2022/12/16      0:27            185 Foo.Tests.ps1</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Content .\Foo.ps1</span>
+<span class="go">function Foo {</span>
+<span class="go">    throw [NotImplementedException]'Foo is not implemented.'</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Content .\Foo.Tests.ps1</span>
+<span class="go">BeforeAll {</span>
+<span class="go">    . $PSCommandPath.Replace('.Tests.ps1', '.ps1')</span>
+<span class="go">}</span>
+
+<span class="go">Describe "Foo" {</span>
+<span class="go">    It "Returns expected output" {</span>
+<span class="go">        Foo | Should -Be "YOUR_EXPECTED_VALUE"</span>
+<span class="go">    }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>Pester でテストを実行する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Invoke-Pester</span>
+
+<span class="go">Starting discovery in 1 files.</span>
+<span class="go">Discovery found 1 tests in 989ms.</span>
+<span class="go">Running tests.</span>
+<span class="go">[-] Foo.Returns expected output 552ms (434ms|118ms)</span>
+<span class="go"> NotImplementedException: Foo is not implemented.</span>
+<span class="go"> Foo、C:\tmp\Foo.ps1: 行 2</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\tmp\Foo.Tests.ps1: 行 7</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1988</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1949</span>
+<span class="go"> Invoke-ScriptBlock、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2110</span>
+<span class="go"> Invoke-TestItem、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1184</span>
+<span class="go"> Invoke-Block、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 826</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 881</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1988</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1949</span>
+<span class="go"> Invoke-ScriptBlock、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2113</span>
+<span class="go"> Invoke-Block、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 928</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 881</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1988</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1949</span>
+<span class="go"> Invoke-ScriptBlock、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2113</span>
+<span class="go"> Invoke-Block、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 928</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1662</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.ps1: 行 3</span>
+<span class="go"> &lt;ScriptBlock&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 3154</span>
+<span class="go"> Invoke-InNewScriptScope、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 3161</span>
+<span class="go"> Run-Test、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 1665</span>
+<span class="go"> Invoke-Test、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 2465</span>
+<span class="go"> Invoke-Pester&lt;End&gt;、C:\Program Files\WindowsPowerShell\Modules\Pester\5.3.3\Pester.psm1: 行 5225</span>
+<span class="go"> &lt;ScriptBlock&gt;、&lt;ファイルなし&gt;: 行 1</span>
+<span class="go">Tests completed in 4.43s</span>
+<span class="go">Tests Passed: 0, Failed: 1, Skipped: 0 NotRun: 0</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>クラスを実装し、テストする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-ChildItem</span>
+
+
+<span class="go">    ディレクトリ: C:\tmp</span>
+
+
+<span class="go">Mode                 LastWriteTime         Length Name</span>
+<span class="go">----                 -------------         ------ ----</span>
+<span class="go">-a----        2022/12/16      1:28           1791 Foo.ps1</span>
+<span class="go">-a----        2022/12/16      1:28           1713 Foo.Tests.ps1</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">BeforeAll</span> <span class="p">{</span>
+    <span class="p">.</span> <span class="nv">$PSCommandPath</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s1">'.Tests.ps1'</span><span class="p">,</span> <span class="s1">'.ps1'</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">Describe</span> <span class="s2">"MyRecord"</span> <span class="p">{</span>
+    <span class="n">It</span> <span class="s2">"Equals() は異なる型ならば偽を返す。"</span> <span class="p">{</span>
+        <span class="nv">$r1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r2</span> <span class="p">=</span> <span class="n">1</span>
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="nv">$r2</span><span class="p">)</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-BeFalse</span>
+    <span class="p">}</span>
+    <span class="n">It</span> <span class="s2">"Equals() は Property1 が同値でなければ偽を返す。"</span> <span class="p">{</span>
+        <span class="nv">$r1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r2</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span>
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="nv">$r2</span><span class="p">)</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-BeFalse</span>
+    <span class="p">}</span>
+    <span class="n">It</span> <span class="s2">"Equals() は Property2 が同値でなければ偽を返す。"</span> <span class="p">{</span>
+        <span class="nv">$r1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r2</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="nv">$r2</span><span class="p">)</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-BeFalse</span>
+    <span class="p">}</span>
+    <span class="n">It</span> <span class="s2">"Equals() は同値なら真を返す。"</span> <span class="p">{</span>
+        <span class="nv">$r1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r2</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="nv">$r2</span><span class="p">)</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-BeTrue</span>
+    <span class="p">}</span>
+    <span class="n">It</span> <span class="s2">"Equals() は Property2 が同値でなければ偽を返す。"</span> <span class="p">{</span>
+        <span class="nv">$r1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r2</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">Equals</span><span class="p">(</span><span class="nv">$r2</span><span class="p">)</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-BeFalse</span>
+    <span class="p">}</span>
+    <span class="n">It</span> <span class="s2">"Clone() で複製する。"</span> <span class="p">{</span>
+        <span class="nv">$r1</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$r2</span> <span class="p">=</span> <span class="nv">$r1</span><span class="p">.</span><span class="n">Clone</span><span class="p">()</span>
+
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">GetProerty1</span><span class="p">()</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-Be</span> <span class="nv">$r2</span><span class="p">.</span><span class="n">GetProerty1</span><span class="p">()</span>
+        <span class="nv">$r2</span><span class="p">.</span><span class="n">GetProerty2</span><span class="p">()</span> <span class="p">|</span> <span class="n">Should</span> <span class="n">-Be</span> <span class="nv">$r2</span><span class="p">.</span><span class="n">GetProerty2</span><span class="p">()</span>
+        <span class="nv">$r1</span><span class="p">.</span><span class="n">GetHashCode</span><span class="p">()</span> <span class="p">|</span> <span class="n">Should</span> <span class="o">-Not</span> <span class="n">-Be</span> <span class="nv">$r2</span><span class="p">.</span><span class="n">GetHashCode</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Describe</span> <span class="s2">"MyRecordRepository"</span> <span class="p">{</span>
+    <span class="n">It</span> <span class="s2">"Clone() で複製する。"</span> <span class="p">{</span>
+        <span class="nv">$Repository1</span> <span class="p">=</span> <span class="no">[MyRecordRepository]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+        <span class="nv">$Record</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">)</span>
+        <span class="nv">$Repository1</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Record</span><span class="p">)</span>
+
+        <span class="nv">$Repository2</span> <span class="p">=</span> <span class="nv">$Repository1</span><span class="p">.</span><span class="n">Clone</span><span class="p">()</span>
+
+        <span class="nv">$Repository1</span><span class="p">.</span><span class="n">GetHashCode</span><span class="p">()</span> <span class="p">|</span> <span class="n">Should</span> <span class="o">-Not</span> <span class="n">-Be</span> <span class="nv">$Repository2</span><span class="p">.</span><span class="n">GetHashCode</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># クラス実装を変更した場合、Invoke-Pester を実行する powershell.exe プロセスを再起動することを検討してください。</span>
+
+<span class="n">class</span> <span class="n">MyRecord</span> <span class="p">{</span>
+    <span class="n">hidden</span> <span class="no">[string]</span> <span class="nv">$Property1</span>
+    <span class="n">hidden</span> <span class="no">[string]</span> <span class="nv">$Property2</span>
+    <span class="n">MyRecord</span><span class="p">(</span><span class="no">[string]</span> <span class="nv">$Property1</span><span class="p">,</span> <span class="no">[string]</span> <span class="nv">$Property2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span> <span class="p">=</span> <span class="nv">$Property1</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span> <span class="p">=</span> <span class="nv">$Property2</span>
+    <span class="p">}</span>
+    <span class="no">[string]</span> <span class="n">GetProerty1</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span>
+    <span class="p">}</span>
+    <span class="no">[string]</span> <span class="n">GetProerty2</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span>
+    <span class="p">}</span>
+    <span class="no">[MyRecord]</span> <span class="n">Clone</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$Record</span> <span class="p">=</span> <span class="no">[MyRecord]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span><span class="p">,</span> <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nv">$Record</span>
+    <span class="p">}</span>
+    <span class="no">[bool]</span> <span class="n">Equals</span><span class="p">(</span><span class="no">[System.Object]</span> <span class="nv">$obj</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$obj</span> <span class="o">-isnot</span> <span class="no">[MyRecord]</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$false</span>
+        <span class="p">}</span>
+        <span class="nv">$That</span> <span class="p">=</span> <span class="no">[MyRecord]</span> <span class="nv">$obj</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span> <span class="o">-ceq</span> <span class="nv">$That</span><span class="p">.</span><span class="n">GetProerty1</span><span class="p">())</span> <span class="o">-and</span> <span class="p">(</span><span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span> <span class="o">-ceq</span> <span class="nv">$That</span><span class="p">.</span><span class="n">GetProerty2</span><span class="p">())</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$true</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">class</span> <span class="n">MyRecordRepository</span> <span class="p">{</span>
+    <span class="n">hidden</span> <span class="no">[System.Collections.Generic.List[MyRecord]]</span> <span class="nv">$RecordList</span>
+    <span class="n">MyRecordRepository</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">RecordList</span> <span class="p">=</span> <span class="no">[System.Collections.Generic.List[MyRecord]]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">Add</span><span class="p">(</span><span class="no">[MyRecord]</span> <span class="nv">$Record</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">RecordList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Record</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">hidden</span> <span class="no">[System.Collections.IEnumerator]</span> <span class="n">GetEnumerator</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="p">.</span><span class="n">RecordList</span><span class="p">.</span><span class="n">GetEnumerator</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="no">[MyRecordRepository]</span> <span class="n">Clone</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$RecordRepository</span> <span class="p">=</span> <span class="no">[MyRecordRepository]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+        <span class="nv">$Enumerator</span> <span class="p">=</span> <span class="nv">$this</span><span class="p">.</span><span class="n">GetEnumerator</span><span class="p">()</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$Record</span> <span class="k">in</span> <span class="nv">$Enumerator</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$Record2</span> <span class="p">=</span> <span class="nv">$Record</span><span class="p">.</span><span class="n">Clone</span><span class="p">()</span>
+            <span class="nv">$RecordRepository</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$Record2</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$RecordRepository</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="n">Foo</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="no">[NotImplementedException]</span><span class="s1">'Foo is not implemented.'</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Invoke-Pester</span>
+
+<span class="go">Starting discovery in 1 files.</span>
+<span class="go">Discovery found 7 tests in 22ms.</span>
+<span class="go">Running tests.</span>
+<span class="go">[+] Foo.Tests.ps1 233ms (128ms|86ms)</span>
+<span class="go">Tests completed in 236ms</span>
+<span class="go">Tests Passed: 7, Failed: 0, Skipped: 0 NotRun: 0</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -418,6 +646,10 @@
 </li>
 <li><a class="reference internal" href="#pester-v4">Pester v4 をインストールする。</a></li>
 <li><a class="reference internal" href="#pester-v5">Pester v5 をインストールする。</a></li>
+<li><a class="reference internal" href="#id4">Pester をインポートする。</a></li>
+<li><a class="reference internal" href="#id5">フィクスチャを作る。</a></li>
+<li><a class="reference internal" href="#id6">Pester でテストを実行する。</a></li>
+<li><a class="reference internal" href="#id7">クラスを実装し、テストする。</a></li>
 </ul>
 </li>
 </ul>
