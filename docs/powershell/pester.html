@@ -448,6 +448,8 @@
 </section>
 <section id="id7">
 <h2>クラスを実装し、テストする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h3>ファイル一覧<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-ChildItem</span>
 
 
@@ -460,6 +462,9 @@
 <span class="go">-a----        2022/12/16      1:28           1713 Foo.Tests.ps1</span>
 </pre></div>
 </div>
+</section>
+<section id="foo-tests-ps1">
+<h3>Foo.Tests.ps1<a class="headerlink" href="#foo-tests-ps1" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">BeforeAll</span> <span class="p">{</span>
     <span class="p">.</span> <span class="nv">$PSCommandPath</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s1">'.Tests.ps1'</span><span class="p">,</span> <span class="s1">'.ps1'</span><span class="p">)</span>
 <span class="p">}</span>
@@ -513,6 +518,9 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+</section>
+<section id="foo-ps1">
+<h3>Foo.ps1<a class="headerlink" href="#foo-ps1" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># クラス実装を変更した場合、Invoke-Pester を実行する powershell.exe プロセスを再起動することを検討してください。</span>
 
 <span class="n">class</span> <span class="n">MyRecord</span> <span class="p">{</span>
@@ -571,6 +579,9 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+</section>
+<section id="id9">
+<h3>テスト実行<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Invoke-Pester</span>
 
 <span class="go">Starting discovery in 1 files.</span>
@@ -581,6 +592,7 @@
 <span class="go">Tests Passed: 7, Failed: 0, Skipped: 0 NotRun: 0</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -649,7 +661,13 @@
 <li><a class="reference internal" href="#id4">Pester をインポートする。</a></li>
 <li><a class="reference internal" href="#id5">フィクスチャを作る。</a></li>
 <li><a class="reference internal" href="#id6">Pester でテストを実行する。</a></li>
-<li><a class="reference internal" href="#id7">クラスを実装し、テストする。</a></li>
+<li><a class="reference internal" href="#id7">クラスを実装し、テストする。</a><ul>
+<li><a class="reference internal" href="#id8">ファイル一覧</a></li>
+<li><a class="reference internal" href="#foo-tests-ps1">Foo.Tests.ps1</a></li>
+<li><a class="reference internal" href="#foo-ps1">Foo.ps1</a></li>
+<li><a class="reference internal" href="#id9">テスト実行</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
