@@ -254,9 +254,78 @@
           <section class="tex2jax_ignore mathjax_ignore" id="powershell">
 <h1>PowerShell 基礎<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>1次元配列を作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ハッシュテーブルのキーとして登録するとき、</span>
+<span class="c"># プロパティが同一であっても、異なるキーとして登録するクラスを定義する。</span>
+<span class="n">class</span> <span class="n">MyRecordA</span> <span class="p">{</span>
+    <span class="n">hidden</span> <span class="no">[string]</span> <span class="nv">$Property1</span>
+    <span class="n">hidden</span> <span class="no">[string]</span> <span class="nv">$Property2</span>
+    <span class="n">MyRecordA</span><span class="p">(</span><span class="no">[string]</span> <span class="nv">$Property1</span><span class="p">,</span> <span class="no">[string]</span> <span class="nv">$Property2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span> <span class="p">=</span> <span class="nv">$Property1</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span> <span class="p">=</span> <span class="nv">$Property2</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c"># ハッシュテーブルのキーとして登録するとき、</span>
+<span class="c"># プロパティが同一ならば、同一キーとして登録するクラスを定義する。</span>
+<span class="n">class</span> <span class="n">MyRecordB</span> <span class="p">{</span>
+    <span class="n">hidden</span> <span class="no">[string]</span> <span class="nv">$Property1</span>
+    <span class="n">hidden</span> <span class="no">[string]</span> <span class="nv">$Property2</span>
+    <span class="n">MyRecordB</span><span class="p">(</span><span class="no">[string]</span> <span class="nv">$Property1</span><span class="p">,</span> <span class="no">[string]</span> <span class="nv">$Property2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property1</span> <span class="p">=</span> <span class="nv">$Property1</span>
+        <span class="nv">$this</span><span class="p">.</span><span class="n">Property2</span> <span class="p">=</span> <span class="nv">$Property2</span>
+    <span class="p">}</span>
+    <span class="no">[int]</span> <span class="n">GetHashCode</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$HashCode</span> <span class="p">=</span> <span class="no">[int]</span><span class="p">::</span><span class="n">MaxValue</span>
+        <span class="nv">$this</span> <span class="p">|</span>
+            <span class="nb">Get-Member</span> <span class="n">-MemberType</span> <span class="n">Property</span> <span class="p">|</span>
+            <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+                <span class="nv">$HashCode</span> <span class="p">-=</span> <span class="nv">$this</span><span class="p">.$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">).</span><span class="n">GetHashCode</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$HashCode</span>
+    <span class="p">}</span>
+    <span class="no">[bool]</span> <span class="n">Equals</span><span class="p">(</span><span class="no">[System.Object]</span> <span class="nv">$obj</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$obj</span> <span class="o">-isnot</span> <span class="no">[MyRecordB]</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$false</span>
+        <span class="p">}</span>
+        <span class="nv">$That</span> <span class="p">=</span> <span class="no">[MyRecordB]</span> <span class="nv">$obj</span>
+        <span class="nv">$PropertyNames</span> <span class="p">=</span> <span class="nv">$this</span> <span class="p">|</span> <span class="nb">Get-Member</span> <span class="n">-MemberType</span> <span class="n">Property</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$Name</span> <span class="k">in</span> <span class="nv">$PropertyNames</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="p">.$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-cne</span> <span class="nv">$That</span><span class="p">.$(</span><span class="nv">$_</span><span class="p">.</span><span class="n">Name</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nv">$false</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nv">$true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nv">$HashTableA</span> <span class="p">=</span> <span class="no">[hashtable]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="nv">$a1</span> <span class="p">=</span> <span class="no">[MyRecordA]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">)</span>
+<span class="nv">$a2</span> <span class="p">=</span> <span class="no">[MyRecordA]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">)</span>
+<span class="nv">$HashTableA</span><span class="p">[</span><span class="nv">$a1</span><span class="p">]</span> <span class="p">=</span> <span class="n">1</span>
+<span class="nv">$HashTableA</span><span class="p">[</span><span class="nv">$a2</span><span class="p">]</span> <span class="p">=</span> <span class="n">2</span>
+<span class="nv">$HashTableA</span>
+    <span class="c"># Name                           Value</span>
+    <span class="c"># ----                           -----</span>
+    <span class="c"># MyRecordA                      1</span>
+    <span class="c"># MyRecordA                      2</span>
+
+<span class="nv">$HashTableB</span> <span class="p">=</span> <span class="no">[hashtable]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+<span class="nv">$b1</span> <span class="p">=</span> <span class="no">[MyRecordB]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">)</span>
+<span class="nv">$b2</span> <span class="p">=</span> <span class="no">[MyRecordB]</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">)</span>
+<span class="nv">$HashTableB</span><span class="p">[</span><span class="nv">$b1</span><span class="p">]</span> <span class="p">=</span> <span class="n">1</span>
+<span class="nv">$HashTableB</span><span class="p">[</span><span class="nv">$b2</span><span class="p">]</span> <span class="p">=</span> <span class="n">2</span>
+<span class="nv">$HashTableB</span>
+    <span class="c"># Name                           Value</span>
+    <span class="c"># ----                           -----</span>
+    <span class="c"># MyRecordB                      2</span>
+</pre></div>
+</div>
+</section>
 <section id="id2">
-<h3>下限が0の1次元配列を作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>1次元配列を作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h3>下限が0の1次元配列を作る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 要素数</span>
 <span class="nv">$Length</span> <span class="p">=</span> <span class="n">3</span>
 
@@ -274,8 +343,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h3>下限が1の1次元配列を作る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id4">
+<h3>下限が1の1次元配列を作る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 要素数</span>
 <span class="nv">$LengthArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="n">1</span><span class="p">)</span>
 <span class="nv">$LengthArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">3</span>
@@ -303,10 +372,10 @@
 </div>
 </section>
 </section>
-<section id="id4">
-<h2>2次元配列を作る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <section id="id5">
-<h3>下限が0の2次元配列を作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>2次元配列を作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h3>下限が0の2次元配列を作る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ランク</span>
 <span class="nv">$Rank</span> <span class="p">=</span> <span class="n">2</span>
 
@@ -329,8 +398,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>下限が1の2次元配列を作る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h3>下限が1の2次元配列を作る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ランク</span>
 <span class="nv">$Rank</span> <span class="p">=</span> <span class="n">2</span>
 
@@ -425,8 +494,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Module</span>
 <span class="nb">Get-InstalledModule</span>
 </pre></div>
@@ -444,8 +513,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">IntervalTimerRecipient</span> <span class="p">{</span>
     <span class="n">notify</span><span class="p">(</span><span class="no">[IntervalTimer]</span><span class="nv">$IntervalTimer</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">throw</span>
@@ -493,8 +562,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h2>参考: ネットワーク関連のファンクション一覧<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>参考: ネットワーク関連のファンクション一覧<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Net</span><span class="p">&lt;</span><span class="n">Tab</span><span class="p">&gt;&lt;</span><span class="n">Tab</span><span class="p">&gt;</span>
 </pre></div>
 </div>
@@ -651,22 +720,23 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">PowerShell 基礎</a><ul>
-<li><a class="reference internal" href="#id1">1次元配列を作る。</a><ul>
-<li><a class="reference internal" href="#id2">下限が0の1次元配列を作る。</a></li>
-<li><a class="reference internal" href="#id3">下限が1の1次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id1">ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。</a></li>
+<li><a class="reference internal" href="#id2">1次元配列を作る。</a><ul>
+<li><a class="reference internal" href="#id3">下限が0の1次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id4">下限が1の1次元配列を作る。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">2次元配列を作る。</a><ul>
-<li><a class="reference internal" href="#id5">下限が0の2次元配列を作る。</a></li>
-<li><a class="reference internal" href="#id6">下限が1の2次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id5">2次元配列を作る。</a><ul>
+<li><a class="reference internal" href="#id6">下限が0の2次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id7">下限が1の2次元配列を作る。</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#csv">独自クラスのリストをCSV形式に変換する。</a></li>
-<li><a class="reference internal" href="#id7">インストールしたモジュールの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id8">インストールしたモジュールの一覧を得る。</a></li>
 <li><a class="reference internal" href="#pause">PAUSE する。</a></li>
 <li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
-<li><a class="reference internal" href="#id8">一定間隔のスリープ後、繰り返し実行する。</a></li>
-<li><a class="reference internal" href="#id9">参考: ネットワーク関連のファンクション一覧</a></li>
+<li><a class="reference internal" href="#id9">一定間隔のスリープ後、繰り返し実行する。</a></li>
+<li><a class="reference internal" href="#id10">参考: ネットワーク関連のファンクション一覧</a></li>
 </ul>
 </li>
 </ul>

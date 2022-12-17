@@ -1,5 +1,75 @@
 # PowerShell 基礎
 
+## ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。
+
+```powershell
+# ハッシュテーブルのキーとして登録するとき、
+# プロパティが同一であっても、異なるキーとして登録するクラスを定義する。
+class MyRecordA {
+    hidden [string] $Property1
+    hidden [string] $Property2
+    MyRecordA([string] $Property1, [string] $Property2) {
+        $this.Property1 = $Property1
+        $this.Property2 = $Property2
+    }
+}
+
+# ハッシュテーブルのキーとして登録するとき、
+# プロパティが同一ならば、同一キーとして登録するクラスを定義する。
+class MyRecordB {
+    hidden [string] $Property1
+    hidden [string] $Property2
+    MyRecordB([string] $Property1, [string] $Property2) {
+        $this.Property1 = $Property1
+        $this.Property2 = $Property2
+    }
+    [int] GetHashCode() {
+        $HashCode = [int]::MaxValue
+        $this |
+            Get-Member -MemberType Property |
+            ForEach-Object {
+                $HashCode -= $this.$($_.Name).GetHashCode()
+            }
+        return $HashCode
+    }
+    [bool] Equals([System.Object] $obj) {
+        if ($obj -isnot [MyRecordB]) {
+            return $false
+        }
+        $That = [MyRecordB] $obj
+        $PropertyNames = $this | Get-Member -MemberType Property
+        foreach ($Name in $PropertyNames) {
+            if ($this.$($_.Name) -cne $That.$($_.Name)) {
+                return $false
+            }
+        }
+        return $true
+    }
+}
+
+$HashTableA = [hashtable]::new()
+$a1 = [MyRecordA]::new("x", "y")
+$a2 = [MyRecordA]::new("x", "y")
+$HashTableA[$a1] = 1
+$HashTableA[$a2] = 2
+$HashTableA
+    # Name                           Value
+    # ----                           -----
+    # MyRecordA                      1
+    # MyRecordA                      2
+
+$HashTableB = [hashtable]::new()
+$b1 = [MyRecordB]::new("x", "y")
+$b2 = [MyRecordB]::new("x", "y")
+$HashTableB[$b1] = 1
+$HashTableB[$b2] = 2
+$HashTableB
+    # Name                           Value
+    # ----                           -----
+    # MyRecordB                      2
+```
+
+
 ## 1次元配列を作る。
 
 ### 下限が0の1次元配列を作る。
