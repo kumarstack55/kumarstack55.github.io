@@ -13,6 +13,20 @@
 
 こうすると良さそう、というものを書きためておく。
 
+## PowerShell のファイル構造
+
+* クラスを定義するとき、クラス定義を行うファイルと、クラス定義内で利用する型を別ファイルで定義する。
+    * 理由:
+        * クラス定義で利用できない型がある場合、解析に失敗する。
+        * 回避策として、モジュールを定義するのが適切な方法だが、シンプルに2つのスクリプトに分割することで回避できる。
+    * 参考:
+        * https://github.com/PowerShell/PowerShell/issues/3641#issuecomment-297138986
+        * https://stackoverflow.com/a/42839957/12786161
+
+## PowerShell のフォーマット
+
+* VSCode で PowerShell のフォーマットができる。
+
 ## PowerShell のキーワードや名前の大文字・小文字
 
 * 予約語
@@ -46,16 +60,16 @@
         * `$PascalCase`
     * 関数のパラメータ
         * `param($PascalCase)`
-        * `param([Parameter(Mandatory)][ClassName]$PascalCase)`
-        * `param([Parameter(Mandatory)][string]$PascalCase)`
+        * `param([Parameter(Mandatory)][ClassName] $PascalCase)`
+        * `param([Parameter(Mandatory)][string] $PascalCase)`
 * 値
     * `$null`
     * `$true`
     * `$false`
 * 型
     * エイリアスがあればエイリアスを使う。(int, long, string, bool, ...)
-        * `[bool]$Enabled`
-        * `[string]$Enabled`
+        * `[bool] $Enabled`
+        * `[string] $Enabled`
     * なければ、定義通りのものにする。
         * `[MessageBox]::Show('Hello')`
 

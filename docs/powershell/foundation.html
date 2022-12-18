@@ -255,6 +255,8 @@
 <h1>PowerShell 基礎<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
 <h2>ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Equals()</span></code> をオーバーライドする。</p>
+<p>ただし、 <code class="docutils literal notranslate"><span class="pre">-eq</span></code> の動作も変わるため、参照が異なることと、同値であることの区別がつかなくなる。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ハッシュテーブルのキーとして登録するとき、</span>
 <span class="c"># プロパティが同一であっても、異なるキーとして登録するクラスを定義する。</span>
 <span class="n">class</span> <span class="n">MyRecordA</span> <span class="p">{</span>
