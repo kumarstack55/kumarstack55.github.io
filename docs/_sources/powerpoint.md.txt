@@ -2,14 +2,24 @@
 
 PowerPoint を PowerShell で操作する。
 
-## 新しいプレゼンテーションを作る。
+## アプリケーションを得る。
 
 ```powershell
-$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
+Add-Type -AssemblyName office
+Add-Type -AssemblyName Microsoft.VisualBasic
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName Microsoft.Office.Interop.PowerPoint
 
 $Application = New-Object -ComObject PowerPoint.Application
+$msoTrue = [Microsoft.Office.Core.MsoTriState]::msoTrue
 $Application.Visible = $msoTrue
-$Presentation = $Application.Presentations.Add()
+```
+
+## アプリケーションにプレゼンテーションを加える。
+
+```powershell
+$Presentations = $Application.Presentations
+$Presentation = $Presentations.Add()
 ```
 
 ## プレゼンテーションを保存せず終了する。
@@ -32,19 +42,30 @@ $Presentation.SaveAs($FullName)
 ## プレゼンテーションにスライドを加える。
 
 ```powershell
-$Presentation.SlideMaster.CustomLayouts |
+$CustomLayoutName = 'タイトルとコンテンツ'
+$Index = 1
+
+$SlideMaster = $Presentation.SlideMaster
+$CustomLayouts = $SlideMaster.CustomLayouts
+
+$CustomLayouts |
     ForEach-Object { $_.Name }
 
-$CustomLayoutName = 'タイトルとコンテンツ'
-
-$CustomLayout = $Presentation.SlideMaster.CustomLayouts |
+$CustomLayout = $CustomLayouts |
     Where-Object { $_.Name -eq $CustomLayoutName } |
     Select-Object -First 1
 if ($null -eq $CustomLayout) {
     throw
 }
 
-$Slide = $Presentation.Slides.AddSlide(1, $CustomLayout)
+$Slides = $Presentation.Slides
+$Slide = $Slides.AddSlide($Index, $CustomLayout)
+```
+
+## スライドを選択する。
+
+```powershell
+$Slide.Select()
 ```
 
 ## スライドのコンテンツのテキストを設定する。
@@ -127,6 +148,88 @@ $msoShapeRectangle = [Microsoft.Office.Core.MsoAutoShapeType]::msoShapeRectangle
 
 $Left, $Top, $Width, $Height = 10, 20, 100, 200
 $Shape2 = $Slide.Shapes.AddShape($msoShapeRectangle, $Left, $Top, $Width, $Height)
+```
+
+## 色
+
+### スライドのタイトルのフォントの色
+
+```console
+PS > $Shape = $Slide.Shapes[1]
+PS > $Shape.Name
+Title 1
+PS > $Shape.TextFrame.TextRange.Font.Color
+
+
+Application      : Microsoft.Office.Interop.PowerPoint.ApplicationClass
+Creator          : 1347899476
+Parent           : System.__ComObject
+RGB              : 0
+Type             : 2
+SchemeColor      : 2
+TintAndShade     : 0
+ObjectThemeColor : 13
+Brightness       : 0
+```
+
+### 加えた図形の塗りつぶしの色
+
+```console
+PS > $Shape2.Line.ForeColor
+
+
+Application      : Microsoft.Office.Interop.PowerPoint.ApplicationClass
+Creator          : 1347899476
+Parent           : System.__ComObject
+RGB              : 9392687
+Type             : 2
+SchemeColor      : 5
+TintAndShade     : -0.5
+ObjectThemeColor : 5
+Brightness       : 0
+```
+
+### 加えた図形の線の色
+
+```console
+PS > $Shape2.Fill.ForeColor
+
+
+Application      : Microsoft.Office.Interop.PowerPoint.ApplicationClass
+Creator          : 1347899476
+Parent           : System.__ComObject
+RGB              : 12874308
+Type             : 2
+SchemeColor      : 5
+TintAndShade     : 0
+ObjectThemeColor : 5
+Brightness       : 0
+```
+
+### SchemeColor の一覧
+
+```console
+PS > $Enums |
+>>     ForEach-Object {
+>>         $d = [ordered]@{}
+>>         $d.Add("Name", $_)
+>>         $d.Add("Value", $_.value__)
+>>         [pscustomobject]$d
+>>     } |
+>>     Sort-Object -Property Value
+
+              Name Value
+              ---- -----
+ppSchemeColorMixed    -2
+  ppNotSchemeColor     0
+      ppBackground     1
+      ppForeground     2
+          ppShadow     3
+           ppTitle     4
+            ppFill     5
+         ppAccent1     6
+         ppAccent2     7
+         ppAccent3     8
 ```
 
 ## 図形の位置を設定する。
@@ -297,38 +400,63 @@ $Application.CommandBars.ExecuteMso("ViewSlideMasterView")
 $Application.CommandBars.ExecuteMso("ViewSlideView")
 ```
 
-## プレゼンテーションからスライドマスターを得る。
+## スライドマスター周辺のオブジェクト
 
-アプリケーション上では、スライドマスターには複数のスライドマスターが含まれる。
-複数のスライドマスターのうち、1つのスライドマスターは、スライドマスターと、カスタムレイアウト群で構成される。レイアウト群の中には、タイトルマスターが含まれる。
+PowerPoint のオブジェクトモデルと、アプリケーション上の表示には、用語の揺らぎがある。
+特にスライドマスター周辺は揺らぎが多い。
 
-これは、コード上は、スライドマスターの中に、複数の Design が存在することで表現される。 Design は SlideMaster と TitleMaster と CustomLayouts を持つことが対応している。
+### スライドマスター周辺のオブジェクトとオブジェクトの対応
+
+オブジェクトの対応関係はおよそ以下の通り:
+
+* 1 Application : N Presentations
+    * 1 Presentation : N Slides
+    * 1 Presentation : N Designs
+        * 1 Design : 1 SlideMaster
+            * 1 SlideMaster : 8 ColorScheme
+        * 1 Design : 1 TitleMaster
+        * 1 Design : N CustomLayouts
+            * CustomLayouts のうちの1つが TitleMaster を含むことがある。
+
+### スライドマスター周辺のオブジェクトと画面上の用語の対応
+
+オブジェクトの用語と、画面上の用語は以下の通り:
+
+* Application = PowerPoint
+* Presentation = プレゼンテーション
+* Design = スライドマスター
+* SlideMaster = スライドマスター
+* CustomLayout = カスタムレイアウト
+* ColorScheme = テーマの色
+
+上記に加えて、画面上のスライドマスターは、複数の Design を意味する場合がある。
+
+## プレゼンテーションから Design を得る。
 
 ```powershell
 $Presentation.Designs |
     ForEach-Object { $_.Name }
 
-$Design = $Presentation.Designs(1)
-
-# または
-
 $Designs = $Presentation.Designs
 $Design = $Designs[1]
+
+# または、次のようにアクセスすることもできる。
+# $Design = $Presentation.Designs(1)
 ```
 
-## スライドマスター(Design)の名前を得る。
+## Design の名前を得る。
 
 ```powershell
 $Design.Name
 ```
 
-## スライドマスター(Design)の名前を変える。
+## Design の名前を変える。
 
 ```powershell
 $Design.Name = "Office テーマ1"
 ```
 
-## プレゼンテーションにスライドマスター(Design)を加える。
+## プレゼンテーションに Design を加える。
 
 ```powershell
 $Designs = $Presentation.Designs
@@ -336,20 +464,74 @@ $DesignName = "Office テーマ2"
 $Designs.Add($DesignName)
 ```
 
-## スライドマスター(Design)からスライドマスタを得る。
+## Design から SlideMaster を得る。
 
 ```powershell
 $SlideMaster = $Design.SlideMaster
 ```
 
-## スライドマスター(Design)の背景色を設定する。
+## SlideMaster の背景色を設定する。
 
 ```powershell
 $rgb = [Microsoft.VisualBasic.Information]::RGB(245, 245, 245)
 $SlideMaster.Background.Fill.ForeColor.RGB = $rgb
 ```
 
-## スライドマスター(Design)の図形を得る。
+## SlideMaster の背景色を配色パターンから得る。
+
+```powershell
+# ppFill は、配色パターンの `アクセント1` の色を使うようだ。
+$ppFill = [Microsoft.Office.Interop.PowerPoint.PpColorSchemeIndex]::ppFill
+$SlideMaster.Background.Fill.ForeColor.SchemeColor = $ppFill
+#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0
+#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.8
+#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.6
+#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.4
+#$SlideMaster.Background.Fill.ForeColor.TintAndShade = -0.25
+#$SlideMaster.Background.Fill.ForeColor.TintAndShade = -0.5
+
+$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.95
+```
+
+## プレゼンテーションに配色パターンを追加する。
+
+```powershell
+$ColorScheme = $Slide.ColorScheme
+
+$ppFill = [Microsoft.Office.Interop.PowerPoint.PpColorSchemeIndex]::ppFill
+$Color = $ColorScheme.Colors($ppFill)
+$Color.RGB = 100
+
+$ColorScheme2 = $Presentation.ColorSchemes.Add($ColorScheme)
+```
+
+https://learn.microsoft.com/en-us/office/vba/api/powerpoint.colorscheme
+
+<!--
+## SlideMaster から ThemeColor を得る。
+
+```powershell
+$Theme = $SlideMaster.Theme
+$ThemeColorScheme = $Theme.ThemeColorScheme
+
+$ThemeColor = $ThemeColorScheme[[Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeLight1]
+
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeDark1
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeLight1
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeDark2
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeLight2
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent1
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent2
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent3
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent4
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent5
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent6
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeHyperlink
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeFollowedHyperlink
+```
+-->
+
+## SlideMaster の図形を得る。
 
 ```powershell
 $SlideMaster.Shapes |
@@ -381,7 +563,7 @@ $Shape5 = $SlideMaster.Shapes[$ShapeName5]
 if ($null -eq $Shape5) { throw }
 ```
 
-## スライドマスターからレイアウトを消す。
+## SlideMaster からレイアウトを消す。
 
 ```powershell
 $CustomLayouts = $SlideMaster.CustomLayouts
@@ -418,7 +600,7 @@ $CustomLayoutsToDelete |
     }
 ```
 
-## スライドマスタにレイアウトを加える。
+## SlideMaster にレイアウトを加える。
 
 ```powershell
 $CustomLayout = $CustomLayouts.Add(5)

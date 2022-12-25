@@ -256,24 +256,34 @@
 <h1>PowerPoint<a class="headerlink" href="#powerpoint" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>PowerPoint を PowerShell で操作する。</p>
 <section id="id1">
-<h2>新しいプレゼンテーションを作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
+<h2>アプリケーションを得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">office</span>
+<span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span>
+<span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Forms</span>
+<span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">Office</span><span class="p">.</span><span class="n">Interop</span><span class="p">.</span><span class="n">PowerPoint</span>
 
 <span class="nv">$Application</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">PowerPoint</span><span class="p">.</span><span class="n">Application</span>
+<span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
 <span class="nv">$Application</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$msoTrue</span>
-<span class="nv">$Presentation</span> <span class="p">=</span> <span class="nv">$Application</span><span class="p">.</span><span class="n">Presentations</span><span class="p">.</span><span class="n">Add</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="id2">
-<h2>プレゼンテーションを保存せず終了する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>アプリケーションにプレゼンテーションを加える。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentations</span> <span class="p">=</span> <span class="nv">$Application</span><span class="p">.</span><span class="n">Presentations</span>
+<span class="nv">$Presentation</span> <span class="p">=</span> <span class="nv">$Presentations</span><span class="p">.</span><span class="n">Add</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>プレゼンテーションを保存せず終了する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">Saved</span> <span class="p">=</span> <span class="nv">$true</span>
 <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>プレゼンテーションを保存する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>プレゼンテーションを保存する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Desktop</span> <span class="p">=</span> <span class="p">[</span><span class="n">System</span><span class="p">.</span><span class="n">Environment</span><span class="p">+</span><span class="n">SpecialFolder</span><span class="p">]::</span><span class="n">Desktop</span>
 <span class="nv">$FolderPath</span> <span class="p">=</span> <span class="no">[System.Environment]</span><span class="p">::</span><span class="n">GetFolderPath</span><span class="p">(</span><span class="nv">$Desktop</span><span class="p">)</span>
 <span class="nv">$FullName</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$FolderPath</span> <span class="s2">"a.pptx"</span>
@@ -281,26 +291,37 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h2>プレゼンテーションにスライドを加える。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span> <span class="p">|</span>
+<section id="id5">
+<h2>プレゼンテーションにスライドを加える。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayoutName</span> <span class="p">=</span> <span class="s1">'タイトルとコンテンツ'</span>
+<span class="nv">$Index</span> <span class="p">=</span> <span class="n">1</span>
+
+<span class="nv">$SlideMaster</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">SlideMaster</span>
+<span class="nv">$CustomLayouts</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span>
+
+<span class="nv">$CustomLayouts</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
-<span class="nv">$CustomLayoutName</span> <span class="p">=</span> <span class="s1">'タイトルとコンテンツ'</span>
-
-<span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span> <span class="p">|</span>
+<span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$CustomLayouts</span> <span class="p">|</span>
     <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-eq</span> <span class="nv">$CustomLayoutName</span> <span class="p">}</span> <span class="p">|</span>
     <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span>
 <span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$CustomLayout</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">throw</span>
 <span class="p">}</span>
 
-<span class="nv">$Slide</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Slides</span><span class="p">.</span><span class="n">AddSlide</span><span class="p">(</span><span class="n">1</span><span class="p">,</span> <span class="nv">$CustomLayout</span><span class="p">)</span>
+<span class="nv">$Slides</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Slides</span>
+<span class="nv">$Slide</span> <span class="p">=</span> <span class="nv">$Slides</span><span class="p">.</span><span class="n">AddSlide</span><span class="p">(</span><span class="nv">$Index</span><span class="p">,</span> <span class="nv">$CustomLayout</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id5">
-<h2>スライドのコンテンツのテキストを設定する。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>スライドを選択する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">Select</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>スライドのコンテンツのテキストを設定する。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>コンテンツの正体は図形なので、図形のテキストを設定する。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
@@ -320,16 +341,16 @@
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h2>図形の段落のインデントを設定する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>図形の段落のインデントを設定する。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
 <span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="nv">$ParagraphIndex</span><span class="p">)</span>
 <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">IndentLevel</span> <span class="p">=</span> <span class="n">2</span>
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h2>図形の箇条書きをなしにする。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>図形の箇条書きをなしにする。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 列挙型を使うために PowerShell のセッションに .NET クラスを定義する。</span>
 <span class="nv">$SearchPath</span> <span class="p">=</span> <span class="s1">'C:\WINDOWS\assembly\GAC_MSIL'</span>
 <span class="nv">$SearchFilter</span> <span class="p">=</span> <span class="s1">'Microsoft.Office.Interop.PowerPoint.dll'</span>
@@ -346,22 +367,22 @@
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>図形のテキストボックスを自動調整なしにする。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>図形のテキストボックスを自動調整なしにする。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppAutoSizeNone</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpAutoSize]</span><span class="p">::</span><span class="n">ppAutoSizeNone</span>
 <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">AutoSize</span> <span class="p">=</span> <span class="nv">$ppAutoSizeNone</span>
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h2>図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoFalse</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoFalse</span>
 <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">WordWrap</span> <span class="p">=</span> <span class="nv">$msoFalse</span>
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h2>段落にフォントのサイズや下線を設定する。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h2>段落にフォントのサイズや下線を設定する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
 
 <span class="nv">$ParagraphIndex</span> <span class="p">=</span> <span class="n">2</span>
@@ -371,8 +392,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id11">
-<h2>スライドに図形を加える。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id13">
+<h2>スライドに図形を加える。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoShapeRectangle</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoAutoShapeType]</span><span class="p">::</span><span class="n">msoShapeRectangle</span>
 
 <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span><span class="p">,</span> <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span> <span class="p">=</span> <span class="n">10</span><span class="p">,</span> <span class="n">20</span><span class="p">,</span> <span class="n">100</span><span class="p">,</span> <span class="n">200</span>
@@ -380,8 +401,91 @@
 </pre></div>
 </div>
 </section>
-<section id="id12">
-<h2>図形の位置を設定する。<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id14">
+<h2>色<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id15">
+<h3>スライドのタイトルのフォントの色<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $Shape = $Slide.Shapes[1]</span>
+<span class="go">PS &gt; $Shape.Name</span>
+<span class="go">Title 1</span>
+<span class="go">PS &gt; $Shape.TextFrame.TextRange.Font.Color</span>
+
+
+<span class="go">Application      : Microsoft.Office.Interop.PowerPoint.ApplicationClass</span>
+<span class="go">Creator          : 1347899476</span>
+<span class="go">Parent           : System.__ComObject</span>
+<span class="go">RGB              : 0</span>
+<span class="go">Type             : 2</span>
+<span class="go">SchemeColor      : 2</span>
+<span class="go">TintAndShade     : 0</span>
+<span class="go">ObjectThemeColor : 13</span>
+<span class="go">Brightness       : 0</span>
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>加えた図形の塗りつぶしの色<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $Shape2.Line.ForeColor</span>
+
+
+<span class="go">Application      : Microsoft.Office.Interop.PowerPoint.ApplicationClass</span>
+<span class="go">Creator          : 1347899476</span>
+<span class="go">Parent           : System.__ComObject</span>
+<span class="go">RGB              : 9392687</span>
+<span class="go">Type             : 2</span>
+<span class="go">SchemeColor      : 5</span>
+<span class="go">TintAndShade     : -0.5</span>
+<span class="go">ObjectThemeColor : 5</span>
+<span class="go">Brightness       : 0</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>加えた図形の線の色<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $Shape2.Fill.ForeColor</span>
+
+
+<span class="go">Application      : Microsoft.Office.Interop.PowerPoint.ApplicationClass</span>
+<span class="go">Creator          : 1347899476</span>
+<span class="go">Parent           : System.__ComObject</span>
+<span class="go">RGB              : 12874308</span>
+<span class="go">Type             : 2</span>
+<span class="go">SchemeColor      : 5</span>
+<span class="go">TintAndShade     : 0</span>
+<span class="go">ObjectThemeColor : 5</span>
+<span class="go">Brightness       : 0</span>
+</pre></div>
+</div>
+</section>
+<section id="schemecolor">
+<h3>SchemeColor の一覧<a class="headerlink" href="#schemecolor" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; $Enums |</span>
+<span class="go">&gt;&gt;     ForEach-Object {</span>
+<span class="go">&gt;&gt;         $d = [ordered]@{}</span>
+<span class="go">&gt;&gt;         $d.Add("Name", $_)</span>
+<span class="go">&gt;&gt;         $d.Add("Value", $_.value__)</span>
+<span class="go">&gt;&gt;         [pscustomobject]$d</span>
+<span class="go">&gt;&gt;     } |</span>
+<span class="go">&gt;&gt;     Sort-Object -Property Value</span>
+
+<span class="go">              Name Value</span>
+<span class="go">              ---- -----</span>
+<span class="go">ppSchemeColorMixed    -2</span>
+<span class="go">  ppNotSchemeColor     0</span>
+<span class="go">      ppBackground     1</span>
+<span class="go">      ppForeground     2</span>
+<span class="go">          ppShadow     3</span>
+<span class="go">           ppTitle     4</span>
+<span class="go">            ppFill     5</span>
+<span class="go">         ppAccent1     6</span>
+<span class="go">         ppAccent2     7</span>
+<span class="go">         ppAccent3     8</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>図形の位置を設定する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Paragraph</span> <span class="p">=</span> <span class="nv">$Shape</span><span class="p">.</span><span class="n">TextFrame</span><span class="p">.</span><span class="n">TextRange</span><span class="p">.</span><span class="n">Paragraphs</span><span class="p">(</span><span class="n">2</span><span class="p">)</span>
 <span class="nv">$Left</span><span class="p">,</span> <span class="nv">$Top</span> <span class="p">=</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundLeft</span><span class="p">,</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundTop</span>
 <span class="nv">$Width</span><span class="p">,</span> <span class="nv">$Height</span> <span class="p">=</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundWidth</span><span class="p">,</span> <span class="nv">$Paragraph</span><span class="p">.</span><span class="n">BoundHeight</span>
@@ -393,8 +497,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id13">
-<h2>図形の枠線の色を設定する。<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id19">
+<h2>図形の枠線の色を設定する。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Add-Type</span> <span class="n">-AssemblyName</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualBasic</span>
 
 <span class="nv">$rgb</span> <span class="p">=</span> <span class="no">[Microsoft.VisualBasic.Information]</span><span class="p">::</span><span class="n">RGB</span><span class="p">(</span><span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="n">0</span><span class="p">)</span>
@@ -402,63 +506,63 @@
 </pre></div>
 </div>
 </section>
-<section id="id14">
-<h2>図形を塗りつぶしなしにする。<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id20">
+<h2>図形を塗りつぶしなしにする。<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoFalse</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoFalse</span>
 <span class="nv">$Shape2</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$msoFalse</span>
 </pre></div>
 </div>
 </section>
-<section id="id15">
-<h2>スライドに線を加える。<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id21">
+<h2>スライドに線を加える。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$BeginX</span><span class="p">,</span> <span class="nv">$BeginY</span> <span class="p">=</span> <span class="n">100</span><span class="p">,</span> <span class="n">200</span>
 <span class="nv">$EndX</span><span class="p">,</span> <span class="nv">$EndY</span> <span class="p">=</span> <span class="n">300</span><span class="p">,</span> <span class="n">400</span>
 <span class="nv">$Shape3</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">Shapes</span><span class="p">.</span><span class="n">AddLine</span><span class="p">(</span><span class="nv">$BeginX</span><span class="p">,</span> <span class="nv">$BeginY</span><span class="p">,</span> <span class="nv">$EndX</span><span class="p">,</span> <span class="nv">$EndY</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id16">
-<h2>線の太さを設定する。<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id22">
+<h2>線の太さを設定する。<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape3</span><span class="p">.</span><span class="n">Line</span><span class="p">.</span><span class="n">Weight</span> <span class="p">=</span> <span class="n">3</span>
 <span class="nv">$Shape3</span><span class="p">.</span><span class="n">Line</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="nv">$rgb</span>
 </pre></div>
 </div>
 </section>
-<section id="id17">
-<h2>図形を消す。<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id23">
+<h2>図形を消す。<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Shape3</span><span class="p">.</span><span class="n">Delete</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
-<section id="id18">
-<h2>フッターを表示する。<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id24">
+<h2>フッターを表示する。<a class="headerlink" href="#id24" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">HeadersFooters</span><span class="p">.</span><span class="n">Footer</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$true</span>
 </pre></div>
 </div>
 </section>
-<section id="id19">
-<h2>スライド番号を表示する。<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id25">
+<h2>スライド番号を表示する。<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Slide</span><span class="p">.</span><span class="n">HeadersFooters</span><span class="p">.</span><span class="n">SlideNumber</span><span class="p">.</span><span class="n">Visible</span> <span class="p">=</span> <span class="nv">$true</span>
 </pre></div>
 </div>
 </section>
-<section id="id20">
-<h2>スライドのサイズを得る。<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id26">
+<h2>スライドのサイズを得る。<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PageSetup</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">PageSetup</span>
 <span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideWidth</span>  <span class="c"># pt</span>
 <span class="nv">$PageSetup</span><span class="p">.</span><span class="n">SlideHeight</span>  <span class="c"># pt</span>
 </pre></div>
 </div>
 </section>
-<section id="id21">
-<h2>グリッドを表示する。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id27">
+<h2>グリッドを表示する。<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$msoTrue</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Core.MsoTriState]</span><span class="p">::</span><span class="n">msoTrue</span>
 <span class="nv">$Application</span><span class="p">.</span><span class="n">DisplayGridLines</span> <span class="p">=</span> <span class="nv">$msoTrue</span>
 </pre></div>
 </div>
 </section>
-<section id="id22">
-<h2>1グリッドのサイズを得る。<a class="headerlink" href="#id22" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id28">
+<h2>1グリッドのサイズを得る。<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">$Presentation.GridDistance</span></code> は Pt 単位で、1グリッドの大きさを返す。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">GridDistance</span>
 </pre></div>
@@ -533,70 +637,162 @@
 </pre></div>
 </div>
 </section>
-<section id="id23">
-<h2>表示 - マスター表示 - スライドマスターを表示する。<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id29">
+<h2>表示 - マスター表示 - スライドマスターを表示する。<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span><span class="p">.</span><span class="n">CommandBars</span><span class="p">.</span><span class="n">ExecuteMso</span><span class="p">(</span><span class="s2">"ViewSlideMasterView"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id24">
-<h2>表示 - プレゼンテーション - 標準を表示する。<a class="headerlink" href="#id24" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id30">
+<h2>表示 - プレゼンテーション - 標準を表示する。<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Application</span><span class="p">.</span><span class="n">CommandBars</span><span class="p">.</span><span class="n">ExecuteMso</span><span class="p">(</span><span class="s2">"ViewSlideView"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id25">
-<h2>プレゼンテーションからスライドマスターを得る。<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>アプリケーション上では、スライドマスターには複数のスライドマスターが含まれる。
-複数のスライドマスターのうち、1つのスライドマスターは、スライドマスターと、カスタムレイアウト群で構成される。レイアウト群の中には、タイトルマスターが含まれる。</p>
-<p>これは、コード上は、スライドマスターの中に、複数の Design が存在することで表現される。 Design は SlideMaster と TitleMaster と CustomLayouts を持つことが対応している。</p>
+<section id="id31">
+<h2>スライドマスター周辺のオブジェクト<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>PowerPoint のオブジェクトモデルと、アプリケーション上の表示には、用語の揺らぎがある。
+特にスライドマスター周辺は揺らぎが多い。</p>
+<section id="id32">
+<h3>スライドマスター周辺のオブジェクトとオブジェクトの対応<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>オブジェクトの対応関係はおよそ以下の通り:</p>
+<ul class="simple">
+<li><p>1 Application : N Presentations</p>
+<ul>
+<li><p>1 Presentation : N Slides</p></li>
+<li><p>1 Presentation : N Designs</p>
+<ul>
+<li><p>1 Design : 1 SlideMaster</p>
+<ul>
+<li><p>1 SlideMaster : 8 ColorScheme</p></li>
+</ul>
+</li>
+<li><p>1 Design : 1 TitleMaster</p></li>
+<li><p>1 Design : N CustomLayouts</p>
+<ul>
+<li><p>CustomLayouts のうちの1つが TitleMaster を含むことがある。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id33">
+<h3>スライドマスター周辺のオブジェクトと画面上の用語の対応<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>オブジェクトの用語と、画面上の用語は以下の通り:</p>
+<ul class="simple">
+<li><p>Application = PowerPoint</p></li>
+<li><p>Presentation = プレゼンテーション</p></li>
+<li><p>Design = スライドマスター</p></li>
+<li><p>SlideMaster = スライドマスター</p></li>
+<li><p>CustomLayout = カスタムレイアウト</p></li>
+<li><p>ColorScheme = テーマの色</p></li>
+</ul>
+<p>上記に加えて、画面上のスライドマスターは、複数の Design を意味する場合がある。</p>
+</section>
+</section>
+<section id="design">
+<h2>プレゼンテーションから Design を得る。<a class="headerlink" href="#design" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
-<span class="nv">$Design</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>
-
-<span class="c"># または</span>
-
 <span class="nv">$Designs</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span>
 <span class="nv">$Design</span> <span class="p">=</span> <span class="nv">$Designs</span><span class="p">[</span><span class="n">1</span><span class="p">]</span>
+
+<span class="c"># または、次のようにアクセスすることもできる。</span>
+<span class="c"># $Design = $Presentation.Designs(1)</span>
 </pre></div>
 </div>
 </section>
-<section id="design">
-<h2>スライドマスター(Design)の名前を得る。<a class="headerlink" href="#design" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id34">
+<h2>Design の名前を得る。<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Design</span><span class="p">.</span><span class="n">Name</span>
 </pre></div>
 </div>
 </section>
-<section id="id26">
-<h2>スライドマスター(Design)の名前を変える。<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id35">
+<h2>Design の名前を変える。<a class="headerlink" href="#id35" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Design</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"Office テーマ1"</span>
 </pre></div>
 </div>
 </section>
-<section id="id27">
-<h2>プレゼンテーションにスライドマスター(Design)を加える。<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id36">
+<h2>プレゼンテーションに Design を加える。<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Designs</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span>
 <span class="nv">$DesignName</span> <span class="p">=</span> <span class="s2">"Office テーマ2"</span>
 <span class="nv">$Designs</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$DesignName</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id28">
-<h2>スライドマスター(Design)からスライドマスタを得る。<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="design-slidemaster">
+<h2>Design から SlideMaster を得る。<a class="headerlink" href="#design-slidemaster" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$SlideMaster</span> <span class="p">=</span> <span class="nv">$Design</span><span class="p">.</span><span class="n">SlideMaster</span>
 </pre></div>
 </div>
 </section>
-<section id="id29">
-<h2>スライドマスター(Design)の背景色を設定する。<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="slidemaster">
+<h2>SlideMaster の背景色を設定する。<a class="headerlink" href="#slidemaster" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$rgb</span> <span class="p">=</span> <span class="no">[Microsoft.VisualBasic.Information]</span><span class="p">::</span><span class="n">RGB</span><span class="p">(</span><span class="n">245</span><span class="p">,</span> <span class="n">245</span><span class="p">,</span> <span class="n">245</span><span class="p">)</span>
 <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Background</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="nv">$rgb</span>
 </pre></div>
 </div>
 </section>
-<section id="id30">
-<h2>スライドマスター(Design)の図形を得る。<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id37">
+<h2>SlideMaster の背景色を配色パターンから得る。<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ppFill は、配色パターンの `アクセント1` の色を使うようだ。</span>
+<span class="nv">$ppFill</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpColorSchemeIndex]</span><span class="p">::</span><span class="n">ppFill</span>
+<span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Background</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">SchemeColor</span> <span class="p">=</span> <span class="nv">$ppFill</span>
+<span class="c">#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0</span>
+<span class="c">#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.8</span>
+<span class="c">#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.6</span>
+<span class="c">#$SlideMaster.Background.Fill.ForeColor.TintAndShade = 0.4</span>
+<span class="c">#$SlideMaster.Background.Fill.ForeColor.TintAndShade = -0.25</span>
+<span class="c">#$SlideMaster.Background.Fill.ForeColor.TintAndShade = -0.5</span>
+
+<span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Background</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">TintAndShade</span> <span class="p">=</span> <span class="n">0</span><span class="p">.</span><span class="n">95</span>
+</pre></div>
+</div>
+</section>
+<section id="id38">
+<h2>プレゼンテーションに配色パターンを追加する。<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ColorScheme</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">ColorScheme</span>
+
+<span class="nv">$ppFill</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpColorSchemeIndex]</span><span class="p">::</span><span class="n">ppFill</span>
+<span class="nv">$Color</span> <span class="p">=</span> <span class="nv">$ColorScheme</span><span class="p">.</span><span class="n">Colors</span><span class="p">(</span><span class="nv">$ppFill</span><span class="p">)</span>
+<span class="nv">$Color</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="n">100</span>
+
+<span class="nv">$ColorScheme2</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">ColorSchemes</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$ColorScheme</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>https://learn.microsoft.com/en-us/office/vba/api/powerpoint.colorscheme</p>
+<!--
+## SlideMaster から ThemeColor を得る。
+
+```powershell
+$Theme = $SlideMaster.Theme
+$ThemeColorScheme = $Theme.ThemeColorScheme
+
+$ThemeColor = $ThemeColorScheme[[Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeLight1]
+
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeDark1
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeLight1
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeDark2
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeLight2
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent1
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent2
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent3
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent4
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent5
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeAccent6
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeHyperlink
+# [Microsoft.Office.Core.MsoThemeColorSchemeIndex]::msoThemeFollowedHyperlink
+```
+-->
+</section>
+<section id="id39">
+<h2>SlideMaster の図形を得る。<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
@@ -627,8 +823,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id31">
-<h2>スライドマスターからレイアウトを消す。<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id40">
+<h2>SlideMaster からレイアウトを消す。<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayouts</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span>
 <span class="nv">$CustomLayouts</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
@@ -664,20 +860,20 @@
 </pre></div>
 </div>
 </section>
-<section id="id32">
-<h2>スライドマスタにレイアウトを加える。<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id41">
+<h2>SlideMaster にレイアウトを加える。<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$CustomLayouts</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id33">
-<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id42">
+<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"layout name"</span>
 </pre></div>
 </div>
 </section>
-<section id="id34">
-<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id43">
+<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppPlaceholderObject</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderObject</span>
 <span class="nv">$ppPlaceholderBody</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderBody</span>
 
@@ -749,41 +945,57 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">PowerPoint</a><ul>
-<li><a class="reference internal" href="#id1">新しいプレゼンテーションを作る。</a></li>
-<li><a class="reference internal" href="#id2">プレゼンテーションを保存せず終了する。</a></li>
-<li><a class="reference internal" href="#id3">プレゼンテーションを保存する。</a></li>
-<li><a class="reference internal" href="#id4">プレゼンテーションにスライドを加える。</a></li>
-<li><a class="reference internal" href="#id5">スライドのコンテンツのテキストを設定する。</a></li>
-<li><a class="reference internal" href="#id6">図形の段落のインデントを設定する。</a></li>
-<li><a class="reference internal" href="#id7">図形の箇条書きをなしにする。</a></li>
-<li><a class="reference internal" href="#id8">図形のテキストボックスを自動調整なしにする。</a></li>
-<li><a class="reference internal" href="#id9">図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。</a></li>
-<li><a class="reference internal" href="#id10">段落にフォントのサイズや下線を設定する。</a></li>
-<li><a class="reference internal" href="#id11">スライドに図形を加える。</a></li>
-<li><a class="reference internal" href="#id12">図形の位置を設定する。</a></li>
-<li><a class="reference internal" href="#id13">図形の枠線の色を設定する。</a></li>
-<li><a class="reference internal" href="#id14">図形を塗りつぶしなしにする。</a></li>
-<li><a class="reference internal" href="#id15">スライドに線を加える。</a></li>
-<li><a class="reference internal" href="#id16">線の太さを設定する。</a></li>
-<li><a class="reference internal" href="#id17">図形を消す。</a></li>
-<li><a class="reference internal" href="#id18">フッターを表示する。</a></li>
-<li><a class="reference internal" href="#id19">スライド番号を表示する。</a></li>
-<li><a class="reference internal" href="#id20">スライドのサイズを得る。</a></li>
-<li><a class="reference internal" href="#id21">グリッドを表示する。</a></li>
-<li><a class="reference internal" href="#id22">1グリッドのサイズを得る。</a></li>
-<li><a class="reference internal" href="#id23">表示 - マスター表示 - スライドマスターを表示する。</a></li>
-<li><a class="reference internal" href="#id24">表示 - プレゼンテーション - 標準を表示する。</a></li>
-<li><a class="reference internal" href="#id25">プレゼンテーションからスライドマスターを得る。</a></li>
-<li><a class="reference internal" href="#design">スライドマスター(Design)の名前を得る。</a></li>
-<li><a class="reference internal" href="#id26">スライドマスター(Design)の名前を変える。</a></li>
-<li><a class="reference internal" href="#id27">プレゼンテーションにスライドマスター(Design)を加える。</a></li>
-<li><a class="reference internal" href="#id28">スライドマスター(Design)からスライドマスタを得る。</a></li>
-<li><a class="reference internal" href="#id29">スライドマスター(Design)の背景色を設定する。</a></li>
-<li><a class="reference internal" href="#id30">スライドマスター(Design)の図形を得る。</a></li>
-<li><a class="reference internal" href="#id31">スライドマスターからレイアウトを消す。</a></li>
-<li><a class="reference internal" href="#id32">スライドマスタにレイアウトを加える。</a></li>
-<li><a class="reference internal" href="#id33">レイアウトのレイアウト名を設定する。</a></li>
-<li><a class="reference internal" href="#id34">レイアウトにプレースホルダーを加える。</a></li>
+<li><a class="reference internal" href="#id1">アプリケーションを得る。</a></li>
+<li><a class="reference internal" href="#id2">アプリケーションにプレゼンテーションを加える。</a></li>
+<li><a class="reference internal" href="#id3">プレゼンテーションを保存せず終了する。</a></li>
+<li><a class="reference internal" href="#id4">プレゼンテーションを保存する。</a></li>
+<li><a class="reference internal" href="#id5">プレゼンテーションにスライドを加える。</a></li>
+<li><a class="reference internal" href="#id6">スライドを選択する。</a></li>
+<li><a class="reference internal" href="#id7">スライドのコンテンツのテキストを設定する。</a></li>
+<li><a class="reference internal" href="#id8">図形の段落のインデントを設定する。</a></li>
+<li><a class="reference internal" href="#id9">図形の箇条書きをなしにする。</a></li>
+<li><a class="reference internal" href="#id10">図形のテキストボックスを自動調整なしにする。</a></li>
+<li><a class="reference internal" href="#id11">図形のテキストボックスの「図形内でテキストを折り返す」のチェックを外す。</a></li>
+<li><a class="reference internal" href="#id12">段落にフォントのサイズや下線を設定する。</a></li>
+<li><a class="reference internal" href="#id13">スライドに図形を加える。</a></li>
+<li><a class="reference internal" href="#id14">色</a><ul>
+<li><a class="reference internal" href="#id15">スライドのタイトルのフォントの色</a></li>
+<li><a class="reference internal" href="#id16">加えた図形の塗りつぶしの色</a></li>
+<li><a class="reference internal" href="#id17">加えた図形の線の色</a></li>
+<li><a class="reference internal" href="#schemecolor">SchemeColor の一覧</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id18">図形の位置を設定する。</a></li>
+<li><a class="reference internal" href="#id19">図形の枠線の色を設定する。</a></li>
+<li><a class="reference internal" href="#id20">図形を塗りつぶしなしにする。</a></li>
+<li><a class="reference internal" href="#id21">スライドに線を加える。</a></li>
+<li><a class="reference internal" href="#id22">線の太さを設定する。</a></li>
+<li><a class="reference internal" href="#id23">図形を消す。</a></li>
+<li><a class="reference internal" href="#id24">フッターを表示する。</a></li>
+<li><a class="reference internal" href="#id25">スライド番号を表示する。</a></li>
+<li><a class="reference internal" href="#id26">スライドのサイズを得る。</a></li>
+<li><a class="reference internal" href="#id27">グリッドを表示する。</a></li>
+<li><a class="reference internal" href="#id28">1グリッドのサイズを得る。</a></li>
+<li><a class="reference internal" href="#id29">表示 - マスター表示 - スライドマスターを表示する。</a></li>
+<li><a class="reference internal" href="#id30">表示 - プレゼンテーション - 標準を表示する。</a></li>
+<li><a class="reference internal" href="#id31">スライドマスター周辺のオブジェクト</a><ul>
+<li><a class="reference internal" href="#id32">スライドマスター周辺のオブジェクトとオブジェクトの対応</a></li>
+<li><a class="reference internal" href="#id33">スライドマスター周辺のオブジェクトと画面上の用語の対応</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#design">プレゼンテーションから Design を得る。</a></li>
+<li><a class="reference internal" href="#id34">Design の名前を得る。</a></li>
+<li><a class="reference internal" href="#id35">Design の名前を変える。</a></li>
+<li><a class="reference internal" href="#id36">プレゼンテーションに Design を加える。</a></li>
+<li><a class="reference internal" href="#design-slidemaster">Design から SlideMaster を得る。</a></li>
+<li><a class="reference internal" href="#slidemaster">SlideMaster の背景色を設定する。</a></li>
+<li><a class="reference internal" href="#id37">SlideMaster の背景色を配色パターンから得る。</a></li>
+<li><a class="reference internal" href="#id38">プレゼンテーションに配色パターンを追加する。</a></li>
+<li><a class="reference internal" href="#id39">SlideMaster の図形を得る。</a></li>
+<li><a class="reference internal" href="#id40">SlideMaster からレイアウトを消す。</a></li>
+<li><a class="reference internal" href="#id41">SlideMaster にレイアウトを加える。</a></li>
+<li><a class="reference internal" href="#id42">レイアウトのレイアウト名を設定する。</a></li>
+<li><a class="reference internal" href="#id43">レイアウトにプレースホルダーを加える。</a></li>
 </ul>
 </li>
 </ul>
