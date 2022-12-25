@@ -224,6 +224,7 @@
 <li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="virtualbox.html">VirtualBox</a></li>
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atcoder.html">atcoder 競技プログラミング</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
 
@@ -545,24 +546,57 @@
 </div>
 </section>
 <section id="id25">
-<h2>スライドマスタを得る。<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>プレゼンテーションからスライドマスターを得る。<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>アプリケーション上では、スライドマスターには複数のスライドマスターが含まれる。
+複数のスライドマスターのうち、1つのスライドマスターは、スライドマスターと、カスタムレイアウト群で構成される。レイアウト群の中には、タイトルマスターが含まれる。</p>
+<p>これは、コード上は、スライドマスターの中に、複数の Design が存在することで表現される。 Design は SlideMaster と TitleMaster と CustomLayouts を持つことが対応している。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
 <span class="nv">$Design</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span><span class="p">(</span><span class="n">1</span><span class="p">)</span>
-<span class="nv">$SlideMaster</span> <span class="p">=</span> <span class="nv">$Design</span><span class="p">.</span><span class="n">SlideMaster</span>
+
+<span class="c"># または</span>
+
+<span class="nv">$Designs</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span>
+<span class="nv">$Design</span> <span class="p">=</span> <span class="nv">$Designs</span><span class="p">[</span><span class="n">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="design">
+<h2>スライドマスター(Design)の名前を得る。<a class="headerlink" href="#design" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Design</span><span class="p">.</span><span class="n">Name</span>
 </pre></div>
 </div>
 </section>
 <section id="id26">
-<h2>スライドマスタの背景色を設定する。<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>スライドマスター(Design)の名前を変える。<a class="headerlink" href="#id26" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Design</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"Office テーマ1"</span>
+</pre></div>
+</div>
+</section>
+<section id="id27">
+<h2>プレゼンテーションにスライドマスター(Design)を加える。<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Designs</span> <span class="p">=</span> <span class="nv">$Presentation</span><span class="p">.</span><span class="n">Designs</span>
+<span class="nv">$DesignName</span> <span class="p">=</span> <span class="s2">"Office テーマ2"</span>
+<span class="nv">$Designs</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="nv">$DesignName</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id28">
+<h2>スライドマスター(Design)からスライドマスタを得る。<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$SlideMaster</span> <span class="p">=</span> <span class="nv">$Design</span><span class="p">.</span><span class="n">SlideMaster</span>
+</pre></div>
+</div>
+</section>
+<section id="id29">
+<h2>スライドマスター(Design)の背景色を設定する。<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$rgb</span> <span class="p">=</span> <span class="no">[Microsoft.VisualBasic.Information]</span><span class="p">::</span><span class="n">RGB</span><span class="p">(</span><span class="n">245</span><span class="p">,</span> <span class="n">245</span><span class="p">,</span> <span class="n">245</span><span class="p">)</span>
 <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Background</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">RGB</span> <span class="p">=</span> <span class="nv">$rgb</span>
 </pre></div>
 </div>
 </section>
-<section id="id27">
-<h2>スライドマスタの図形を得る。<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id30">
+<h2>スライドマスター(Design)の図形を得る。<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
@@ -593,8 +627,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id28">
-<h2>スライドマスタからレイアウトを消す。<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id31">
+<h2>スライドマスターからレイアウトを消す。<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayouts</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span>
 <span class="nv">$CustomLayouts</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
@@ -630,20 +664,20 @@
 </pre></div>
 </div>
 </section>
-<section id="id29">
-<h2>スライドマスタにレイアウトを加える。<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id32">
+<h2>スライドマスタにレイアウトを加える。<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$CustomLayouts</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id30">
-<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id33">
+<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"layout name"</span>
 </pre></div>
 </div>
 </section>
-<section id="id31">
-<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id34">
+<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppPlaceholderObject</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderObject</span>
 <span class="nv">$ppPlaceholderBody</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderBody</span>
 
@@ -739,13 +773,17 @@
 <li><a class="reference internal" href="#id22">1グリッドのサイズを得る。</a></li>
 <li><a class="reference internal" href="#id23">表示 - マスター表示 - スライドマスターを表示する。</a></li>
 <li><a class="reference internal" href="#id24">表示 - プレゼンテーション - 標準を表示する。</a></li>
-<li><a class="reference internal" href="#id25">スライドマスタを得る。</a></li>
-<li><a class="reference internal" href="#id26">スライドマスタの背景色を設定する。</a></li>
-<li><a class="reference internal" href="#id27">スライドマスタの図形を得る。</a></li>
-<li><a class="reference internal" href="#id28">スライドマスタからレイアウトを消す。</a></li>
-<li><a class="reference internal" href="#id29">スライドマスタにレイアウトを加える。</a></li>
-<li><a class="reference internal" href="#id30">レイアウトのレイアウト名を設定する。</a></li>
-<li><a class="reference internal" href="#id31">レイアウトにプレースホルダーを加える。</a></li>
+<li><a class="reference internal" href="#id25">プレゼンテーションからスライドマスターを得る。</a></li>
+<li><a class="reference internal" href="#design">スライドマスター(Design)の名前を得る。</a></li>
+<li><a class="reference internal" href="#id26">スライドマスター(Design)の名前を変える。</a></li>
+<li><a class="reference internal" href="#id27">プレゼンテーションにスライドマスター(Design)を加える。</a></li>
+<li><a class="reference internal" href="#id28">スライドマスター(Design)からスライドマスタを得る。</a></li>
+<li><a class="reference internal" href="#id29">スライドマスター(Design)の背景色を設定する。</a></li>
+<li><a class="reference internal" href="#id30">スライドマスター(Design)の図形を得る。</a></li>
+<li><a class="reference internal" href="#id31">スライドマスターからレイアウトを消す。</a></li>
+<li><a class="reference internal" href="#id32">スライドマスタにレイアウトを加える。</a></li>
+<li><a class="reference internal" href="#id33">レイアウトのレイアウト名を設定する。</a></li>
+<li><a class="reference internal" href="#id34">レイアウトにプレースホルダーを加える。</a></li>
 </ul>
 </li>
 </ul>

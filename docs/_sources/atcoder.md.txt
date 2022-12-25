@@ -1,0 +1,19 @@
+# atcoder 競技プログラミング
+
+## 配列の要素数と、メモリ量の制約
+
+各コンテストの「コードテスト」で、テストができる。
+
+要素数 `100M = 10 ** 8` の整数で、 `800MB` 程度のメモリを消費する。
+
+要素数 `1G = 10 ** 9` の整数で、 `MemoryError` となる。
+
+<table border>
+<tr><th>コード</th><th>メモリ</th></tr>
+<tr><td><pre>pass</pre></td><td>28672 KB</td></tr>
+<tr><td><pre>li = [0] * (10 ** 5)</pre></td><td>25604 KB</td></tr>
+<tr><td><pre>li = [0] * (10 ** 6)</pre></td><td>32552 KB</td></tr>
+<tr><td><pre>li = [0] * (10 ** 7)</pre></td><td>113424 KB</td></tr>
+<tr><td><pre>li = [0] * (10 ** 8)</pre></td><td>809576 KB</td></tr>
+<tr><td><pre>li = [0] * (10 ** 9)</pre></td><td>MemoryError</td></tr>
+</table>

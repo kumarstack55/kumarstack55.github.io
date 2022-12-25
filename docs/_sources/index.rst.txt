@@ -38,6 +38,7 @@ Untitled ドキュメント
    vagrant
    virtualbox
    oci
+   atcoder
    japanese_imperial_year
 
 ..
