@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Python2" href="python2.html" /><link rel="prev" title="Python 応用" href="application.html" />
+<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Markdown" href="markdown.html" /><link rel="prev" title="Visual Studio Code - vscode" href="index.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>Jupyter Lab - Untitled ドキュメント</title>
+        <title>vscode 基本 - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -157,11 +157,11 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../vim.html">Vim</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../vscode/index.html">Visual Studio Code - vscode</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../vscode/basic.html">vscode 基本</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../vscode/markdown.html">Markdown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../vscode/powershell.html">PowerShell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../vscode/extensions.html">vscode 拡張機能</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Visual Studio Code - vscode</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">vscode 基本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="markdown.html">Markdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell.html">PowerShell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html">vscode 拡張機能</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ctags.html">Ctags</a></li>
@@ -180,13 +180,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../ssh_client.html">SSHクライアント</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../python.html">Python</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="foundation.html">Python基礎</a></li>
-<li class="toctree-l2"><a class="reference internal" href="standard_library.html">Python3 の標準ライブラリ</a></li>
-<li class="toctree-l2"><a class="reference internal" href="application.html">Python 応用</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Jupyter Lab</a></li>
-<li class="toctree-l2"><a class="reference internal" href="python2.html">Python2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="math.html">Python応用(数学)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python/foundation.html">Python基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/standard_library.html">Python3 の標準ライブラリ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/application.html">Python 応用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/jupyterlab.html">Jupyter Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/python2.html">Python2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/math.html">Python応用(数学)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../c.html">C言語</a></li>
@@ -258,63 +258,155 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="jupyter-lab">
-<h1>Jupyter Lab<a class="headerlink" href="#jupyter-lab" title="このヘッドラインへのパーマリンク">¶</a></h1>
+          <section class="tex2jax_ignore mathjax_ignore" id="vscode">
+<h1>vscode 基本<a class="headerlink" href="#vscode" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>Jupyter Lab をインストールする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$Directory</span> <span class="p">=</span> <span class="s2">"$HOME\Documents\sandbox-jupyterlab"</span>
-<span class="nb">New-Item</span> <span class="n">-Type</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="nv">$Directory</span>
-<span class="nb">cd </span><span class="nv">$Directory</span>
-<span class="n">poetry</span> <span class="n">init</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; Get-Content .\pyproject.toml</span>
-<span class="go">[tool.poetry]</span>
-<span class="go">name = "sandbox-jupyterlab"</span>
-<span class="go">version = "0.1.0"</span>
-<span class="go">description = ""</span>
-<span class="go">authors = ["Your Name &lt;you@example.com&gt;"]</span>
+<h2>拡張機能をインストールする。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="p">-</span><span class="n">-install-extension</span> <span class="n">ms-vscode</span><span class="p">.</span><span class="n">powershell</span>
+<span class="n">code</span> <span class="p">-</span><span class="n">-install-extension</span> <span class="n">mushan</span><span class="p">.</span><span class="n">vscode-paste-image</span>
+<span class="n">code</span> <span class="p">-</span><span class="n">-install-extension</span> <span class="n">vscodevim</span><span class="p">.</span><span class="n">vim</span>
+<span class="n">code</span> <span class="p">-</span><span class="n">-install-extension</span> <span class="n">yzane</span><span class="p">.</span><span class="n">markdown-pdf</span>
 
-<span class="go">[tool.poetry.dependencies]</span>
-<span class="go">python = "^3.9"</span>
-
-<span class="go">[tool.poetry.dev-dependencies]</span>
-
-<span class="go">[build-system]</span>
-<span class="go">requires = ["poetry-core&gt;=1.0.0"]</span>
-<span class="go">build-backend = "poetry.core.masonry.api"</span>
-</pre></div>
-</div>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">add</span> <span class="n">jupyterlab</span>
+<span class="c">#code --install-extension MS-CEINTL.vscode-language-pack-ja</span>
 </pre></div>
 </div>
 </section>
 <section id="id2">
-<h2>Jupyter Lab を起動する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">poetry</span> <span class="n">run</span> <span class="n">jupyter-lab</span>
+<h2>インストールされた拡張機能の一覧を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="p">-</span><span class="n">-list-extensions</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> で実行する。</p>
+</section>
+<section id="os">
+<h2>色のスキーマをOS設定に合わせる。<a class="headerlink" href="#os" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>File</p>
+<ul>
+<li><p>Preferences</p>
+<ul>
+<li><p>Settings</p>
+<ul>
+<li><p>Window</p>
+<ul>
+<li><p>[x] Auto Detect Color Scheme</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </section>
 <section id="id3">
-<h2>Jupyter Lab を終了する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>コンソールを <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> で止まる。</p>
+<h2>コマンドパレットを開く。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Ctrl</span> <span class="o">+</span> <span class="n">Shift</span> <span class="o">+</span> <span class="n">P</span>
+</pre></div>
+</div>
 </section>
 <section id="id4">
-<h2>シェルでコマンドを実行する。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!echo a
-</pre></div>
-</div>
-</section>
-<section id="python">
-<h2>Pythonパッケージをリストする。<a class="headerlink" href="#python" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!pip freeze
-</pre></div>
-</div>
-</section>
-<section id="id5">
-<h2>Pythonパッケージをインストールする。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>!pip install pandas
+<h2>参考: コマンドラインの機能の一覧<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">PS &gt; code -h</span>
+<span class="go">Visual Studio Code 1.74.2</span>
+
+<span class="go">Usage: code.exe [options][paths...]</span>
+
+<span class="go">To read output from another program, append '-' (e.g. 'echo Hello World | code.exe -')</span>
+
+<span class="go">Options</span>
+<span class="go">  -d --diff &lt;file&gt; &lt;file&gt;                    Compare two files with each</span>
+<span class="go">                                             other.</span>
+<span class="go">  -m --merge &lt;path1&gt; &lt;path2&gt; &lt;base&gt; &lt;result&gt; Perform a three-way merge by</span>
+<span class="go">                                             providing paths for two modified</span>
+<span class="go">                                             versions of a file, the common</span>
+<span class="go">                                             origin of both modified versions</span>
+<span class="go">                                             and the output file to save merge</span>
+<span class="go">                                             results.</span>
+<span class="go">  -a --add &lt;folder&gt;                          Add folder(s) to the last active</span>
+<span class="go">                                             window.</span>
+<span class="go">  -g --goto &lt;file:line[:character]&gt;          Open a file at the path on the</span>
+<span class="go">                                             specified line and character</span>
+<span class="go">                                             position.</span>
+<span class="go">  -n --new-window                            Force to open a new window.</span>
+<span class="go">  -r --reuse-window                          Force to open a file or folder in</span>
+<span class="go">                                             an already opened window.</span>
+<span class="go">  -w --wait                                  Wait for the files to be closed</span>
+<span class="go">                                             before returning.</span>
+<span class="go">  --locale &lt;locale&gt;                          The locale to use (e.g. en-US or</span>
+<span class="go">                                             zh-TW).</span>
+<span class="go">  --user-data-dir &lt;dir&gt;                      Specifies the directory that user</span>
+<span class="go">                                             data is kept in. Can be used to</span>
+<span class="go">                                             open multiple distinct instances</span>
+<span class="go">                                             of Code.</span>
+<span class="go">  --profile &lt;profileName&gt;                    Opens the provided folder or</span>
+<span class="go">                                             workspace with the given profile</span>
+<span class="go">                                             and associates the profile with</span>
+<span class="go">                                             the workspace. If the profile</span>
+<span class="go">                                             does not exist, a new empty one</span>
+<span class="go">                                             is created. A folder or workspace</span>
+<span class="go">                                             must be provided for the profile</span>
+<span class="go">                                             to take effect.</span>
+<span class="go">  -h --help                                  Print usage.</span>
+
+<span class="go">Extensions Management</span>
+<span class="go">  --extensions-dir &lt;dir&gt;              Set the root path for extensions.</span>
+<span class="go">  --list-extensions                   List the installed extensions.</span>
+<span class="go">  --show-versions                     Show versions of installed extensions,</span>
+<span class="go">                                      when using --list-extensions.</span>
+<span class="go">  --category &lt;category&gt;               Filters installed extensions by provided</span>
+<span class="go">                                      category, when using --list-extensions.</span>
+<span class="go">  --install-extension &lt;ext-id | path&gt; Installs or updates an extension. The</span>
+<span class="go">                                      argument is either an extension id or a</span>
+<span class="go">                                      path to a VSIX. The identifier of an</span>
+<span class="go">                                      extension is '${publisher}.${name}'. Use</span>
+<span class="go">                                      '--force' argument to update to latest</span>
+<span class="go">                                      version. To install a specific version</span>
+<span class="go">                                      provide '@${version}'. For example:</span>
+<span class="go">                                      'vscode.csharp@1.2.3'.</span>
+<span class="go">  --pre-release                       Installs the pre-release version of the</span>
+<span class="go">                                      extension, when using</span>
+<span class="go">                                      --install-extension</span>
+<span class="go">  --uninstall-extension &lt;ext-id&gt;      Uninstalls an extension.</span>
+<span class="go">  --enable-proposed-api &lt;ext-id&gt;      Enables proposed API features for</span>
+<span class="go">                                      extensions. Can receive one or more</span>
+<span class="go">                                      extension IDs to enable individually.</span>
+
+<span class="go">Troubleshooting</span>
+<span class="go">  -v --version                    Print version.</span>
+<span class="go">  --verbose                       Print verbose output (implies --wait).</span>
+<span class="go">  --log &lt;level&gt;                   Log level to use. Default is 'info'. Allowed</span>
+<span class="go">                                  values are 'critical', 'error', 'warn',</span>
+<span class="go">                                  'info', 'debug', 'trace', 'off'. You can</span>
+<span class="go">                                  also configure the log level of an extension</span>
+<span class="go">                                  by passing extension id and log level in the</span>
+<span class="go">                                  following format:</span>
+<span class="go">                                  '${publisher}.${name}:${logLevel}'. For</span>
+<span class="go">                                  example: 'vscode.csharp:trace'. Can receive</span>
+<span class="go">                                  one or more such entries.</span>
+<span class="go">  -s --status                     Print process usage and diagnostics</span>
+<span class="go">                                  information.</span>
+<span class="go">  --prof-startup                  Run CPU profiler during startup.</span>
+<span class="go">  --disable-extensions            Disable all installed extensions.</span>
+<span class="go">  --disable-extension &lt;ext-id&gt;    Disable an extension.</span>
+<span class="go">  --sync &lt;on | off&gt;               Turn sync on or off.</span>
+<span class="go">  --inspect-extensions &lt;port&gt;     Allow debugging and profiling of extensions.</span>
+<span class="go">                                  Check the developer tools for the connection</span>
+<span class="go">                                  URI.</span>
+<span class="go">  --inspect-brk-extensions &lt;port&gt; Allow debugging and profiling of extensions</span>
+<span class="go">                                  with the extension host being paused after</span>
+<span class="go">                                  start. Check the developer tools for the</span>
+<span class="go">                                  connection URI.</span>
+<span class="go">  --disable-gpu                   Disable GPU hardware acceleration.</span>
+<span class="go">  --max-memory &lt;memory&gt;           Max memory size for a window (in Mbytes).</span>
+<span class="go">  --telemetry                     Shows all telemetry events which VS code</span>
+<span class="go">                                  collects.</span>
+
+<span class="go">Subcommands</span>
+<span class="go">  tunnel       Make the current machine accessible from vscode.dev or other</span>
+<span class="go">               machines through a secure tunnel</span>
+
+<span class="go">PS &gt;</span>
 </pre></div>
 </div>
 </section>
@@ -325,23 +417,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="python2.html">
+          <a class="next-page" href="markdown.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Python2</div>
+                <div class="title">Markdown</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="application.html">
+          <a class="prev-page" href="index.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Python 応用</div>
+                <div class="title">Visual Studio Code - vscode</div>
                 
               </div>
             </a>
@@ -353,7 +445,7 @@
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/python/jupyterlab.md.txt"
+            <a class="muted-link" href="../_sources/vscode/basic.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -373,13 +465,12 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Jupyter Lab</a><ul>
-<li><a class="reference internal" href="#id1">Jupyter Lab をインストールする。</a></li>
-<li><a class="reference internal" href="#id2">Jupyter Lab を起動する。</a></li>
-<li><a class="reference internal" href="#id3">Jupyter Lab を終了する。</a></li>
-<li><a class="reference internal" href="#id4">シェルでコマンドを実行する。</a></li>
-<li><a class="reference internal" href="#python">Pythonパッケージをリストする。</a></li>
-<li><a class="reference internal" href="#id5">Pythonパッケージをインストールする。</a></li>
+<li><a class="reference internal" href="#">vscode 基本</a><ul>
+<li><a class="reference internal" href="#id1">拡張機能をインストールする。</a></li>
+<li><a class="reference internal" href="#id2">インストールされた拡張機能の一覧を得る。</a></li>
+<li><a class="reference internal" href="#os">色のスキーマをOS設定に合わせる。</a></li>
+<li><a class="reference internal" href="#id3">コマンドパレットを開く。</a></li>
+<li><a class="reference internal" href="#id4">参考: コマンドラインの機能の一覧</a></li>
 </ul>
 </li>
 </ul>

@@ -6,7 +6,7 @@ Untitled ドキュメント
    :caption: Contents:
 
    vim
-   vscode
+   vscode/index
    ctags
    excel
    powerpoint
