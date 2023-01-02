@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Visual Studio" href="../visual_studio/index.html" /><link rel="prev" title="PowerShell" href="powershell.html" />
+<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="Ctags" href="../ctags.html" /><link rel="prev" title="Visual Studio 基礎" href="basic.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>vscode 拡張機能 - Untitled ドキュメント</title>
+        <title>C# - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -157,16 +157,16 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../vim.html">Vim</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Visual Studio Code - vscode</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="basic.html">vscode 基本</a></li>
-<li class="toctree-l2"><a class="reference internal" href="markdown.html">Markdown</a></li>
-<li class="toctree-l2"><a class="reference internal" href="powershell.html">PowerShell</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">vscode 拡張機能</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../vscode/index.html">Visual Studio Code - vscode</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vscode/basic.html">vscode 基本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vscode/markdown.html">Markdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vscode/powershell.html">PowerShell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vscode/extensions.html">vscode 拡張機能</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../visual_studio/index.html">Visual Studio</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../visual_studio/basic.html">Visual Studio 基礎</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../visual_studio/cs.html">C#</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Visual Studio</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic.html">Visual Studio 基礎</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">C#</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ctags.html">Ctags</a></li>
@@ -263,45 +263,95 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="vscode">
-<h1>vscode 拡張機能<a class="headerlink" href="#vscode" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="paste-image">
-<h2>Paste Image<a class="headerlink" href="#paste-image" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>名前: Paste Image
-ID: mushan.vscode-paste-image
-説明: paste image from clipboard directly
-バージョン: 1.0.4
-パブリッシャー: mushan
-VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image
-</pre></div>
-</div>
-<p>クリップボードの画像イメージを Markdown などにペーストできる。</p>
-<p>Windows の場合、 <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">V</span></code> でカーソル位置にペーストする。</p>
-</section>
-<section id="markdown-pdf">
-<h2>Markdown PDF<a class="headerlink" href="#markdown-pdf" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>名前: Markdown PDF
-ID: yzane.markdown-pdf
-説明: Convert Markdown to PDF
-バージョン: 1.4.4
-パブリッシャー: yzane
-VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf
-</pre></div>
-</div>
-<p>Markdown ファイルを印刷しやすい pdf にする。</p>
-<p>Markdown のタブ内で右クリックし、コンテキストメニューで <code class="docutils literal notranslate"><span class="pre">Markdown</span> <span class="pre">to</span> <span class="pre">PDF:</span> <span class="pre">Export</span> <span class="pre">(pdf)</span></code> を選ぶ。</p>
-</section>
-<section id="vim">
-<h2>Vim<a class="headerlink" href="#vim" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>名前: Vim
-ID: vscodevim.vim
-説明: Vim emulation for Visual Studio Code
-バージョン: 1.23.2
-パブリッシャー: vscodevim
-VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=vscodevim.vim
-</pre></div>
-</div>
-<p>Vim のキーバインディングで操作する。</p>
+          <section class="tex2jax_ignore mathjax_ignore" id="c">
+<h1>C#<a class="headerlink" href="#c" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="net-core-3-1-cs">
+<h2>.NET Core 3.1 で *.cs をビルドして実行する。<a class="headerlink" href="#net-core-3-1-cs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>まず .NET 6 をコンパイルできるようにした。
+Visual Studio Installer で少なくとも以下を選択する。</p>
+<ul class="simple">
+<li><p>.NET デスクトップ開発</p></li>
+</ul>
+<p>ここまでで、 .NET 6 でコードをビルドできるようになる。</p>
+<p>求める環境が .NET Core 3.1 であれば、以下から 3.1 をダウンロードする。
+ただし、 2023-01-02 時点で、最新リリース日 2022年12月13日で、サポートが終了済みである。</p>
+<p>https://dotnet.microsoft.com/ja-jp/download/dotnet/3.1</p>
+<p>Visual Studio を起動する。</p>
+<p>空のソリューションが選択肢になかったため、空のプロジェクトを作って、作ったプロジェクトを消す。</p>
+<ul class="simple">
+<li><p>ファイル</p>
+<ul>
+<li><p>新規作成</p>
+<ul>
+<li><p>C#</p>
+<ul>
+<li><p>プロジェクト</p>
+<ul>
+<li><p>空のプロジェクト (.NET Framework)</p>
+<ul>
+<li><p>プロジェクト名: xxx-solution</p></li>
+<li><p>ソリューション名: xxx-solution</p></li>
+<li><p>フレームワーク: .NET Framework 4.7.2</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ソリューションエクスプローラー</p>
+<ul>
+<li><p>ソリューション xxx-solution</p>
+<ul>
+<li><p>プロジェクト xxx-solution</p>
+<ul>
+<li><p>削除</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ソリューションエクスプローラー</p>
+<ul>
+<li><p>ソリューション xxx-solution</p>
+<ul>
+<li><p>追加</p>
+<ul>
+<li><p>新しいプロジェクト</p>
+<ul>
+<li><p>C#</p>
+<ul>
+<li><p>コンソールアプリ</p>
+<ul>
+<li><p>プロジェクト名: xxx</p></li>
+<li><p>フレームワーク: .NET Core 3.1 (サポート対象外)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ビルド</p>
+<ul>
+<li><p>現在のドキュメントをビルド</p></li>
+</ul>
+</li>
+<li><p>デバッグ</p>
+<ul>
+<li><p>デバッグの開始</p></li>
+</ul>
+</li>
+</ul>
 </section>
 </section>
 
@@ -310,23 +360,23 @@ VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=vs
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../visual_studio/index.html">
+          <a class="next-page" href="../ctags.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Visual Studio</div>
+                <div class="title">Ctags</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="powershell.html">
+          <a class="prev-page" href="basic.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">PowerShell</div>
+                <div class="title">Visual Studio 基礎</div>
                 
               </div>
             </a>
@@ -338,7 +388,7 @@ VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=vs
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="../_sources/vscode/extensions.md.txt"
+            <a class="muted-link" href="../_sources/visual_studio/cs.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -358,10 +408,8 @@ VS Marketplace リンク: https://marketplace.visualstudio.com/items?itemName=vs
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">vscode 拡張機能</a><ul>
-<li><a class="reference internal" href="#paste-image">Paste Image</a></li>
-<li><a class="reference internal" href="#markdown-pdf">Markdown PDF</a></li>
-<li><a class="reference internal" href="#vim">Vim</a></li>
+<li><a class="reference internal" href="#">C#</a><ul>
+<li><a class="reference internal" href="#net-core-3-1-cs">.NET Core 3.1 で *.cs をビルドして実行する。</a></li>
 </ul>
 </li>
 </ul>
