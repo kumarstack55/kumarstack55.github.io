@@ -1,0 +1,309 @@
+# ソフトウェア設計
+
+想定として、ソフトウェアが、複数の関心ごととがあったり、複数のモジュールで構成されたりする状況を想定します。
+
+## 凝集度
+
+凝集度とは、
+関心ごとの意味と実際のコードのまとまり具合のことである。
+
+凝集度が高いとは、
+まとまっている状態を意味する。
+
+凝集度が低いとは、
+一見関係なさそうな箇所が実は関係している、といったまとまっていない状態を意味する。
+
+一般に、凝集度は高いほうがより良い。
+なぜなら、コードを変更する際に意識するコード量が少なくて済むから。
+
+具体例として、複数のモジュールがあるとき、それぞれのモジュールに対応する関心ごとの意味が分かれていたほうがよい。もし分かれていなかったら、どのモジュールを参照すればよいかわからない。
+
+## 結合度
+
+結合度とは、
+ソフトウェアの中身が整理や分割できているかの度合いのことである。
+
+結合度が低いとは、
+無駄な癒着がなく、つながりが切れていることを意味する。
+
+結合度が高いとは、
+結合度が低い場合の逆を意味する。
+
+結合度が低いことを疎結合と呼び、結合度が高いことを密結合と呼ぶことがある。
+
+結合度は、疎結合のほうがより良い。
+
+## 凝集度と結合度
+
+一般に、結合度と凝集度は相互関係がある。
+
+疎結合な場合に、凝集度を上げやすくなる。
+
+密結合な場合に、凝集度を下げやすくなる。
+
+具体例として、複数のモジュールがあるとき、それぞれのモジュールに対応する関心ごとの意味や役割は分かれていたほうがよい。もし分かれていなかったら、どのモジュールを参照すればよいかわからない。
+
+## 複数のモジュールの結合度
+
+* 無結合
+    * 無結合とは、結合していないことを意味する。
+* メッセージ結合
+    * メッセージなどを介して結合することを意味する。
+        * 具体例: MQ通信
+* データ結合
+    * モジュールを介してデータを共有することを意味する。
+        * 具体例: 関数の引数などで結合する。
+* スタンプ結合
+    * 複数のモジュールが複合データ構造を共有し、その一部のみを使用することを意味する。
+        * 具体例: 関数の引数などで不必要な構造体などを含む。構造体のうち、モジュールが利用しない箇所の変更が、モジュールに影響する可能性がある。
+* 制御結合
+    * 制御内容をモジュールに渡すことで、そのモジュールの処理の流れを制御する。
+        * 具体例: 引数によって N パターンに条件分岐する。
+* 外部結合
+    * 外部から共有されたデータにより、そのモジュールの処理の流れを制御する。
+        * 具体例: モジュール内でグローバル変数から生成した内容で、そのモジュールの処理の流れを制御する。
+* 共通結合
+    * 複数のモジュールでグローバル変数などを共有する。
+        * 備考: ほぼ外部結合と一緒。
+* 内容結合
+    * モジュールが、別モジュールの内部動作に依存する場合。
+        * 具体例: 別モジュールの内部データを参照する。
+
+上の方が結合度がより低い。
+
+下の方が結合度がより高い。
+
+## 結合度の例: データ結合
+
+関数の引数で結合する例です。
+
+```python
+def data_join_type_method(name: str, age: int) -> str:
+    return f"{name}さんは{age}歳です。"
+
+
+def test_data_join_type_method():
+    assert data_join_type_method("山田", 30) == "山田さんは30歳です。"
+```
+
+## 結合度の例: スタンプ結合
+
+Account クラスで結合する例です。
+
+```python
+from enum import StrEnum
+
+
+class GenderType(StrEnum):
+    MAN = '男性'
+    WOMAN = '女性'
+
+
+class Account:
+    def __init__(self, name: str, age: int, gender: GenderType, mail: str):
+        self._name = name
+        self._age = age
+        self._gender = gender
+        self._mail = mail
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def age(self) -> int:
+        return self._age
+
+    @property
+    def gender(self) -> GenderType:
+        return self._gender
+
+    @property
+    def mail(self) -> str:
+        return self._mail
+
+
+def stamp_join_type_method(account: Account) -> str:
+    return f"{account.name}さんは{account.age}歳です。"
+
+
+def test_stamp_join_type_method():
+    account = Account(name='山田', gender=GenderType.MAN, age=30, mail='')
+    assert stamp_join_type_method(account) == "山田さんは30歳です。"
+```
+
+## 結合度の例: 制御結合
+
+引数で制御が変わる例です。
+
+```python
+from enum import StrEnum
+
+
+class GenderType(StrEnum):
+    MAN = '男性'
+    WOMAN = '女性'
+
+
+def control_join_type_method(name: str, gender: GenderType, age: int) -> str:
+    if gender == GenderType.MAN:
+        return f"{name}くんは{age}歳です。"
+    elif gender == GenderType.WOMAN:
+        return f"{name}さんは{age}歳です。"
+
+
+def test_control_join_type_method_for_man():
+    actual = control_join_type_method(
+            name='山田', gender=GenderType.MAN, age=30)
+    assert actual == "山田くんは30歳です。"
+
+
+def test_control_join_type_method_for_woman():
+    actual = control_join_type_method(
+            name='山田', gender=GenderType.WOMAN, age=30)
+    assert actual == "山田さんは30歳です。"
+```
+
+## 結合度の例: 外部結合
+
+グローバル変数で結合する例です。
+
+```python
+from enum import Enum
+
+
+_user_defaults = dict()
+
+
+class AccountType(Enum):
+    PREMIUM = 1
+    GENERAL = 2
+
+
+def external_join_type_method(name: str) -> str:
+    user_defaults = _user_defaults
+    account_type = user_defaults['account_type']
+
+    if account_type == AccountType.PREMIUM:
+        return f"{name}さんは、プレミアム会員です。"
+    elif account_type == AccountType.GENERAL:
+        return f"{name}さんは、一般会員です。"
+
+
+def test_external_join_type_method_for_premium():
+    _user_defaults['account_type'] = AccountType.PREMIUM
+    actual = external_join_type_method(name='山田')
+    assert actual == "山田さんは、プレミアム会員です。"
+
+
+def test_external_join_type_method_for_general():
+    _user_defaults['account_type'] = AccountType.GENERAL
+    actual = external_join_type_method(name='山田')
+    assert actual == "山田さんは、一般会員です。"
+```
+
+## 結合度の例: 共通結合
+
+グローバル変数で複数の箇所で結合する例です。
+
+```python
+from enum import Enum
+
+
+_user_defaults = dict()
+
+
+class AccountType(Enum):
+    PREMIUM = 1
+    GENERAL = 2
+
+
+def common_join_type_method(name: str) -> str:
+    user_defaults = _user_defaults
+    account_type = user_defaults['account_type']
+    version_str = user_defaults['ver']
+
+    if account_type == AccountType.PREMIUM:
+        if version_str == 'iOS10':
+            return f"プレミアム会員の{name}さんは、Apple Pay決済 or カード決済できます。"
+        elif version_str != 'iOS10':
+            return f"プレミアム会員の{name}さんは、カード決済できます。"
+    elif account_type == AccountType.GENERAL:
+        return f"一般会員の{name}さんは、現金のみで決済できます。"
+
+
+def test_common_join_type_method_for_premium_and_ios10():
+    _user_defaults['account_type'] = AccountType.PREMIUM
+    _user_defaults['ver'] = 'iOS10'
+    actual = common_join_type_method(name='山田')
+    assert actual == "プレミアム会員の山田さんは、Apple Pay決済 or カード決済できます。"
+
+
+def test_common_join_type_method_for_premium_and_ios9():
+    _user_defaults['account_type'] = AccountType.PREMIUM
+    _user_defaults['ver'] = 'iOS9'
+    actual = common_join_type_method(name='山田')
+    assert actual == "プレミアム会員の山田さんは、カード決済できます。"
+
+
+def test_common_join_type_method_for_general_and_ios10():
+    _user_defaults['account_type'] = AccountType.GENERAL
+    _user_defaults['ver'] = 'iOS10'
+    actual = common_join_type_method(name='山田')
+    assert actual == "一般会員の山田さんは、現金のみで決済できます。"
+
+
+def test_common_join_type_method_for_general_and_ios9():
+    _user_defaults['account_type'] = AccountType.GENERAL
+    _user_defaults['ver'] = 'iOS10'
+    actual = common_join_type_method(name='山田')
+    assert actual == "一般会員の山田さんは、現金のみで決済できます。"
+```
+
+## 結合度の例: 内容結合
+
+internal_join_type_method を変更するうえで、 un_join_type_method を参照する必要がある例です。
+
+```python
+from collections.abc import Iterable
+
+
+class Employee:
+    def __init__(self, name: str):
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name
+
+
+def internal_join_type_method(name: str) -> Iterable[Employee]:
+    employees = un_join_type_method()
+    results = filter(lambda e: e.name == name, employees)
+    return results
+
+
+def un_join_type_method() -> list[Employee]:
+    employees: list[Employee] = list()
+    employees.append(Employee(name='山田'))
+    employees.append(Employee(name='佐藤'))
+    employees.append(Employee(name='ワタナベ'))
+    return employees
+
+
+def test_internal_join_type_method():
+    results = internal_join_type_method(name='山田')
+    assert len(list(results)) == 1
+    for result in results:
+        result.name = '山田'
+```
+
+## 参考資料
+
+* 凝集度 - Wikipedia
+    * https://ja.wikipedia.org/wiki/%E5%87%9D%E9%9B%86%E5%BA%A6
+* 結合度 - Wikipedia
+    * https://ja.wikipedia.org/wiki/%E7%B5%90%E5%90%88%E5%BA%A6
+* モジュール結合度について
+    * https://qiita.com/eKushida/items/39bdb3f88fb68ecd66f6
+* ちょうぜつソフトウェア設計入門 ――PHPで理解するオブジェクト指向の活用

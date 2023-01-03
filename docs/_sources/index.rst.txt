@@ -24,14 +24,15 @@ Untitled ドキュメント
    python
    c
    cpp
+   cs
    git
    bats
    jq
-   bash
-   docker
    container
+   docker
    kubernetes
    powershell
+   bash
    windows
    linux
    debian
@@ -39,6 +40,7 @@ Untitled ドキュメント
    vagrant
    virtualbox
    oci
+   software_design
    atcoder
    japanese_imperial_year
 

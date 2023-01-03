@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="SSH" href="ssh.html" /><link rel="prev" title="SQL" href="sql.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Git" href="git.html" /><link rel="prev" title="C++" href="cpp.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>MariaDB - Untitled ドキュメント</title>
+        <title>C# - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -180,7 +180,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">MariaDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mariadb.html">MariaDB</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="ssh.html">SSH</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
 </ul>
@@ -196,7 +196,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="c.html">C言語</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cpp.html">C++</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cs.html">C#</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">C#</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jq.html">jq</a></li>
@@ -259,134 +259,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="mariadb">
-<h1>MariaDB<a class="headerlink" href="#mariadb" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="wsl-ubuntu-mariadb">
-<h2>WSL の Ubuntu に MariaDB をインストールする。<a class="headerlink" href="#wsl-ubuntu-mariadb" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install mariadb-server
-
-sudo service mysql status
-sudo service mysql start
-sudo service mysql status
-
-sudo mysql --defaults-file<span class="o">=</span>/etc/mysql/debian.cnf
-
-<span class="k">select</span> <span class="m">1</span><span class="p">;</span>
-</pre></div>
-</div>
-</section>
-<section id="id1">
-<h2>データベースを作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">create</span> <span class="k">database</span> <span class="n">db1</span><span class="p">;</span>
-<span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
-</pre></div>
-</div>
-</section>
-<section id="id2">
-<h2>データベースを使う。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="n">use</span> <span class="n">db1</span>
-</pre></div>
-</div>
-</section>
-<section id="id3">
-<h2>テーブルを作る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>drop table if exists t1;
-create table if not exists t1 (
-  id int
-);
-show tables;
-
-desc t1;
-show create table t1\G
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">MariaDB [db1]&gt; desc t1;</span>
-<span class="go">+-------+---------+------+-----+---------+-------+</span>
-<span class="go">| Field | Type    | Null | Key | Default | Extra |</span>
-<span class="go">+-------+---------+------+-----+---------+-------+</span>
-<span class="go">| id    | int(11) | YES  |     | NULL    |       |</span>
-<span class="go">+-------+---------+------+-----+---------+-------+</span>
-<span class="go">1 row in set (0.001 sec)</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">MariaDB [db1]&gt; show create table t1\G</span>
-<span class="go">*************************** 1. row ***************************</span>
-<span class="go">       Table: t1</span>
-<span class="go">Create Table: CREATE TABLE `t1` (</span>
-<span class="go">  `id` int(11) DEFAULT NULL</span>
-<span class="go">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</span>
-<span class="go">1 row in set (0.000 sec)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>https://mariadb.com/kb/en/create-table/</p></li>
-<li><p>https://mariadb.com/kb/en/drop-table/</p></li>
-</ul>
-</section>
-<section id="id4">
-<h2>テーブルに主キー制約を加える。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>alter table t1 add primary key (id);
-
-desc t1;
-show create table t1\G
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">MariaDB [db1]&gt; desc t1;</span>
-<span class="go">+-------+---------+------+-----+---------+-------+</span>
-<span class="go">| Field | Type    | Null | Key | Default | Extra |</span>
-<span class="go">+-------+---------+------+-----+---------+-------+</span>
-<span class="go">| id    | int(11) | NO   | PRI | NULL    |       |</span>
-<span class="go">+-------+---------+------+-----+---------+-------+</span>
-<span class="go">1 row in set (0.001 sec)</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">MariaDB [db1]&gt; show create table t1\G</span>
-<span class="go">*************************** 1. row ***************************</span>
-<span class="go">       Table: t1</span>
-<span class="go">Create Table: CREATE TABLE `t1` (</span>
-<span class="go">  `id` int(11) NOT NULL,</span>
-<span class="go">  PRIMARY KEY (`id`)</span>
-<span class="go">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</span>
-<span class="go">1 row in set (0.000 sec)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>https://mariadb.com/kb/en/alter-table/</p></li>
-</ul>
-</section>
-<section id="id5">
-<h2>テーブルから主キー制約を消す。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>alter table t1 drop primary key;
-
-desc t1;
-show create table t1\G
-</pre></div>
-</div>
-</section>
-<section id="id6">
-<h2>警告を表示する。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">warnings</span><span class="p">;</span>
-</pre></div>
-</div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">MariaDB [d]&gt; drop table if exists t1;</span>
-<span class="go">Query OK, 0 rows affected, 1 warning (0.000 sec)</span>
-
-<span class="go">MariaDB [d]&gt; show warnings;</span>
-<span class="go">+-------+------+----------------------+</span>
-<span class="go">| Level | Code | Message              |</span>
-<span class="go">+-------+------+----------------------+</span>
-<span class="go">| Note  | 1051 | Unknown table 'd.t1' |</span>
-<span class="go">+-------+------+----------------------+</span>
-<span class="go">1 row in set (0.000 sec)</span>
-</pre></div>
-</div>
-</section>
+          <section class="tex2jax_ignore mathjax_ignore" id="c">
+<h1>C#<a class="headerlink" href="#c" title="このヘッドラインへのパーマリンク">¶</a></h1>
 </section>
 
         </article>
@@ -394,23 +274,23 @@ show create table t1\G
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="ssh.html">
+          <a class="next-page" href="git.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">SSH</div>
+                <div class="title">Git</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="sql.html">
+          <a class="prev-page" href="cpp.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">SQL</div>
+                <div class="title">C++</div>
                 
               </div>
             </a>
@@ -422,7 +302,7 @@ show create table t1\G
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/mariadb.md.txt"
+            <a class="muted-link" href="_sources/cs.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -430,33 +310,8 @@ show create table t1\G
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            コンテンツ
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">MariaDB</a><ul>
-<li><a class="reference internal" href="#wsl-ubuntu-mariadb">WSL の Ubuntu に MariaDB をインストールする。</a></li>
-<li><a class="reference internal" href="#id1">データベースを作る。</a></li>
-<li><a class="reference internal" href="#id2">データベースを使う。</a></li>
-<li><a class="reference internal" href="#id3">テーブルを作る。</a></li>
-<li><a class="reference internal" href="#id4">テーブルに主キー制約を加える。</a></li>
-<li><a class="reference internal" href="#id5">テーブルから主キー制約を消す。</a></li>
-<li><a class="reference internal" href="#id6">警告を表示する。</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

@@ -1,0 +1,701 @@
+<!doctype html>
+<html class="no-js" lang="ja">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="atcoder 競技プログラミング" href="atcoder.html" /><link rel="prev" title="Oracle Cloud" href="oci.html" />
+
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+        <title>ソフトウェア設計 - Untitled ドキュメント</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Untitled  ドキュメント</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Untitled  ドキュメント</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=検索 name="q" aria-label="検索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="vim.html">Vim</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="vscode/index.html">Visual Studio Code - vscode</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="vscode/basic.html">vscode 基本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vscode/markdown.html">Markdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vscode/powershell.html">PowerShell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vscode/extensions.html">vscode 拡張機能</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="visual_studio/index.html">Visual Studio</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/basic.html">Visual Studio 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/cs.html">C#</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ctags.html">Ctags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="excel.html">Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="powerpoint.html">PowerPoint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chrome_extension.html">Chrome拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">GitLab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mattermost.html">Mattermost</a></li>
+<li class="toctree-l1"><a class="reference internal" href="html.html">HTML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nodejs.html">Node JS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mariadb.html">MariaDB</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ssh.html">SSH</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="python/foundation.html">Python基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/standard_library.html">Python3 の標準ライブラリ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/application.html">Python 応用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/jupyterlab.html">Jupyter Lab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/python2.html">Python2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/math.html">Python応用(数学)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c.html">C言語</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpp.html">C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cs.html">C#</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bats.html">Bats-core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jq.html">jq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="container.html">コンテナ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Docker</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="kubernetes.html">Kubernetes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_foundation.html">Kubernetes 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_kubectl.html">kubectl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_minikube.html">Minikube</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="powershell.html">PowerShell</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="powershell/powershell7.html">PowerShell 7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/foundation.html">PowerShell 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/application.html">PowerShell 応用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/get_childitem.html">停止しても再実行できるように、ファイルの一覧を出力する。</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powershell/pester.html">Pester でテストする。</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="bash.html">Bash</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="bash/foundation.html">bash基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bash/application.html">bash応用</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="windows.html">Microsoft Windows</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows_foundation.html">Microsoft Windows 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">WSL2</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="linux.html">Linux</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="linux_foundation.html">Linux 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux_network.html">Linuxのネットワーク管理</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debian.html">Debian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vagrant.html">Vagrant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="virtualbox.html">VirtualBox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ソフトウェア設計</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atcoder.html">atcoder 競技プログラミング</a></li>
+<li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>ソフトウェア設計<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>想定として、ソフトウェアが、複数の関心ごととがあったり、複数のモジュールで構成されたりする状況を想定します。</p>
+<section id="id2">
+<h2>凝集度<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>凝集度とは、
+関心ごとの意味と実際のコードのまとまり具合のことである。</p>
+<p>凝集度が高いとは、
+まとまっている状態を意味する。</p>
+<p>凝集度が低いとは、
+一見関係なさそうな箇所が実は関係している、といったまとまっていない状態を意味する。</p>
+<p>一般に、凝集度は高いほうがより良い。
+なぜなら、コードを変更する際に意識するコード量が少なくて済むから。</p>
+<p>具体例として、複数のモジュールがあるとき、それぞれのモジュールに対応する関心ごとの意味が分かれていたほうがよい。もし分かれていなかったら、どのモジュールを参照すればよいかわからない。</p>
+</section>
+<section id="id3">
+<h2>結合度<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>結合度とは、
+ソフトウェアの中身が整理や分割できているかの度合いのことである。</p>
+<p>結合度が低いとは、
+無駄な癒着がなく、つながりが切れていることを意味する。</p>
+<p>結合度が高いとは、
+結合度が低い場合の逆を意味する。</p>
+<p>結合度が低いことを疎結合と呼び、結合度が高いことを密結合と呼ぶことがある。</p>
+<p>結合度は、疎結合のほうがより良い。</p>
+</section>
+<section id="id4">
+<h2>凝集度と結合度<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>一般に、結合度と凝集度は相互関係がある。</p>
+<p>疎結合な場合に、凝集度を上げやすくなる。</p>
+<p>密結合な場合に、凝集度を下げやすくなる。</p>
+<p>具体例として、複数のモジュールがあるとき、それぞれのモジュールに対応する関心ごとの意味や役割は分かれていたほうがよい。もし分かれていなかったら、どのモジュールを参照すればよいかわからない。</p>
+</section>
+<section id="id5">
+<h2>複数のモジュールの結合度<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>無結合</p>
+<ul>
+<li><p>無結合とは、結合していないことを意味する。</p></li>
+</ul>
+</li>
+<li><p>メッセージ結合</p>
+<ul>
+<li><p>メッセージなどを介して結合することを意味する。</p>
+<ul>
+<li><p>具体例: MQ通信</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>データ結合</p>
+<ul>
+<li><p>モジュールを介してデータを共有することを意味する。</p>
+<ul>
+<li><p>具体例: 関数の引数などで結合する。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>スタンプ結合</p>
+<ul>
+<li><p>複数のモジュールが複合データ構造を共有し、その一部のみを使用することを意味する。</p>
+<ul>
+<li><p>具体例: 関数の引数などで不必要な構造体などを含む。構造体のうち、モジュールが利用しない箇所の変更が、モジュールに影響する可能性がある。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>制御結合</p>
+<ul>
+<li><p>制御内容をモジュールに渡すことで、そのモジュールの処理の流れを制御する。</p>
+<ul>
+<li><p>具体例: 引数によって N パターンに条件分岐する。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>外部結合</p>
+<ul>
+<li><p>外部から共有されたデータにより、そのモジュールの処理の流れを制御する。</p>
+<ul>
+<li><p>具体例: モジュール内でグローバル変数から生成した内容で、そのモジュールの処理の流れを制御する。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>共通結合</p>
+<ul>
+<li><p>複数のモジュールでグローバル変数などを共有する。</p>
+<ul>
+<li><p>備考: ほぼ外部結合と一緒。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>内容結合</p>
+<ul>
+<li><p>モジュールが、別モジュールの内部動作に依存する場合。</p>
+<ul>
+<li><p>具体例: 別モジュールの内部データを参照する。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>上の方が結合度がより低い。</p>
+<p>下の方が結合度がより高い。</p>
+</section>
+<section id="id6">
+<h2>結合度の例: データ結合<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>関数の引数で結合する例です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">data_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは</span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">歳です。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_data_join_type_method</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">data_join_type_method</span><span class="p">(</span><span class="s2">"山田"</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"山田さんは30歳です。"</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>結合度の例: スタンプ結合<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Account クラスで結合する例です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
+
+
+<span class="k">class</span> <span class="nc">GenderType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+    <span class="n">MAN</span> <span class="o">=</span> <span class="s1">'男性'</span>
+    <span class="n">WOMAN</span> <span class="o">=</span> <span class="s1">'女性'</span>
+
+
+<span class="k">class</span> <span class="nc">Account</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gender</span><span class="p">:</span> <span class="n">GenderType</span><span class="p">,</span> <span class="n">mail</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_age</span> <span class="o">=</span> <span class="n">age</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gender</span> <span class="o">=</span> <span class="n">gender</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mail</span> <span class="o">=</span> <span class="n">mail</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_age</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenderType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gender</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mail</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mail</span>
+
+
+<span class="k">def</span> <span class="nf">stamp_join_type_method</span><span class="p">(</span><span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">account</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは</span><span class="si">{</span><span class="n">account</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">歳です。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_stamp_join_type_method</span><span class="p">():</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="n">GenderType</span><span class="o">.</span><span class="n">MAN</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">mail</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">stamp_join_type_method</span><span class="p">(</span><span class="n">account</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"山田さんは30歳です。"</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>結合度の例: 制御結合<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>引数で制御が変わる例です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">StrEnum</span>
+
+
+<span class="k">class</span> <span class="nc">GenderType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+    <span class="n">MAN</span> <span class="o">=</span> <span class="s1">'男性'</span>
+    <span class="n">WOMAN</span> <span class="o">=</span> <span class="s1">'女性'</span>
+
+
+<span class="k">def</span> <span class="nf">control_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">gender</span><span class="p">:</span> <span class="n">GenderType</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="n">GenderType</span><span class="o">.</span><span class="n">MAN</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">くんは</span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">歳です。"</span>
+    <span class="k">elif</span> <span class="n">gender</span> <span class="o">==</span> <span class="n">GenderType</span><span class="o">.</span><span class="n">WOMAN</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは</span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">歳です。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_control_join_type_method_for_man</span><span class="p">():</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">control_join_type_method</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="n">GenderType</span><span class="o">.</span><span class="n">MAN</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"山田くんは30歳です。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_control_join_type_method_for_woman</span><span class="p">():</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">control_join_type_method</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="n">GenderType</span><span class="o">.</span><span class="n">WOMAN</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"山田さんは30歳です。"</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h2>結合度の例: 外部結合<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>グローバル変数で結合する例です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+
+<span class="n">_user_defaults</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">AccountType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">PREMIUM</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">GENERAL</span> <span class="o">=</span> <span class="mi">2</span>
+
+
+<span class="k">def</span> <span class="nf">external_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">user_defaults</span> <span class="o">=</span> <span class="n">_user_defaults</span>
+    <span class="n">account_type</span> <span class="o">=</span> <span class="n">user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">account_type</span> <span class="o">==</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">PREMIUM</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは、プレミアム会員です。"</span>
+    <span class="k">elif</span> <span class="n">account_type</span> <span class="o">==</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">GENERAL</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは、一般会員です。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_external_join_type_method_for_premium</span><span class="p">():</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">PREMIUM</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">external_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"山田さんは、プレミアム会員です。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_external_join_type_method_for_general</span><span class="p">():</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">GENERAL</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">external_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"山田さんは、一般会員です。"</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>結合度の例: 共通結合<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>グローバル変数で複数の箇所で結合する例です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+
+<span class="n">_user_defaults</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">AccountType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">PREMIUM</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">GENERAL</span> <span class="o">=</span> <span class="mi">2</span>
+
+
+<span class="k">def</span> <span class="nf">common_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">user_defaults</span> <span class="o">=</span> <span class="n">_user_defaults</span>
+    <span class="n">account_type</span> <span class="o">=</span> <span class="n">user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span>
+    <span class="n">version_str</span> <span class="o">=</span> <span class="n">user_defaults</span><span class="p">[</span><span class="s1">'ver'</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">account_type</span> <span class="o">==</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">PREMIUM</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">version_str</span> <span class="o">==</span> <span class="s1">'iOS10'</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"プレミアム会員の</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは、Apple Pay決済 or カード決済できます。"</span>
+        <span class="k">elif</span> <span class="n">version_str</span> <span class="o">!=</span> <span class="s1">'iOS10'</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">"プレミアム会員の</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは、カード決済できます。"</span>
+    <span class="k">elif</span> <span class="n">account_type</span> <span class="o">==</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">GENERAL</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"一般会員の</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">さんは、現金のみで決済できます。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_common_join_type_method_for_premium_and_ios10</span><span class="p">():</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">PREMIUM</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'ver'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'iOS10'</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">common_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"プレミアム会員の山田さんは、Apple Pay決済 or カード決済できます。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_common_join_type_method_for_premium_and_ios9</span><span class="p">():</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">PREMIUM</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'ver'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'iOS9'</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">common_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"プレミアム会員の山田さんは、カード決済できます。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_common_join_type_method_for_general_and_ios10</span><span class="p">():</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">GENERAL</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'ver'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'iOS10'</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">common_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"一般会員の山田さんは、現金のみで決済できます。"</span>
+
+
+<span class="k">def</span> <span class="nf">test_common_join_type_method_for_general_and_ios9</span><span class="p">():</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'account_type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">AccountType</span><span class="o">.</span><span class="n">GENERAL</span>
+    <span class="n">_user_defaults</span><span class="p">[</span><span class="s1">'ver'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'iOS10'</span>
+    <span class="n">actual</span> <span class="o">=</span> <span class="n">common_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual</span> <span class="o">==</span> <span class="s2">"一般会員の山田さんは、現金のみで決済できます。"</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h2>結合度の例: 内容結合<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>internal_join_type_method を変更するうえで、 un_join_type_method を参照する必要がある例です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
+
+
+<span class="k">class</span> <span class="nc">Employee</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+
+<span class="k">def</span> <span class="nf">internal_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Employee</span><span class="p">]:</span>
+    <span class="n">employees</span> <span class="o">=</span> <span class="n">un_join_type_method</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="n">employees</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+
+<span class="k">def</span> <span class="nf">un_join_type_method</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Employee</span><span class="p">]:</span>
+    <span class="n">employees</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Employee</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="n">employees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">))</span>
+    <span class="n">employees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'佐藤'</span><span class="p">))</span>
+    <span class="n">employees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Employee</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'ワタナベ'</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">employees</span>
+
+
+<span class="k">def</span> <span class="nf">test_internal_join_type_method</span><span class="p">():</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">internal_join_type_method</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'山田'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'山田'</span>
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h2>参考資料<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>凝集度 - Wikipedia</p>
+<ul>
+<li><p>https://ja.wikipedia.org/wiki/%E5%87%9D%E9%9B%86%E5%BA%A6</p></li>
+</ul>
+</li>
+<li><p>結合度 - Wikipedia</p>
+<ul>
+<li><p>https://ja.wikipedia.org/wiki/%E7%B5%90%E5%90%88%E5%BA%A6</p></li>
+</ul>
+</li>
+<li><p>モジュール結合度について</p>
+<ul>
+<li><p>https://qiita.com/eKushida/items/39bdb3f88fb68ecd66f6</p></li>
+</ul>
+</li>
+<li><p>ちょうぜつソフトウェア設計入門 ――PHPで理解するオブジェクト指向の活用</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="atcoder.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">atcoder 競技プログラミング</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="oci.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Oracle Cloud</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2021, kumarstack55 |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/software_design.md.txt"
+               rel="nofollow">
+              ソースコードを表示
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">ソフトウェア設計</a><ul>
+<li><a class="reference internal" href="#id2">凝集度</a></li>
+<li><a class="reference internal" href="#id3">結合度</a></li>
+<li><a class="reference internal" href="#id4">凝集度と結合度</a></li>
+<li><a class="reference internal" href="#id5">複数のモジュールの結合度</a></li>
+<li><a class="reference internal" href="#id6">結合度の例: データ結合</a></li>
+<li><a class="reference internal" href="#id7">結合度の例: スタンプ結合</a></li>
+<li><a class="reference internal" href="#id8">結合度の例: 制御結合</a></li>
+<li><a class="reference internal" href="#id9">結合度の例: 外部結合</a></li>
+<li><a class="reference internal" href="#id10">結合度の例: 共通結合</a></li>
+<li><a class="reference internal" href="#id11">結合度の例: 内容結合</a></li>
+<li><a class="reference internal" href="#id12">参考資料</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>
