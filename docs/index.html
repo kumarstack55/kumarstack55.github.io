@@ -166,6 +166,8 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visual_studio/index.html">Visual Studio</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="visual_studio/basic.html">Visual Studio 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/extensions.html">拡張機能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/powerpoint.html">PowerPoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visual_studio/cs.html">C#</a></li>
 </ul>
 </li>
@@ -307,8 +309,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="visual_studio/index.html">Visual Studio</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="visual_studio/basic.html">Visual Studio 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/basic.html">Visual Studio 基礎</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/basic.html#nuget-org">パッケージソースに nuget.org を登録済みにする。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/basic.html#mstest">MSTest で単体テストを実装する。</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/extensions.html">拡張機能</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/extensions.html#vsvim-2022">VsVim 2022</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="visual_studio/powerpoint.html">PowerPoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/powerpoint.html#id1">ソリューション作成まで</a></li>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/powerpoint.html#com">COM参照追加まで</a></li>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/powerpoint.html#id2">PowerPoint起動まで</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="visual_studio/cs.html">C#</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visual_studio/cs.html#id1">文法</a></li>
 <li class="toctree-l3"><a class="reference internal" href="visual_studio/cs.html#net-core-3-1-cs">.NET Core 3.1 で *.cs をビルドして実行する。</a></li>
 </ul>
 </li>
@@ -996,7 +1013,15 @@
 <li class="toctree-l2"><a class="reference internal" href="software_design.html#id9">結合度の例: 外部結合</a></li>
 <li class="toctree-l2"><a class="reference internal" href="software_design.html#id10">結合度の例: 共通結合</a></li>
 <li class="toctree-l2"><a class="reference internal" href="software_design.html#id11">結合度の例: 内容結合</a></li>
-<li class="toctree-l2"><a class="reference internal" href="software_design.html#id12">参考資料</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#id12">安定度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#id13">理想的な凝集度、結合度、安定度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#rep">再利用・リリース等価の原則(REP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#crp">全再利用の原則(CRP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#ccp">閉鎖性共通の原則(CCP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#adp">非循環依存関係の原則(ADP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#sdp">安定依存の原則(SDP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#sap">安定度・抽象度等価の原則(SAP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_design.html#id14">参考資料</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="atcoder.html">atcoder 競技プログラミング</a><ul>

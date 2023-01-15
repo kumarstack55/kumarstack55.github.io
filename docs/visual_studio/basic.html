@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="C#" href="cs.html" /><link rel="prev" title="Visual Studio" href="index.html" />
+<link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="検索" href="../search.html" /><link rel="next" title="拡張機能" href="extensions.html" /><link rel="prev" title="Visual Studio" href="index.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>Visual Studio 基礎 - Untitled ドキュメント</title>
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -166,6 +166,8 @@
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Visual Studio</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Visual Studio 基礎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html">拡張機能</a></li>
+<li class="toctree-l2"><a class="reference internal" href="powerpoint.html">PowerPoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cs.html">C#</a></li>
 </ul>
 </li>
@@ -259,7 +261,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -267,6 +269,55 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="visual-studio">
 <h1>Visual Studio 基礎<a class="headerlink" href="#visual-studio" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="nuget-org">
+<h2>パッケージソースに nuget.org を登録済みにする。<a class="headerlink" href="#nuget-org" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>プロジェクト - Nuget パッケージの管理 - 歯車アイコン</p>
+<ul>
+<li><p>オプション</p>
+<ul>
+<li><p>NuGet パッケージマネージャー</p>
+<ul>
+<li><p>パッケージソース</p>
+<ul>
+<li><p>パッケージソース</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">+</span></code></p>
+<ul>
+<li><p>名前: <code class="docutils literal notranslate"><span class="pre">nuget.org</span></code></p></li>
+<li><p>ソース: <code class="docutils literal notranslate"><span class="pre">https://api.nuget.org/v3/index.json</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>https://stackoverflow.com/a/36646797/12786161</p>
+<blockquote>
+<div><p>With NuGet 3, the url has changed again, it's now https://api.nuget.org/v3/index.json.</p>
+</div></blockquote>
+<p>https://learn.microsoft.com/en-us/nuget/api/overview#service-index</p>
+<blockquote>
+<div><p>The entry point for the API is a JSON document in a well known location. This document is called the service index. The location of the service index for nuget.org is https://api.nuget.org/v3/index.json.</p>
+</div></blockquote>
+</section>
+<section id="mstest">
+<h2>MSTest で単体テストを実装する。<a class="headerlink" href="#mstest" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><p>チュートリアル: マネージド コードの単体テストを作成し、実行する</p>
+<ul>
+<li><p>https://learn.microsoft.com/ja-jp/visualstudio/test/walkthrough-creating-and-running-unit-tests-for-managed-code?view=vs-2022</p></li>
+</ul>
+</li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -274,12 +325,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="cs.html">
+          <a class="next-page" href="extensions.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">C#</div>
+                <div class="title">拡張機能</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -310,8 +361,28 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            コンテンツ
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Visual Studio 基礎</a><ul>
+<li><a class="reference internal" href="#nuget-org">パッケージソースに nuget.org を登録済みにする。</a></li>
+<li><a class="reference internal" href="#mstest">MSTest で単体テストを実装する。</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

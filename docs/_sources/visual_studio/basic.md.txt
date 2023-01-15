@@ -1,1 +1,23 @@
 # Visual Studio 基礎
+
+## パッケージソースに nuget.org を登録済みにする。
+
+* プロジェクト - Nuget パッケージの管理 - 歯車アイコン
+    * オプション
+        * NuGet パッケージマネージャー
+            * パッケージソース
+                * パッケージソース
+                    * `+`
+                        * 名前: `nuget.org`
+                        * ソース: `https://api.nuget.org/v3/index.json`
+
+https://stackoverflow.com/a/36646797/12786161
+> With NuGet 3, the url has changed again, it's now https://api.nuget.org/v3/index.json.
+
+https://learn.microsoft.com/en-us/nuget/api/overview#service-index
+> The entry point for the API is a JSON document in a well known location. This document is called the service index. The location of the service index for nuget.org is https://api.nuget.org/v3/index.json.
+
+## MSTest で単体テストを実装する。
+
+* チュートリアル: マネージド コードの単体テストを作成し、実行する
+    * https://learn.microsoft.com/ja-jp/visualstudio/test/walkthrough-creating-and-running-unit-tests-for-managed-code?view=vs-2022

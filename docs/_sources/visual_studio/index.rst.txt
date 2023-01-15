@@ -8,4 +8,6 @@ Visual Studio
    :caption: Contents:
 
    basic
+   extensions
+   powerpoint
    cs

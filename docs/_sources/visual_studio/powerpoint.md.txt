@@ -1,0 +1,35 @@
+# PowerPoint
+
+## ソリューション作成まで
+
+* ファイル - 新規作成 - プロジェクト
+    * 新しいプロジェクトの作成
+        * 空のソリューション
+            * プロジェクト名: MyConsoleApp
+            * フレームワーク: .NET 6.0 (長期的なサポート)
+            * 作成
+
+空のソリューションだが、作成後、ソリューションエクスプローラーでプロジェクトが存在しているように見えたり、 `Program.cs` が存在し、C# プロジェクトが作成済みになっているように見える。
+
+## COM参照追加まで
+
+* プロジェクト - COM 参照の追加
+    * 参照マネージャー
+        * Microsoft Office 16.0 Object Library
+        * Microsoft PowerPoint 16.0 Object Library
+
+次の項目が増える。
+
+* ソリューションエクスプローラー
+    * ConsoleApp1
+        * 依存関係
+            * COM
+
+## PowerPoint起動まで
+
+```console
+using Microsoft.Office.Interop.PowerPoint;
+
+Application application = new Application();
+application.Visible = Microsoft.Office.Core.MsoTriState.msoTrue;
+```
