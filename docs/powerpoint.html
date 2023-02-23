@@ -755,7 +755,104 @@
 </div>
 </section>
 <section id="id37">
-<h2>SlideMaster の背景色を配色パターンから得る。<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>色<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下はそれぞれ1:1で対応せず、並び順が異なる。</p>
+<ul class="simple">
+<li><p>a) <code class="docutils literal notranslate"><span class="pre">スライドマスター</span> <span class="pre">-</span> <span class="pre">背景</span> <span class="pre">-</span> <span class="pre">配色</span> <span class="pre">-</span> <span class="pre">色のカスタマイズ</span></code> で表示される 12色</p></li>
+<li><p>b) <code class="docutils literal notranslate"><span class="pre">図形の書式設定</span> <span class="pre">-</span> <span class="pre">塗りつぶし</span> <span class="pre">-</span> <span class="pre">色</span> <span class="pre">-</span> <span class="pre">テーマの色</span></code> で表示される 10 色</p></li>
+<li><p>c) <code class="docutils literal notranslate"><span class="pre">スライドマスター</span> <span class="pre">-</span> <span class="pre">背景</span> <span class="pre">-</span> <span class="pre">配色</span></code> で表示される 8 色</p></li>
+<li><p>d) <code class="docutils literal notranslate"><span class="pre">$SlideMaster.ColorScheme</span></code> で表示される 8 色</p></li>
+</ul>
+<div class="table-wrapper"><table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>a</p></th>
+<th class="head"><p>b</p></th>
+<th class="head"><p>c</p></th>
+<th class="head"><p>d</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>テキスト/背景: 濃色1</p></td>
+<td><p>左から2色目(テキスト1)</p></td>
+<td><p>該当なし</p></td>
+<td><p>上から1レコード目</p></td>
+</tr>
+<tr class="row-odd"><td><p>テキスト/背景: 淡色1</p></td>
+<td><p>左から1色目(背景1)</p></td>
+<td><p>該当なし</p></td>
+<td><p>上から0レコード目</p></td>
+</tr>
+<tr class="row-even"><td><p>テキスト/背景: 濃色2</p></td>
+<td><p>左から4色目(テキスト2)</p></td>
+<td><p>左から1色目</p></td>
+<td><p>上から4レコード目</p></td>
+</tr>
+<tr class="row-odd"><td><p>テキスト/背景: 淡色2</p></td>
+<td><p>左から3色目(背景2)</p></td>
+<td><p>左から2色目</p></td>
+<td><p>上から3レコード目</p></td>
+</tr>
+<tr class="row-even"><td><p>アクセント1</p></td>
+<td><p>左から5色目</p></td>
+<td><p>左から3色目</p></td>
+<td><p>上から5レコード目</p></td>
+</tr>
+<tr class="row-odd"><td><p>アクセント2</p></td>
+<td><p>左から6色目</p></td>
+<td><p>左から4色目</p></td>
+<td><p>上から6レコード目</p></td>
+</tr>
+<tr class="row-even"><td><p>アクセント3</p></td>
+<td><p>左から7色目</p></td>
+<td><p>左から5色目</p></td>
+<td><p>該当なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>アクセント4</p></td>
+<td><p>左から8色目</p></td>
+<td><p>左から6色目</p></td>
+<td><p>該当なし</p></td>
+</tr>
+<tr class="row-even"><td><p>アクセント5</p></td>
+<td><p>左から9色目</p></td>
+<td><p>左から7色目</p></td>
+<td><p>該当なし</p></td>
+</tr>
+<tr class="row-odd"><td><p>アクセント6</p></td>
+<td><p>左から10色目</p></td>
+<td><p>左から8色目</p></td>
+<td><p>該当なし</p></td>
+</tr>
+<tr class="row-even"><td><p>ハイパーリンク</p></td>
+<td><p>該当なし</p></td>
+<td><p>該当なし</p></td>
+<td><p>上から7レコード目</p></td>
+</tr>
+<tr class="row-odd"><td><p>表示済みのハイパーリンク</p></td>
+<td><p>該当なし</p></td>
+<td><p>該当なし</p></td>
+<td><p>上から8レコード目</p></td>
+</tr>
+</tbody>
+</table></div>
+<p><code class="docutils literal notranslate"><span class="pre">PpColorSchemeIndex</span></code> で <code class="docutils literal notranslate"><span class="pre">ppFill</span></code> を使うと、 <code class="docutils literal notranslate"><span class="pre">アクセント1</span></code> の色が利用されるようだ。
+<code class="docutils literal notranslate"><span class="pre">PpColorSchemeIndex</span></code> で <code class="docutils literal notranslate"><span class="pre">ppBackground</span></code> を使うと、 <code class="docutils literal notranslate"><span class="pre">テキスト/背景:</span> <span class="pre">淡色1</span></code> の色が利用されるのではないか。
+<code class="docutils literal notranslate"><span class="pre">PpColorSchemeIndex</span></code> で <code class="docutils literal notranslate"><span class="pre">ppForeground</span></code> を使うと、 <code class="docutils literal notranslate"><span class="pre">テキスト/背景:</span> <span class="pre">濃色1</span></code> の色が利用されるのではないか。</p>
+<p>挿入 - 図形 で、四角形を追加すると、
+塗りつぶしの色が TintAndShade 0 で、アクセント1 が指定された。
+線の色が TintAndShade -0.5 で、この値をゼロにすると アクセント1 と同じ RGB が指定された。</p>
+<p><code class="docutils literal notranslate"><span class="pre">図形の書式設定</span> <span class="pre">-</span> <span class="pre">塗りつぶし</span> <span class="pre">-</span> <span class="pre">色</span> <span class="pre">-</span> <span class="pre">テーマの色</span></code> で表示される 10 色と、その下の各5色は TintAndShade で生成された色のようだ。
+最上段が TintAndShade が 0 のようだ。
+その下から、5段がそれぞれ、
+TintAndShade = 0.8,
+TintAndShade = 0.6,
+TintAndShade = 0.4,
+TintAndShade = -0.25,
+TintAndShade = -0.5
+のようだ。</p>
+<p>https://learn.microsoft.com/ja-jp/office/vba/api/powerpoint.ppcolorschemeindex</p>
+</section>
+<section id="id38">
+<h2>SlideMaster の背景色を配色パターンから得る。<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ppFill は、配色パターンの `アクセント1` の色を使うようだ。</span>
 <span class="nv">$ppFill</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpColorSchemeIndex]</span><span class="p">::</span><span class="n">ppFill</span>
 <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Background</span><span class="p">.</span><span class="n">Fill</span><span class="p">.</span><span class="n">ForeColor</span><span class="p">.</span><span class="n">SchemeColor</span> <span class="p">=</span> <span class="nv">$ppFill</span>
@@ -770,8 +867,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id38">
-<h2>プレゼンテーションに配色パターンを追加する。<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id39">
+<h2>プレゼンテーションに配色パターンを追加する。<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ColorScheme</span> <span class="p">=</span> <span class="nv">$Slide</span><span class="p">.</span><span class="n">ColorScheme</span>
 
 <span class="nv">$ppFill</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpColorSchemeIndex]</span><span class="p">::</span><span class="n">ppFill</span>
@@ -806,8 +903,8 @@ $ThemeColor = $ThemeColorScheme[[Microsoft.Office.Core.MsoThemeColorSchemeIndex]
 ```
 -->
 </section>
-<section id="id39">
-<h2>SlideMaster の図形を得る。<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id40">
+<h2>SlideMaster の図形を得る。<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">Shapes</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
 
@@ -838,8 +935,8 @@ $ThemeColor = $ThemeColorScheme[[Microsoft.Office.Core.MsoThemeColorSchemeIndex]
 </pre></div>
 </div>
 </section>
-<section id="id40">
-<h2>SlideMaster からレイアウトを消す。<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id41">
+<h2>SlideMaster からレイアウトを消す。<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayouts</span> <span class="p">=</span> <span class="nv">$SlideMaster</span><span class="p">.</span><span class="n">CustomLayouts</span>
 <span class="nv">$CustomLayouts</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="p">}</span>
@@ -875,20 +972,20 @@ $ThemeColor = $ThemeColorScheme[[Microsoft.Office.Core.MsoThemeColorSchemeIndex]
 </pre></div>
 </div>
 </section>
-<section id="id41">
-<h2>SlideMaster にレイアウトを加える。<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id42">
+<h2>SlideMaster にレイアウトを加える。<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span> <span class="p">=</span> <span class="nv">$CustomLayouts</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="id42">
-<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id43">
+<h2>レイアウトのレイアウト名を設定する。<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$CustomLayout</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="s2">"layout name"</span>
 </pre></div>
 </div>
 </section>
-<section id="id43">
-<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id44">
+<h2>レイアウトにプレースホルダーを加える。<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$ppPlaceholderObject</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderObject</span>
 <span class="nv">$ppPlaceholderBody</span> <span class="p">=</span> <span class="no">[Microsoft.Office.Interop.PowerPoint.PpPlaceholderType]</span><span class="p">::</span><span class="n">ppPlaceholderBody</span>
 
@@ -1004,13 +1101,14 @@ $ThemeColor = $ThemeColorScheme[[Microsoft.Office.Core.MsoThemeColorSchemeIndex]
 <li><a class="reference internal" href="#id36">プレゼンテーションに Design を加える。</a></li>
 <li><a class="reference internal" href="#design-slidemaster">Design から SlideMaster を得る。</a></li>
 <li><a class="reference internal" href="#slidemaster">SlideMaster の背景色を設定する。</a></li>
-<li><a class="reference internal" href="#id37">SlideMaster の背景色を配色パターンから得る。</a></li>
-<li><a class="reference internal" href="#id38">プレゼンテーションに配色パターンを追加する。</a></li>
-<li><a class="reference internal" href="#id39">SlideMaster の図形を得る。</a></li>
-<li><a class="reference internal" href="#id40">SlideMaster からレイアウトを消す。</a></li>
-<li><a class="reference internal" href="#id41">SlideMaster にレイアウトを加える。</a></li>
-<li><a class="reference internal" href="#id42">レイアウトのレイアウト名を設定する。</a></li>
-<li><a class="reference internal" href="#id43">レイアウトにプレースホルダーを加える。</a></li>
+<li><a class="reference internal" href="#id37">色</a></li>
+<li><a class="reference internal" href="#id38">SlideMaster の背景色を配色パターンから得る。</a></li>
+<li><a class="reference internal" href="#id39">プレゼンテーションに配色パターンを追加する。</a></li>
+<li><a class="reference internal" href="#id40">SlideMaster の図形を得る。</a></li>
+<li><a class="reference internal" href="#id41">SlideMaster からレイアウトを消す。</a></li>
+<li><a class="reference internal" href="#id42">SlideMaster にレイアウトを加える。</a></li>
+<li><a class="reference internal" href="#id43">レイアウトのレイアウト名を設定する。</a></li>
+<li><a class="reference internal" href="#id44">レイアウトにプレースホルダーを加える。</a></li>
 </ul>
 </li>
 </ul>
