@@ -42,6 +42,7 @@ Untitled ドキュメント
    oci
    software_design
    atcoder
+   team_management
    japanese_imperial_year
 
 ..

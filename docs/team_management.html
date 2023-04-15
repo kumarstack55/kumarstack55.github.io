@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="Python" href="python.html" /><link rel="prev" title="SSH" href="ssh.html" />
+<link rel="index" title="索引" href="genindex.html" /><link rel="search" title="検索" href="search.html" /><link rel="next" title="西暦、和暦" href="japanese_imperial_year.html" /><link rel="prev" title="atcoder 競技プログラミング" href="atcoder.html" />
 
     <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
-        <title>SSHクライアント - Untitled ドキュメント</title>
+        <title>チーム管理 - Untitled ドキュメント</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
@@ -183,8 +183,8 @@
 <li class="toctree-l1"><a class="reference internal" href="prometheus.html">Prometheus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mariadb.html">MariaDB</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="ssh.html">SSH</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">SSHクライアント</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ssh.html">SSH</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ssh_client.html">SSHクライアント</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="python.html">Python</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -240,7 +240,7 @@
 <li class="toctree-l1"><a class="reference internal" href="oci.html">Oracle Cloud</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_design.html">ソフトウェア設計</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atcoder.html">atcoder 競技プログラミング</a></li>
-<li class="toctree-l1"><a class="reference internal" href="team_management.html">チーム管理</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">チーム管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="japanese_imperial_year.html">西暦、和暦</a></li>
 </ul>
 
@@ -268,60 +268,23 @@
           </label>
         </div>
         <article role="main">
-          <section class="tex2jax_ignore mathjax_ignore" id="ssh">
-<h1>SSHクライアント<a class="headerlink" href="#ssh" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<section id="id1">
-<h2>鍵ペアを作る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>test_wsl<span class="o">()</span> <span class="o">{</span>
-  <span class="o">[[</span> <span class="k">$(</span>uname -r<span class="k">)</span> <span class="o">=</span>~ -microsoft- <span class="o">]]</span>
-<span class="o">}</span>
-
-echo_comment<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local</span> <span class="nv">user</span><span class="o">=</span><span class="k">$(</span>whoami<span class="k">)</span>
-  <span class="nb">local</span> <span class="nv">nodename</span><span class="o">=</span><span class="k">$(</span>uname -n<span class="k">)</span>
-  <span class="nb">local</span> <span class="nv">today</span><span class="o">=</span><span class="k">$(</span>date <span class="s1">'+%F'</span><span class="k">)</span>
-  <span class="nb">local</span> <span class="nv">comment</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">user</span><span class="si">}</span><span class="s2">@</span><span class="si">${</span><span class="nv">nodename</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">today</span><span class="si">}</span><span class="s2">"</span>
-  <span class="k">if</span> test_wsl<span class="p">;</span> <span class="k">then</span>
-    <span class="nv">comment</span><span class="o">=</span><span class="s2">"</span><span class="nv">$comment</span><span class="s2"> wsl"</span>
-  <span class="k">fi</span>
-  <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$comment</span><span class="s2">"</span>
-<span class="o">}</span>
-
-<span class="nv">homedir</span><span class="o">=</span><span class="k">$(</span>
-  getent passwd <span class="s2">"</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">"</span> <span class="p">|</span> cut -d: -f <span class="m">6</span>
-<span class="k">)</span>
-
-<span class="nv">output_keyfile</span><span class="o">=</span><span class="s2">"</span><span class="nv">$homedir</span><span class="s2">/.ssh/id_rsa"</span>
-<span class="nv">comment</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>echo_comment<span class="k">)</span><span class="s2">"</span>
-
-<span class="o">[</span> ! -e <span class="s2">"</span><span class="nv">$output_keyfile</span><span class="s2">"</span> <span class="o">]</span> <span class="se">\</span>
-  <span class="o">&amp;&amp;</span> ssh-keygen -C <span class="s2">"</span><span class="nv">$comment</span><span class="s2">"</span> -f <span class="s2">"</span><span class="nv">$output_keyfile</span><span class="s2">"</span> -N <span class="s1">''</span>
-</pre></div>
-</div>
-</section>
-<section id="windows-openssh-ssh-exe-pageant">
-<h2>Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。<a class="headerlink" href="#windows-openssh-ssh-exe-pageant" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><a class="reference external" href="https://github.com/benpye/wsl-ssh-pageant">wsl-ssh-pageant</a>を使う。
-Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイに常駐させておく。</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">wsl-ssh-pageant-amd64-gui</span><span class="p">.</span><span class="n">exe</span> <span class="p">-</span><span class="n">-systray</span> <span class="p">-</span><span class="n">-winssh</span> <span class="n">ssh-pageant</span>
-</pre></div>
-</div>
-<p>環境変数を設定する。</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:SSH_AUTH_SOCK</span> <span class="p">=</span> <span class="s1">'\\.\pipe\ssh-pageant'</span>
-</pre></div>
-</div>
-</section>
-<section id="authorized-keys">
-<h2>エージェントが管理する全ての公開鍵を authorized_keys に加える。<a class="headerlink" href="#authorized-keys" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add -L <span class="se">\</span>
-  <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> -r line<span class="p">;</span> <span class="k">do</span>
-      ansible <span class="se">\</span>
-        -m lineinfile <span class="se">\</span>
-        -a <span class="s2">"path='</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/.ssh/authorized_keys' line='</span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">' backup=yes"</span> <span class="se">\</span>
-        localhost
-    <span class="k">done</span>
-</pre></div>
-</div>
+          <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>チーム管理<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="id2">
+<h2>優れたポストモーテム<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>書籍 Team Geak - 1.7.1 早い段階で失敗・学習・反復する。</p>
+<blockquote>
+<div><p>優れたポストモーテムには以下のことが含まれる。</p>
+<ul class="simple">
+<li><p>概要</p></li>
+<li><p>イベントのタイムライン</p></li>
+<li><p>イベントの根本原因</p></li>
+<li><p>影響と損害の評価</p></li>
+<li><p>すぐに問題を解決するための行動一式</p></li>
+<li><p>再発を防止するための行動一式</p></li>
+<li><p>学習した教訓</p></li>
+</ul>
+</div></blockquote>
 </section>
 </section>
 
@@ -330,23 +293,23 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="python.html">
+          <a class="next-page" href="japanese_imperial_year.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Python</div>
+                <div class="title">西暦、和暦</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="ssh.html">
+          <a class="prev-page" href="atcoder.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">SSH</div>
+                <div class="title">atcoder 競技プログラミング</div>
                 
               </div>
             </a>
@@ -358,7 +321,7 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
               and
               <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
               <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/ssh_client.md.txt"
+            <a class="muted-link" href="_sources/team_management.md.txt"
                rel="nofollow">
               ソースコードを表示
             </a>
@@ -378,10 +341,8 @@ Pageant.exe に秘密鍵を読ませて、次のようにシステムトレイ�
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">SSHクライアント</a><ul>
-<li><a class="reference internal" href="#id1">鍵ペアを作る。</a></li>
-<li><a class="reference internal" href="#windows-openssh-ssh-exe-pageant">Windows の OpenSSH の ssh.exe で pageant を利用できるようにする。</a></li>
-<li><a class="reference internal" href="#authorized-keys">エージェントが管理する全ての公開鍵を authorized_keys に加える。</a></li>
+<li><a class="reference internal" href="#">チーム管理</a><ul>
+<li><a class="reference internal" href="#id2">優れたポストモーテム</a></li>
 </ul>
 </li>
 </ul>
