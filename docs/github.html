@@ -314,6 +314,12 @@ gh auth login
 </pre></div>
 </div>
 </section>
+<section id="id2">
+<h2>認証状態を確認する。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">gh</span> <span class="n">auth</span> <span class="n">status</span>
+</pre></div>
+</div>
+</section>
 <section id="url">
 <h2>リポジトリのURL一覧を得る。<a class="headerlink" href="#url" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">gh</span> <span class="n">repo</span> <span class="n">list</span> <span class="p">-</span><span class="n">-json</span> <span class="n">url</span>
@@ -450,6 +456,182 @@ gh pr view develop --web
 </pre></div>
 </div>
 </section>
+<section id="gh-ssh">
+<h2>gh で SSH 秘密鍵を指定する。<a class="headerlink" href="#gh-ssh" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>環境変数 <code class="docutils literal notranslate"><span class="pre">GIT_SSH_COMMAND</span></code> を使うと簡単に指定できる。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 認証できるか確認する。</span>
+<span class="nv">$gitSshCommandPath</span><span class="p">=</span><span class="s2">"ssh"</span>
+<span class="nv">$gitSshCommandArgumentArray</span><span class="p">=@(</span><span class="s2">"-i"</span><span class="p">,</span> <span class="s2">"$HOME\.ssh\id_rsa_github_xxx"</span><span class="p">)</span>
+<span class="nv">$githubSshDestination</span><span class="p">=</span><span class="s2">"git@github.com"</span>
+<span class="nb">Start-Process</span> <span class="n">-FilePath</span> <span class="nv">$gitSshCommandPath</span> <span class="n">-ArgumentList</span> <span class="p">(</span><span class="nv">$gitSshCommandArgumentArray</span> <span class="p">+</span> <span class="nv">$githubSshDestination</span><span class="p">)</span> <span class="n">-NoNewWindow</span> <span class="n">-Wait</span>
+
+<span class="c"># 環境変数を設定する。</span>
+<span class="nv">$gitSshCommandValueNotEscaped</span> <span class="p">=</span> <span class="p">(@(</span><span class="nv">$gitSshCommandPath</span><span class="p">)</span> <span class="p">+</span> <span class="nv">$gitSshCommandArgumentArray</span><span class="p">)</span> <span class="n">-join</span> <span class="s2">" "</span>
+<span class="nv">$gitSshCommandValue</span> <span class="p">=</span> <span class="nv">$gitSshCommandValueNotEscaped</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s1">'\'</span><span class="p">,</span> <span class="s1">'\\'</span><span class="p">)</span>
+<span class="nb">Set-Item</span> <span class="n">-Path</span> <span class="n">Env</span><span class="p">:</span><span class="n">GIT_SSH_COMMAND</span> <span class="n">-Value</span> <span class="nv">$gitSshCommandValue</span>
+
+<span class="c"># clone など ssh 操作が必要な処理を行う。</span>
+<span class="c">#gh clone repo your_repo_name</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>参考</p>
+<ul>
+<li><p>https://stackoverflow.com/a/74651101/12786161</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="github-pages">
+<h2>GitHub Pages を公開する。<a class="headerlink" href="#github-pages" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="username-github-io">
+<h3>username.github.io リポジトリを作って公開する。<a class="headerlink" href="#username-github-io" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$userName</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">"GitHub username"</span>
+<span class="nv">$repoSuffix</span> <span class="p">=</span> <span class="s2">".github.io"</span>
+<span class="nv">$repoName</span> <span class="p">=</span> <span class="s2">"${userName}${repoSuffix}"</span>
+
+<span class="c"># リポジトリを作る。</span>
+<span class="c"># 無償で GitHub Pages を利用するためには、ここで public を指定する。</span>
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">create</span> <span class="nv">$repoName</span> <span class="p">-</span><span class="n">-public</span>
+<span class="nv">$repoListJson</span> <span class="p">=</span> <span class="n">gh</span> <span class="n">repo</span> <span class="n">list</span> <span class="p">-</span><span class="n">-json</span> <span class="n">name</span>
+<span class="nv">$repoListJson</span> <span class="p">|</span>
+<span class="nb">ConvertFrom-Json</span> <span class="p">|</span>
+<span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">name</span> <span class="o">-match</span> <span class="s1">'\.github\.io$'</span> <span class="p">}</span>
+
+<span class="c"># リポジトリを clone する。</span>
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">clone</span> <span class="nv">$repoName</span>
+
+<span class="c"># コンテンツを加える。</span>
+<span class="nb">Set-Location</span> <span class="nv">$repoName</span>
+<span class="nb">Get-Location</span>
+<span class="s2">"Hello World"</span> <span class="p">|</span> <span class="nb">Set-Content</span> <span class="n">-Path</span> <span class="n">index</span><span class="p">.</span><span class="n">html</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">index</span><span class="p">.</span><span class="n">html</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Initial commit"</span>
+<span class="n">git</span> <span class="n">log</span>
+<span class="n">git</span> <span class="n">push</span>
+
+<span class="c"># リポジトリを設定する。</span>
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">view</span> <span class="p">-</span><span class="n">-web</span> <span class="nv">$repoName</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Settings</p>
+<ul>
+<li><p>Code and automation</p>
+<ul>
+<li><p>Pages</p>
+<ul>
+<li><p>Build and deployment</p>
+<ul>
+<li><p>Source: Deploy from a branch</p></li>
+<li><p>Branch: main, / (root)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>即座に反映はされない。 10min 程度待つ。</p>
+<p>しばらくして Pages の画面を再読み込みすると、次のような画面が表示される。</p>
+<blockquote>
+<div><p>Your site is live at https://xxx.github.io/</p>
+</div></blockquote>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># URL を参照する。</span>
+<span class="nv">$url</span> <span class="p">=</span> <span class="s2">"https://${repoName}"</span>
+<span class="nb">Start-Process</span> <span class="nv">$url</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>参考資料</p>
+<ul>
+<li><p>https://pages.github.com/</p></li>
+<li><p>https://docs.github.com/en/pages/quickstart</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id3">
+<h3>username.github.io リポジトリ以外を公開する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference external" href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#about-publishing-sources">About publishing sources</a>によれば、ドキュメントを公開できるリポジトリは、 username.github.io に限定されない。</p>
+<p>ブランチ内のディレクトリは <code class="docutils literal notranslate"><span class="pre">/</span></code> か <code class="docutils literal notranslate"><span class="pre">/docs</span></code> かのどちらかを選択できる。</p>
+<p>notes リポジトリを公開する。</p>
+<p>URL は <code class="docutils literal notranslate"><span class="pre">https://username.github.io/notes/</span></code> となる。</p>
+<p><code class="docutils literal notranslate"><span class="pre">/docs</span></code> 配下は Sphinx で生成した静的コンテンツを配置する。</p>
+<p>この場合は <code class="docutils literal notranslate"><span class="pre">jekyll</span></code> によるビルドプロセスは不要であるため <code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code> ファイルを生成する。また、 <code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code> を配置することで Sphinx の css ファイル等が参照できるようになる。 <code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code> ファイルを生成する手段は Sphinx の拡張 <code class="docutils literal notranslate"><span class="pre">sphinx.ext.githubpages</span></code> を使う。</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$repoName</span> <span class="p">=</span> <span class="s2">"notes"</span>
+
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">create</span> <span class="nv">$repoName</span> <span class="p">-</span><span class="n">-public</span>
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">clone</span> <span class="nv">$repoName</span>
+
+<span class="nb">Set-Location</span> <span class="nv">$repoName</span>
+
+<span class="n">poetry</span> <span class="n">init</span>
+<span class="n">poetry</span> <span class="n">add</span> <span class="n">sphinx</span>
+<span class="n">poetry</span> <span class="n">run</span> <span class="n">sphinx-quickstart</span> <span class="p">-</span><span class="n">-sep</span> <span class="p">-</span><span class="n">-project</span> <span class="s2">"notes-project"</span> <span class="p">-</span><span class="n">-author</span> <span class="s2">"yourname"</span>
+
+<span class="nv">$gitignoreContent</span> <span class="p">=</span> <span class="sh">@"</span>
+<span class="sh">build</span>
+<span class="sh">"@</span>
+
+<span class="nv">$gitignoreContent</span> <span class="p">|</span> <span class="nb">Set-Content</span> <span class="n">-Path</span> <span class="p">.</span><span class="n">gitignore</span>
+
+<span class="n">nvim</span> <span class="p">.\</span><span class="n">source</span><span class="p">\</span><span class="n">conf</span><span class="p">.</span><span class="n">py</span>
+    <span class="c"># -extensions = []</span>
+    <span class="c"># +extensions = ['sphinx.ext.githubpages']</span>
+
+<span class="n">poetry</span> <span class="n">run</span> <span class="n">make</span><span class="p">.</span><span class="n">bat</span> <span class="n">html</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="p">.\</span><span class="n">docs</span><span class="p">)</span> <span class="p">{</span> <span class="nb">Remove-Item</span> <span class="n">-Recurse</span> <span class="n">-Force</span> <span class="p">.\</span><span class="n">docs</span> <span class="p">}</span>
+<span class="nb">Move-Item</span> <span class="n">-Path</span> <span class="n">build</span><span class="p">\</span><span class="n">html</span> <span class="n">-Destination</span> <span class="p">.\</span><span class="n">docs</span> <span class="n">-Force</span>
+
+<span class="n">git</span> <span class="n">add</span> <span class="p">-</span><span class="n">-all</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Initial commit"</span>
+<span class="n">git</span> <span class="n">log</span>
+<span class="n">git</span> <span class="n">push</span>
+
+<span class="n">gh</span> <span class="n">repo</span> <span class="n">view</span> <span class="p">-</span><span class="n">-web</span> <span class="nv">$repoName</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Settings</p>
+<ul>
+<li><p>Code and automation</p>
+<ul>
+<li><p>Pages</p>
+<ul>
+<li><p>Build and deployment</p>
+<ul>
+<li><p>Source: Deploy from a branch</p></li>
+<li><p>Branch: main, /docs</p></li>
+<li><p>Save</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>即座に反映はされない。 10min 程度待つ。</p>
+<p>しばらくして Pages の画面を再読み込みすると、次のような画面が表示される。</p>
+<blockquote>
+<div><p>Your site is live at https://xxx.github.io/notes/</p>
+</div></blockquote>
+<p>リポジトリ <code class="docutils literal notranslate"><span class="pre">xxx.github.io</span></code> と <code class="docutils literal notranslate"><span class="pre">notes</span></code> の両方が存在し、 <code class="docutils literal notranslate"><span class="pre">xxx.github.io</span></code> に <code class="docutils literal notranslate"><span class="pre">notes</span></code> が存在するとき、どちらが利用可能なのかよくわからない。 <code class="docutils literal notranslate"><span class="pre">xxx.github.io</span></code> に階層構造があるドキュメントを配置すべきではなさそう。</p>
+<ul class="simple">
+<li><p>参考資料</p>
+<ul>
+<li><p>https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site</p></li>
+<li><p>https://qiita.com/tutuz/items/88a32d94d700b33dc3ea#github-pages-%E3%81%A8%E3%81%AE%E9%80%A3%E6%90%BA</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
 </section>
 
         </article>
@@ -509,9 +691,16 @@ gh pr view develop --web
 <li><a class="reference internal" href="#windows-gh">Windows で gh クライアントをインストールする。</a></li>
 <li><a class="reference internal" href="#ubuntu-gh">Ubuntu で gh クライアントをインストールする。</a></li>
 <li><a class="reference internal" href="#id1">認証する。</a></li>
+<li><a class="reference internal" href="#id2">認証状態を確認する。</a></li>
 <li><a class="reference internal" href="#url">リポジトリのURL一覧を得る。</a></li>
 <li><a class="reference internal" href="#repo1-develop-master-pr">リポジトリ repo1 のブランチ develop を master にマージするよう PR する。</a></li>
 <li><a class="reference internal" href="#rebase-git-push-pr-master">rebase し、 git push したとき、 pr は master ブランチの変更を含むことを確認する。</a></li>
+<li><a class="reference internal" href="#gh-ssh">gh で SSH 秘密鍵を指定する。</a></li>
+<li><a class="reference internal" href="#github-pages">GitHub Pages を公開する。</a><ul>
+<li><a class="reference internal" href="#username-github-io">username.github.io リポジトリを作って公開する。</a></li>
+<li><a class="reference internal" href="#id3">username.github.io リポジトリ以外を公開する。</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

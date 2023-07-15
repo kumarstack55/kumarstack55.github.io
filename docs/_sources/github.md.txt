@@ -43,6 +43,12 @@ echo_note
 gh auth login
 ```
 
+## 認証状態を確認する。
+
+```powershell
+gh auth status
+```
+
 ## リポジトリのURL一覧を得る。
 
 ```powershell
@@ -183,3 +189,151 @@ e5a4e19 add b1.txt
 d3ee938 add a2.txt
 17f1a0f add a1.txt
 ```
+
+## gh で SSH 秘密鍵を指定する。
+
+環境変数 `GIT_SSH_COMMAND` を使うと簡単に指定できる。
+
+```powershell
+# 認証できるか確認する。
+$gitSshCommandPath="ssh"
+$gitSshCommandArgumentArray=@("-i", "$HOME\.ssh\id_rsa_github_xxx")
+$githubSshDestination="git@github.com"
+Start-Process -FilePath $gitSshCommandPath -ArgumentList ($gitSshCommandArgumentArray + $githubSshDestination) -NoNewWindow -Wait
+
+# 環境変数を設定する。
+$gitSshCommandValueNotEscaped = (@($gitSshCommandPath) + $gitSshCommandArgumentArray) -join " "
+$gitSshCommandValue = $gitSshCommandValueNotEscaped.Replace('\', '\\')
+Set-Item -Path Env:GIT_SSH_COMMAND -Value $gitSshCommandValue
+
+# clone など ssh 操作が必要な処理を行う。
+#gh clone repo your_repo_name
+```
+
+- 参考
+    - https://stackoverflow.com/a/74651101/12786161
+
+## GitHub Pages を公開する。
+
+### username.github.io リポジトリを作って公開する。
+
+```powershell
+$userName = Read-Host "GitHub username"
+$repoSuffix = ".github.io"
+$repoName = "${userName}${repoSuffix}"
+
+# リポジトリを作る。
+# 無償で GitHub Pages を利用するためには、ここで public を指定する。
+gh repo create $repoName --public
+$repoListJson = gh repo list --json name
+$repoListJson |
+ConvertFrom-Json |
+Where-Object { $_.name -match '\.github\.io$' }
+
+# リポジトリを clone する。
+gh repo clone $repoName
+
+# コンテンツを加える。
+Set-Location $repoName
+Get-Location
+"Hello World" | Set-Content -Path index.html
+git add index.html
+git commit -m "Initial commit"
+git log
+git push
+
+# リポジトリを設定する。
+gh repo view --web $repoName
+```
+
+- Settings
+    - Code and automation
+        - Pages
+            - Build and deployment
+                - Source: Deploy from a branch
+                - Branch: main, / (root)
+
+即座に反映はされない。 10min 程度待つ。
+
+しばらくして Pages の画面を再読み込みすると、次のような画面が表示される。
+
+> Your site is live at https://xxx.github.io/
+
+```powershell
+# URL を参照する。
+$url = "https://${repoName}"
+Start-Process $url
+```
+
+- 参考資料
+    - https://pages.github.com/
+    - https://docs.github.com/en/pages/quickstart
+
+### username.github.io リポジトリ以外を公開する。
+
+[About publishing sources](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#about-publishing-sources)によれば、ドキュメントを公開できるリポジトリは、 username.github.io に限定されない。
+
+ブランチ内のディレクトリは `/` か `/docs` かのどちらかを選択できる。
+
+notes リポジトリを公開する。
+
+URL は `https://username.github.io/notes/` となる。
+
+`/docs` 配下は Sphinx で生成した静的コンテンツを配置する。
+
+この場合は `jekyll` によるビルドプロセスは不要であるため `.nojekyll` ファイルを生成する。また、 `.nojekyll` を配置することで Sphinx の css ファイル等が参照できるようになる。 `.nojekyll` ファイルを生成する手段は Sphinx の拡張 `sphinx.ext.githubpages` を使う。
+
+```powershell
+$repoName = "notes"
+
+gh repo create $repoName --public
+gh repo clone $repoName
+
+Set-Location $repoName
+
+poetry init
+poetry add sphinx
+poetry run sphinx-quickstart --sep --project "notes-project" --author "yourname"
+
+$gitignoreContent = @"
+build
+"@
+
+$gitignoreContent | Set-Content -Path .gitignore
+
+nvim .\source\conf.py
+    # -extensions = []
+    # +extensions = ['sphinx.ext.githubpages']
+
+poetry run make.bat html
+
+if (Test-Path .\docs) { Remove-Item -Recurse -Force .\docs }
+Move-Item -Path build\html -Destination .\docs -Force
+
+git add --all
+git commit -m "Initial commit"
+git log
+git push
+
+gh repo view --web $repoName
+```
+
+- Settings
+    - Code and automation
+        - Pages
+            - Build and deployment
+                - Source: Deploy from a branch
+                - Branch: main, /docs
+                - Save
+
+即座に反映はされない。 10min 程度待つ。
+
+しばらくして Pages の画面を再読み込みすると、次のような画面が表示される。
+
+> Your site is live at https://xxx.github.io/notes/
+
+リポジトリ `xxx.github.io` と `notes` の両方が存在し、 `xxx.github.io` に `notes` が存在するとき、どちらが利用可能なのかよくわからない。 `xxx.github.io` に階層構造があるドキュメントを配置すべきではなさそう。
+
+- 参考資料
+    - https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+    - https://qiita.com/tutuz/items/88a32d94d700b33dc3ea#github-pages-%E3%81%A8%E3%81%AE%E9%80%A3%E6%90%BA
