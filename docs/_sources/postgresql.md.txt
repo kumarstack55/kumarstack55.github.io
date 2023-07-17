@@ -467,3 +467,29 @@ INSERT INTO public.t VALUES
 
 ...(途中削除)...
 ```
+
+## テーブルに主キー制約を加える。
+
+```sql
+DROP TABLE IF EXISTS t;
+
+CREATE TABLE t (n integer);
+
+INSERT INTO t (n) VALUES (1), (2);
+
+SELECT COUNT(*) FROM t;
+
+ALTER TABLE t ADD CONSTRAINT t_pkey PRIMARY KEY (n);
+
+\d t
+```
+
+```console
+postgres=# \d t
+                 Table "public.t"
+ Column |  Type   | Collation | Nullable | Default
+--------+---------+-----------+----------+---------
+ n      | integer |           | not null |
+Indexes:
+    "t_pkey" PRIMARY KEY, btree (n)
+```

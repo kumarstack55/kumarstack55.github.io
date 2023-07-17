@@ -725,6 +725,31 @@ pg_dump <span class="se">\</span>
 </pre></div>
 </div>
 </section>
+<section id="id21">
+<h2>テーブルに主キー制約を加える。<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span>DROP TABLE IF EXISTS t;
+
+CREATE TABLE t (n integer);
+
+INSERT INTO t (n) VALUES (1), (2);
+
+SELECT COUNT(*) FROM t;
+
+ALTER TABLE t ADD CONSTRAINT t_pkey PRIMARY KEY (n);
+
+\d t
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">postgres=# \d t</span>
+<span class="go">                 Table "public.t"</span>
+<span class="go"> Column |  Type   | Collation | Nullable | Default</span>
+<span class="go">--------+---------+-----------+----------+---------</span>
+<span class="go"> n      | integer |           | not null |</span>
+<span class="go">Indexes:</span>
+<span class="go">    "t_pkey" PRIMARY KEY, btree (n)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -804,6 +829,7 @@ pg_dump <span class="se">\</span>
 <li><a class="reference internal" href="#pg-dump">pg_dump 時、パスワード認証時のパスワード入力を行わない。</a></li>
 <li><a class="reference internal" href="#pg-dump-dump">pg_dump でテーブルを dump する。</a></li>
 <li><a class="reference internal" href="#id20">pg_dump で挿入するレコード数を指定する。</a></li>
+<li><a class="reference internal" href="#id21">テーブルに主キー制約を加える。</a></li>
 </ul>
 </li>
 </ul>
