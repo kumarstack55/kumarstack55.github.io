@@ -1,0 +1,407 @@
+# PostgreSQL
+
+## インストールする。
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "8192"
+  end
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.network "forwarded_port", guest: 22, host_ip: "127.0.0.1", host: 20022, id: "ssh"
+  config.vm.network "forwarded_port", guest: 22, host_ip: "127.0.0.1", host: 10022
+  config.vm.network "forwarded_port", guest: 5432, host_ip: "127.0.0.1", host: 5432
+  config.vm.provision "shell", path: "script.sh"
+end
+```
+
+```bash
+#!/bin/bash
+
+# script.sh - A provision script for Vagrant.
+
+err() {
+  echo "$1" >&2
+}
+
+die() {
+  err "Died."
+  exit 1
+}
+
+echo_flags_dir() {
+  echo "/.flags"
+}
+
+echo_flag_path_for_task() {
+  local task_id="$1"
+
+  echo "$(echo_flags_dir)/${task_id}"
+}
+
+ensure_flags_dir_exists() {
+  mkdir -pv "$(echo_flags_dir)"
+}
+
+should_we_skip_task() {
+  local task_id="$1" flag_path
+
+  flag_path=$(echo_flag_path_for_task "$task_id") || die
+  if [ -f "$flag_path" ]; then
+    err "${task_id}: skipped."
+    return 0
+  fi
+  return 1
+}
+
+make_task_is_done() {
+  local task_id="$1" flag_path
+
+  flag_path=$(echo_flag_path_for_task "$task_id") || die
+  sudo touch "$flag_path"
+}
+
+ensure_docker_installed() {
+  local flag_path task_id="install_docker"
+
+  if should_we_skip_task "$task_id"; then
+    return
+  fi
+
+  local tmpdir
+  tmpdir=$(mktemp -d)
+  curl -fsSL https://get.docker.com -o "$tmpdir/get-docker.sh"
+  sudo sh "$tmpdir/get-docker.sh"
+
+  make_task_is_done "$task_id"
+}
+
+ensure_postgresql_installed() {
+  local flag_path task_id="install_postgresql"
+
+  if should_we_skip_task "$task_id"; then
+    return
+  fi
+
+  docker run \
+    --name some-postgres \
+    -e POSTGRES_PASSWORD=mysecretpassword \
+    -d \
+    postgres
+
+  make_task_is_done "$task_id"
+}
+
+main() {
+  ensure_flags_dir_exists
+  ensure_docker_installed
+  ensure_postgresql_installed
+}
+
+main "$@"
+```
+
+```powershell
+vagrant up
+```
+
+## psql で問合せする。
+
+```bash
+# postgres @ container
+psql -c "SELECT 1;"
+```
+
+## psql の対話型シェルを起動する・終了する。
+
+```bash
+# postgres @ container
+psql
+\q
+```
+
+```console
+$ psql
+psql (15.3 (Debian 15.3-1.pgdg120+1))
+Type "help" for help.
+
+postgres=# \q
+$
+```
+
+## 接続中のユーザ、データベースを得る。
+
+```text
+\conninfo
+```
+
+```console
+postgres-# \conninfo
+You are connected to database "postgres" as user "postgres" via socket in "/var/run/postgresql" at port "5432".
+postgres-#
+```
+
+## データベースの一覧を得る。
+
+```text
+\l
+```
+
+```console
+postgres-# \l
+                                                List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    | ICU Locale | Locale Provider |   Access privileges
+-----------+----------+----------+------------+------------+------------+-----------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |            | libc            | =c/postgres          +
+           |          |          |            |            |            |                 | postgres=CTc/postgres
+(3 rows)
+
+postgres-#
+```
+
+## データベースを作る。
+
+```sql
+CREATE DATABASE db1;
+```
+
+## データベースを変更する。
+
+```text
+\connect db1
+```
+
+```console
+postgres=# \connect db1
+You are now connected to database "db1" as user "postgres".
+```
+
+## データベースを消す。
+
+```sql
+DROP DATABASE db1;
+```
+
+## スキーマの一覧を得る。
+
+```text
+\dn
+```
+
+```console
+postgres-# \dn
+      List of schemas
+  Name  |       Owner
+--------+-------------------
+ public | pg_database_owner
+(1 row)
+```
+
+## 現在のスキーマを得る。
+
+```sql
+SELECT current_schema();
+```
+
+```console
+postgres=# SELECT current_schema();
+ current_schema
+----------------
+ public
+(1 row)
+
+postgres=#
+```
+
+## スキーマを作る。
+
+```sql
+CREATE SCHEMA s1;
+```
+
+## スキーマを消す。
+
+```sql
+DROP SCHEMA s1;
+```
+
+## スキーマを変更する。
+
+```sql
+SET search_path TO s1;
+```
+
+```console
+postgres=# SET search_path TO s1;
+SET
+postgres=# SELECT current_schema();
+ current_schema
+----------------
+ s1
+(1 row)
+```
+
+## テーブルの一覧を得る。
+
+```text
+\l
+```
+
+## テーブルを作る。
+
+```bash
+CREATE TABLE t();
+```
+
+## スキーマにテーブルを作る。
+
+```bash
+DROP TABLE IF EXISTS s1.t;
+
+CREATE TABLE s1.t();
+
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 's1' AND table_type = 'BASE TABLE';
+```
+
+```console
+postgres=# CREATE TABLE s1.t();
+CREATE TABLE
+postgres=# SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 's1' AND table_type = 'BASE TABLE';
+ table_name
+------------
+ t
+(1 row)
+
+postgres=#
+```
+
+## テーブルを消す。
+
+```bash
+DROP TABLE t;
+```
+
+## テーブルにレコードを加える。
+
+```sql
+DROP TABLE IF EXISTS t;
+
+CREATE TABLE t (col int);
+
+TRUNCATE t;
+
+INSERT INTO t (col) VALUES (10);
+INSERT INTO t (col) VALUES (20);
+
+SELECT * FROM t;
+```
+
+```console
+postgres=# INSERT INTO t (col) VALUES (10);
+INSERT 0 1
+postgres=# INSERT INTO t (col) VALUES (20);
+INSERT 0 1
+postgres=# SELECT * FROM t;
+ col
+-----
+  10
+  20
+(2 rows)
+```
+
+## pg_dump でテーブルを dump する。
+
+```bash
+pg_dump --dbname postgres --host 127.0.0.1 --port 5432 --username postgres --password  --create --schema public --table t
+```
+
+```console
+postgres@6585db26ba93:~$ pg_dump --dbname postgres --host 127.0.0.1 --port 5432 --username postgres --password  --create --schema public --table t
+Password:
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.3 (Debian 15.3-1.pgdg120+1)
+-- Dumped by pg_dump version 15.3 (Debian 15.3-1.pgdg120+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
+
+
+ALTER DATABASE postgres OWNER TO postgres;
+
+\connect postgres
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE postgres IS 'default administrative connection database';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: t; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.t (
+    col integer
+);
+
+
+ALTER TABLE public.t OWNER TO postgres;
+
+--
+-- Data for Name: t; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.t (col) FROM stdin;
+10
+20
+\.
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+postgres@6585db26ba93:~$
+```
+

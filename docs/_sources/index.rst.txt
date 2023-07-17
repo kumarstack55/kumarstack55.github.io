@@ -20,6 +20,7 @@ Untitled ドキュメント
    prometheus
    sql
    mariadb
+   postgresql
    ssh
    python
    c
