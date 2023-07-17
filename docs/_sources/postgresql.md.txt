@@ -186,7 +186,7 @@ You are now connected to database "db1" as user "postgres".
 DROP DATABASE db1;
 ```
 
-## スキーマの一覧を得る。
+## データベース内のスキーマの一覧を得る。
 
 ```text
 \dn
@@ -199,6 +199,18 @@ postgres-# \dn
 --------+-------------------
  public | pg_database_owner
 (1 row)
+```
+
+## スキーマを作る。
+
+```sql
+CREATE SCHEMA s1;
+```
+
+## スキーマを消す。
+
+```sql
+DROP SCHEMA s1;
 ```
 
 ## 現在のスキーマを得る。
@@ -217,19 +229,7 @@ postgres=# SELECT current_schema();
 postgres=#
 ```
 
-## スキーマを作る。
-
-```sql
-CREATE SCHEMA s1;
-```
-
-## スキーマを消す。
-
-```sql
-DROP SCHEMA s1;
-```
-
-## スキーマを変更する。
+## 現在のスキーマを変更する。
 
 ```sql
 SET search_path TO s1;
@@ -245,19 +245,19 @@ postgres=# SELECT current_schema();
 (1 row)
 ```
 
-## テーブルの一覧を得る。
+## 現在のスキーマ内のテーブルの一覧を得る。
 
 ```text
-\l
+\d
 ```
 
 ## テーブルを作る。
 
-```bash
+```sql
 CREATE TABLE t();
 ```
 
-## スキーマにテーブルを作る。
+## 指定スキーマにテーブルを作る。
 
 ```bash
 DROP TABLE IF EXISTS s1.t;
@@ -281,6 +281,29 @@ WHERE table_schema = 's1' AND table_type = 'BASE TABLE';
 (1 row)
 
 postgres=#
+```
+
+## スキーマ、テーブルの一覧を得る。
+
+```bash
+SELECT table_schema, table_name
+FROM information_schema.tables
+WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
+ORDER BY table_schema, table_name;
+```
+
+```console
+postgres=# SELECT table_schema, table_name
+FROM information_schema.tables
+WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
+ORDER BY table_schema, table_name;
+ table_schema | table_name
+--------------+------------
+ public       | t
+ public       | t2
+ public       | t3
+ s1           | t
+(4 rows)
 ```
 
 ## テーブルを消す。
@@ -317,14 +340,58 @@ postgres=# SELECT * FROM t;
 (2 rows)
 ```
 
+## テーブルのレコードを増幅する。
+
+```sql
+DROP TABLE IF EXISTS t;
+
+CREATE TABLE t (n integer PRIMARY KEY);
+
+TRUNCATE t;
+
+INSERT INTO t (n) VALUES (1);
+INSERT INTO t (n) SELECT n+(SELECT MAX(n) FROM t) FROM t;
+
+SELECT COUNT(*) FROM t;
+```
+
+## pg_dump 時、パスワード認証時のパスワード入力を行わない。
+
+```bash
+host="127.0.0.1"
+port=5432
+database=postgres
+username=postgres
+password=mysecretpassword
+line="${host}:${port}:${database}:${username}:${password}"
+echo "$line" >$HOME/.pgpass
+chmod -v 0600 $HOME/.pgpass
+
+pg_dump \
+--host "127.0.0.1" --port 5432 \
+--dbname postgres --username postgres \
+--schema public \
+--table t
+```
+
 ## pg_dump でテーブルを dump する。
 
 ```bash
-pg_dump --dbname postgres --host 127.0.0.1 --port 5432 --username postgres --password  --create --schema public --table t
+pg_dump \
+--host "127.0.0.1" --port 5432 \
+--dbname postgres --username postgres \
+--password \
+--schema public \
+--table t
 ```
 
 ```console
-postgres@6585db26ba93:~$ pg_dump --dbname postgres --host 127.0.0.1 --port 5432 --username postgres --password  --create --schema public --table t
+postgres@6585db26ba93:~$ pg_dump \
+--host "127.0.0.1" --port 5432 \
+--dbname postgres --username postgres \
+--password \
+--schema public \
+--table t
 Password:
 --
 -- PostgreSQL database dump
@@ -343,35 +410,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
-
-
-ALTER DATABASE postgres OWNER TO postgres;
-
-\connect postgres
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON DATABASE postgres IS 'default administrative connection database';
-
 
 SET default_tablespace = '';
 
@@ -405,3 +443,27 @@ COPY public.t (col) FROM stdin;
 postgres@6585db26ba93:~$
 ```
 
+## pg_dump で挿入するレコード数を指定する。
+
+```bash
+pg_dump \
+--host "127.0.0.1" --port 5432 \
+--dbname postgres --username postgres \
+--schema public --table t \
+--rows-per-insert=3
+```
+
+```console
+postgres@6585db26ba93:~$ pg_dump --host "127.0.0.1" --port 5432 --dbname postgres --username postgres --schema public --table t --rows-per-insert=3
+
+...(途中削除)...
+
+INSERT INTO public.t VALUES
+        (1),
+        (2),
+        (3);
+INSERT INTO public.t VALUES
+        (4);
+
+...(途中削除)...
+```
