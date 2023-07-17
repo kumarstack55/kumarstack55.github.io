@@ -2,12 +2,12 @@
 
 https://code.visualstudio.com/docs/languages/markdown
 
-### プレビューを開く。
+## プレビューを開く。
 
 ```
 Ctrl + Shift + V
 ```
 
-### 印刷する。
+## 印刷する。
 
 拡張機能の「Markdown PDF」を参照してください。
