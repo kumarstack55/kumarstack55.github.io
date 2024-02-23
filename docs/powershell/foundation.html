@@ -271,8 +271,131 @@
         <article role="main">
           <section class="tex2jax_ignore mathjax_ignore" id="powershell">
 <h1>PowerShell 基礎<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<section id="enum">
+<h2>列挙体 Enum を定義する。<a class="headerlink" href="#enum" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">e1</span> <span class="p">{</span>
+    <span class="n">label1</span>
+    <span class="n">label2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>オブジェクトだけでなく、整数や、文字列などでも一致するようにふるまう。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ToString()</span></code> や <code class="docutils literal notranslate"><span class="pre">[int]</span></code> で文字列や整数を得られる。</p></li>
+<li><p>文字列や整数を与えると、 Enum を得られる。</p></li>
+</ul>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span>
+<span class="n">label1</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">.</span><span class="n">value__</span>
+<span class="n">0</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label2</span><span class="p">.</span><span class="n">value__</span>
+<span class="n">1</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="p">(</span><span class="no">[e1]</span><span class="n">0</span><span class="p">).</span><span class="n">ToString</span><span class="p">()</span>
+<span class="n">label1</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="p">(</span><span class="no">[e1]</span><span class="s2">"label1"</span><span class="p">).</span><span class="n">value__</span>
+<span class="n">0</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span> <span class="o">-eq</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span>
+<span class="n">True</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span> <span class="o">-eq</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label2</span>
+<span class="n">False</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span> <span class="o">-eq</span> <span class="s2">"label1"</span>
+<span class="n">True</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span> <span class="o">-eq</span> <span class="s2">"label2"</span>
+<span class="n">False</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span> <span class="o">-eq</span> <span class="n">0</span>
+<span class="n">True</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span> <span class="o">-eq</span> <span class="n">1</span>
+<span class="n">False</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+
+<span class="n">IsPublic</span> <span class="n">IsSerial</span> <span class="n">Name</span>                                     <span class="n">BaseType</span>
+<span class="p">--------</span> <span class="p">--------</span> <span class="p">----</span>                                     <span class="p">--------</span>
+<span class="n">True</span>     <span class="n">True</span>     <span class="n">e1</span>                                       <span class="n">System</span><span class="p">.</span><span class="n">Enum</span>
+</pre></div>
+</div>
+</section>
 <section id="id1">
-<h2>ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Enum をハッシュテーブルのキーに登録する。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">e1</span> <span class="p">{</span>
+    <span class="n">label1</span>
+    <span class="n">label2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>ハッシュテーブルのキーとして、整数、文字列、Enumは区別される。</p></li>
+</ul>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span> <span class="p">=</span> <span class="no">[hashtable]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">.</span><span class="n">GetHashCode</span><span class="p">()</span>
+<span class="n">0</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">label2</span><span class="p">.</span><span class="n">GetHashCode</span><span class="p">()</span>
+<span class="n">1</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="no">[[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">]</span> <span class="p">=</span> <span class="n">10</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="no">[[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">]</span>
+<span class="n">10</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="no">[[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">]</span> <span class="p">=</span> <span class="n">11</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="no">[[e1]</span><span class="p">::</span><span class="n">label1</span><span class="p">]</span>
+<span class="n">11</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="p">[</span><span class="s2">"label1"</span><span class="p">]</span> <span class="p">=</span> <span class="n">12</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span>
+
+<span class="n">Name</span>                           <span class="n">Value</span>
+<span class="p">----</span>                           <span class="p">-----</span>
+<span class="n">label1</span>                         <span class="n">12</span>
+<span class="n">label1</span>                         <span class="n">11</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="p">(</span><span class="no">[int]</span><span class="n">0</span><span class="p">).</span><span class="n">GetHashCode</span><span class="p">()</span>
+<span class="n">0</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">13</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span>
+
+<span class="n">Name</span>                           <span class="n">Value</span>
+<span class="p">----</span>                           <span class="p">-----</span>
+<span class="n">label1</span>                         <span class="n">12</span>
+<span class="n">0</span>                              <span class="n">13</span>
+<span class="n">label1</span>                         <span class="n">11</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Enum で日本語を使う。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">e1</span> <span class="p">{</span>
+    <span class="n">eあ</span>
+    <span class="n">eい</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::</span><span class="n">eあ</span>
+<span class="n">eあ</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="no">[e1]</span><span class="p">::{</span><span class="n">eあ</span><span class="p">}</span>
+<span class="n">eあ</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Equals()</span></code> をオーバーライドする。</p>
 <p>ただし、 <code class="docutils literal notranslate"><span class="pre">-eq</span></code> の動作も変わるため、参照が異なることと、同値であることの区別がつかなくなる。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ハッシュテーブルのキーとして登録するとき、</span>
@@ -342,10 +465,10 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>1次元配列を作る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id3">
-<h3>下限が0の1次元配列を作る。<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id4">
+<h2>1次元配列を作る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h3>下限が0の1次元配列を作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 要素数</span>
 <span class="nv">$Length</span> <span class="p">=</span> <span class="n">3</span>
 
@@ -363,8 +486,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3>下限が1の1次元配列を作る。<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id6">
+<h3>下限が1の1次元配列を作る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># 要素数</span>
 <span class="nv">$LengthArray</span> <span class="p">=</span> <span class="no">[System.Array]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[int]</span><span class="p">,</span> <span class="n">1</span><span class="p">)</span>
 <span class="nv">$LengthArray</span><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="p">=</span> <span class="n">3</span>
@@ -392,10 +515,10 @@
 </div>
 </section>
 </section>
-<section id="id5">
-<h2>2次元配列を作る。<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<section id="id6">
-<h3>下限が0の2次元配列を作る。<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id7">
+<h2>2次元配列を作る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h3>下限が0の2次元配列を作る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ランク</span>
 <span class="nv">$Rank</span> <span class="p">=</span> <span class="n">2</span>
 
@@ -418,8 +541,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h3>下限が1の2次元配列を作る。<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<section id="id9">
+<h3>下限が1の2次元配列を作る。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># ランク</span>
 <span class="nv">$Rank</span> <span class="p">=</span> <span class="n">2</span>
 
@@ -514,8 +637,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>インストールしたモジュールの一覧を得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Module</span>
 <span class="nb">Get-InstalledModule</span>
 </pre></div>
@@ -533,8 +656,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>一定間隔のスリープ後、繰り返し実行する。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">IntervalTimerRecipient</span> <span class="p">{</span>
     <span class="n">notify</span><span class="p">(</span><span class="no">[IntervalTimer]</span><span class="nv">$IntervalTimer</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">throw</span>
@@ -582,8 +705,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h2>参考: ネットワーク関連のファンクション一覧<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id12">
+<h2>参考: ネットワーク関連のファンクション一覧<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Get-Net</span><span class="p">&lt;</span><span class="n">Tab</span><span class="p">&gt;&lt;</span><span class="n">Tab</span><span class="p">&gt;</span>
 </pre></div>
 </div>
@@ -740,23 +863,26 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">PowerShell 基礎</a><ul>
-<li><a class="reference internal" href="#id1">ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。</a></li>
-<li><a class="reference internal" href="#id2">1次元配列を作る。</a><ul>
-<li><a class="reference internal" href="#id3">下限が0の1次元配列を作る。</a></li>
-<li><a class="reference internal" href="#id4">下限が1の1次元配列を作る。</a></li>
+<li><a class="reference internal" href="#enum">列挙体 Enum を定義する。</a></li>
+<li><a class="reference internal" href="#id1">Enum をハッシュテーブルのキーに登録する。</a></li>
+<li><a class="reference internal" href="#id2">Enum で日本語を使う。</a></li>
+<li><a class="reference internal" href="#id3">ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。</a></li>
+<li><a class="reference internal" href="#id4">1次元配列を作る。</a><ul>
+<li><a class="reference internal" href="#id5">下限が0の1次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id6">下限が1の1次元配列を作る。</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id5">2次元配列を作る。</a><ul>
-<li><a class="reference internal" href="#id6">下限が0の2次元配列を作る。</a></li>
-<li><a class="reference internal" href="#id7">下限が1の2次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id7">2次元配列を作る。</a><ul>
+<li><a class="reference internal" href="#id8">下限が0の2次元配列を作る。</a></li>
+<li><a class="reference internal" href="#id9">下限が1の2次元配列を作る。</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#csv">独自クラスのリストをCSV形式に変換する。</a></li>
-<li><a class="reference internal" href="#id8">インストールしたモジュールの一覧を得る。</a></li>
+<li><a class="reference internal" href="#id10">インストールしたモジュールの一覧を得る。</a></li>
 <li><a class="reference internal" href="#pause">PAUSE する。</a></li>
 <li><a class="reference internal" href="#ip">IPアドレスを得る。</a></li>
-<li><a class="reference internal" href="#id9">一定間隔のスリープ後、繰り返し実行する。</a></li>
-<li><a class="reference internal" href="#id10">参考: ネットワーク関連のファンクション一覧</a></li>
+<li><a class="reference internal" href="#id11">一定間隔のスリープ後、繰り返し実行する。</a></li>
+<li><a class="reference internal" href="#id12">参考: ネットワーク関連のファンクション一覧</a></li>
 </ul>
 </li>
 </ul>

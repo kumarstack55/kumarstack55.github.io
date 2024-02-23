@@ -1,5 +1,129 @@
 # PowerShell 基礎
 
+## 列挙体 Enum を定義する。
+
+```powershell
+enum e1 {
+    label1
+    label2
+}
+```
+
+- オブジェクトだけでなく、整数や、文字列などでも一致するようにふるまう。
+- `ToString()` や `[int]` で文字列や整数を得られる。
+- 文字列や整数を与えると、 Enum を得られる。
+
+```powershell
+PS > [e1]::label1
+label1
+
+PS > [e1]::label1.value__
+0
+
+PS > [e1]::label2.value__
+1
+
+PS > ([e1]0).ToString()
+label1
+
+PS > ([e1]"label1").value__
+0
+
+PS > [e1]::label1 -eq [e1]::label1
+True
+
+PS > [e1]::label1 -eq [e1]::label2
+False
+
+PS > [e1]::label1 -eq "label1"
+True
+
+PS > [e1]::label1 -eq "label2"
+False
+
+PS > [e1]::label1 -eq 0
+True
+
+PS > [e1]::label1 -eq 1
+False
+
+PS > [e1]::label1.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     e1                                       System.Enum
+```
+
+## Enum をハッシュテーブルのキーに登録する。
+
+```powershell
+enum e1 {
+    label1
+    label2
+}
+```
+
+- ハッシュテーブルのキーとして、整数、文字列、Enumは区別される。
+
+```powershell
+PS > $h = [hashtable]::new()
+
+PS > [e1]::label1.GetHashCode()
+0
+
+PS > [e1]::label2.GetHashCode()
+1
+
+PS > $h[[e1]::label1] = 10
+
+PS > $h[[e1]::label1]
+10
+
+PS > $h[[e1]::label1] = 11
+
+PS > $h[[e1]::label1]
+11
+
+PS > $h["label1"] = 12
+
+PS > $h
+
+Name                           Value
+----                           -----
+label1                         12
+label1                         11
+
+PS > ([int]0).GetHashCode()
+0
+
+PS > $h[0] = 13
+
+PS > $h
+
+Name                           Value
+----                           -----
+label1                         12
+0                              13
+label1                         11
+```
+
+## Enum で日本語を使う。
+
+```powershell
+enum e1 {
+    eあ
+    eい
+}
+```
+
+```powershell
+PS > [e1]::eあ
+eあ
+
+PS > [e1]::{eあ}
+eあ
+```
+
 ## ハッシュテーブルでクラスのオブジェクトを同一とするか制御する。
 
 `Equals()` をオーバーライドする。
