@@ -1,5 +1,14 @@
 # PowerShell 応用
 
+## PowerShell のセッションが管理者権限で実行されているか確認する
+
+```powershell
+$current = [Security.Principal.WindowsIdentity]::GetCurrent()
+$principal = [Security.Principal.WindowsPrincipal] $current
+$isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+$isAdmin
+```
+
 ## アセンブリの名前を得る。
 
 ```powershell

@@ -334,7 +334,8 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>ハッシュテーブルのキーとして、整数、文字列、Enumは区別される。</p></li>
+<li><p>ハッシュテーブルのキーとして、整数、文字列、Enum は区別される。</p></li>
+<li><p>.Keys で得られるのは Enum が得られる。</p></li>
 </ul>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span> <span class="p">=</span> <span class="no">[hashtable]</span><span class="p">::</span><span class="n">new</span><span class="p">()</span>
 
@@ -375,6 +376,11 @@
 <span class="n">label1</span>                         <span class="n">12</span>
 <span class="n">0</span>                              <span class="n">13</span>
 <span class="n">label1</span>                         <span class="n">11</span>
+
+<span class="nb">PS </span><span class="p">&gt;</span> <span class="nv">$h</span><span class="p">.</span><span class="n">Keys</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span> <span class="s2">"{0}, {1}, {2}"</span> <span class="o">-f</span> <span class="nv">$_</span><span class="p">,</span> <span class="nv">$h</span><span class="p">[</span><span class="nv">$_</span><span class="p">],</span> <span class="nv">$_</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span> <span class="p">}</span>
+<span class="n">label1</span><span class="p">,</span> <span class="n">12</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">String</span>
+<span class="n">0</span><span class="p">,</span> <span class="n">13</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Int32</span>
+<span class="n">label1</span><span class="p">,</span> <span class="n">11</span><span class="p">,</span> <span class="n">e1</span>
 </pre></div>
 </div>
 </section>

@@ -63,7 +63,8 @@ enum e1 {
 }
 ```
 
-- ハッシュテーブルのキーとして、整数、文字列、Enumは区別される。
+- ハッシュテーブルのキーとして、整数、文字列、Enum は区別される。
+- .Keys で得られるのは Enum が得られる。
 
 ```powershell
 PS > $h = [hashtable]::new()
@@ -105,6 +106,11 @@ Name                           Value
 label1                         12
 0                              13
 label1                         11
+
+PS > $h.Keys | % { "{0}, {1}, {2}" -f $_, $h[$_], $_.GetType() }
+label1, 12, System.String
+0, 13, System.Int32
+label1, 11, e1
 ```
 
 ## Enum で日本語を使う。

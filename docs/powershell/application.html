@@ -272,7 +272,16 @@
           <section class="tex2jax_ignore mathjax_ignore" id="powershell">
 <h1>PowerShell 応用<a class="headerlink" href="#powershell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <section id="id1">
-<h2>アセンブリの名前を得る。<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>PowerShell のセッションが管理者権限で実行されているか確認する<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$current</span> <span class="p">=</span> <span class="no">[Security.Principal.WindowsIdentity]</span><span class="p">::</span><span class="n">GetCurrent</span><span class="p">()</span>
+<span class="nv">$principal</span> <span class="p">=</span> <span class="no">[Security.Principal.WindowsPrincipal]</span> <span class="nv">$current</span>
+<span class="nv">$isAdmin</span> <span class="p">=</span> <span class="nv">$principal</span><span class="p">.</span><span class="n">IsInRole</span><span class="p">(</span><span class="no">[Security.Principal.WindowsBuiltInRole]</span><span class="p">::</span><span class="n">Administrator</span><span class="p">)</span>
+<span class="nv">$isAdmin</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>アセンブリの名前を得る。<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="no">[System.AppDomain]</span><span class="p">::</span><span class="n">CurrentDomain</span><span class="p">.</span><span class="n">GetAssemblies</span><span class="p">()</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
         <span class="nv">$_</span><span class="p">.</span><span class="n">GetName</span><span class="p">().</span><span class="n">Name</span>
@@ -280,12 +289,12 @@
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>コーディングのルール<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id3">
+<h2>コーディングのルール<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>こうすると良さそう、というものを書きためておく。</p>
 </section>
-<section id="id3">
-<h2>PowerShell のファイル構造<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id4">
+<h2>PowerShell のファイル構造<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>クラスを定義するとき、クラス定義を行うファイルと、クラス定義内で利用する型を別ファイルで定義する。</p>
 <ul>
@@ -305,14 +314,14 @@
 </li>
 </ul>
 </section>
-<section id="id4">
-<h2>PowerShell のフォーマット<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id5">
+<h2>PowerShell のフォーマット<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>VSCode で PowerShell のフォーマットができる。</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>PowerShell のキーワードや名前の大文字・小文字<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id6">
+<h2>PowerShell のキーワードや名前の大文字・小文字<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>予約語</p>
 <ul>
@@ -415,8 +424,8 @@
 <li><p><a class="reference external" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters?view=powershell-5.1">about_Functions_Advanced_Parameters</a></p></li>
 </ul>
 </section>
-<section id="id6">
-<h2>PowerShell の空行の位置<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id7">
+<h2>PowerShell の空行の位置<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>クラスとクラスの間: 1行</p></li>
 <li><p>クラス</p>
@@ -436,21 +445,21 @@
 <li><p>ファンクションの <code class="docutils literal notranslate"><span class="pre">param()</span></code> とコードの間: メソッドと同じ。</p></li>
 </ul>
 </section>
-<section id="id7">
-<h2>PowerShell の省略記法<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id8">
+<h2>PowerShell の省略記法<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>使わない。</p></li>
 </ul>
 </section>
-<section id="id8">
-<h2>PowerShell のインデント<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id9">
+<h2>PowerShell のインデント<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li><p>半角スペースのみを使う。タブは使用しない。</p></li>
 <li><p>インデントは 4 つのスペース。</p></li>
 </ul>
 </section>
-<section id="id9">
-<h2>PowerShell のコメント<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id10">
+<h2>PowerShell のコメント<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nb">Add-Extension</span> <span class="p">{</span>
     <span class="cm">&lt;#</span>
 <span class="cm">        </span><span class="sd">.SYNOPSIS</span><span class="cm"></span>
@@ -477,8 +486,8 @@
 </li>
 </ul>
 </section>
-<section id="id10">
-<h2>プロセスの開始時刻を得る。<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<section id="id11">
+<h2>プロセスの開始時刻を得る。<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>WMI で得たオブジェクトは ConvertToDateTime で変換できる。</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$PsoArray</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">win32_process</span> <span class="p">|</span>
     <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
@@ -596,17 +605,18 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">PowerShell 応用</a><ul>
-<li><a class="reference internal" href="#id1">アセンブリの名前を得る。</a></li>
-<li><a class="reference internal" href="#id2">コーディングのルール</a></li>
-<li><a class="reference internal" href="#id3">PowerShell のファイル構造</a></li>
-<li><a class="reference internal" href="#id4">PowerShell のフォーマット</a></li>
-<li><a class="reference internal" href="#id5">PowerShell のキーワードや名前の大文字・小文字</a></li>
-<li><a class="reference internal" href="#id6">PowerShell の空行の位置</a></li>
-<li><a class="reference internal" href="#id7">PowerShell の省略記法</a></li>
-<li><a class="reference internal" href="#id8">PowerShell のインデント</a></li>
-<li><a class="reference internal" href="#id9">PowerShell のコメント</a></li>
+<li><a class="reference internal" href="#id1">PowerShell のセッションが管理者権限で実行されているか確認する</a></li>
+<li><a class="reference internal" href="#id2">アセンブリの名前を得る。</a></li>
+<li><a class="reference internal" href="#id3">コーディングのルール</a></li>
+<li><a class="reference internal" href="#id4">PowerShell のファイル構造</a></li>
+<li><a class="reference internal" href="#id5">PowerShell のフォーマット</a></li>
+<li><a class="reference internal" href="#id6">PowerShell のキーワードや名前の大文字・小文字</a></li>
+<li><a class="reference internal" href="#id7">PowerShell の空行の位置</a></li>
+<li><a class="reference internal" href="#id8">PowerShell の省略記法</a></li>
+<li><a class="reference internal" href="#id9">PowerShell のインデント</a></li>
+<li><a class="reference internal" href="#id10">PowerShell のコメント</a></li>
 <li><a class="reference internal" href="#todo">TODO</a></li>
-<li><a class="reference internal" href="#id10">プロセスの開始時刻を得る。</a></li>
+<li><a class="reference internal" href="#id11">プロセスの開始時刻を得る。</a></li>
 <li><a class="reference internal" href="#python">最も最近に作られた Python プロセスを終了する。</a></li>
 </ul>
 </li>
